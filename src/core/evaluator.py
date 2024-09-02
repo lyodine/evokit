@@ -38,14 +38,14 @@ class _MetaEvaluator(ABCMeta):
         # This metaclass modifies the behaviour of a evaluator.
         def wrap_function(custom_evaluate):
             def wrapper(*args, **kwargs) -> float:
-                genome = args[1]
-                if not isinstance(genome, Individual):
-                    raise TypeError("Evaluator is not a genome")
-                elif genome.is_scored():
-                    return genome.score
+                individual = args[1]
+                if not isinstance(individual, Individual):
+                    raise TypeError("Evaluator is not an individual")
+                elif individual.is_scored():
+                    return individual.score
                 else:
                     score: float = custom_evaluate(*args, **kwargs)
-                    genome.score = score
+                    individual.score = score
                     return score
             return wrapper
 
@@ -66,7 +66,7 @@ class Evaluator(ABC, Generic[T]):
         """Annotation that applies the "evaluator guard" to an evaluator.
 
         A child class may apply this annotation to `evaluate`. Doing so
-            prevents the evaluator from re-scoring genomes
+            prevents the evaluator from re-scoring individuals
             that already have a fitness.
         This may accelerate learning, as individuals retained from the
             parent generation are no longer re-evaluated. However,
@@ -76,14 +76,14 @@ class Evaluator(ABC, Generic[T]):
         """
         def wrapper(*args, **kwargs) -> float:
             print ("shortcut used")
-            genome = args[1]
-            if not isinstance(genome, Individual):
-                raise TypeError("Evaluator is not a genome")
-            elif genome.is_scored():
-                return genome.score
+            individual = args[1]
+            if not isinstance(individual, Individual):
+                raise TypeError("Evaluator is not an individual")
+            elif individual.is_scored():
+                return individual.score
             else:
                 score: float = func(*args, **kwargs)
-                genome.score = score
+                individual.score = score
                 return score
         return wrapper
 
@@ -95,17 +95,17 @@ class Evaluator(ABC, Generic[T]):
             assign higher fitness to higher-quality individuals.
 
         Args:
-            s1: genome to be scored
+            s1: individual to be scored
 
         Return:
-            Fitness of the genome
+            Fitness of the individual
         """
 
     def evaluate_population(self: Self,
                             pop: Population[T])-> Population[T]:
         """Context for the evaluation strategy.
         
-        Iterate genomes in a population. For each genome, assign to it a
+        Iterate individuals in a population. For each individual, assign to it a
             fitness given by `evaluate`.
         """
         for x in pop:
