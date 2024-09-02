@@ -36,39 +36,47 @@ class _MetaEvaluator(ABCMeta):
     """
     # cls, name, bases, attrs
     def __new__(mcls, name, bases, namespace):
-        """Python magic. This is only moderately cursed: one gets used to
-            metaclasses after a while.
-            This {decorator/metaclass} modifies the behaviour of a evaluator.
-
         """
+        """
+        # Moderately cursed Python magic.
+        # This metaclass modifies the behaviour of a evaluator.
         def wrap_function(custom_evaluate):
             def wrapper(*args, **kwargs) -> float:
                 genome = args[1]
                 if not isinstance(genome, Genome):
                     raise TypeError("Evaluator is not a genome")
                 elif genome.is_scored():
-                    print("no shortcut!")
                     return genome.score
                 else:
-                    print("shortcut!")
                     score: float = custom_evaluate(*args, **kwargs)
                     genome.score = score
                     return score
             return wrapper
-        
+
         if name != "Evaluator":
             namespace["evaluate"] = wrap_function(
                 namespace.setdefault("evaluate", lambda: None)
             )
-        # This is necessary. Because __new__ is 
+        # This is necessary. Because __new__ is an instance method.
         return type.__new__(mcls, name, bases, namespace)
 
 class Evaluator(ABC, Generic[T]):
-    """The evaluator evaluates the fitness of a Genome.
+    """Base class for all evaluators.
+
+    Derive this class to create custom evaluators.
     """
     @staticmethod
     def evaluate_shortcut(func):
-        """!Apply the "dynamic scoring" heuristic to the evaluate(.) method.
+        """Annotation that applies the "evaluator guard" to an evaluator.
+
+        A child class may apply this annotation to `evaluate`. Doing so
+            prevents the evaluator from re-scoring genomes
+            that already have a fitness.
+        This may accelerate learning, as individuals retained from the
+            parent generation are no longer re-evaluated. However,
+            doing so also prevents the evaluator from correctly modeling
+            a changing fitness landscape, where the fitness of an
+            individual may change across generations.
         """
         def wrapper(*args, **kwargs) -> float:
             print ("shortcut used")
@@ -85,20 +93,24 @@ class Evaluator(ABC, Generic[T]):
 
     @abstractmethod
     def evaluate(self: Self, s1: T)-> float:
-        """Evaluate an individual and return the score.
-        Higher scores are better.
+        """Evaluation strategy of the evaluator.
+        
+        All subclasses should override this method. The implementation should
+            assign higher fitness to higher-quality individuals.
 
         Args:
-            s1: A genome
-            
+            s1: genome to be scored
+
         Return:
-            A number
+            Fitness of the genome
         """
 
     def evaluate_population(self: Self,
                             pop: Population[T])-> Population[T]:
-        """!Iterate through genomes in a population. For each genome,
-            assign to it a fitness.
+        """Context for the evaluation strategy.
+        
+        Iterate genomes in a population. For each genome, assign to it a
+            fitness given by `evaluate`.
         """
         for x in pop:
             x.score = self.evaluate(x)
