@@ -4,7 +4,7 @@ import typing
 from dataclasses import dataclass
 from typing import Optional, Tuple, TypeVar, Literal
 
-from ..core import SimpleLinearController
+from ..core import SimpleLinearAlgorithm
 from ..core import Evaluator
 from ..core import Individual, Population
 from ..core import Elitist, SimpleSelector
@@ -196,7 +196,7 @@ if __name__ == "__main__":
     selector = Elitist(SimpleSelector[BinaryString](1))
     variator = MutateBits(0.1)
 
-    ctrl: SimpleLinearController = SimpleLinearController(
+    ctrl: SimpleLinearAlgorithm = SimpleLinearAlgorithm(
         population=init_pop,
         variator=variator,
         evaluator=evaluator,
