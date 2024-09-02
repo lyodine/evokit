@@ -6,7 +6,7 @@
   <title>core.controller &mdash; Evoframe  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/styles.css?v=91cde0b6" />
+      <link rel="stylesheet" type="text/css" href="../../_static/styles.css?v=dd041f00" />
 
   
   <!--[if lt IE 9]>
@@ -72,10 +72,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for core.controller</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; The controller is an iterative optimizer that receives various</span>
-<span class="sd">    evolutionary operators.</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
@@ -98,7 +95,6 @@
     <span class="kn">from</span> <span class="nn">.population</span> <span class="kn">import</span> <span class="n">Population</span>
     <span class="kn">from</span> <span class="nn">.accountant</span> <span class="kn">import</span> <span class="n">Accountant</span>
 
-<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Flag</span><span class="p">,</span> <span class="n">auto</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">TypeVar</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">override</span>
 
@@ -133,62 +129,50 @@
             <span class="n">namespace</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;step&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
         <span class="p">)</span>
 
-        <span class="k">def</span> <span class="nf">wrap_init</span><span class="p">(</span><span class="n">custom_init</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
-            <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-                <span class="bp">self</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">generation</span> <span class="o">=</span> <span class="mi">0</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">accountants</span> <span class="o">=</span> <span class="p">[]</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
-                <span class="k">return</span> <span class="n">custom_init</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-            <span class="k">return</span> <span class="n">wrapper</span>
-        <span class="n">namespace</span><span class="p">[</span><span class="s2">&quot;__init__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wrap_init</span><span class="p">(</span>
-            <span class="n">namespace</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;__init__&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="p">)</span>
         <span class="k">return</span> <span class="nb">type</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">mcls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">namespace</span><span class="p">)</span>
+
 
 <div class="viewcode-block" id="Controller">
 <a class="viewcode-back" href="../../core.html#core.controller.Controller">[docs]</a>
 <span class="k">class</span> <span class="nc">Controller</span><span class="p">(</span><span class="n">ABC</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MetaController</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all evolutionary algorothms.</span>
 
-<span class="sd">    The `Controller` Manage the learning process. Derive this class to create custom algorithms.</span>
+<span class="sd">    Derive this class to create custom algorithms.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Controller.__new__">
-<a class="viewcode-back" href="../../core.html#core.controller.Controller.__new__">[docs]</a>
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Machinery. Implement managed attributes in :class:`Controller`.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Machinery.</span>
+<span class="sd">        </span>
+<span class="sd">        Implement managed attributes.</span>
 
-<span class="sd">        :meta private:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Note that Sphinx does not collect these values.</span>
+        <span class="c1">#   It is therefore necessary to repeat them in :meth:`__init__`.</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
         <span class="n">instance</span><span class="o">.</span><span class="n">generation</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="c1">#: SHEEP</span>
         <span class="n">instance</span><span class="o">.</span><span class="n">accountants</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">instance</span><span class="o">.</span><span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">return</span> <span class="n">instance</span></div>
-
+        <span class="k">return</span> <span class="n">instance</span>
 
 <div class="viewcode-block" id="Controller.__init__">
 <a class="viewcode-back" href="../../core.html#core.controller.Controller.__init__">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Args:</span>
-<span class="sd">            events: Collection of events that can be fired by the controller.</span>
+<span class="sd">        </span>
+<span class="sd">        Subclasses should override this method.</span>
 
-<span class="sd">        Note:</span>
-<span class="sd">            No need to not call super().init(...) when overriding :func:`__init__`.</span>
-<span class="sd">            The attributes :attr:`generation`, :attr:`accountants`,</span>
-<span class="sd">            and :attr:`events` are automatically managed.</span>
+<span class="sd">        The implementation can accept operators as arguments. Alternatively,</span>
+<span class="sd">        it may also acquire operators from the global scope, or define them</span>
+<span class="sd">        in the initialiser.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># TODO The note is just not right - normally, the child should call the initialiser of the parent/</span>
+        <span class="c1"># TODO The note is just not right - normally, the child should</span>
+        <span class="c1">#   call the initialiser of the parent/</span>
         
         <span class="c1">#: Generation counter, automatically increments when :py:attr:`step` is called.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">generation</span><span class="p">:</span> <span class="nb">int</span>
-        <span class="c1">#: Registered :class:`Controller` s.</span>
+        <span class="c1">#: Registered :class:`Accountant` objects.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">accountants</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Accountant</span><span class="p">]</span>
-        <span class="c1">#: Events that can be fired by this Controller.</span>
+        <span class="c1">#: Collection of events that can be reported by this controller.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></div>
 
 
@@ -198,36 +182,35 @@
     <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Advance the population by one generation.</span>
 
-<span class="sd">        Update the current population or populations. Incrementing of</span>
-<span class="sd">        the :attr:`generation` counter is automatically managed.</span>
+<span class="sd">        Subclasses should override this method.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            Do not manually increment :attr:`generation`. This property</span>
+<span class="sd">            is automatically managed.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># TODO Calling super.step() may lead to unforseen consequences, such as</span>
-        <span class="c1">#   incrementing the generation counter twice. Just override it.</span>
-        <span class="c1"># Try to prevent this.</span>
+        <span class="c1"># TODO Should I use this note to make it clear?</span>
         <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="Controller.attach">
-<a class="viewcode-back" href="../../core.html#core.controller.Controller.attach">[docs]</a>
-    <span class="k">def</span> <span class="nf">attach</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">accountant</span><span class="p">:</span> <span class="n">Accountant</span><span class="p">)</span><span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Attach an :class:`.Accountant` to this `Controller`.</span>
+<div class="viewcode-block" id="Controller.register">
+<a class="viewcode-back" href="../../core.html#core.controller.Controller.register">[docs]</a>
+    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">accountant</span><span class="p">:</span> <span class="n">Accountant</span><span class="p">)</span><span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Attach an :class:`.Accountant` to this controller.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            accountant: An :class:`.Accountant` that observes and</span>
-<span class="sd">                collects data from this `Controller`.</span>
+<span class="sd">                collects data from this Controller.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># TODO I just can&#39;t come up with a good name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">accountants</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accountant</span><span class="p">)</span>
-        <span class="n">accountant</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+        <span class="n">accountant</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Controller.update">
 <a class="viewcode-back" href="../../core.html#core.controller.Controller.update">[docs]</a>
     <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Report an event to all attached :class:`.Accountant` s.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Report an event to all attached :class:`.Accountant` objects.</span>
 
-<span class="sd">        The event must be one listed in :attr:`events`. If not, raise</span>
-<span class="sd">        an exception.</span>
+<span class="sd">        The event must be in :attr:`events`. If not, raise an exception.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            event: the event to report.</span>
@@ -271,19 +254,7 @@
                  <span class="n">variator</span><span class="p">:</span> <span class="n">Variator</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
                  <span class="n">survivor_evaluator</span><span class="p">:</span> <span class="n">Evaluator</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
                  <span class="n">survivor_selector</span><span class="p">:</span> <span class="n">Selector</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Args:</span>
-<span class="sd">            population: initial population.</span>
-
-<span class="sd">            evaluator: operator that evaluate the fitness of an individual.</span>
-
-<span class="sd">            parent_selector: operator that selects individuals for variation.</span>
-
-<span class="sd">            variator: operator that creates new individuals from existing ones.</span>
-
-<span class="sd">            offspring_selector: operator that selects to the next generation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Introduction to Evolutionary Computing calls</span>
+        <span class="c1"># _Introduction to Evolutionary Computing_ calls</span>
         <span class="c1">#   selectors &quot;survivor selection&quot; and the outcome</span>
         <span class="c1">#   &quot;offspring&quot;. I&#39;m not making the call there.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">population</span> <span class="o">=</span> <span class="n">population</span>
@@ -301,6 +272,22 @@
                                   <span class="s2">&quot;POST_SURVIVOR_EVALUATION&quot;</span><span class="p">,</span>
                                   <span class="s2">&quot;POST_SURVIVOR_SELECTION&quot;</span><span class="p">]</span></div>
 
+        <span class="c1"># wwerwe</span>
+        <span class="c1"># &quot;&quot;&quot;</span>
+        <span class="c1"># Args:</span>
+        <span class="c1"># TODO These names are repeated in the class docstring.</span>
+        <span class="c1">#     population: initial population.</span>
+
+        <span class="c1">#     parent_evaluator: operator that evaluate the fitness of an individual.</span>
+
+        <span class="c1">#     parent_selector: operator that selects individuals for variation.</span>
+
+        <span class="c1">#     variator: operator that creates new individuals from existing ones.</span>
+
+        <span class="c1">#     survivor_evaluator: operator that selects to the next generation.</span>
+
+        <span class="c1">#     survivor_selector: operator that selects to the next generation.</span>
+        <span class="c1"># &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="LinearController.step">
 <a class="viewcode-back" href="../../core.html#core.controller.LinearController.step">[docs]</a>

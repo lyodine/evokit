@@ -28,11 +28,24 @@ autoclass_content = 'class'
 autosummary_generate = True
 
 autodoc_default_options = {
-    'members':           True,
+    'members': "__len__, __getitem__, __setitem__, __delitem__, __str__, __iter__, __next__",
     'undoc-members':     True,
+    # Note: `autodoc_class_signature='separated'` causes `ClassDocumenter` to
+    #   register both `__init__` and `__new__` as special members.
+    # This overrides the default behaviour of not documenting private
+    #   members -- even if `__new__` is marked as private, Sphinx still
+    #   documents it.
+    # Override the override with `'exclude-members'`, so that `__new__`
+    #   is ABSOLUTELY not be documented ... until another patch breaks it.
+    'exclude-members': '__new__',
+    
 }
+
+    
+
 autodoc_class_signature='separated'
-autodoc_inherit_docstrings=True
+autodoc_inherit_docstrings=False
+
 autodoc_member_order = 'bysource'
 autodoc_typehints='signature'
 autodoc_typehints_description_target = 'all'
@@ -43,7 +56,14 @@ napoleon_use_rtype = False
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'sphinx_rtd_theme'
-html_css_files = ['styles.css',]
 html_static_path = ['_static']
+html_css_files = ['styles.css',]
 templates_path = ['_templates']
 exclude_patterns = []
+
+
+rst_prolog = """
+.. role:: python(code)
+  :language: python
+  :class: highlight
+"""

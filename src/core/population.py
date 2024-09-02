@@ -55,7 +55,7 @@ class Individual(ABC, Generic[R]):
             Fitness of the individual
 
         Raise:
-            ValueError if the current fitness is `None`
+            ValueError: if the current fitness is ``None``
         """
         # TODO: Consider letting fitness return None if it is not assigned,
         #   instead of raising an exception.
@@ -75,8 +75,7 @@ class Individual(ABC, Generic[R]):
     def reset_fitness(self) -> None:
         """Reset the fitness of the individual.
 
-        Set the fitness of the individual to None, as if it has not been
-        evaluated.
+        Set the fitness of the individual to ``None``.
         """
         self._fitness = None
 
@@ -84,7 +83,7 @@ class Individual(ABC, Generic[R]):
         """Return if the genome has a fitness value.
 
         Return:
-            False if the fitness of the genome is None, otherwise return True
+            ``False`` if the current :attr:`fitness` is ``None``, otherwise ``True``
         """
         return self._fitness is not None
 
@@ -92,19 +91,17 @@ class Individual(ABC, Generic[R]):
     def copy(self) -> Self:
         """Copy the solution.
 
-        All subclasses should override this method. In addition to duplicating
-        :attr:`genome`, the implementation should decide if other fields
-        such as :attr:`fitness` should be retained.
-
-        Todo:
-            Rephrase.
+        Subclasses should override this method.
+        
+        In addition to duplicating :attr:`genome`, the implementation
+        should decide whether to retain other fields such as :attr:`fitness`.
 
         Returns:
             A new individual.
 
         Note:
-            The implementationn should ensure that changes made to the
-            return value do not affect the original value.
+            Ensure that changes made to the returned value do not affect
+            the original value.
         """
         # TODO Some people do not how to do this -- link to an example
         #   to make this function more usable.
@@ -112,39 +109,39 @@ class Individual(ABC, Generic[R]):
 T = TypeVar('T', bound=Individual)
 
 class AbstractCollection(ABC, Generic[R]):
-    """Machinery. Data structure for collections that may be
-    performance bottlecaps.
+    """Machinery.
     
-    :meta private:
+    Data structure for collections that may be performance bottlecaps.
+    TODO: I cannot find a way to document methods inherited from this class.
     """
     def __init__(self, *args: R):
-        self._solutions = list(args)
+        self._items = list(args)
         self._index = 0
 
     def __len__(self) -> int:
-        return len(self._solutions)
+        return len(self._items)
 
     def __getitem__(self, key: int) -> R:
-        return self._solutions[key]
+        return self._items[key]
 
     def __setitem__(self, key: int, value: R) -> None:
-        self._solutions[key] = value
+        self._items[key] = value
 
     def __delitem__(self, key: int) -> None:
-        del self._solutions[key]
+        del self._items[key]
 
     def __str__(self) -> str:
-        return str(list(map(str, self._solutions)))
+        return str(list(map(str, self._items)))
 
     def __iter__(self) -> Iterator[R]:
         self._index = 0
         return self
 
     def __next__(self) -> R:
-        if self._index < len(self._solutions):
+        if self._index < len(self._items):
             old_index = self._index
             self._index = self._index + 1
-            return self._solutions[old_index]
+            return self._items[old_index]
         else:
             raise StopIteration
 
@@ -155,7 +152,7 @@ class AbstractCollection(ABC, Generic[R]):
             value: the item to add to this item
         """
         # TODO value is a really bad name
-        self._solutions.append(value)
+        self._items.append(value)
 
     def extend(self, values: Iterable[R]) -> None:
         """Append all items from another collection to this collection
@@ -166,7 +163,7 @@ class AbstractCollection(ABC, Generic[R]):
         # TODO WOW list comprehension magic. Might be totally inefficient
         # though.
         # Remember that this class is a performance bottleneck.
-        self._solutions = list(itertools.chain(self._solutions, values))
+        self._items = list(itertools.chain(self._items, values))
 
     def populate(self, new_data: Iterable[R]) -> None:
         """Remove items in this collection with all items from another
@@ -178,14 +175,30 @@ class AbstractCollection(ABC, Generic[R]):
         # TODO This method is defined but not used, as of 2024-04-02.
         #   It was added for "completeness". Completeness does not warrant
         #   redundancy.
-        self._solutions = list(new_data)
+        self._items = list(new_data)
 
-    def draw(self, key: int | R) -> R:
-        if isinstance(key, int):
-            a: R = self[key]
-            del self[key]
+    def draw(self, key: Optional[R] = None, pos: Optional[int] = None) -> R:
+        """Remove an item.
+
+        Identify an item either by value (in key) or by position (in pos).
+        Remove that item from the collection, then return that value.
+
+        Returns:
+            The :class:`Individual` that is removed from the population
+        Raises:
+            TypeError: If neither ``key`` nor ``pos`` is given.
+        """
+        if (key is None and pos is None):
+            raise TypeError("An item must be speccified, either by"
+                            " value or by position. Neither is given.")
+        elif (key is not None and pos is not None):
+            raise TypeError("The item can only be specified by value"
+                            "or by position. Both are given.")
+        elif (pos is not None):
+            a: R = self[pos]
+            del self[pos]
             return a
-        else:
+        elif (key is not None):
             has_removed = False
             # TODO refactor with enumerate and filter.
             #   Still up for debate. Loops are easy to understand.
@@ -201,7 +214,8 @@ class AbstractCollection(ABC, Generic[R]):
                 raise IndexError("the requested item is not in the list")
             else:
                 return key
-
+        else:
+            raise RuntimeError("Values of key and pos changed during evaluation")
 
 class Population(AbstractCollection[T]):
     """A flat collection of individuals.
@@ -210,28 +224,39 @@ class Population(AbstractCollection[T]):
         super().__init__(*args)
 
     def copy(self) -> Self:
-        """Returns an independent population.
-        TODO Following the issue raised in Individual: be sure to
-        make explicit behaviours of this copy, and its guarantees.
+        """Return an independent population.
+
+        Changes made to items in the new population should not affect
+        items in this population. This behaviour depends on correct implementation
+        of `~.Individual.copy` in each item.
+
+        Call `~.Individual.copy` for each :class:`Individual` in this
+        population. Collect the results, then create a new population with
+        these values.
+
+        Returns:
+            A new population.
         """
-        return self.__class__(*[x.copy() for x in self._solutions])
+        return self.__class__(*[x.copy() for x in self._items])
 
     def sort(self: Self,
              ranker: Callable[[T], float] = lambda x: x.fitness) -> None:
-        """Sort items in this report
-            TODO The process accesses _score_ in individuals, which may
-            cause an error, according to the "current" implementation
-            as of 2024-04-01.
-            If the reporter is in _score_, then leave a try catch clause to
-            make this explicit. Otherwise, don't care.
-        """
-        self._solutions.sort(reverse=True, key=ranker)
+        """Rearrange items by fitness, highest-first.
 
-    def descore(self: Self) -> None:
-        """Clean the score of all Individuals in the population.
-            TODO This behaviour exists in two places: in evaluators
-            (which is responsible for cleaning offspring)
-            and here. Discuss it.
+        The item at index 0 has the highest index.
         """
-        for x in self._solutions:
+        # TODO Should I try-catch? Because accessing an individual
+        #   without fitness throws an exception.
+        self._items.sort(reverse=True, key=ranker)
+
+    def reset_fitness(self: Self) -> None:
+        """Remove fitness values of all Individuals in the population.
+
+        """
+
+        # TODO This behaviour exists in two places: in evaluators
+        #   (which is responsible for cleaning offspring)
+        #   and here. Discuss it.
+        #   This is an old comment.
+        for x in self._items:
             x.reset_fitness()

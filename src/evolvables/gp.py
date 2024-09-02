@@ -290,6 +290,7 @@ def avg (x:float, y:float):
 def lim(x: float, max_val:float, min_val:float) -> float:
     return max(min(max_val, x), min_val)
 
+
 class ProgramCrossoverVariator(Variator[Program[float]]):
     def vary(self, parents: Tuple[Program[float], ...]) -> Tuple[Program[float], ...]:
         return (self.crossover(parents) + self.mutate(parents))
