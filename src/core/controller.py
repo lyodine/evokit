@@ -1,9 +1,7 @@
 """ The controller is an iterative optimizer that receives various evolutionary operators.
 """
 from __future__ import annotations
-
 from typing import TYPE_CHECKING
-
 if TYPE_CHECKING:
     from typing import Self
     from .population import GenomePool

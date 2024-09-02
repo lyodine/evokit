@@ -34,7 +34,7 @@ class LogLevel(enum.Enum):
         return NotImplemented
 
 # All messages at or below this log level are reported.
-LOG_LEVEL = LogLevel.DBG
+LOG_LEVEL = LogLevel.ERR
 
 def report(level: LogLevel, *str):
     """!Log a message
@@ -64,5 +64,5 @@ def report(level: LogLevel, *str):
         #     COL = "\033[0mTRC: "
         case _:
             COL = "\033[0m[cannot interpret log level:] "
-    if (level >= LogLevel.DBG):
+    if (level >= LogLevel.ERR):
         print(f"{COL}{reduce(add, str, "")}")
