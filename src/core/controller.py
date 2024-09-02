@@ -52,7 +52,8 @@ class Controller(Generic[T]):
         self.evaluator.evaluate_population(self.population)
         
         # Select from the population into the genome pool
-        parents: GenomePool = self.parent_selector.select_to_pool(self.population)
+        parents: GenomePool = self.parent_selector.select_to_pool(self.population,
+                                                                  self.variator.arity)
 
         # Vary the genome pool to create offspring
         offspring = self.variator.vary_pool(parents, None)

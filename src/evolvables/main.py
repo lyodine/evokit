@@ -80,7 +80,6 @@ class BitDistanceEvaluator(Evaluator[Binary]):
     def evaluate(self, s1: Binary) -> float:
         return s1._value.bit_count()
 
-
 class RandomBitMutator(Variator[Binary]):
     def __init__ (self):
         super().__init__(1, 2)
@@ -101,8 +100,8 @@ for i in range (0, 10):
     init_pop.append(Binary.create_random(10))
 
 evaluator = BitDistanceEvaluator()
-pselector = Elitist(SimpleSelector[Binary](1, 10))
-cselector = Elitist(SimpleSelector[Binary](1, 10))
+pselector = Elitist(SimpleSelector[Binary](10))
+cselector = Elitist(SimpleSelector[Binary](10))
 variator = RandomBitMutator()
 
 ctrl = Controller[Binary] (

@@ -23,27 +23,25 @@ class Selector(ABC, Generic[T]):
         A selector that can be applied as a parent selector or a survivor selector.
     """
 
-    def __init__(self: Self, coarity: int, budget: int):
+    def __init__(self: Self, budget: int):
         """!Initialise the selector
-            @param coarity: {TODO} Hide this logic in the controller
         """
-        self.coarity = coarity
         self.budget = budget
 
     def select_to_pool(self,
                        population: Population[T],
-                       budget: Optional[int] = None) -> GenomePool[T]:
+                       coarity: int) -> GenomePool[T]:
         """!Select to tuples of parents
             Select to a GenomePool instance, which can be passed to the variator. The arity of the returned value depends on the arity of the selector.
             If the population cannot exactly fill tuples of a given size, discard the left-over genomes.
             @postcondition: the returned population is descored
         """
-        selected = self.select_to_many(population, budget)
+        selected = self.select_to_many(population)
 
         # Tuple magic. Zipping an iterable with itself extracts a tuple of that size. The "discarding" behaviour is implemented this way.
         ai:Iterator[T] = iter(selected)
-        output_tuples:List[Tuple[T, ...]] = list(zip(*tuple(ai for i in range(self.coarity))))
-        pool = GenomePool[T](self.coarity)
+        output_tuples:List[Tuple[T, ...]] = list(zip(*tuple(ai for i in range(coarity))))
+        pool = GenomePool[T](coarity)
 
         for x in output_tuples:
             pool.append(x)
@@ -63,7 +61,7 @@ class Selector(ABC, Generic[T]):
             new_population.append(x)
         return new_population
 
-    def select_to_many(self, population: Population[T], budget: Optional[int] = None) -> Tuple[T, ...]:
+    def select_to_many(self, population: Population[T]) -> Tuple[T, ...]:
         """!Many-to-many selection strategy.
             Repeatedly apply select() to create a collection of solutions
             @param population: the input population
@@ -76,8 +74,7 @@ class Selector(ABC, Generic[T]):
 
         # ----- Budget -----
         # If a budget is not given, use my default budget
-        if budget is None:
-            budget = self.budget
+        budget = self.budget
         # The budget cannot exceed the population size
         budget = min(budget, len(old_population))
 
@@ -106,15 +103,15 @@ class Selector(ABC, Generic[T]):
         pass
 
 class NullSelector(Selector[T]):
-    def __init__(self: Self, coarity:int, budget: int):
-        super().__init__(coarity, budget)
+    def __init__(self: Self, budget: int):
+        super().__init__(budget)
 
     def select_to_many(self, population: Population[T], budget: Optional[int] = None) -> Tuple[T, ...]:
         return tuple(x for x in population)
 
 class SimpleSelector(Selector[T]):
-    def __init__(self: Self, coarity:int, budget: int):
-        super().__init__(coarity, budget)
+    def __init__(self: Self, budget: int):
+        super().__init__(budget)
 
     def select(self,
                population: Population[T])-> Tuple[T]:
@@ -126,8 +123,8 @@ class SimpleSelector(Selector[T]):
         return (selected_solution,)
 
 class ElitistSimpleSelector(SimpleSelector[T]):
-    def __init__(self: Self, coarity:int, budget: int):
-        super().__init__(coarity, budget-1)
+    def __init__(self: Self, budget: int):
+        super().__init__(budget-1)
         self.best_genome: Optional[T] = None
 
     def select_to_many(self, population: Population[T], budget: Optional[int] = None) -> Tuple[T, ...]:
@@ -147,8 +144,8 @@ class ElitistSimpleSelector(SimpleSelector[T]):
 
 import random
 class TournamentSelector(Selector[T]):
-    def __init__(self: Self, coarity:int, budget: int, bracket_size:int = 2, probability:float = 1):
-        super().__init__(coarity, budget)
+    def __init__(self: Self, budget: int, bracket_size:int = 2, probability:float = 1):
+        super().__init__(budget)
         self.bracket_size: int = bracket_size
         self.probability: float = min(2, max(probability, 0))
 
@@ -188,7 +185,7 @@ def Elitist(sel: Selector[T])-> Selector:
         # Python magic. Since super() cannot be used in this context,
         #   directly call select_to_many in the parent.
 
-        results: Tuple[T, ...] = self.__class__.__mro__[1].select_to_many(self, population, budget)
+        results: Tuple[T, ...] = self.__class__.__mro__[1].select_to_many(self, population)
         best_genome: Optional[T] = self.best_genome
         if best_genome is None:
             best_genome = results[0]
