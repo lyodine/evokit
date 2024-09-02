@@ -230,6 +230,10 @@ class TournamentSelector(Selector[D]):
 def Elitist(sel: Selector[D]) -> Selector:
     """Decorator that adds elitism to a selector.
 
+    Retain and update the highest-fitness individual encountered so far.
+    Each time the selector is called, append that individual to the end
+    of the output population.
+
     Modify `select_to_many` of `sel` to use elitism. If `sel` already
         overrides `select_to_many`, that implementation is destroyed.
 
