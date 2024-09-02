@@ -7,15 +7,18 @@ from .population import Individual
 
 if TYPE_CHECKING:
     from typing import Self
-
+    from typing import Any
+    from typing import Callable
     from .population import Population
 
 T = TypeVar("T", bound=Individual)
 
+
 class _MetaEvaluator(ABCMeta):
     """Machineary for the evaluator.
         Because ABC (abstract base class) is also implemented with metaclasses,
-            and a class cannot have two metaclasses, I must implement the following:
+        and a class cannot have two metaclasses, I must implement the
+        following:
             (1) MetaEvaluator extends ABCMeta
             (2) Evaluator has MetaEvaluator as metaclass, thereby indirectly
                 using ABCMeta as metaclass
@@ -31,7 +34,7 @@ class _MetaEvaluator(ABCMeta):
 
     """
     # cls, name, bases, attrs
-    def __new__(mcls, name, bases, namespace):
+    def __new__(mcls: type, name: str, bases, namespace) -> Any: # noqa #type:ignore
         """
         """
         # Moderately cursed Python magic.
@@ -56,19 +59,20 @@ class _MetaEvaluator(ABCMeta):
         # This is necessary. Because __new__ is an instance method.
         return type.__new__(mcls, name, bases, namespace)
 
+
 class Evaluator(ABC, Generic[T]):
     """Base class for all evaluators.
 
     Derive this class to create custom evaluators.
     """
     @staticmethod
-    def evaluate_shortcut(func):
+    def evaluate_shortcut(func: Callable) -> Callable:
         """Annotation that applies the "evaluator guard" to an evaluator.
 
         A child class may apply this annotation to `evaluate`. Doing so
         prevents the evaluator from re-scoring individuals
         that already have a fitness.
-        
+
         This may accelerate learning, as individuals retained from the
         parent generation are no longer re-evaluated. However,
         doing so also prevents the evaluator from correctly modeling
@@ -76,7 +80,7 @@ class Evaluator(ABC, Generic[T]):
         individual may change across generations.
         """
         def wrapper(*args, **kwargs) -> float:
-            print ("shortcut used")
+            print("shortcut used")
             individual = args[1]
             if not isinstance(individual, Individual):
                 raise TypeError("Evaluator is not an individual")
@@ -89,9 +93,9 @@ class Evaluator(ABC, Generic[T]):
         return wrapper
 
     @abstractmethod
-    def evaluate(self: Self, individual: T)-> float:
+    def evaluate(self: Self, individual: T) -> float:
         """Evaluation strategy of the evaluator.
-        
+
         All subclasses should override this method. The implementation should
         assign higher fitness to higher-quality individuals.
 
@@ -103,18 +107,12 @@ class Evaluator(ABC, Generic[T]):
         """
 
     def evaluate_population(self: Self,
-                            pop: Population[T])-> Population[T]:
+                            pop: Population[T]) -> Population[T]:
         """Context for the evaluation strategy.
-        
-        Iterate individuals in a population. For each individual, assign to it a
-            fitness given by `evaluate`.
+
+        Iterate individuals in a population. For each individual, assign to it
+        a fitness given by `evaluate`.
         """
         for x in pop:
             x.score = self.evaluate(x)
         return pop
-
-
-
-
-
-
