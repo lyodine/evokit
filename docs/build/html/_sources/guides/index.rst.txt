@@ -8,7 +8,7 @@ Everything that form an algorithm derive from the following base classes:
 
 Operators derive :class:`.Selector`, :class:`.Evaluator`, and :class:`.Variator`.
 
-Algorithms derive :class:`.Controller`.
+Algorithms derive :class:`.Algorithm`.
 
 Representations derive :class:`.Individual`; :class:`.Population` models a population.
 
@@ -22,7 +22,7 @@ Getting Started
 
 * Custom selectors: :doc:`examples/selector`
 
-* Custom algorithms: :doc:`examples/controller`
+* Custom algorithms: :doc:`examples/algorithm`
 
 Advanced Tutorials
 ------------------
@@ -37,7 +37,7 @@ Advanced Tutorials
    :hidden:
 
    examples/accountant.ipynb
-   examples/controller.ipynb
+   examples/algorithm.ipynb
    examples/gp.ipynb
    examples/interceptor.ipynb
    examples/onemax.ipynb
