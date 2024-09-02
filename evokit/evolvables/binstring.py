@@ -83,7 +83,7 @@ class BinaryString(Individual[int]):
 
         Args:
             pos: Position of the bit value to set.
-        
+
         Effect:
             Change :attr:`.genome`.
 
