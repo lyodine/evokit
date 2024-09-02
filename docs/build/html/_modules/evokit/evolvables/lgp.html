@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en-uk" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>evokit.evolvables.lgp &mdash; evokit  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/styles.css?v=dd041f00" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=92c5c9a7"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            evokit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">evokit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Introduction</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">evokit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">evokit.evolvables.lgp</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for evokit.evolvables.lgp</h1><div class="highlight"><pre>
+<span></span><span class="c1"># mypy: ignore-errors</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">Sequence</span>
+
+<span class="c1"># It&#39;s just so appropriate here.</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
+
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">singledispatch</span>
+<div class="viewcode-block" id="Instruction">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.Instruction">[docs]</a>
+<span class="k">class</span> <span class="nc">Instruction</span><span class="p">():</span>
+    <span class="k">pass</span></div>
+
+
+
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
+
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">override</span>
+
+
+<div class="viewcode-block" id="Runner">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.Runner">[docs]</a>
+<span class="k">class</span> <span class="nc">Runner</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lgp</span><span class="p">:</span> <span class="n">LinearProgram</span><span class="p">,</span> <span class="n">instructions</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Instruction</span><span class="p">]):</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="StructOverLines">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.StructOverLines">[docs]</a>
+<span class="k">class</span> <span class="nc">StructOverLines</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="StructOverLines.__init__">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.StructOverLines.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">runner</span><span class="p">:</span> <span class="n">Runner</span><span class="p">,</span> <span class="n">line_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">runner</span><span class="p">:</span> <span class="n">Runner</span> <span class="o">=</span> <span class="n">runner</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">line_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">line_count</span></div>
+</div>
+
+
+<div class="viewcode-block" id="StructUntilLabel">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.StructUntilLabel">[docs]</a>
+<span class="k">class</span> <span class="nc">StructUntilLabel</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="StructUntilLabel.__init__">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.StructUntilLabel.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">runner</span><span class="p">:</span> <span class="n">Runner</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">runner</span><span class="p">:</span> <span class="n">Runner</span> <span class="o">=</span> <span class="n">runner</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">label</span></div>
+</div>
+
+
+<div class="viewcode-block" id="StructNextLine">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.StructNextLine">[docs]</a>
+<span class="k">class</span> <span class="nc">StructNextLine</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="StructNextLine.__init__">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.StructNextLine.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">runner</span><span class="p">:</span> <span class="n">Runner</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">runner</span><span class="p">:</span> <span class="n">Runner</span> <span class="o">=</span> <span class="n">runner</span></div>
+</div>
+
+
+<div class="viewcode-block" id="Label">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.Label">[docs]</a>
+<span class="k">class</span> <span class="nc">Label</span><span class="p">():</span>
+<div class="viewcode-block" id="Label.__init__">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.Label.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span></div>
+</div>
+
+
+<div class="viewcode-block" id="For">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.For">[docs]</a>
+<span class="k">class</span> <span class="nc">For</span><span class="p">(</span><span class="n">Runner</span><span class="p">):</span>
+<div class="viewcode-block" id="For.__init__">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.For.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="n">count</span></div>
+
+
+    <span class="nd">@override</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lgp</span><span class="p">:</span> <span class="n">LinearProgram</span><span class="p">,</span> <span class="n">instructions</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Instruction</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="p">):</span>
+            <span class="n">lgp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">instructions</span><span class="p">)</span></div>
+
+
+<span class="n">WHILE_LOOP_CAP</span> <span class="o">=</span> <span class="mi">20</span>
+
+<div class="viewcode-block" id="While">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.While">[docs]</a>
+<span class="k">class</span> <span class="nc">While</span><span class="p">(</span><span class="n">Runner</span><span class="p">):</span>
+<div class="viewcode-block" id="While.__init__">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.While.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">conditional</span><span class="p">:</span> <span class="n">Conditional</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conditional</span> <span class="o">=</span> <span class="n">conditional</span></div>
+
+
+    <span class="nd">@override</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lgp</span><span class="p">:</span> <span class="n">LinearProgram</span><span class="p">,</span> <span class="n">instructions</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Instruction</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">WHILE_LOOP_CAP</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">lgp</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conditional</span><span class="p">)):</span>
+                <span class="n">lgp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">instructions</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">break</span></div>
+
+
+<div class="viewcode-block" id="If">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.If">[docs]</a>
+<span class="k">class</span> <span class="nc">If</span><span class="p">(</span><span class="n">Runner</span><span class="p">):</span>
+<div class="viewcode-block" id="If.__init__">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.If.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">conditional</span><span class="p">:</span> <span class="n">Conditional</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conditional</span> <span class="o">=</span> <span class="n">conditional</span></div>
+
+
+    <span class="nd">@override</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lgp</span><span class="p">:</span> <span class="n">LinearProgram</span><span class="p">,</span> <span class="n">instructions</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Instruction</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">lgp</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conditional</span><span class="p">)):</span>
+                <span class="n">lgp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">instructions</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ValueRange">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.ValueRange">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">ValueRange</span><span class="p">:</span>
+    <span class="nb">min</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="nb">max</span><span class="p">:</span> <span class="nb">float</span></div>
+
+
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Self</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+
+
+<div class="viewcode-block" id="Operation">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.Operation">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Operation</span><span class="p">(</span><span class="n">Instruction</span><span class="p">):</span>
+<div class="viewcode-block" id="Operation.__init__">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.Operation.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span>
+                 <span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+                 <span class="n">target</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">ValueRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">))],</span>
+                 <span class="n">args</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]):</span>
+        
+        <span class="c1">#: Function of the operation.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">function</span>
+
+        <span class="c1">#: Index of the target register.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">target</span>
+        
+        <span class="n">has_no_register_operand</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">reg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">reg</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">has_no_register_operand</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">has_no_register_operand</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Operand registers are all constants&quot;</span><span class="p">)</span>
+        <span class="c1">#: Indices of operand registers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">):</span>
+        <span class="n">args</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="sa">f</span><span class="s2">&quot;r[</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">]&quot;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;c[</span><span class="si">{</span><span class="o">-</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="si">}</span><span class="s2">]&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">))</span>
+        <span class="n">function_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span>
+                                     <span class="s1">&#39;__name__&#39;</span><span class="p">,</span>
+                                     <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">))</span>
+        
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;r[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="si">}</span><span class="s2">] &lt;- </span><span class="si">{</span><span class="n">function_name</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s2">)&quot;</span>
+    
+    <span class="fm">__repr__</span> <span class="o">=</span> <span class="fm">__str__</span></div>
+
+
+<div class="viewcode-block" id="Conditional">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.Conditional">[docs]</a>
+<span class="k">class</span> <span class="nc">Conditional</span><span class="p">():</span>
+<div class="viewcode-block" id="Conditional.__init__">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.Conditional.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span>
+                 <span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="nb">bool</span><span class="p">],</span>
+                 <span class="n">args</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span></div>
+</div>
+
+
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Self</span>
+
+<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Generic</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+<span class="kn">from</span> <span class="nn">numpy.typing</span> <span class="kn">import</span> <span class="n">NDArray</span>
+
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span>
+
+<div class="viewcode-block" id="LinearProgram">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.LinearProgram">[docs]</a>
+<span class="k">class</span> <span class="nc">LinearProgram</span><span class="p">():</span>
+<div class="viewcode-block" id="LinearProgram.__init__">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.LinearProgram.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span>
+                 <span class="n">coarity</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">inputs</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+                 <span class="n">input_can_change</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                 <span class="n">reg_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">constants</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+                 <span class="n">initialiser</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">float</span><span class="p">]):</span>
+        
+        <span class="c1">#: Number of output registers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coarity</span><span class="p">:</span> <span class="nb">int</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coarity</span> <span class="o">=</span> <span class="n">coarity</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">registers</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">initialiser</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">registers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">reg_length</span><span class="p">,</span> <span class="n">initialiser</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="nb">callable</span><span class="p">(</span><span class="n">initialiser</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">registers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">reg_length</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">registers</span><span class="p">)):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">registers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">initialiser</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Initialiser is not callable and not a value.&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Initialise constants</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constants</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromiter</span><span class="p">(</span><span class="n">constants</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">writeable</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Append input registers to either constants or registers</span>
+        <span class="k">if</span> <span class="n">input_can_change</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">registers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">registers</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">constants</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LinearProgram.run">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.LinearProgram.run">[docs]</a>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">instructions</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Instruction</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
+        <span class="n">current_line</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">while</span> <span class="n">current_line</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">instructions</span><span class="p">):</span>
+            <span class="n">current_line</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_instruction</span><span class="p">(</span><span class="n">instructions</span><span class="p">[</span><span class="n">current_line</span><span class="p">],</span> <span class="n">instructions</span><span class="p">,</span> <span class="n">current_line</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_output_values</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="LinearProgram.get_output_values">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.LinearProgram.get_output_values">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_output_values</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">registers</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">coarity</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="LinearProgram.check">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.LinearProgram.check">[docs]</a>
+    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">cond</span><span class="p">:</span> <span class="n">Conditional</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">cond</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">[</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">registers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>\
+                      <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cond</span><span class="o">.</span><span class="n">args</span><span class="p">))</span></div>
+
+    
+    
+<div class="viewcode-block" id="LinearProgram.run_instruction">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.LinearProgram.run_instruction">[docs]</a>
+    <span class="k">def</span> <span class="nf">run_instruction</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">instruction</span><span class="p">:</span> <span class="n">Instruction</span><span class="p">,</span>
+                        <span class="n">instructions</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Instruction</span><span class="p">],</span>
+                        <span class="n">pos</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">match</span> <span class="n">instruction</span><span class="p">:</span>
+            <span class="k">case</span> <span class="n">Operation</span><span class="p">():</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_operation</span><span class="p">(</span><span class="n">instruction</span><span class="p">)</span>
+            <span class="k">case</span> <span class="n">StructNextLine</span><span class="p">():</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_struct_next_line</span><span class="p">(</span><span class="n">instruction</span><span class="p">,</span> <span class="n">instructions</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+            <span class="k">case</span> <span class="n">StructOverLines</span><span class="p">():</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_struct_over_lines</span><span class="p">(</span><span class="n">instruction</span><span class="p">,</span> <span class="n">instructions</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+            <span class="k">case</span> <span class="n">StructUntilLabel</span><span class="p">():</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_struct_until_label</span><span class="p">(</span><span class="n">instruction</span><span class="p">,</span> <span class="n">instructions</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+            <span class="k">case</span> <span class="n">Label</span><span class="p">():</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_label</span><span class="p">()</span>
+            <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Instruction type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">instruction</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> Not recognised&quot;</span><span class="p">)</span></div>
+
+            
+    <span class="k">def</span> <span class="nf">_run_label</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">_run_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">instruction</span><span class="p">:</span> <span class="n">Operation</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">instruction</span><span class="o">.</span><span class="n">target</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Malformed instruction: assignment to c[</span><span class="si">{</span><span class="o">-</span><span class="n">instruction</span><span class="o">.</span><span class="n">target</span><span class="o">-</span><span class="mi">1</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">registers</span><span class="p">[</span><span class="n">instruction</span><span class="o">.</span><span class="n">target</span><span class="p">]</span> <span class="o">=</span>\
+                <span class="n">instruction</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+                    <span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">[</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">registers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>\
+                      <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">instruction</span><span class="o">.</span><span class="n">args</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">instruction</span><span class="p">))</span>
+        <span class="k">return</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">_run_struct_over_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">instruction</span><span class="p">:</span> <span class="n">StructOverLines</span><span class="p">,</span> 
+                               <span class="n">instructions</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Instruction</span><span class="p">],</span>
+                               <span class="n">pos</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">collected_lines</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Instruction</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">current_pos</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">pos</span><span class="o">+</span><span class="mi">1</span>
+        
+        <span class="n">num_of_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">instructions</span><span class="p">)</span> <span class="o">-</span> <span class="n">current_pos</span><span class="p">,</span> <span class="n">instruction</span><span class="o">.</span><span class="n">line_count</span><span class="p">])</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;pos is frs</span><span class="si">{</span><span class="n">current_pos</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_of_steps</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;sasss frs</span><span class="si">{</span><span class="n">instructions</span><span class="p">[</span><span class="n">current_pos</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">collected_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">instructions</span><span class="p">[</span><span class="n">current_pos</span><span class="p">])</span>
+            <span class="n">current_pos</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;pos is </span><span class="si">{</span><span class="n">current_pos</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;collected </span><span class="si">{</span><span class="n">collected_lines</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">instruction</span><span class="o">.</span><span class="n">runner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collected_lines</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">num_of_steps</span>
+
+    <span class="k">def</span> <span class="nf">_run_struct_next_line</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">instruction</span><span class="p">:</span> <span class="n">StructOverLines</span><span class="p">,</span>
+                              <span class="n">instructions</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Instruction</span><span class="p">],</span>
+                              <span class="n">pos</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        
+        <span class="n">collected_lines</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Instruction</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">current_pos</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">pos</span><span class="o">+</span><span class="mi">1</span>
+        
+        <span class="n">num_of_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">instructions</span><span class="p">)</span> <span class="o">-</span> <span class="n">current_pos</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+        
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_of_steps</span><span class="p">):</span>
+            <span class="n">collected_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">instructions</span><span class="p">[</span><span class="n">current_pos</span><span class="p">])</span>
+            <span class="n">current_pos</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">instruction</span><span class="o">.</span><span class="n">runner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collected_lines</span><span class="p">)</span>
+        
+
+        <span class="k">return</span> <span class="n">num_of_steps</span>
+        
+    <span class="k">def</span> <span class="nf">_run_struct_until_label</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">instruction</span><span class="p">:</span> <span class="n">StructUntilLabel</span><span class="p">,</span>
+                                <span class="n">instructions</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Instruction</span><span class="p">],</span>
+                                <span class="n">pos</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        
+        <span class="n">collected_lines</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Instruction</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">current_pos</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">pos</span><span class="o">+</span><span class="mi">1</span>
+        
+        <span class="n">num_of_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">instructions</span><span class="p">)</span> <span class="o">-</span> <span class="n">current_pos</span>
+        
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_of_steps</span><span class="p">):</span>
+            <span class="n">current_instruction</span><span class="p">:</span> <span class="n">Instruction</span> <span class="o">=</span> <span class="n">instructions</span><span class="p">[</span><span class="n">current_pos</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">current_instruction</span><span class="p">,</span> <span class="n">Label</span><span class="p">)</span> <span class="ow">and</span> <span class="n">current_instruction</span><span class="o">.</span><span class="n">label</span> <span class="o">==</span> <span class="n">instruction</span><span class="o">.</span><span class="n">label</span><span class="p">):</span>
+                <span class="n">current_pos</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">collected_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">instructions</span><span class="p">[</span><span class="n">current_pos</span><span class="p">])</span>
+                <span class="n">current_pos</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+        <span class="n">instruction</span><span class="o">.</span><span class="n">runner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collected_lines</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">instructions</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Linear program. Current output values: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_output_values</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">+</span>\
+                <span class="sa">f</span><span class="s2">&quot;Constants c = </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">+</span>\
+                <span class="sa">f</span><span class="s2">&quot;Registers r = </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">registers</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="fm">__repr__</span> <span class="o">=</span> <span class="fm">__str__</span></div>
+
+
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">LinearProgram</span><span class="p">(</span><span class="n">coarity</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+                  <span class="n">inputs</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span>
+                  <span class="n">input_can_change</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                  <span class="n">reg_length</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+                  <span class="n">constants</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span>
+                  <span class="n">initialiser</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">)</span>
+
+<div class="viewcode-block" id="add">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.add">[docs]</a>
+<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span></div>
+
+
+<div class="viewcode-block" id="sub">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.sub">[docs]</a>
+<span class="k">def</span> <span class="nf">sub</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span></div>
+
+
+<div class="viewcode-block" id="less">
+<a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.lgp.less">[docs]</a>
+<span class="k">def</span> <span class="nf">less</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span></div>
+
+
+<span class="n">oprs</span> <span class="o">=</span> <span class="p">[</span><span class="n">Operation</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span>
+        <span class="n">Operation</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>
+        <span class="n">Operation</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>
+        <span class="n">StructOverLines</span><span class="p">(</span><span class="n">If</span><span class="p">(</span><span class="n">Conditional</span><span class="p">(</span><span class="n">less</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))),</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="n">Operation</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>
+        <span class="n">Operation</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="p">]</span>
+
+<span class="n">A</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">oprs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">A</span><span class="p">))</span>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Yiding Li.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
