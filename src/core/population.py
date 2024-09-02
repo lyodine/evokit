@@ -38,7 +38,7 @@ class Individual(ABC, Generic[R]):
         instance: Self = super().__new__(cls)
         instance._fitness = None
         return instance
-    
+
     @abstractmethod
     def __init__(self) -> None:
         #: Fitness of the individual
@@ -98,7 +98,7 @@ class Individual(ABC, Generic[R]):
         """Copy the solution.
 
         Subclasses should override this method.
-        
+
         In addition to duplicating :attr:`genome`, the implementation
         should decide whether to retain other fields such as :attr:`fitness`.
 
@@ -118,7 +118,7 @@ T = TypeVar('T', bound=Individual)
 
 class AbstractCollection(ABC, Sequence[R], Iterable[R]):
     """Machinery.
-    
+
     Data structure for collections that may be performance bottlecaps.
     TODO: I cannot find a way to document methods inherited from this class.
     """

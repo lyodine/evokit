@@ -234,7 +234,7 @@ def Elitist(sel: Selector[T]) -> Selector:
     def wrap_function(original_select_to_many:
                       Callable[[Selector[T], Population[T]],
                                Tuple[Individual[T], ...]]) -> Callable:
-        
+
         @wraps(original_select_to_many)
         def wrapper(self: Selector[T],
                     population: Population[T],
