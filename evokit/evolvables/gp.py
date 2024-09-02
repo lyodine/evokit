@@ -537,7 +537,7 @@ class SymbolicEvaluator(Evaluator[Program[float]]):
     the objective function.
     """
     def __init__(self,
-                 objective: Callable,
+                 objective: Callable[..., float],
                  support: Tuple[Tuple[float, ...], ...]):
         """
         Args:
@@ -549,8 +549,8 @@ class SymbolicEvaluator(Evaluator[Program[float]]):
             TypeError if the first item in ``support`` does not
             match the arity of ``objective``.
         """
-        self.objective = objective
-        self.support = support
+        self.objective: Callable[..., float] = objective
+        self.support: Tuple[Tuple[float, ...], ...] = support
         self.arity = _get_arity(objective)
 
         if self.arity != len(support[0]):
