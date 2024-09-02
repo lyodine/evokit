@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Accountant &mdash; evokit  documentation</title>
+  <title>Collect Runtime Statistics with Accountant &mdash; evokit  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css?v=2aa19091" />
@@ -25,7 +25,9 @@
         <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Creating a Custom Controller" href="controller.html" />
+    <link rel="prev" title="Guides" href="../index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,10 +49,30 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../why.html">Why EvoKit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install-and-built.html">Installing</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#base-classes">Base Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#getting-started">Getting Started</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#advanced-tutorials">Advanced Tutorials</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Collect Runtime Statistics with <code class="docutils literal notranslate"><span class="pre">Accountant</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="controller.html">Creating a Custom <code class="docutils literal notranslate"><span class="pre">Controller</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gp.html">Symbolic Regression with Genetic Programming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="interceptor.html">Modifying Operators with the Interceptor Pattern</a></li>
+<li class="toctree-l3"><a class="reference internal" href="onemax.html">Getting Started with OneMax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="onemax.html#Evaluator">Evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="selector.html">Creating a Custom <code class="docutils literal notranslate"><span class="pre">Selector</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="selector.html#Selector">Selector</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">evokit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../index.html">Introduction</a></li>
 </ul>
 
         </div>
@@ -67,7 +89,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Accountant</li>
+          <li class="breadcrumb-item"><a href="../index.html">Guides</a></li>
+      <li class="breadcrumb-item active">Collect Runtime Statistics with <code class="docutils literal notranslate"><span class="pre">Accountant</span></code></li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/guides/examples/accountant.ipynb.txt" rel="nofollow"> View page source</a>
       </li>
@@ -77,8 +100,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="Accountant">
-<h1>Accountant<a class="headerlink" href="#Accountant" title="Link to this heading"></a></h1>
+  <section id="Collect-Runtime-Statistics-with-Accountant">
+<h1>Collect Runtime Statistics with <code class="docutils literal notranslate"><span class="pre">Accountant</span></code><a class="headerlink" href="#Collect-Runtime-Statistics-with-Accountant" title="Link to this heading"></a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -156,52 +179,10 @@ Best individual is [1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 
 </pre></div></div>
 </div>
 <p>The above approach can only take information after an iteration, not during.</p>
-<p>There is another way to take</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Accountant</span></code> module provides a way to collect information during an iteration. In short, an <code class="docutils literal notranslate"><span class="pre">Accountant</span></code> can be registered with a <code class="docutils literal notranslate"><span class="pre">Controller</span></code>; after that, the accountant is able to collect information from the <code class="docutils literal notranslate"><span class="pre">Controller</span></code> when an event fires.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Controller</span></code> should report when it fires an event and what event is fired. Alternatively, the source code gives the most accurate information. Consider the <code class="docutils literal notranslate"><span class="pre">step</span></code> method of <code class="docutils literal notranslate"><span class="pre">SimpleLinearController</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SimpleLinearController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A very simple evolutionary algorithm.</span>
-
-<span class="sd">    An evolutionary algorithm that maintains one population and does not</span>
-<span class="sd">    take advantage of parallelism. The algorithm applies its operators</span>
-<span class="sd">    in the following order:</span>
-
-<span class="sd">        #. **evaluate** for selection</span>
-<span class="sd">        #. **selection**</span>
-<span class="sd">        #. *update population*</span>
-<span class="sd">        #. **vary** parents</span>
-<span class="sd">        #. *update population*</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nd">@override</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">population</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
-                 <span class="n">evaluator</span><span class="p">:</span> <span class="n">Evaluator</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
-                 <span class="n">selector</span><span class="p">:</span> <span class="n">Selector</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
-                 <span class="n">variator</span><span class="p">:</span> <span class="n">Variator</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">population</span> <span class="o">=</span> <span class="n">population</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">evaluator</span> <span class="o">=</span> <span class="n">evaluator</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">selector</span> <span class="o">=</span> <span class="n">selector</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">variator</span> <span class="o">=</span> <span class="n">variator</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">accountants</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Accountant</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="c1"># Each event name informs what action has taken place.</span>
-        <span class="c1">#   This should be easier to understand, compared to &quot;PRE_...&quot;.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;GENERATION_BEGIN&quot;</span><span class="p">,</span>
-                                  <span class="s2">&quot;POST_VARIATION&quot;</span><span class="p">,</span>
-                                  <span class="s2">&quot;POST_EVALUATION&quot;</span><span class="p">,</span>
-                                  <span class="s2">&quot;POST_SELECTION&quot;</span><span class="p">]</span>
-        <span class="c1"># &quot;&quot;&quot;</span>
-        <span class="c1"># Args:</span>
-        <span class="c1"># TODO These names are repeated in the class docstring.</span>
-        <span class="c1">#     population: initial population.</span>
-
-        <span class="c1">#     parent_evaluator: operator that evaluate the fitness of an individual.</span>
-
-        <span class="c1">#     parent_selector: operator that selects individuals for variation.</span>
-
-        <span class="c1">#     variator: operator that creates new individuals from existing ones.</span>
-
-        <span class="c1">#     survivor_evaluator: operator that selects to the next generation.</span>
-
-        <span class="c1">#     survivor_selector: operator that selects to the next generation.</span>
-        <span class="c1"># &quot;&quot;&quot;</span>
+    <span class="o">...</span>
 
     <span class="nd">@override</span>
     <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -219,8 +200,10 @@ Best individual is [1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 
         <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;POST_SELECTION&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<p>Declare an <code class="docutils literal notranslate"><span class="pre">Accountant</span></code>, register it with a <code class="docutils literal notranslate"><span class="pre">SimpleLinearController</span></code>, then collect the result. Calling <code class="docutils literal notranslate"><span class="pre">Accountant.publish</span></code> returns a collection of <code class="docutils literal notranslate"><span class="pre">AccountantRecord</span></code>s; each record includes (a) what event triggers the collection, (b) during which generation the event is fired, and (c) the data collected.</p>
+<p>Because the <code class="docutils literal notranslate"><span class="pre">Accountant</span></code> is registered after generation 10, it only begins to collect data in generation 11.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">evokit.core.accountant</span> <span class="kn">import</span> <span class="n">Accountant</span>
@@ -233,47 +216,6 @@ Best individual is [1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 
     <span class="n">ctrl</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">TypeError</span>                                 Traceback (most recent call last)
-Cell <span class="ansi-green-intense-fg ansi-bold">In[6], line 8</span>
-<span class="ansi-green-fg">      5</span> ctrl<span style="color: rgb(98,98,98)">.</span>register(acc1)
-<span class="ansi-green-fg">      7</span> <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> _ <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> <span style="color: rgb(0,135,0)">range</span>(NUMBER_STEPS):
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 8</span>     <span class="ansi-yellow-bg">ctrl</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">step</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
-
-File <span class="ansi-green-intense-fg ansi-bold">c:\Assets\Workspace\Git\ledger\research\evoframe\evokit\core\controller.py:51</span>, in <span class="ansi-cyan-fg">MetaController.__new__.&lt;locals&gt;.wrap_step.&lt;locals&gt;.wrapper</span><span class="ansi-blue-intense-fg ansi-bold">(*args, **kwargs)</span>
-<span class="ansi-green-fg">     49</span> <span style="color: rgb(0,135,0)">self</span> <span style="color: rgb(98,98,98)">=</span> args[<span style="color: rgb(98,98,98)">0</span>]
-<span class="ansi-green-fg">     50</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>generation <span style="color: rgb(98,98,98)">+</span><span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(98,98,98)">1</span>
-<span class="ansi-green-intense-fg ansi-bold">---&gt; 51</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg">custom_step</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg">args</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg">kwargs</span><span class="ansi-yellow-bg">)</span>
-
-File <span class="ansi-green-intense-fg ansi-bold">c:\Assets\Workspace\Git\ledger\research\evoframe\evokit\core\controller.py:197</span>, in <span class="ansi-cyan-fg">SimpleLinearController.step</span><span class="ansi-blue-intense-fg ansi-bold">(self)</span>
-<span class="ansi-green-fg">    193</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>update(<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">POST_VARIATION</span><span style="color: rgb(175,0,0)">&#34;</span>)
-<span class="ansi-green-fg">    196</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>evaluator<span style="color: rgb(98,98,98)">.</span>evaluate_population(<span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>population)
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 197</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">update</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">POST_EVALUATION</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">    199</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>population <span style="color: rgb(98,98,98)">=</span> \
-<span class="ansi-green-fg">    200</span>     <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>selector<span style="color: rgb(98,98,98)">.</span>select_to_population(<span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>population)
-<span class="ansi-green-fg">    201</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>update(<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">POST_SELECTION</span><span style="color: rgb(175,0,0)">&#34;</span>)
-
-File <span class="ansi-green-intense-fg ansi-bold">c:\Assets\Workspace\Git\ledger\research\evoframe\evokit\core\controller.py:139</span>, in <span class="ansi-cyan-fg">Controller.update</span><span class="ansi-blue-intense-fg ansi-bold">(self, event)</span>
-<span class="ansi-green-fg">    136</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">ValueError</span>(<span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">Controller fires unregistered event </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>event<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)">.</span><span style="color: rgb(175,0,0)">&#34;</span>
-<span class="ansi-green-fg">    137</span>                      <span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">Add </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>event<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)"> to the controller</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">s .events value</span><span style="color: rgb(175,0,0)">&#34;</span>)
-<span class="ansi-green-fg">    138</span> <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> acc <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>accountants:
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 139</span>     <span class="ansi-yellow-bg">acc</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">update</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">event</span><span class="ansi-yellow-bg">)</span>
-
-File <span class="ansi-green-intense-fg ansi-bold">c:\Assets\Workspace\Git\ledger\research\evoframe\evokit\core\accountant.py:102</span>, in <span class="ansi-cyan-fg">Accountant.update</span><span class="ansi-blue-intense-fg ansi-bold">(self, event)</span>
-<span class="ansi-green-fg">     98</span> <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> trigger, action <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>handlers<span style="color: rgb(98,98,98)">.</span>items():
-<span class="ansi-green-fg">     99</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> event <span style="color: rgb(98,98,98)">==</span> trigger:
-<span class="ansi-green-fg">    100</span>         <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>records<span style="color: rgb(98,98,98)">.</span>append(AccountantRecord(event,
-<span class="ansi-green-fg">    101</span>                                              <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>subject<span style="color: rgb(98,98,98)">.</span>generation,
-<span class="ansi-green-intense-fg ansi-bold">--&gt; 102</span>                                              <span class="ansi-yellow-bg">action</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">subject</span><span class="ansi-yellow-bg">)</span>))
-
-<span class="ansi-red-intense-fg ansi-bold">TypeError</span>: &#39;int&#39; object is not callable
-</pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
@@ -288,7 +230,7 @@ File <span class="ansi-green-intense-fg ansi-bold">c:\Assets\Workspace\Git\ledge
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[]
+[AccountantRecord(event=&#39;POST_EVALUATION&#39;, generation=11, value=10), AccountantRecord(event=&#39;POST_EVALUATION&#39;, generation=12, value=10), AccountantRecord(event=&#39;POST_EVALUATION&#39;, generation=13, value=10), AccountantRecord(event=&#39;POST_EVALUATION&#39;, generation=14, value=10), AccountantRecord(event=&#39;POST_EVALUATION&#39;, generation=15, value=10), AccountantRecord(event=&#39;POST_EVALUATION&#39;, generation=16, value=10), AccountantRecord(event=&#39;POST_EVALUATION&#39;, generation=17, value=10), AccountantRecord(event=&#39;POST_EVALUATION&#39;, generation=18, value=10), AccountantRecord(event=&#39;POST_EVALUATION&#39;, generation=19, value=10), AccountantRecord(event=&#39;POST_EVALUATION&#39;, generation=20, value=10)]
 </pre></div></div>
 </div>
 </section>
@@ -296,7 +238,10 @@ File <span class="ansi-green-intense-fg ansi-bold">c:\Assets\Workspace\Git\ledge
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Guides" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="controller.html" class="btn btn-neutral float-right" title="Creating a Custom Controller" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

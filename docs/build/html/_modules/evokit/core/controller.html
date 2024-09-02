@@ -45,8 +45,12 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../why.html">Why EvoKit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">evokit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Introduction</a></li>
 </ul>
 
         </div>
@@ -142,7 +146,7 @@
 
 <span class="sd">    Derive this class to create custom algorithms.</span>
 
-<span class="sd">    See :doc:`../guides/examples/controller`.</span>
+<span class="sd">    Tutorial: :doc:`../guides/examples/controller`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Controller.__new__">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.controller.Controller.__new__">[docs]</a>
@@ -150,7 +154,6 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Machinery.</span>
 
 <span class="sd">        Implement managed attributes.</span>
-
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Note that Sphinx does not collect these values.</span>
         <span class="c1">#   It is therefore necessary to repeat them in :meth:`__init__`.</span>
@@ -232,7 +235,7 @@
 <span class="sd">        If the event is not in :attr:`events`, raise an exception.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            event: the event to report.</span>
+<span class="sd">            event: The event to report.</span>
 
 <span class="sd">        Raise:</span>
 <span class="sd">            ValueError: if an reported event is not registered.</span>

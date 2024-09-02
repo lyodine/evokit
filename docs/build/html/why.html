@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en-uk" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Why EvoKit? &mdash; evokit  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/styles.css?v=dd041f00" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=92c5c9a7"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installing" href="install-and-built.html" />
+    <link rel="prev" title="EvoKit Documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            evokit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Why EvoKit?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#operators-are-interchangeable">Operators are Interchangeable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#completely-documented">Completely Documented</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#completely-typed">Completely Typed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#transparent">Transparent</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="install-and-built.html">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">evokit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">evokit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Why EvoKit?</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/why.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="why-evokit">
+<h1>Why EvoKit?<a class="headerlink" href="#why-evokit" title="Link to this heading"></a></h1>
+<section id="operators-are-interchangeable">
+<h2>Operators are Interchangeable<a class="headerlink" href="#operators-are-interchangeable" title="Link to this heading"></a></h2>
+<p>Operators of the same type are interchangeable. That is:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>All</strong> evaluators of the same representation are interchangeable.</p></li>
+<li><p><strong>All</strong> variators of the same representation are interchangeable.</p></li>
+<li><p><strong>All</strong> selectors are interchangeable.</p></li>
+<li><p><strong>All</strong> algorithms work with <strong>all</strong> combinations of operators, as long as the operators are compatible.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="completely-documented">
+<h2>Completely Documented<a class="headerlink" href="#completely-documented" title="Link to this heading"></a></h2>
+<p>Every single public member is documented at [<a class="reference internal" href="modules.html"><span class="doc">evokit</span></a>]. All private members are richly commented.</p>
+<p>All private members, except for well-known dunders, are also documented:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_get_arity</span><span class="p">(</span><span class="n">fun</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the arity of an object.</span>
+
+<span class="sd">    If the argument is callable, return the length of its signature.</span>
+<span class="sd">    Otherwise, return 0.</span>
+
+<span class="sd">    Does not work with built-in functions and other objects that do not</span>
+<span class="sd">    work with :meth:`.inspect.signature`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        fun: An object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="completely-typed">
+<h2>Completely Typed<a class="headerlink" href="#completely-typed" title="Link to this heading"></a></h2>
+<p>Every single method is type hinted; every return value is explained; every effect is mentioned.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">population</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
+                 <span class="n">evaluator</span><span class="p">:</span> <span class="n">Evaluator</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
+                 <span class="n">selector</span><span class="p">:</span> <span class="n">Selector</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
+                 <span class="n">variator</span><span class="p">:</span> <span class="n">Variator</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</pre></div>
+</div>
+</section>
+<section id="transparent">
+<h2>Transparent<a class="headerlink" href="#transparent" title="Link to this heading"></a></h2>
+<p>Core modules (<code class="xref py py-mod docutils literal notranslate"><span class="pre">core</span></code>) do not depend on external modules.</p>
+<p>All randomness come from <code class="xref py py-mod docutils literal notranslate"><span class="pre">random</span></code> and can be changed by setting <code class="xref py py-meth docutils literal notranslate"><span class="pre">random.seed()</span></code>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="EvoKit Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="install-and-built.html" class="btn btn-neutral float-right" title="Installing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Yiding Li.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

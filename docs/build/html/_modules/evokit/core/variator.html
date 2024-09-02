@@ -45,8 +45,12 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../why.html">Why EvoKit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">evokit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../guides/introduction.html">Introduction</a></li>
 </ul>
 
         </div>
@@ -128,7 +132,12 @@
 <span class="sd">        Produce a tuple of individuals from a tuple of individuals.</span>
 <span class="sd">        The input and output tuple sizes should match the arity and coarity of</span>
 <span class="sd">        this selector, respectively.</span>
-<span class="sd">        Implementation note: clear the score first.</span>
+<span class="sd">        </span>
+<span class="sd">        Note:</span>
+<span class="sd">            If the result could have a different</span>
+<span class="sd">            :attr:`fitness .Individual.reset_fitness`</span>
+<span class="sd">            than the original individual, call :meth:`.Individual.reset_fitness`</span>
+<span class="sd">            to clear its fitness.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
@@ -151,6 +160,13 @@
 <div class="viewcode-block" id="Variator.vary_population">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.variator.Variator.vary_population">[docs]</a>
     <span class="k">def</span> <span class="nf">vary_population</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">population</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">D</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Population</span><span class="p">[</span><span class="n">D</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Vary the population.</span>
+
+<span class="sd">        Separate ``population`` into groups of size `.arity`. For each group,</span>
+<span class="sd">        call `.vary` with that group as argument, then collect the result.</span>
+
+<span class="sd">        At the end, return a :class:`.Population` of collected results.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">next_population</span> <span class="o">=</span> <span class="n">Population</span><span class="p">[</span><span class="n">D</span><span class="p">]()</span>
         <span class="n">parent_groups</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">D</span><span class="p">]]</span> <span class="o">=</span>\
             <span class="bp">self</span><span class="o">.</span><span class="n">_group_to_parents</span><span class="p">(</span><span class="n">population</span><span class="p">)</span>
