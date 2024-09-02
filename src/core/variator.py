@@ -46,7 +46,7 @@ class Variator(ABC, Generic[T]):
         parent_groups: Sequence[Sequence[Individual[T]]]
         if self.arity is None:
             raise TypeError("Variator does not specify arity,"
-                             "cannot create parent groups")
+                            "cannot create parent groups")
         else:
             parent_groups = tuple(zip(*(iter(population),) * self.arity))
         return parent_groups
@@ -64,7 +64,7 @@ class Variator(ABC, Generic[T]):
 class DefaultVariator(Variator[T]):
     """Variator that does not change anything
     """
-    def __init__(self)-> None:
+    def __init__(self) -> None:
         super().__init__(1, 1)
 
     @override
