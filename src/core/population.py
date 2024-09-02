@@ -2,7 +2,9 @@
 #   The Java thing is a good practice. One might even say, best practice.
 
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from typing import Iterator
     from typing import Iterable
@@ -10,16 +12,10 @@ if TYPE_CHECKING:
     from typing import Optional
     from typing import Self
 
-from typing import Tuple
-
-from typing import Generic
-from typing import TypeVar
 import itertools
-
-from abc import ABC
-from abc import abstractmethod
-
+from abc import ABC, abstractmethod
 from math import inf
+from typing import Generic, Tuple, TypeVar
 
 R = TypeVar('R')
 
