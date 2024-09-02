@@ -4,18 +4,18 @@ evolvables package
 Submodules
 ----------
 
-evolvables.gp module
---------------------
+evolvables.binstring module
+---------------------------
 
-.. automodule:: evolvables.gp
+.. automodule:: evolvables.binstring
    :members:
    :undoc-members:
    :show-inheritance:
 
-evolvables.main module
-----------------------
+evolvables.gp module
+--------------------
 
-.. automodule:: evolvables.main
+.. automodule:: evolvables.gp
    :members:
    :undoc-members:
    :show-inheritance:

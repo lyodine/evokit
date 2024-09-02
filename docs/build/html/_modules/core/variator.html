@@ -107,7 +107,7 @@
 <div class="viewcode-block" id="Variator.vary">
 <a class="viewcode-back" href="../../core.html#core.variator.Variator.vary">[docs]</a>
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">vary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parents</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">vary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parents</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Individual</span><span class="p">[</span><span class="n">T</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Individual</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Appy the variator to a tuple of parents</span>
 
 <span class="sd">        Produce a tuple of individuals from a tuple of individuals.</span>
@@ -120,24 +120,24 @@
 
     <span class="k">def</span> <span class="nf">_group_to_parents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                           <span class="n">population</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">])</span>\
-            <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Individual</span><span class="p">[</span><span class="n">T</span><span class="p">]]:</span>
+            <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Individual</span><span class="p">[</span><span class="n">T</span><span class="p">]]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Machinery.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Tuple magic. Zipping an iterable with itself extracts a tuple of</span>
         <span class="c1">#   that size. The &quot;discarding&quot; behaviour is implemented this way.</span>
-        <span class="n">parent_groups</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+        <span class="n">parent_groups</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Individual</span><span class="p">[</span><span class="n">T</span><span class="p">]]]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">arity</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Variator does not specify arity,&quot;</span>
-                             <span class="s2">&quot;cannot create parent groups&quot;</span><span class="p">)</span>
+                            <span class="s2">&quot;cannot create parent groups&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">parent_groups</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">population</span><span class="p">),)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">arity</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">parent_groups</span>
 
 <div class="viewcode-block" id="Variator.vary_population">
 <a class="viewcode-back" href="../../core.html#core.variator.Variator.vary_population">[docs]</a>
-    <span class="k">def</span> <span class="nf">vary_population</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">population</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">vary_population</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">population</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
         <span class="n">next_population</span> <span class="o">=</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">]()</span>
-        <span class="n">parent_groups</span><span class="p">:</span> <span class="o">...</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_group_to_parents</span><span class="p">(</span><span class="n">population</span><span class="p">)</span>
+        <span class="n">parent_groups</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Individual</span><span class="p">[</span><span class="n">T</span><span class="p">]]]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_group_to_parents</span><span class="p">(</span><span class="n">population</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">parent_groups</span><span class="p">:</span>
             <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vary</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">individual</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
@@ -154,18 +154,15 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="DefaultVariator.__init__">
 <a class="viewcode-back" href="../../core.html#core.variator.DefaultVariator.__init__">[docs]</a>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="DefaultVariator.vary">
 <a class="viewcode-back" href="../../core.html#core.variator.DefaultVariator.vary">[docs]</a>
     <span class="nd">@override</span>
-    <span class="k">def</span> <span class="nf">vary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parents</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-        <span class="n">e</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">:</span>
-            <span class="n">e</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">vary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parents</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Individual</span><span class="p">[</span><span class="n">T</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Individual</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">parents</span><span class="p">)</span></div>
 </div>
 
 </pre></div>
