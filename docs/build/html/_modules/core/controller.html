@@ -140,7 +140,7 @@
 
 <span class="sd">    Derive this class to create custom algorithms.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">__</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Controller</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">__</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Machinery.</span>
 
 <span class="sd">        Implement managed attributes.</span>
@@ -169,7 +169,7 @@
         <span class="c1"># TODO The note is just not right - normally, the child should</span>
         <span class="c1">#   call the initialiser of the parent/</span>
 
-        <span class="c1">#: Generation counter, automatically increments when :py:attr:`step` is called.</span>
+        <span class="c1">#: Generation counter, automatically increments wit :py:attr:`step`.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">generation</span><span class="p">:</span> <span class="nb">int</span>
         <span class="c1">#: Registered :class:`Accountant` objects.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">accountants</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Accountant</span><span class="p">]</span>
