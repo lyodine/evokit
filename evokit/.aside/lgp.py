@@ -1,11 +1,11 @@
 # mypy: ignore-errors
 # flake8: noqa 
 
-from __future__ import annotations
+from __future__ import annotations\
 
 import numpy as np
 
-from typing import Annotated, Sequence
+from typing import Annotated, Sequence, Any
 
 # It's just so appropriate here.
 from abc import ABC
@@ -22,30 +22,84 @@ from dataclasses import dataclass
 from typing import override
 
 
-class Runner(ABC):
-    @abstractmethod
-    def __call__(self, lgp: LinearProgram, instructions: Sequence[Instruction]):
-        pass
+class StructureType(ABC):
+    """Type of a control structure
 
-class StructOverLines(ABC):
-    def __init__(self: Self, runner: Runner, line_count: int):
-        self.runner: Runner = runner
+    Apparently the "actual" control structure \
+    """
+    @abstractmethod
+    def __call__(self, lgp: LinearProgram, instructions: Sequence[Instruction])-> None:
+        """Invoke instructions in the context of a linear program.
+        """
+
+class StructureScope(ABC):
+    """Control structure.
+
+    To define a control structure, specify its type (as a :class:`StructureType`),
+    then initialise a :class:`StructureScope` with that type.
+    """
+    @abstractmethod
+    def __init__(self: Self,
+                 stype: StructureType,
+                 *args: Any,
+                 **kwargs: Any)-> None:
+        """
+        Args:
+            stype: Type of the control structure, such as :class:`If`
+                and :class:`While`.
+        """
+
+
+class StructOverLines(StructureScope):
+    """A control structure that spans multiple lines.
+    """
+    def __init__(self: Self, stype: StructureType, line_count: int)-> None:
+        """
+        Args:
+            stype: Type of the control structure.
+            line_count: Number of lines that this control structure spans.
+        """
+        self.stype: StructureType = stype
         self.line_count: int = line_count
 
-class StructUntilLabel(ABC):
-    def __init__(self: Self, runner: Runner, label: str):
-        self.runner: Runner = runner
+
+class StructUntilLabel(StructureScope):
+    """A control structure that extends to the given label.
+    """
+    def __init__(self: Self, stype: StructureType, label: str):
+        """
+        Args:
+            stype: Type of the control structure.
+            label: Text of label that terminates this control structure.
+        """
+        self.stype: StructureType = stype
         self.label: str = label
 
-class StructNextLine(ABC):
-    def __init__(self: Self, runner: Runner):
-        self.runner: Runner = runner
+class StructNextLine(StructureScope):
+    """Control structure that spans one line.
+    """
+    def __init__(self: Self, stype: StructureType):
+        """
+        Args:
+            stype: Type of the control structure.
+        """
+        self.stype: StructureType = stype
 
 class Label():
+    """Just a label. A label should be identified by its text.
+    """
     def __init__(self: Self, label: str):
+        """
+        Args:
+            label: Text of the label. 
+        """
         self.label = label
 
-class For(Runner):
+class For(StructureType):
+    """Simple \"for\" loop.
+    
+    A control structure with this type repeats :arg:`count` times.
+    """
     def __init__(self: Self, count: int):
         self.count = count
 
@@ -56,8 +110,17 @@ class For(Runner):
 
 WHILE_LOOP_CAP = 20
 
-class While(Runner):
-    def __init__(self: Self, conditional: Conditional):
+class While(StructureType):
+    """\"While\" loop.
+
+    A control structure with this type repeats until :arg:`conditional`
+    is satisfied.
+    """
+    def __init__(self: Self, conditional: Condition):
+        """
+        Arg:
+            conditional: Condition that, if satisfied, ends the structures.
+        """
         self.conditional = conditional
 
     @override
@@ -68,8 +131,13 @@ class While(Runner):
             else:
                 break
 
-class If(Runner):
-    def __init__(self: Self, conditional: Conditional):
+class If(StructureType):
+    """\"if\" conditional.
+
+    A control structure with this type executes only if :arg:`conditional`
+    is satisfied.
+    """
+    def __init__(self: Self, conditional: Condition):
         self.conditional = conditional
 
     @override
@@ -90,26 +158,37 @@ from typing import Callable
 
 @dataclass
 class Operation(Instruction):
+    """An algebraic operation.
+
+    Call :arg:`function` with :arg:`args` as arguments.
+    Assign the result to the register at position :arg:`target`.
+
+    The argument :arg:`args` can index constants and registers.
+    Registers start at index 0; constants are represented as negative
+    numbers starting at index -1.
+    """
     def __init__(self: Self,
                  function: Callable[..., float],
                  target: Annotated[int, ValueRange(0, float('inf'))],
                  args: Tuple[int, ...]):
-        
-        #: Function of the operation.
+        """
+        todo
+        """
         self.function: Callable[..., float] = function
-
-        #: Index of the target register.
         self.target: int = target
+        self.args: Tuple[int, ...] = args
         
+        # If true, then operands are all constants. Apparently a bad thing
+        #   according to the Banzhaf LGP book.
+        # If this is the case, raise an warning.
         has_no_register_operand: bool = True
+
         for reg in args:
             if reg >= 0:
                 has_no_register_operand = False
 
         if (has_no_register_operand):
             raise ValueError(f"Operand registers are all constants")
-        #: Indices of operand registers
-        self.args: Tuple[int, ...] = args
 
     def __str__(self: Self):
         args: str = ', '.join((f"r[{x}]" if x >= 0 else f"c[{-x-1}]" for x in self.args))
@@ -121,10 +200,20 @@ class Operation(Instruction):
     
     __repr__ = __str__
 
-class Conditional():
+class Condition():
+    """Abstract base class for predicates, or conditions.
+
+    Conditions are used by conditional control structures, such as
+    :class:`If` and :class:`While`.
+    """
     def __init__(self: Self,
                  function: Callable[..., bool],
                  args: Tuple[int, ...]):
+        """
+        Args:
+            function: todo
+            args: todo
+        """
         self.function = function
         self.args = args
 
@@ -233,17 +322,13 @@ class LinearProgram():
         
         num_of_steps: int = min([len(instructions) - current_pos, instruction.line_count])
 
-        print(f"pos is frs{current_pos}")
         
-        for _ in range(num_of_steps):
-            print(f"sasss frs{instructions[current_pos]}")
+        for _ in range(num_of_steps-1):
+            print(f"Collect command into structure: {instructions[current_pos]}")
             collected_lines.append(instructions[current_pos])
             current_pos += 1
 
-        print(f"pos is {current_pos}")
-        print(f"collected {collected_lines}")
-
-        instruction.runner(self, collected_lines)
+        instruction.stype(self, collected_lines)
 
         return num_of_steps
 
@@ -259,7 +344,7 @@ class LinearProgram():
         for _ in range(num_of_steps):
             collected_lines.append(instructions[current_pos])
             current_pos += 1
-        instruction.runner(self, collected_lines)
+        instruction.stype(self, collected_lines)
         
 
         return num_of_steps
@@ -284,13 +369,13 @@ class LinearProgram():
                 current_pos += 1
 
 
-        instruction.runner(self, collected_lines)
+        instruction.stype(self, collected_lines)
 
         return len(instructions)
         
     def __str__(self: Self):
         return (f"Linear program. Current output values: {self.get_output_values()}\n") +\
-                f"Constants c = {str(self.constants)}" +\
+                f"Constants c = {str(self.constants)},\n" +\
                 f"Registers r = {str(self.registers)}"
 
     __repr__ = __str__
@@ -304,6 +389,8 @@ A = LinearProgram(coarity = 3,
                   constants = (5,6,7),
                   initialiser = random.random)
 
+initial_registers = list(A.registers.copy())
+
 def add(a,b):
     return a + b
 
@@ -313,15 +400,31 @@ def sub(a,b):
 def less(a,b):
     return a + b
 
+
 oprs = [Operation(add, 1, (2, 3)),
         Operation(sub, 0, (1, 2)),
         Operation(add, 2, (-2, 2)),
-        StructOverLines(If(Conditional(less, (1, 2))), 2),
+        StructOverLines(If(Condition(less, (1, 2))), 2),
         Operation(add, 2, (-2, 2)),
         Operation(add, 2, (-3, 1)),
         ]
 
+print("\n===== Running LGP in Context =====")
 A.run(oprs)
+print("\n===== End State of LGP =====")
 print(str(A))
 
+r = initial_registers
+c = [5., 6., 7., 1., 2., 3.]
+r[1] = add(r[2], r[3])
+r[0] = sub(r[1], r[2])
+r[2] = add(c[1], r[2])
+if (1<2):
+    r[2] = add(c[1], r[2])
+    r[2] = add(c[2], r[1])
+
+
+print("\n===== End State of Benchmark for Comparison =====")
+print(f"Test: benchmark registers: {r},")
+print(f"Benchmark constants: {c}")
 
