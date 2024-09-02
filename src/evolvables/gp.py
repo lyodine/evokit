@@ -22,7 +22,7 @@ from typing import Generic
 
 import gymnasium as gym
 
-from core import (Controller, Elitist, Evaluator, Genome, Population,
+from core import (Controller, Elitist, Evaluator, Individual, Population,
                   SimpleSelector, Variator)
 
 T = typing.TypeVar("T")
@@ -226,7 +226,7 @@ class ProgramArityMismatchError(Exception):
     def __init__(self, expected:Optional[int], given: Optional[int]):
         super().__init__(f"The program is expecting {expected} arguments, only {given} are given.")
         
-class Program(Genome[T]):
+class Program(Individual[T]):
     """
     
     """
