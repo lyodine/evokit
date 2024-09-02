@@ -19,7 +19,8 @@ class AccountantRecord(NamedTuple):
     in which it is collected.
     """
     # TODO Sphinx somehow collects `__new__`, which should not be documented.
-    # Spent 1 hour on this to no avail, will leave it be for the interest of time.
+    # Spent 1 hour on this to no avail, will leave it be for the interest
+    #   of time.
 
     #: Event that triggers the handler.
     event: str
@@ -54,8 +55,9 @@ class Accountant:
 
         """
         self.records: List[AccountantRecord] = []
-        # TODO I will skip on commenting it - the handler should not be directly accessed
-        #   though ... should I make it possible to change the handlers once they are declared?
+        # TODO I will skip on commenting it - the handler should not be
+        #   directly accessed though ... should I make it possible to
+        #   change the handlers once they are declared?
         # Meditating on how to do it.
         self.handlers: Dict[str, Callable[[Controller], Any]] = handlers
 
