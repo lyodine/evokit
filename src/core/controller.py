@@ -64,7 +64,7 @@ class Controller(ABC, metaclass=MetaController):
 
     Derive this class to create custom algorithms.
     """
-    def __new__(cls, *_: Any, **__: Any) -> Controller:
+    def __new__(cls, *_: Any, **__: Any) -> Self:
         """Machinery.
 
         Implement managed attributes.
