@@ -7,34 +7,46 @@ if TYPE_CHECKING:
     from typing import Iterator
     from typing import Self
 
-from .population import Population
+from types import MethodType
+
 from abc import ABC
 from abc import abstractmethod
 from typing import Generic
 from typing import TypeVar
-
+from .population import Population
 from .population import Genome
 from .population import GenomePool
 
 T = TypeVar("T", bound=Genome)
 
 class Selector(ABC, Generic[T]):
-    """!An abstract selector
+    """Base class for all selectors.
+
+    Derive this class to create custom selectors.
     """
 
     def __init__(self: Self, budget: int):
-        """!Initialise the selector
-            @param budget: Expected number of genomes in the output.
+        """
+        Args:
+            budget: Number of genomes in the output.
         """
         self.budget = budget
 
     def select_to_pool(self,
                        population: Population[T],
                        coarity: int) -> GenomePool[T]:
-        """!Select from population to a pool of parents
-            @note If the population cannot exactly fill tuples of a given size, discard the left-over genomes.
-            @postcondition: the returned population is descored
-            TODO Not so sure about that - I cannot find the code that descores the population.
+        """As a parent selector, select from a population to a parent pool.
+
+        Args:
+            population: population to select from.
+            coarity: size of each parent tuple in the output.
+
+        Notes:
+            If the population cannot exactly fill tuples of a given size, discard the left-over genomes.
+
+        Todo:
+            the returned population is descored?
+            Not so sure about that - I cannot find the code that descores the population.
         """
         selected = self.select_to_many(population)
 
@@ -48,89 +60,106 @@ class Selector(ABC, Generic[T]):
         return pool
 
     def select_to_population(self,
-                             population: Population[T],
-                             budget: Optional[int] = None) -> Population[T]:
-        """!Select to a Population
-            Select to a Population instance. This might happen, for example,
-                while the selector is acting as a survivor selector.
-            @postcondition: the returned population is descored
+                             population: Population[T]) -> Population[T]:
+        """As an offspring selector, select from a population to a population.
+
+        Args:
+            population: population to select from.
         """
-        selected = self.select_to_many(population, budget)
+        selected = self.select_to_many(population)
         new_population = Population[T]()
         for x in selected:
             new_population.append(x)
         return new_population
 
     def select_to_many(self, population: Population[T]) -> Tuple[T, ...]:
-        """!Many-to-many selection strategy.
-            Repeatedly apply select() to create a collection of solutions
-            @param population: the input population
-            @param evaluator: the evaluator that selects from the input population
-            @param budget: the size of the returned collection.
+        """Context for the selection strategy.
+
+        Repeatedly apply select() to create a collection of solutions.
+        A subclass may override this method to implement behaviours that
+            require access to the entire selection process.
+
+        Args:
+            population: population to select from.
         """
 
-        old_population: Population[T] = population
         return_list: List[T] = []
+        old_population: Population[T] = population
 
-        # ----- Budget -----
-        # If a budget is not given, use my default budget
-        budget = self.budget
-        # The budget cannot exceed the population size
-        budget = min(budget, len(old_population))
+        # Determine the appropriate budget.
+        # The budget cannot exceed the population size. Take the minimum of two
+        #   values: (a) `self.budget` and (b) `len(population)`.
+        budget_cap = min(self.budget, len(old_population))
 
-        # Keep selecting until the budget runs out.
-        # The final selection might exceed the buedget. The selector must take care to not
-        # cause weird stuff to happen.
+        # Iteratively apply the selection strategy, as long as
+        #   `budget_used` does not exceed `budget_cap`.
         budget_used: int = 0
-        while budget_used < budget:
+        while budget_used < budget_cap:
             selected_results = self.select(old_population)
-            # Remove results from the population
-            # TODO This is an abuse of `draw`.
-            [population.draw(x) for x in selected_results]
+            for x in selected_results: population.draw(x)
             return_list.append(*selected_results)
             budget_used = budget_used + len(selected_results)
         return tuple(return_list)
 
     @abstractmethod
     def select(self,
-               parents: Population[T]) -> Tuple[T, ...]:
-        """!Many-to-one selection strategy
-            Select, possibly stochastically, a solution from the population
-            @param parents: the input population
-            @sideeffect Each call takes one member from the input population
+               population: Population[T]) -> Tuple[T, ...]:
+        """Selection strategy of the selector.
+
+        All subclasses should override this method. The implementation should
+            return a tuple of genomes. Each item in the tuple should also
+            be a member of `population`.
+
+        Args:
+            population: population to select from.
         """
         pass
 
 class NullSelector(Selector[T]):
-    def __init__(self: Self, budget: int):
-        super().__init__(budget)
+    """Selector that does nothing.
 
-    def select_to_many(self, population: Population[T], budget: Optional[int] = None) -> Tuple[T, ...]:
+    """
+    def select_to_many(self, population: Population[T]) -> Tuple[T, ...]:
+        """Select every item in the population.
+        """
         return tuple(x for x in population)
 
 class SimpleSelector(Selector[T]):
+    """Simple selector that select the highest-fitness individual.
+
+    Example for overriding `select`.
+    """
     def __init__(self: Self, budget: int):
         super().__init__(budget)
 
     def select(self,
                population: Population[T])-> Tuple[T]:
-        """!A one-to-one selection strategy.
-            Select the solution with highest fitness.
+        """Greedy selection.
+
+        Select the item in the population with highest fitness.
         """
         population.sort(lambda x : x.score)
         selected_solution = population[0]
         return (selected_solution,)
 
 class ElitistSimpleSelector(SimpleSelector[T]):
+    """Elitist selector that select the highest-fitness individual.
+
+    Example for overriding `select_to_many`. Just overriding `select`
+        is not enough, because elitism requires the highest-fitness
+        individual of a _population_.
+    """
     def __init__(self: Self, budget: int):
         super().__init__(budget-1)
         self.best_genome: Optional[T] = None
 
-    def select_to_many(self, population: Population[T], budget: Optional[int] = None) -> Tuple[T, ...]:
-        """!A many-to-many selection strategy.
-            Preserve and update an elite, insert the elite to the resulted population.
+    def select_to_many(self, population: Population[T]) -> Tuple[T, ...]:
+        """Context that implements elitism.
+
+        Preserve and update an elite. Each time the selector is used, insert
+            the current elite to the results.
         """
-        results: Tuple[T, ...] = super().select_to_many(population, budget)
+        results: Tuple[T, ...] = super().select_to_many(population)
         best_genome: Optional[T] = self.best_genome
         if best_genome is None:
             best_genome = results[0]
@@ -143,6 +172,8 @@ class ElitistSimpleSelector(SimpleSelector[T]):
 
 import random
 class TournamentSelector(Selector[T]):
+    """Tournament selector.
+    """
     def __init__(self: Self, budget: int, bracket_size:int = 2, probability:float = 1):
         super().__init__(budget)
         self.bracket_size: int = bracket_size
@@ -150,8 +181,9 @@ class TournamentSelector(Selector[T]):
 
     def select(self,
                population: Population[T])-> Tuple[T]:
-        """!A one-to-one selection strategy.
-            Select a uniform sample, then select the best member
+        """Tournament selection.
+        
+        Select a uniform sample, then select the best member in that sample.
         """
         # Do not select if
         #   (a) the sample is less than bracket_size, or
@@ -175,15 +207,23 @@ class TournamentSelector(Selector[T]):
 
         return (selected_solution,)
 
-import types
+def Elitist(sel: Selector[T])-> Selector: #type:ignore
+    """Decorator that adds elitism to a selector.
 
-def Elitist(sel: Selector[T])-> Selector:
-    # TODO This is an adapter.
-    # Please don't
+    Modify `select_to_many` of `sel` to use elitism. If `sel` already
+        overrides `select_to_many`, that implementation is destroyed.
+
+    Args:
+        sel: A selector
+
+    Return:
+        A selector
+    """
     def select_to_many(self, population: Population[T], budget: Optional[int] = None) -> Tuple[T, ...]:
+        """Context that implements elitism.
+        """
         # Python magic. Since super() cannot be used in this context,
         #   directly call select_to_many in the parent.
-
         results: Tuple[T, ...] = self.__class__.__mro__[1].select_to_many(self, population)
         best_genome: Optional[T] = self.best_genome
         if best_genome is None:
@@ -191,12 +231,13 @@ def Elitist(sel: Selector[T])-> Selector:
         for x in results:
             if x.score > best_genome.score:
                 best_genome = x
-
-
-
         self.best_genome = best_genome
         return (*results, self.best_genome)
 
+    # Some say monkey patching is evil.
+    # For others, _there is no good and evil, there is only power and those too weak to seek it.
+    #       --  J.K. Rowling, Harry Potter and the Sorcerer's Stone_
+    # This bad boy fails so many type checks.
     setattr(sel, 'best_genome', None)
-    setattr(sel, 'select_to_many', types.MethodType(select_to_many, sel))
+    setattr(sel, 'select_to_many', MethodType(select_to_many, sel))
     return sel
