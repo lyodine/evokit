@@ -15,10 +15,10 @@ from typing import Generic, TypeVar
 from .population import Individual, Population
 from typing import override
 
-T = TypeVar("T", bound=Individual)
+D = TypeVar("D", bound=Individual)
 
 
-class Variator(ABC, Generic[T]):
+class Variator(ABC, Generic[D]):
     def __init__(self: Self,
                  arity: int,
                  coarity: Optional[int] = None) -> None:
@@ -26,7 +26,7 @@ class Variator(ABC, Generic[T]):
         self.coarity: Optional[int] = coarity
 
     @abstractmethod
-    def vary(self, parents: Sequence[Individual[T]]) -> Tuple[Individual[T], ...]:
+    def vary(self, parents: Sequence[D]) -> Tuple[D, ...]:
         """Appy the variator to a tuple of parents
 
         Produce a tuple of individuals from a tuple of individuals.
@@ -37,13 +37,13 @@ class Variator(ABC, Generic[T]):
         pass
 
     def _group_to_parents(self,
-                          population: Population[T])\
-            -> Sequence[Sequence[Individual[T]]]:
+                          population: Population[D])\
+            -> Sequence[Sequence[D]]:
         """Machinery.
         """
         # Tuple magic. Zipping an iterable with itself extracts a tuple of
         #   that size. The "discarding" behaviour is implemented this way.
-        parent_groups: Sequence[Sequence[Individual[T]]]
+        parent_groups: Sequence[Sequence[D]]
         if self.arity is None:
             raise TypeError("Variator does not specify arity,"
                             "cannot create parent groups")
@@ -51,9 +51,9 @@ class Variator(ABC, Generic[T]):
             parent_groups = tuple(zip(*(iter(population),) * self.arity))
         return parent_groups
 
-    def vary_population(self: Self, population: Population[T]) -> Population[T]:
-        next_population = Population[T]()
-        parent_groups: Sequence[Sequence[Individual[T]]] =\
+    def vary_population(self: Self, population: Population[D]) -> Population[D]:
+        next_population = Population[D]()
+        parent_groups: Sequence[Sequence[D]] =\
             self._group_to_parents(population)
         for group in parent_groups:
             results = self.vary(group)
@@ -62,12 +62,12 @@ class Variator(ABC, Generic[T]):
         return next_population
 
 
-class DefaultVariator(Variator[T]):
+class DefaultVariator(Variator[D]):
     """Variator that does not change anything
     """
     def __init__(self) -> None:
         super().__init__(1, 1)
 
     @override
-    def vary(self, parents: Sequence[Individual[T]]) -> Tuple[Individual[T], ...]:
+    def vary(self, parents: Sequence[D]) -> Tuple[D, ...]:
         return tuple(parents)
