@@ -80,7 +80,7 @@ class Controller(Generic[T]):
         self.evaluator.evaluate_population(offspring)
 
         # Select from the offspring
-        survivors = self.survivor_selector.select_to_population(children)
+        survivors = self.survivor_selector.select_to_population(offspring)
 
         # The survivor become the next population.
         self.population = survivors
