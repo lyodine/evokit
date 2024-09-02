@@ -26,12 +26,19 @@ class Controller(Generic[T]):
             variator: Variator[T],
             offspring_selector: Selector[T],
     ) -> None:
-        """!Initialize an evolution controller with a set of configurable components.
-            @param population: the initial population
-            @param evaluator: The evaluator acts on an individual to determine its fitness.
-            @param parent_selector: The parent selector applies to the population before variation. The range of the parent selector must match the domain of the variator.
-            @param variator: The variator receives a collection of elements and outputs a list of genomes. These genomes are deposited into the population.
-            @param offspring_selector: The parent selector that is applied before variation.
+        """Initialize an evolution controller with a set of configurable components.
+
+        Extended description
+
+        Args:
+            population: the initial population
+            evaluator: The evaluator acts on an individual to determine its fitness.
+            parent_selector: The parent selector applies to the population before variation. The range of the parent selector must match the domain of the variator.
+            variator: The variator receives a collection of elements and outputs a list of genomes. These genomes are deposited into the population.
+            offspring_selector: The parent selector that is applied before variation.
+
+        Returns:
+            Nothing
         """
         self.population = population
         self.evaluator = evaluator
