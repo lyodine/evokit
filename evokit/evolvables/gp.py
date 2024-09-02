@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from typing import Any
     from typing import Self
     from typing import Callable
-    from typing import Iterator
+    from typing import Iterable
     from typing import Sequence
     from typing import Type
 from typing import TypeVar
@@ -63,8 +63,8 @@ def _get_arity(fun: Any) -> int:
         return 0
 
 class Expression(abc.ABC, Generic[T]):
-    def __init__(self: Self)-> None:
-        self.arity: int
+    def __init__(self: Self, arity: int)-> None:
+        self.arity: int = arity
         self.children: List[Expression[T]]
 
     @abstractmethod
@@ -82,24 +82,38 @@ class Expression(abc.ABC, Generic[T]):
     @abstractmethod
     def __repr__(self: Self) -> str: ...
 
+    def kwargs_to_args(self, *args: T, **kwargs: T) -> Tuple[T, ...]:
+        global _EXPR_PARAM_PREFIX
+        kwargs_names: List[str] = [_EXPR_PARAM_PREFIX + str(i)
+                                   for i in range(self.arity)]
+        kwargs_from_args = dict(zip(kwargs_names, args))
+        kwargs_from_args.update(kwargs)
+        return tuple(kwargs_from_args.values())
+
 
 class ExpressionSymbol(Expression[T]):
-    def __init__(self: Self, pos: int) -> None:
+    def __init__(self: Self, arity: int, pos: int) -> None:
+        super().__init__(arity)
         global _EXPR_PARAM_PREFIX
         self.pos: int = pos
         self.__name__: str = _EXPR_PARAM_PREFIX + str(self.pos)
 
         #! Children of the expression node
-        self.arity = 0
         self.children: List[Expression[T]] = []
 
     @override
-    def __call__(self: Self, *params: T) -> T:
-        return params[self.pos]
+    def __call__(self: Self, *args: T) -> T:
+        self_arity: int = self.arity
+        params_arity: int = len(args)
+        if (self_arity != params_arity):
+            raise ValueError(f"The expression expects "
+                             f"{self_arity} parameters, "
+                             f"{params_arity} given.")
+        return args[self.pos]
 
     @override
     def copy(self: Self) -> Self:
-        return self.__class__(self.pos)
+        return self.__class__(self.pos, self.arity)
 
     @override
     def nodes(self) -> Tuple[Expression[T], ...]:
@@ -121,13 +135,19 @@ class ExpressionBranch(Expression[T]):
     and its children forms a expression tree.
     """
     def __init__(self: Self,
-                 value: T | Callable[..., T]):
+                 arity: int,
+                 value: T | Callable[..., T],
+                 children: Optional[List[Expression[T]]] = None):
+        super().__init__(arity)
         #! Value of the expression node.
         self.value: T | typing.Callable[..., T] = value
         #! Children of the expression node
-        self.children: List[Expression[T]] = []
+        self.children: List[Expression[T]]
+        
+        if children is not None:
+            self.children = children
         #! Arity of the expression as a ``Callable``
-        self.arity = _get_arity(self.value)
+        # self.arity = _get_arity(self.value)
         
 
     def set_children(self, *children: Expression[T]) -> None:
@@ -136,29 +156,35 @@ class ExpressionBranch(Expression[T]):
 
         if (value_arity != children_arity):
             raise ValueError(f"When constructing the branch node, the value expects"
-                             f"{value_arity} arguments, while the node has"
-                             f"{value_arity} children.")
+                             f"{value_arity} arguments, "
+                             f"{value_arity} children defined.")
 
         self.children = list(children)
 
-    def __call__(self: Self, *params: T) -> T:
+    def __call__(self: Self, *args: T) -> T:
         """Evaluate the expression tree.
 
         Recursively evaluate expression nodes in :attr:`children`. Then,
         apply :attr:`value` to the results, in the same order as the
         :attr:`children` they are resolved from.
         """
+        self_arity: int = self.arity
+        params_arity: int = len(args)
+        if (self_arity != params_arity):
+            raise ValueError(f"The expression expects"
+                             f"{self_arity} parameters, "
+                             f"{params_arity} given.")
 
-        value_arity = _get_arity(self.value)
-        children_arity = len(self.children)
+        value_arity: int = _get_arity(self.value)
+        children_arity: int = len(self.children)
 
         if (value_arity != children_arity):
             raise ValueError(f"The node may be improperly configured. The value expects"
-                             f"{value_arity} arguments, while"
+                             f"{value_arity} arguments, while "
                              f"{value_arity} children are given.")
 
         # Evaluate children, pack results into a generator
-        results = (x(*params) for x in self.children)
+        results = (x(*args) for x in self.children)
 
         if callable(self.value):
             return self.value(*results)
@@ -179,9 +205,9 @@ class ExpressionBranch(Expression[T]):
         else:
             new_value = self.value
 
-        new_children: Iterator[Expression[T]] = (x.copy() for x in self.children)
+        new_children: List[Expression[T]] = [x.copy() for x in self.children]
 
-        return self.__class__(new_value, *new_children)
+        return self.__class__(self.arity, new_value, new_children)
 
     def nodes(self) -> Tuple[Expression[T], ...]:
         """
@@ -295,9 +321,10 @@ class ExpressionFactory(Generic[T]):
         else:
             new_node = self.draw_node(nullary_ratio)
             if isinstance(new_node, ExpressionBranch):
+                inferred_value_arity: int = _get_arity(new_node.value)
                 new_node.set_children(
                     *(self._build_recurse(layer_budget,nullary_ratio)
-                      for _ in range(new_node.arity)))
+                      for _ in range(inferred_value_arity)))
             
             return new_node
                 
@@ -305,14 +332,14 @@ class ExpressionFactory(Generic[T]):
     def draw_node(self,
                   nullary_ratio: Optional[float] = None,
                   free_draw: bool = False) -> Expression[T]:
-        
+        """
+        """
         target_primitive = self.draw_primitive(nullary_ratio, free_draw)
-        primitive_arity = _get_arity(target_primitive)
 
         if isinstance(target_primitive, Symbol):
-            return ExpressionSymbol(target_primitive.pos)
+            return ExpressionSymbol(self.arity, target_primitive.pos)
         else:
-            return ExpressionBranch(target_primitive)
+            return ExpressionBranch(self.arity, target_primitive)
 
     def draw_primitive(self,
                        nullary_ratio: Optional[float] = None,
@@ -339,19 +366,21 @@ class ExpressionFactory(Generic[T]):
 
         return random.choice(value_pool)
 
-NODE_BUDGET = 10
-LAYER_BUDGET = 2
 
-from .funcs import *
+a = ExpressionSymbol(4, 0)
+
+print(a(1,2,3,4))
+# NODE_BUDGET = 10
+# LAYER_BUDGET = 2
+
+# from .funcs import *
 
 
+# a = ExpressionFactory((add, sub, mul, div, sin, cos), 5)
 
-
-a = ExpressionFactory((add, sub, mul, div, sin, cos), 5)
-
-expr = a.build(NODE_BUDGET, LAYER_BUDGET)
-print(expr)
-print(expr(1,2,3,4,5))
+# expr = a.build(NODE_BUDGET, LAYER_BUDGET)
+# print(expr)
+# print(expr())
 
 
 # class ProgramFactory(Generic[T]):
