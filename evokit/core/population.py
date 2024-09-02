@@ -13,19 +13,47 @@ if TYPE_CHECKING:
     from typing import Type
     from typing import Any
     from typing import Union
+    from typing import Tuple
+    from typing import Type
+    from typing import Dict
+from functools import wraps
 
 from typing import overload
 from typing import Iterable
 from typing import Sequence
 
 import itertools
-from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod, ABCMeta
 from typing import Generic, TypeVar
 
 R = TypeVar('R')
 
 
-class Individual(ABC, Generic[R]):
+class MetaGenome(ABCMeta):
+    """Machinery. Implement special behaviours in :class:`Individual`.
+
+    :meta private:
+    """
+    def __new__(mcls: Type, name: str, bases: Tuple[type],
+                namespace: Dict[str, Any]) -> Any: # BAD
+        ABCMeta.__init__(mcls, name, bases, namespace)
+        def wrap_function(custom_copy: Callable[[Individual], Individual]) -> Callable:
+            @wraps(custom_copy)
+            def wrapper(self: Individual,
+                        *args: Any, **kwargs: Any) -> Individual:
+                old_fitness = self.fitness
+                custom_copy_result: Individual = custom_copy(self, *args, **kwargs)
+                custom_copy_result.fitness = old_fitness
+
+                return custom_copy_result
+            return wrapper
+
+        namespace["copy"] = wrap_function(
+            namespace.setdefault("copy", lambda: None)
+        )
+        return type.__new__(mcls, name, bases, namespace)
+    
+class Individual(ABC, Generic[R], metaclass=MetaGenome):
     """Base class for all individuals.
 
     Derive this class to create custom representations.

@@ -3,6 +3,8 @@ from __future__ import annotations
 from abc import ABC, ABCMeta, abstractmethod
 from typing import TYPE_CHECKING, Generic, TypeVar
 from functools import wraps
+from typing import override
+from typing import Any
 
 from .population import Individual
 
@@ -35,7 +37,7 @@ class MetaEvaluator(ABCMeta):
             def wrapper(self: Evaluator, individual: Individual,
                         *args: Any, **kwargs: Any) -> float:
                 if not isinstance(individual, Individual):
-                    raise TypeError("Evaluator is not an individual")
+                    raise TypeError("The input is not an individual")
                 # If :attr:`retain_fitness` and the individual is scored, then
                 #   return that score. Otherwise, evaluate the individual.
                 if (self.retain_fitness and individual.has_fitness()):
@@ -105,3 +107,8 @@ class Evaluator(ABC, Generic[D], metaclass=MetaEvaluator):
         for x in pop:
             x.fitness = self.evaluate(x)
         pop.sort()
+
+class NullEvaluator(Evaluator[Any]):
+    @override
+    def evaluate(self: Self, _: Any) -> float:
+        return 0
