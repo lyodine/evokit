@@ -19,7 +19,8 @@ sys.path.append(os.path.abspath(os.path.join('..', '..')))
 
 
 
-extensions = ['sphinx.ext.todo',
+extensions = ['nbsphinx',
+              'sphinx.ext.todo',
               'sphinx.ext.viewcode',
               'sphinx.ext.autodoc',
               'sphinx.ext.napoleon',
