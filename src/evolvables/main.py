@@ -2,7 +2,7 @@ import random
 import typing
 from typing import Optional, Tuple, TypeVar
 
-from core.controller import Controller
+from core.controller import LinearController
 from core.evaluator import Evaluator
 from core.population import Individual, Population
 from core.selector import Elitist, SimpleSelector, TournamentSelector
@@ -99,7 +99,7 @@ pselector = Elitist(SimpleSelector[Binary](10))
 cselector = Elitist(SimpleSelector[Binary](10))
 variator = RandomBitMutator()
 
-ctrl = Controller[Binary] (
+ctrl = LinearController[Binary] (
     population = init_pop,
     evaluator = evaluator,
     variator = variator,
@@ -111,7 +111,15 @@ dicts : typing.Dict[int, Optional[float]]= {}
 
 from core.accountant import Accountant
 
-acc = Accountant({"GENERATION_BEGIN": lambda x : len(x.population)})
+
+# Ignore type checking. Because `Accountant` is defined for the
+#       `Controller` class, which does not necessarily have one
+#       `population`, type checkers report error on this line.\
+# Because an LinearController is registered with this `Accountant`,
+#       we can be _somewhat_ sure that the accountant's suject has
+#       a `.population`.
+#       
+acc = Accountant({"GENERATION_BEGIN": lambda x : len(x.population)}) # type:ignore
 
 ctrl.attach(acc)
 
