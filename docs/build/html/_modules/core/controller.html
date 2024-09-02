@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html lang="en-uk" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>core.controller &#8212; Evoframe  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css?v=def86cc0" />
+    
+    <script src="../../_static/documentation_options.js?v=92c5c9a7"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Evoframe  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">core.controller</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for core.controller</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; The controller is an iterative optimizer that receives various evolutionary operators.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Self</span>
+    <span class="kn">from</span> <span class="nn">.population</span> <span class="kn">import</span> <span class="n">GenomePool</span>
+    <span class="kn">from</span> <span class="nn">.evaluator</span> <span class="kn">import</span> <span class="n">Evaluator</span>
+    <span class="kn">from</span> <span class="nn">.variator</span> <span class="kn">import</span> <span class="n">Variator</span>
+    <span class="kn">from</span> <span class="nn">.selector</span> <span class="kn">import</span> <span class="n">Selector</span>
+    <span class="kn">from</span> <span class="nn">.population</span> <span class="kn">import</span> <span class="n">Population</span>
+    <span class="kn">from</span> <span class="nn">.accountant</span> <span class="kn">import</span> <span class="n">Accountant</span>
+
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">auto</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Flag</span>
+
+<span class="kn">from</span> <span class="nn">.population</span> <span class="kn">import</span> <span class="n">Genome</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generic</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">bound</span> <span class="o">=</span> <span class="n">Genome</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ControllerEvent">
+<a class="viewcode-back" href="../../core.html#core.controller.ControllerEvent">[docs]</a>
+<span class="k">class</span> <span class="nc">ControllerEvent</span><span class="p">(</span><span class="n">Flag</span><span class="p">):</span>
+    <span class="n">INITIALISATION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">GENERATION_BEGIN</span> <span class="o">=</span> <span class="n">PRE_PARENT_EVALUATION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">PRE_PARENT_SELECTION</span> <span class="o">=</span> <span class="n">POST_PARENT_EVALUATION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">PRE_VARIATION</span> <span class="o">=</span> <span class="n">POST_PARENT_SELECTION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">PRE_SURVIVOR_EVALUATION</span> <span class="o">=</span> <span class="n">POST_VARIATION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">PRE_SURVIVOR_SELECTION</span> <span class="o">=</span> <span class="n">POST_SURVIVOR_EVALUATION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">GENERATION_END</span> <span class="o">=</span> <span class="n">POST_SURVIVOR_SELECTION</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Controller">
+<a class="viewcode-back" href="../../core.html#core.controller.Controller">[docs]</a>
+<span class="k">class</span> <span class="nc">Controller</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Controller that manages the learning process.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+            <span class="n">population</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
+            <span class="n">evaluator</span><span class="p">:</span> <span class="n">Evaluator</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
+            <span class="n">parent_selector</span><span class="p">:</span> <span class="n">Selector</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
+            <span class="n">variator</span><span class="p">:</span> <span class="n">Variator</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
+            <span class="n">offspring_selector</span><span class="p">:</span> <span class="n">Selector</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            population: The initial population</span>
+<span class="sd">            evaluator: The evaluator acts on an individual to determine its fitness.</span>
+<span class="sd">            parent_selector: The parent selector applies to the population before variation. The range of the parent selector must match the domain of the variator.</span>
+<span class="sd">            variator: The variator receives a collection of elements and outputs a list of genomes. These genomes are deposited into the population.</span>
+<span class="sd">            offspring_selector: The parent selector that is applied before variation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">population</span> <span class="o">=</span> <span class="n">population</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">evaluator</span> <span class="o">=</span> <span class="n">evaluator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent_selector</span> <span class="o">=</span> <span class="n">parent_selector</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variator</span> <span class="o">=</span> <span class="n">variator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offspring_selector</span> <span class="o">=</span> <span class="n">offspring_selector</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generation</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">accountants</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="Controller.step">
+<a class="viewcode-back" href="../../core.html#core.controller.Controller.step">[docs]</a>
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Advance the population by one generation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Increment the generation count</span>
+        <span class="c1"># The generation count begins at 0. Before the first generation,</span>
+        <span class="c1">#   increment the count to 1.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generation</span> <span class="o">+</span> <span class="mi">1</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">ControllerEvent</span><span class="o">.</span><span class="n">GENERATION_BEGIN</span><span class="p">)</span>
+
+        <span class="c1"># Evaluate the population</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">evaluator</span><span class="o">.</span><span class="n">evaluate_population</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">population</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">ControllerEvent</span><span class="o">.</span><span class="n">PRE_PARENT_SELECTION</span><span class="p">)</span>
+        
+        <span class="c1"># Select from the population into the genome pool</span>
+        <span class="n">parents</span><span class="p">:</span> <span class="n">GenomePool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_selector</span><span class="o">.</span><span class="n">select_to_pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">population</span><span class="p">,</span>
+                                                                  <span class="bp">self</span><span class="o">.</span><span class="n">variator</span><span class="o">.</span><span class="n">arity</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">ControllerEvent</span><span class="o">.</span><span class="n">PRE_VARIATION</span><span class="p">)</span>
+
+        <span class="c1"># Vary the genome pool to create offspring</span>
+        <span class="n">offspring</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">variator</span><span class="o">.</span><span class="n">vary_pool</span><span class="p">(</span><span class="n">parents</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">ControllerEvent</span><span class="o">.</span><span class="n">PRE_SURVIVOR_EVALUATION</span><span class="p">)</span>
+
+        <span class="c1"># Evaluate the offspring</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">evaluator</span><span class="o">.</span><span class="n">evaluate_population</span><span class="p">(</span><span class="n">offspring</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">ControllerEvent</span><span class="o">.</span><span class="n">PRE_SURVIVOR_SELECTION</span><span class="p">)</span>
+
+        <span class="c1"># Select from the offspring</span>
+        <span class="n">offspring</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">offspring_selector</span><span class="o">.</span><span class="n">select_to_population</span><span class="p">(</span><span class="n">offspring</span><span class="p">)</span>
+
+        <span class="c1"># The survivor become the next population.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">population</span> <span class="o">=</span> <span class="n">offspring</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">ControllerEvent</span><span class="o">.</span><span class="n">GENERATION_END</span><span class="p">)</span>
+
+        <span class="c1"># Returning self allows chaining multiple calls to `step`</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    
+<div class="viewcode-block" id="Controller.attach">
+<a class="viewcode-back" href="../../core.html#core.controller.Controller.attach">[docs]</a>
+    <span class="k">def</span> <span class="nf">attach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">accountant</span><span class="p">:</span> <span class="n">Accountant</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">accountants</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accountant</span><span class="p">)</span>
+        <span class="n">accountant</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Controller.update">
+<a class="viewcode-back" href="../../core.html#core.controller.Controller.update">[docs]</a>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">ControllerEvent</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">acc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">accountants</span><span class="p">:</span> <span class="n">acc</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">event</span><span class="p">)</span></div>
+</div>
+
+    
+
+<span class="c1"># One main problem is that some members are unavailable at some points:</span>
+<span class="c1">#   for example, the population is dry after parent selection.</span>
+<span class="c1"># Also, there is the ned for &quot;stocK&quot; accountants.</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Evoframe  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">core.controller</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, Yiding Li.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    </div>
+  </body>
+</html>

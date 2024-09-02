@@ -172,26 +172,6 @@ class AbstractCollection(ABC, Generic[R]):
             else:
                 return key
 
-class GenomePool(AbstractCollection[Tuple[T, ...]]):
-    """A collection of tuple of parents.
-    """
-    def __init__(self, arity: int, *args: Tuple[T, ...]):
-        super().__init__(*args)
-        self.arity = arity
-
-    def descore(self)-> None:
-        for t in self._solutions:
-            for x in t:
-                x.descore()
-
-    def get_best_score(self)-> float:
-        best_score = -inf
-        for t in self:
-            for tt in t:
-                if tt.score > best_score:
-                    best_score = tt.score
-        return best_score
-
 class Population(AbstractCollection[T]):
     """A flat collection of genomes.
     """

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+
+<html lang="en-uk" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>evolvables package &#8212; Evoframe  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css?v=def86cc0" />
+    
+    <script src="_static/documentation_options.js?v=92c5c9a7"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="core package" href="core.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="core.html" title="core package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Evoframe  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">src</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">evolvables package</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="evolvables-package">
+<h1>evolvables package<a class="headerlink" href="#evolvables-package" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-evolvables.gp">
+<span id="evolvables-gp-module"></span><h2>evolvables.gp module<a class="headerlink" href="#module-evolvables.gp" title="Link to this heading">¶</a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="evolvables.gp.ArityMismatch">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">ArityMismatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">given</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/gp.html#ArityMismatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.ArityMismatch" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TypeError</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="evolvables.gp.BadSymbolError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">BadSymbolError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/gp.html#BadSymbolError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.BadSymbolError" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evolvables.gp.Expression">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">Expression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">children</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evolvables.gp.Expression" title="evolvables.gp.Expression"><span class="pre">Expression</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/gp.html#Expression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.Expression" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.Expression.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#Expression.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.Expression.copy" title="Link to this definition">¶</a></dt>
+<dd><p>Copying self does not copy the funciton.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.Expression.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">T</span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#Expression.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.Expression.evaluate" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.Expression.nodes">
+<span class="sig-name descname"><span class="pre">nodes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#evolvables.gp.Expression" title="evolvables.gp.Expression"><span class="pre">Expression</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#Expression.nodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.Expression.nodes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evolvables.gp.ExpressionFactory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">ExpressionFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">functions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/gp.html#ExpressionFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.ExpressionFactory" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.ExpressionFactory.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">budget</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nullary_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#evolvables.gp.Expression" title="evolvables.gp.Expression"><span class="pre">Expression</span></a></span></span><a class="reference internal" href="_modules/evolvables/gp.html#ExpressionFactory.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.ExpressionFactory.build" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.ExpressionFactory.cost_budget">
+<span class="sig-name descname"><span class="pre">cost_budget</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#ExpressionFactory.cost_budget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.ExpressionFactory.cost_budget" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.ExpressionFactory.over_budget">
+<span class="sig-name descname"><span class="pre">over_budget</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#ExpressionFactory.over_budget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.ExpressionFactory.over_budget" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.ExpressionFactory.poll_arity">
+<span class="sig-name descname"><span class="pre">poll_arity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#ExpressionFactory.poll_arity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.ExpressionFactory.poll_arity" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.ExpressionFactory.poll_function">
+<span class="sig-name descname"><span class="pre">poll_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nullary_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#ExpressionFactory.poll_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.ExpressionFactory.poll_function" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evolvables.gp.GymEvaluator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">GymEvaluator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">env,</span> <span class="pre">wrapper:</span> <span class="pre">Callable[[float],</span> <span class="pre">float],</span> <span class="pre">episode_count:</span> <span class="pre">int,</span> <span class="pre">step_count:</span> <span class="pre">int,</span> <span class="pre">score_wrapper:</span> <span class="pre">Callable[[float],</span> <span class="pre">float]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">GymEvaluator.&lt;lambda&gt;&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/gp.html#GymEvaluator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.GymEvaluator" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="core.html#core.evaluator.Evaluator" title="core.evaluator.Evaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Evaluator</span></code></a>[<a class="reference internal" href="#evolvables.gp.Program" title="evolvables.gp.Program"><code class="xref py py-class docutils literal notranslate"><span class="pre">Program</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.GymEvaluator.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evolvables.gp.Program" title="evolvables.gp.Program"><span class="pre">Program</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#GymEvaluator.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.GymEvaluator.evaluate" title="Link to this definition">¶</a></dt>
+<dd><p>Evaluation strategy of the evaluator.</p>
+<dl class="simple">
+<dt>All subclasses should override this method. The implementation should</dt><dd><p>assign higher fitness to higher-quality individuals.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>s1</strong> – genome to be scored</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Fitness of the genome</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.GymEvaluator.evaluate_episode">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate_episode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evolvables.gp.Program" title="evolvables.gp.Program"><span class="pre">Program</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrapper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">episode_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#GymEvaluator.evaluate_episode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.GymEvaluator.evaluate_episode" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.GymEvaluator.evaluate_step">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate_step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evolvables.gp.Program" title="evolvables.gp.Program"><span class="pre">Program</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrapper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#GymEvaluator.evaluate_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.GymEvaluator.evaluate_step" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evolvables.gp.Program">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">Program</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evolvables.gp.Expression" title="evolvables.gp.Expression"><span class="pre">Expression</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbols</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#evolvables.gp.Symbol" title="evolvables.gp.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evolvables.gp.ProgramFactory" title="evolvables.gp.ProgramFactory"><span class="pre">ProgramFactory</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/gp.html#Program"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.Program" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="core.html#core.population.Genome" title="core.population.Genome"><code class="xref py py-class docutils literal notranslate"><span class="pre">Genome</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.Program.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#Program.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.Program.copy" title="Link to this definition">¶</a></dt>
+<dd><p>Copy the solution.</p>
+<dl class="simple">
+<dt>All subclasses should override this method. The implementation should</dt><dd><p>prevent changes made on the result from affecting the original
+genome.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.Program.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">T</span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#Program.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.Program.evaluate" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.Program.nodes">
+<span class="sig-name descname"><span class="pre">nodes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#evolvables.gp.Expression" title="evolvables.gp.Expression"><span class="pre">Expression</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#Program.nodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.Program.nodes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="evolvables.gp.ProgramArityMismatchError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">ProgramArityMismatchError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">given</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/gp.html#ProgramArityMismatchError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.ProgramArityMismatchError" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evolvables.gp.ProgramCrossoverVariator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">ProgramCrossoverVariator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coarity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/gp.html#ProgramCrossoverVariator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.ProgramCrossoverVariator" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="core.html#core.variator.Variator" title="core.variator.Variator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variator</span></code></a>[<a class="reference internal" href="#evolvables.gp.Program" title="evolvables.gp.Program"><code class="xref py py-class docutils literal notranslate"><span class="pre">Program</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.ProgramCrossoverVariator.crossover">
+<span class="sig-name descname"><span class="pre">crossover</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#evolvables.gp.Program" title="evolvables.gp.Program"><span class="pre">Program</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#evolvables.gp.Program" title="evolvables.gp.Program"><span class="pre">Program</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#ProgramCrossoverVariator.crossover"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.ProgramCrossoverVariator.crossover" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.ProgramCrossoverVariator.mutate">
+<span class="sig-name descname"><span class="pre">mutate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#evolvables.gp.Program" title="evolvables.gp.Program"><span class="pre">Program</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#evolvables.gp.Program" title="evolvables.gp.Program"><span class="pre">Program</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#ProgramCrossoverVariator.mutate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.ProgramCrossoverVariator.mutate" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.ProgramCrossoverVariator.swap_children">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">swap_children</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evolvables.gp.Expression" title="evolvables.gp.Expression"><span class="pre">Expression</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expr2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evolvables.gp.Expression" title="evolvables.gp.Expression"><span class="pre">Expression</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#ProgramCrossoverVariator.swap_children"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.ProgramCrossoverVariator.swap_children" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.ProgramCrossoverVariator.vary">
+<span class="sig-name descname"><span class="pre">vary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#evolvables.gp.Program" title="evolvables.gp.Program"><span class="pre">Program</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#evolvables.gp.Program" title="evolvables.gp.Program"><span class="pre">Program</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#ProgramCrossoverVariator.vary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.ProgramCrossoverVariator.vary" title="Link to this definition">¶</a></dt>
+<dd><p>Appy the variator to a tuple of parents</p>
+<p>Produce a tuple of genomes from a tuple of genomes.
+The input and output tuple sizes should match the arity and coarity of this selector, respectively.</p>
+<blockquote>
+<div><p>Implementation note: clear the score first.</p>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evolvables.gp.ProgramFactory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">ProgramFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">functions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arity</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/gp.html#ProgramFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.ProgramFactory" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.ProgramFactory.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">budget</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unary_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#evolvables.gp.Program" title="evolvables.gp.Program"><span class="pre">Program</span></a></span></span><a class="reference internal" href="_modules/evolvables/gp.html#ProgramFactory.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.ProgramFactory.build" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.ProgramFactory.deposit_symbol">
+<span class="sig-name descname"><span class="pre">deposit_symbol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evolvables.gp.Symbol" title="evolvables.gp.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#ProgramFactory.deposit_symbol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.ProgramFactory.deposit_symbol" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.ProgramFactory.next_symbol">
+<span class="sig-name descname"><span class="pre">next_symbol</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#evolvables.gp.Symbol" title="evolvables.gp.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#ProgramFactory.next_symbol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.ProgramFactory.next_symbol" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.ProgramFactory.next_symbol_name">
+<span class="sig-name descname"><span class="pre">next_symbol_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#ProgramFactory.next_symbol_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.ProgramFactory.next_symbol_name" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evolvables.gp.Symbol">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">Symbol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'default_symbol_name'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/gp.html#Symbol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.Symbol" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.Symbol.assign">
+<span class="sig-name descname"><span class="pre">assign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#Symbol.assign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.Symbol.assign" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evolvables.gp.SymbolicEvaluator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">SymbolicEvaluator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">objective</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">support</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/gp.html#SymbolicEvaluator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.SymbolicEvaluator" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="core.html#core.evaluator.Evaluator" title="core.evaluator.Evaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Evaluator</span></code></a>[<a class="reference internal" href="#evolvables.gp.Program" title="evolvables.gp.Program"><code class="xref py py-class docutils literal notranslate"><span class="pre">Program</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.gp.SymbolicEvaluator.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">program</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evolvables.gp.Program" title="evolvables.gp.Program"><span class="pre">Program</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#SymbolicEvaluator.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.SymbolicEvaluator.evaluate" title="Link to this definition">¶</a></dt>
+<dd><p>Evaluation strategy of the evaluator.</p>
+<dl class="simple">
+<dt>All subclasses should override this method. The implementation should</dt><dd><p>assign higher fitness to higher-quality individuals.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>s1</strong> – genome to be scored</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Fitness of the genome</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="evolvables.gp.add">
+<span class="sig-prename descclassname"><span class="pre">evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/gp.html#add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.add" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="evolvables.gp.avg">
+<span class="sig-prename descclassname"><span class="pre">evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">avg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/gp.html#avg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.avg" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="evolvables.gp.cos">
+<span class="sig-prename descclassname"><span class="pre">evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">cos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#cos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.cos" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="evolvables.gp.div">
+<span class="sig-prename descclassname"><span class="pre">evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">div</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/gp.html#div"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.div" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="evolvables.gp.lim">
+<span class="sig-prename descclassname"><span class="pre">evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">lim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#lim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.lim" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="evolvables.gp.mul">
+<span class="sig-prename descclassname"><span class="pre">evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">mul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/gp.html#mul"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.mul" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="evolvables.gp.sin">
+<span class="sig-prename descclassname"><span class="pre">evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">sin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#sin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.sin" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="evolvables.gp.sub">
+<span class="sig-prename descclassname"><span class="pre">evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">sub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/gp.html#sub"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.sub" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="evolvables.gp.tan">
+<span class="sig-prename descclassname"><span class="pre">evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">tan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#tan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.tan" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-evolvables.main">
+<span id="evolvables-main-module"></span><h2>evolvables.main module<a class="headerlink" href="#module-evolvables.main" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="evolvables.main.Binary">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.main.</span></span><span class="sig-name descname"><span class="pre">Binary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">len</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/main.html#Binary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.Binary" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="core.html#core.population.Genome" title="core.population.Genome"><code class="xref py py-class docutils literal notranslate"><span class="pre">Genome</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.main.Binary.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="_modules/evolvables/main.html#Binary.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.Binary.copy" title="Link to this definition">¶</a></dt>
+<dd><p>Copy the solution.</p>
+<dl class="simple">
+<dt>All subclasses should override this method. The implementation should</dt><dd><p>prevent changes made on the result from affecting the original
+genome.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.main.Binary.create_random">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">len</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="_modules/evolvables/main.html#Binary.create_random"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.Binary.create_random" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.main.Binary.toggle">
+<span class="sig-name descname"><span class="pre">toggle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/main.html#Binary.toggle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.Binary.toggle" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="evolvables.main.Binary.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#evolvables.main.Binary.value" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evolvables.main.BitDistanceEvaluator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.main.</span></span><span class="sig-name descname"><span class="pre">BitDistanceEvaluator</span></span><a class="reference internal" href="_modules/evolvables/main.html#BitDistanceEvaluator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.BitDistanceEvaluator" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="core.html#core.evaluator.Evaluator" title="core.evaluator.Evaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Evaluator</span></code></a>[<a class="reference internal" href="#evolvables.main.Binary" title="evolvables.main.Binary"><code class="xref py py-class docutils literal notranslate"><span class="pre">Binary</span></code></a>]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.main.BitDistanceEvaluator.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evolvables.main.Binary" title="evolvables.main.Binary"><span class="pre">Binary</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/evolvables/main.html#BitDistanceEvaluator.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.BitDistanceEvaluator.evaluate" title="Link to this definition">¶</a></dt>
+<dd><p>Evaluation strategy of the evaluator.</p>
+<dl class="simple">
+<dt>All subclasses should override this method. The implementation should</dt><dd><p>assign higher fitness to higher-quality individuals.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>s1</strong> – genome to be scored</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Fitness of the genome</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="evolvables.main.IllegalVariation">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.main.</span></span><span class="sig-name descname"><span class="pre">IllegalVariation</span></span><a class="reference internal" href="_modules/evolvables/main.html#IllegalVariation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.IllegalVariation" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evolvables.main.RandomBitMutator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.main.</span></span><span class="sig-name descname"><span class="pre">RandomBitMutator</span></span><a class="reference internal" href="_modules/evolvables/main.html#RandomBitMutator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.RandomBitMutator" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="core.html#core.variator.Variator" title="core.variator.Variator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variator</span></code></a>[<a class="reference internal" href="#evolvables.main.Binary" title="evolvables.main.Binary"><code class="xref py py-class docutils literal notranslate"><span class="pre">Binary</span></code></a>]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.main.RandomBitMutator.vary">
+<span class="sig-name descname"><span class="pre">vary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#evolvables.main.Binary" title="evolvables.main.Binary"><span class="pre">Binary</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#evolvables.main.Binary" title="evolvables.main.Binary"><span class="pre">Binary</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/evolvables/main.html#RandomBitMutator.vary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.RandomBitMutator.vary" title="Link to this definition">¶</a></dt>
+<dd><p>Appy the variator to a tuple of parents</p>
+<p>Produce a tuple of genomes from a tuple of genomes.
+The input and output tuple sizes should match the arity and coarity of this selector, respectively.</p>
+<blockquote>
+<div><p>Implementation note: clear the score first.</p>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-evolvables">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-evolvables" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">evolvables package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-evolvables.gp">evolvables.gp module</a><ul>
+<li><a class="reference internal" href="#evolvables.gp.ArityMismatch"><code class="docutils literal notranslate"><span class="pre">ArityMismatch</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.BadSymbolError"><code class="docutils literal notranslate"><span class="pre">BadSymbolError</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.Expression"><code class="docutils literal notranslate"><span class="pre">Expression</span></code></a><ul>
+<li><a class="reference internal" href="#evolvables.gp.Expression.copy"><code class="docutils literal notranslate"><span class="pre">Expression.copy()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.Expression.evaluate"><code class="docutils literal notranslate"><span class="pre">Expression.evaluate()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.Expression.nodes"><code class="docutils literal notranslate"><span class="pre">Expression.nodes()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evolvables.gp.ExpressionFactory"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory</span></code></a><ul>
+<li><a class="reference internal" href="#evolvables.gp.ExpressionFactory.build"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory.build()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.ExpressionFactory.cost_budget"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory.cost_budget()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.ExpressionFactory.over_budget"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory.over_budget()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.ExpressionFactory.poll_arity"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory.poll_arity()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.ExpressionFactory.poll_function"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory.poll_function()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evolvables.gp.GymEvaluator"><code class="docutils literal notranslate"><span class="pre">GymEvaluator</span></code></a><ul>
+<li><a class="reference internal" href="#evolvables.gp.GymEvaluator.evaluate"><code class="docutils literal notranslate"><span class="pre">GymEvaluator.evaluate()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.GymEvaluator.evaluate_episode"><code class="docutils literal notranslate"><span class="pre">GymEvaluator.evaluate_episode()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.GymEvaluator.evaluate_step"><code class="docutils literal notranslate"><span class="pre">GymEvaluator.evaluate_step()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evolvables.gp.Program"><code class="docutils literal notranslate"><span class="pre">Program</span></code></a><ul>
+<li><a class="reference internal" href="#evolvables.gp.Program.copy"><code class="docutils literal notranslate"><span class="pre">Program.copy()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.Program.evaluate"><code class="docutils literal notranslate"><span class="pre">Program.evaluate()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.Program.nodes"><code class="docutils literal notranslate"><span class="pre">Program.nodes()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evolvables.gp.ProgramArityMismatchError"><code class="docutils literal notranslate"><span class="pre">ProgramArityMismatchError</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.ProgramCrossoverVariator"><code class="docutils literal notranslate"><span class="pre">ProgramCrossoverVariator</span></code></a><ul>
+<li><a class="reference internal" href="#evolvables.gp.ProgramCrossoverVariator.crossover"><code class="docutils literal notranslate"><span class="pre">ProgramCrossoverVariator.crossover()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.ProgramCrossoverVariator.mutate"><code class="docutils literal notranslate"><span class="pre">ProgramCrossoverVariator.mutate()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.ProgramCrossoverVariator.swap_children"><code class="docutils literal notranslate"><span class="pre">ProgramCrossoverVariator.swap_children()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.ProgramCrossoverVariator.vary"><code class="docutils literal notranslate"><span class="pre">ProgramCrossoverVariator.vary()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evolvables.gp.ProgramFactory"><code class="docutils literal notranslate"><span class="pre">ProgramFactory</span></code></a><ul>
+<li><a class="reference internal" href="#evolvables.gp.ProgramFactory.build"><code class="docutils literal notranslate"><span class="pre">ProgramFactory.build()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.ProgramFactory.deposit_symbol"><code class="docutils literal notranslate"><span class="pre">ProgramFactory.deposit_symbol()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.ProgramFactory.next_symbol"><code class="docutils literal notranslate"><span class="pre">ProgramFactory.next_symbol()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.ProgramFactory.next_symbol_name"><code class="docutils literal notranslate"><span class="pre">ProgramFactory.next_symbol_name()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evolvables.gp.Symbol"><code class="docutils literal notranslate"><span class="pre">Symbol</span></code></a><ul>
+<li><a class="reference internal" href="#evolvables.gp.Symbol.assign"><code class="docutils literal notranslate"><span class="pre">Symbol.assign()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evolvables.gp.SymbolicEvaluator"><code class="docutils literal notranslate"><span class="pre">SymbolicEvaluator</span></code></a><ul>
+<li><a class="reference internal" href="#evolvables.gp.SymbolicEvaluator.evaluate"><code class="docutils literal notranslate"><span class="pre">SymbolicEvaluator.evaluate()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evolvables.gp.add"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.avg"><code class="docutils literal notranslate"><span class="pre">avg()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.cos"><code class="docutils literal notranslate"><span class="pre">cos()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.div"><code class="docutils literal notranslate"><span class="pre">div()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.lim"><code class="docutils literal notranslate"><span class="pre">lim()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.mul"><code class="docutils literal notranslate"><span class="pre">mul()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.sin"><code class="docutils literal notranslate"><span class="pre">sin()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.sub"><code class="docutils literal notranslate"><span class="pre">sub()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.gp.tan"><code class="docutils literal notranslate"><span class="pre">tan()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-evolvables.main">evolvables.main module</a><ul>
+<li><a class="reference internal" href="#evolvables.main.Binary"><code class="docutils literal notranslate"><span class="pre">Binary</span></code></a><ul>
+<li><a class="reference internal" href="#evolvables.main.Binary.copy"><code class="docutils literal notranslate"><span class="pre">Binary.copy()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.main.Binary.create_random"><code class="docutils literal notranslate"><span class="pre">Binary.create_random()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.main.Binary.toggle"><code class="docutils literal notranslate"><span class="pre">Binary.toggle()</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.main.Binary.value"><code class="docutils literal notranslate"><span class="pre">Binary.value</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evolvables.main.BitDistanceEvaluator"><code class="docutils literal notranslate"><span class="pre">BitDistanceEvaluator</span></code></a><ul>
+<li><a class="reference internal" href="#evolvables.main.BitDistanceEvaluator.evaluate"><code class="docutils literal notranslate"><span class="pre">BitDistanceEvaluator.evaluate()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evolvables.main.IllegalVariation"><code class="docutils literal notranslate"><span class="pre">IllegalVariation</span></code></a></li>
+<li><a class="reference internal" href="#evolvables.main.RandomBitMutator"><code class="docutils literal notranslate"><span class="pre">RandomBitMutator</span></code></a><ul>
+<li><a class="reference internal" href="#evolvables.main.RandomBitMutator.vary"><code class="docutils literal notranslate"><span class="pre">RandomBitMutator.vary()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-evolvables">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="core.html"
+                          title="previous chapter">core package</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/evolvables.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="core.html" title="core package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Evoframe  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >src</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">evolvables package</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2024, Yiding Li.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    </div>
+  </body>
+</html>
