@@ -6,10 +6,10 @@ if TYPE_CHECKING:
     from typing import Any
     from typing import Optional
     from typing import Sequence
-    from .population import Tuple
+    from typing import Tuple
 
-import abc
 from abc import abstractmethod
+from abc import ABC
 from typing import Generic, TypeVar
 
 from .population import Individual, Population
@@ -19,12 +19,12 @@ T = TypeVar("T", bound=Individual)
 class ArityException(Exception):
     pass
 
-class Variator(abc.ABC, Generic[T]):
+class Variator(ABC, Generic[T]):
     def __init__(self, arity: int, coarity = None) -> None:
         self.arity: Optional[int] = arity
         self.coarity: Optional[int] = coarity
 
-    @abc.abstractmethod
+    @abstractmethod
     def vary(self, parents: Tuple[T, ...]) -> Tuple[T, ...]:
         """Appy the variator to a tuple of parents
 
@@ -62,7 +62,7 @@ class DefaultVariator(Variator[T]):
     def __init__(self):
         super().__init__(1, 1)
 
-    @abc.abstractmethod
+    @abstractmethod
     def vary(self, parents: Tuple[T, ...]) -> Tuple[T, ...]:
         e = []
         for x in parents:

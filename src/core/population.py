@@ -14,8 +14,7 @@ if TYPE_CHECKING:
 
 import itertools
 from abc import ABC, abstractmethod
-from math import inf
-from typing import Generic, Tuple, TypeVar
+from typing import Generic, TypeVar
 
 R = TypeVar('R')
 

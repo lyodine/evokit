@@ -66,13 +66,14 @@ class Evaluator(ABC, Generic[T]):
         """Annotation that applies the "evaluator guard" to an evaluator.
 
         A child class may apply this annotation to `evaluate`. Doing so
-            prevents the evaluator from re-scoring individuals
-            that already have a fitness.
+        prevents the evaluator from re-scoring individuals
+        that already have a fitness.
+        
         This may accelerate learning, as individuals retained from the
-            parent generation are no longer re-evaluated. However,
-            doing so also prevents the evaluator from correctly modeling
-            a changing fitness landscape, where the fitness of an
-            individual may change across generations.
+        parent generation are no longer re-evaluated. However,
+        doing so also prevents the evaluator from correctly modeling
+        a changing fitness landscape, where the fitness of an
+        individual may change across generations.
         """
         def wrapper(*args, **kwargs) -> float:
             print ("shortcut used")
@@ -88,14 +89,14 @@ class Evaluator(ABC, Generic[T]):
         return wrapper
 
     @abstractmethod
-    def evaluate(self: Self, s1: T)-> float:
+    def evaluate(self: Self, individual: T)-> float:
         """Evaluation strategy of the evaluator.
         
         All subclasses should override this method. The implementation should
-            assign higher fitness to higher-quality individuals.
+        assign higher fitness to higher-quality individuals.
 
         Args:
-            s1: individual to be scored
+            individual: individual to evaluate
 
         Return:
             Fitness of the individual
