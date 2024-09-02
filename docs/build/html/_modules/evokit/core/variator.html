@@ -18,6 +18,7 @@
         <script src="../../../_static/documentation_options.js?v=92c5c9a7"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -45,6 +46,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">evokit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/introduction.html">Introduction</a></li>
 </ul>
 
         </div>
@@ -81,6 +83,8 @@
     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Self</span>
+    <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
+    <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
@@ -95,20 +99,31 @@
 <div class="viewcode-block" id="Variator">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.variator.Variator">[docs]</a>
 <span class="k">class</span> <span class="nc">Variator</span><span class="p">(</span><span class="n">ABC</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">D</span><span class="p">]):</span>
+<div class="viewcode-block" id="Variator.__new__">
+<a class="viewcode-back" href="../../../evokit.core.html#evokit.core.variator.Variator.__new__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Self</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Machinery. Implement managed attributes.</span>
+
+<span class="sd">        :meta private:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instance</span><span class="p">:</span> <span class="n">Self</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">arity</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">coarity</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
+    
 <div class="viewcode-block" id="Variator.__init__">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.variator.Variator.__init__">[docs]</a>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span>
-                 <span class="n">arity</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                 <span class="n">coarity</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">arity</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">arity</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">coarity</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">coarity</span></div>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arity</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coarity</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="Variator.vary">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.variator.Variator.vary">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">vary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parents</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">D</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">D</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Appy the variator to a tuple of parents</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply the variator to a tuple of parents</span>
 
 <span class="sd">        Produce a tuple of individuals from a tuple of individuals.</span>
 <span class="sd">        The input and output tuple sizes should match the arity and coarity of</span>
@@ -148,19 +163,20 @@
 
 
 
-<div class="viewcode-block" id="DefaultVariator">
-<a class="viewcode-back" href="../../../evokit.core.html#evokit.core.variator.DefaultVariator">[docs]</a>
-<span class="k">class</span> <span class="nc">DefaultVariator</span><span class="p">(</span><span class="n">Variator</span><span class="p">[</span><span class="n">D</span><span class="p">]):</span>
+<div class="viewcode-block" id="NullVariator">
+<a class="viewcode-back" href="../../../evokit.core.html#evokit.core.variator.NullVariator">[docs]</a>
+<span class="k">class</span> <span class="nc">NullVariator</span><span class="p">(</span><span class="n">Variator</span><span class="p">[</span><span class="n">D</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Variator that does not change anything</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="DefaultVariator.__init__">
-<a class="viewcode-back" href="../../../evokit.core.html#evokit.core.variator.DefaultVariator.__init__">[docs]</a>
+<div class="viewcode-block" id="NullVariator.__init__">
+<a class="viewcode-back" href="../../../evokit.core.html#evokit.core.variator.NullVariator.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arity</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coarity</span> <span class="o">=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="DefaultVariator.vary">
-<a class="viewcode-back" href="../../../evokit.core.html#evokit.core.variator.DefaultVariator.vary">[docs]</a>
+<div class="viewcode-block" id="NullVariator.vary">
+<a class="viewcode-back" href="../../../evokit.core.html#evokit.core.variator.NullVariator.vary">[docs]</a>
     <span class="nd">@override</span>
     <span class="k">def</span> <span class="nf">vary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parents</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">D</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">D</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">parents</span><span class="p">)</span></div>

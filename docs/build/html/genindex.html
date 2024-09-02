@@ -47,7 +47,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">evokit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guides/introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/e1.html">Section title</a></li>
 </ul>
 
         </div>
@@ -90,7 +89,6 @@
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
- | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
@@ -102,12 +100,16 @@
 <h2 id="_">_</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.Expression.__call__">__call__() (evokit.evolvables.gp.Expression method)</a>
+</li>
       <li><a href="evokit.core.html#evokit.core.accountant.Accountant.__init__">__init__() (evokit.core.accountant.Accountant method)</a>
 
       <ul>
         <li><a href="evokit.core.html#evokit.core.controller.Controller.__init__">(evokit.core.controller.Controller method)</a>
 </li>
         <li><a href="evokit.core.html#evokit.core.controller.LinearController.__init__">(evokit.core.controller.LinearController method)</a>
+</li>
+        <li><a href="evokit.core.html#evokit.core.controller.SimpleLinearController.__init__">(evokit.core.controller.SimpleLinearController method)</a>
 </li>
         <li><a href="evokit.core.html#evokit.core.evaluator.Evaluator.__init__">(evokit.core.evaluator.Evaluator method)</a>
 </li>
@@ -127,7 +129,7 @@
 </li>
         <li><a href="evokit.core.html#evokit.core.selector.TournamentSelector.__init__">(evokit.core.selector.TournamentSelector method)</a>
 </li>
-        <li><a href="evokit.core.html#evokit.core.variator.DefaultVariator.__init__">(evokit.core.variator.DefaultVariator method)</a>
+        <li><a href="evokit.core.html#evokit.core.variator.NullVariator.__init__">(evokit.core.variator.NullVariator method)</a>
 </li>
         <li><a href="evokit.core.html#evokit.core.variator.Variator.__init__">(evokit.core.variator.Variator method)</a>
 </li>
@@ -135,19 +137,19 @@
 </li>
         <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.RandomBitMutator.__init__">(evokit.evolvables.binstring.RandomBitMutator method)</a>
 </li>
-        <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ArityMismatch.__init__">(evokit.evolvables.gp.ArityMismatch method)</a>
-</li>
-        <li><a href="evokit.evolvables.html#evokit.evolvables.gp.BadSymbolError.__init__">(evokit.evolvables.gp.BadSymbolError method)</a>
+        <li><a href="evokit.evolvables.html#evokit.evolvables.gp.CrossoverSubtree.__init__">(evokit.evolvables.gp.CrossoverSubtree method)</a>
 </li>
         <li><a href="evokit.evolvables.html#evokit.evolvables.gp.Expression.__init__">(evokit.evolvables.gp.Expression method)</a>
 </li>
         <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ExpressionFactory.__init__">(evokit.evolvables.gp.ExpressionFactory method)</a>
 </li>
-        <li><a href="evokit.evolvables.html#evokit.evolvables.gp.GymEvaluator.__init__">(evokit.evolvables.gp.GymEvaluator method)</a>
+        <li><a href="evokit.evolvables.html#evokit.evolvables.gp.MutateNode.__init__">(evokit.evolvables.gp.MutateNode method)</a>
+</li>
+        <li><a href="evokit.evolvables.html#evokit.evolvables.gp.MutateSubtree.__init__">(evokit.evolvables.gp.MutateSubtree method)</a>
+</li>
+        <li><a href="evokit.evolvables.html#evokit.evolvables.gp.PenaliseNodeCount.__init__">(evokit.evolvables.gp.PenaliseNodeCount method)</a>
 </li>
         <li><a href="evokit.evolvables.html#evokit.evolvables.gp.Program.__init__">(evokit.evolvables.gp.Program method)</a>
-</li>
-        <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ProgramArityMismatchError.__init__">(evokit.evolvables.gp.ProgramArityMismatchError method)</a>
 </li>
         <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ProgramFactory.__init__">(evokit.evolvables.gp.ProgramFactory method)</a>
 </li>
@@ -165,6 +167,8 @@
 </li>
         <li><a href="evokit.core.html#evokit.core.population.Individual.__new__">(evokit.core.population.Individual static method)</a>
 </li>
+        <li><a href="evokit.core.html#evokit.core.variator.Variator.__new__">(evokit.core.variator.Variator static method)</a>
+</li>
       </ul></li>
   </ul></td>
 </tr></table>
@@ -178,19 +182,15 @@
 </li>
       <li><a href="evokit.core.html#evokit.core.accountant.AccountantRecord">AccountantRecord (class in evokit.core.accountant)</a>
 </li>
-      <li><a href="evokit.core.html#evokit.core.controller.Controller.accountants">accountants (evokit.core.controller.Controller attribute)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.add">add() (in module evokit.evolvables.gp)</a>
+      <li><a href="evokit.core.html#evokit.core.controller.Controller.accountants">accountants (evokit.core.controller.Controller attribute)</a>
+</li>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.funcs.add">add() (in module evokit.evolvables.funcs)</a>
 </li>
       <li><a href="evokit.core.html#evokit.core.population.AbstractCollection.append">append() (evokit.core.population.AbstractCollection method)</a>
 </li>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ArityMismatch">ArityMismatch</a>
-</li>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.Symbol.assign">assign() (evokit.evolvables.gp.Symbol method)</a>
-</li>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.avg">avg() (in module evokit.evolvables.gp)</a>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.funcs.avg">avg() (in module evokit.evolvables.funcs)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -198,8 +198,6 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.BadSymbolError">BadSymbolError</a>
-</li>
       <li><a href="evokit.core.html#evokit.core.population.Population.best">best() (evokit.core.population.Population method)</a>
 </li>
       <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.BinaryString">BinaryString (class in evokit.evolvables.binstring)</a>
@@ -236,11 +234,9 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.cos">cos() (in module evokit.evolvables.gp)</a>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.funcs.cos">cos() (in module evokit.evolvables.funcs)</a>
 </li>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ExpressionFactory.cost_budget">cost_budget() (evokit.evolvables.gp.ExpressionFactory method)</a>
-</li>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ProgramCrossoverVariator.crossover">crossover() (evokit.evolvables.gp.ProgramCrossoverVariator method)</a>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.CrossoverSubtree">CrossoverSubtree (class in evokit.evolvables.gp)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -248,15 +244,15 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="evokit.core.html#evokit.core.variator.DefaultVariator">DefaultVariator (class in evokit.core.variator)</a>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.gp_visualiser.dispatch_ident">dispatch_ident() (in module evokit.evolvables.gp_visualiser)</a>
 </li>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ProgramFactory.deposit_symbol">deposit_symbol() (evokit.evolvables.gp.ProgramFactory method)</a>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.funcs.div">div() (in module evokit.evolvables.funcs)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.div">div() (in module evokit.evolvables.gp)</a>
-</li>
       <li><a href="evokit.core.html#evokit.core.population.AbstractCollection.draw">draw() (evokit.core.population.AbstractCollection method)</a>
+</li>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ExpressionFactory.draw_primitive">draw_primitive() (evokit.evolvables.gp.ExpressionFactory method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -271,24 +267,18 @@
       <li><a href="evokit.core.html#evokit.core.evaluator.Evaluator.evaluate">evaluate() (evokit.core.evaluator.Evaluator method)</a>
 
       <ul>
+        <li><a href="evokit.core.html#evokit.core.evaluator.NullEvaluator.evaluate">(evokit.core.evaluator.NullEvaluator method)</a>
+</li>
         <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.BitDistanceEvaluator.evaluate">(evokit.evolvables.binstring.BitDistanceEvaluator method)</a>
 </li>
         <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.NullEvaluator.evaluate">(evokit.evolvables.binstring.NullEvaluator method)</a>
 </li>
-        <li><a href="evokit.evolvables.html#evokit.evolvables.gp.Expression.evaluate">(evokit.evolvables.gp.Expression method)</a>
-</li>
-        <li><a href="evokit.evolvables.html#evokit.evolvables.gp.GymEvaluator.evaluate">(evokit.evolvables.gp.GymEvaluator method)</a>
-</li>
-        <li><a href="evokit.evolvables.html#evokit.evolvables.gp.Program.evaluate">(evokit.evolvables.gp.Program method)</a>
+        <li><a href="evokit.evolvables.html#evokit.evolvables.gp.PenaliseNodeCount.evaluate">(evokit.evolvables.gp.PenaliseNodeCount method)</a>
 </li>
         <li><a href="evokit.evolvables.html#evokit.evolvables.gp.SymbolicEvaluator.evaluate">(evokit.evolvables.gp.SymbolicEvaluator method)</a>
 </li>
       </ul></li>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.GymEvaluator.evaluate_episode">evaluate_episode() (evokit.evolvables.gp.GymEvaluator static method)</a>
-</li>
       <li><a href="evokit.core.html#evokit.core.evaluator.Evaluator.evaluate_population">evaluate_population() (evokit.core.evaluator.Evaluator method)</a>
-</li>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.GymEvaluator.evaluate_step">evaluate_step() (evokit.evolvables.gp.GymEvaluator static method)</a>
 </li>
       <li><a href="evokit.core.html#evokit.core.evaluator.Evaluator">Evaluator (class in evokit.core.evaluator)</a>
 </li>
@@ -317,8 +307,6 @@
         <li><a href="evokit.core.html#module-evokit.core.accountant">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     evokit.core.controller
 
@@ -326,6 +314,8 @@
         <li><a href="evokit.core.html#module-evokit.core.controller">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     evokit.core.evaluator
 
@@ -369,10 +359,24 @@
 </li>
       </ul></li>
       <li>
+    evokit.evolvables.funcs
+
+      <ul>
+        <li><a href="evokit.evolvables.html#module-evokit.evolvables.funcs">module</a>
+</li>
+      </ul></li>
+      <li>
     evokit.evolvables.gp
 
       <ul>
         <li><a href="evokit.evolvables.html#module-evokit.evolvables.gp">module</a>
+</li>
+      </ul></li>
+      <li>
+    evokit.evolvables.gp_visualiser
+
+      <ul>
+        <li><a href="evokit.evolvables.html#module-evokit.evolvables.gp_visualiser">module</a>
 </li>
       </ul></li>
       <li><a href="evokit.evolvables.html#evokit.evolvables.gp.Expression">Expression (class in evokit.evolvables.gp)</a>
@@ -386,6 +390,10 @@
 
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.Expression.factory">factory (evokit.evolvables.gp.Expression property)</a>
+</li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="evokit.core.html#evokit.core.population.Individual.fitness">fitness (evokit.core.population.Individual property)</a>
 </li>
@@ -404,8 +412,6 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.getrandbits">getrandbits() (in module evokit.evolvables.binstring)</a>
-</li>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.GymEvaluator">GymEvaluator (class in evokit.evolvables.gp)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -433,7 +439,7 @@
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.lim">lim() (in module evokit.evolvables.gp)</a>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.funcs.lim">lim() (in module evokit.evolvables.funcs)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -469,14 +475,20 @@
 </li>
         <li><a href="evokit.evolvables.html#module-evokit.evolvables.binstring">evokit.evolvables.binstring</a>
 </li>
+        <li><a href="evokit.evolvables.html#module-evokit.evolvables.funcs">evokit.evolvables.funcs</a>
+</li>
         <li><a href="evokit.evolvables.html#module-evokit.evolvables.gp">evokit.evolvables.gp</a>
+</li>
+        <li><a href="evokit.evolvables.html#module-evokit.evolvables.gp_visualiser">evokit.evolvables.gp_visualiser</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.mul">mul() (in module evokit.evolvables.gp)</a>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.funcs.mul">mul() (in module evokit.evolvables.funcs)</a>
 </li>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ProgramCrossoverVariator.mutate">mutate() (evokit.evolvables.gp.ProgramCrossoverVariator method)</a>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.MutateNode">MutateNode (class in evokit.evolvables.gp)</a>
+</li>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.MutateSubtree">MutateSubtree (class in evokit.evolvables.gp)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -484,29 +496,19 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ProgramFactory.next_symbol">next_symbol() (evokit.evolvables.gp.ProgramFactory method)</a>
-</li>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ProgramFactory.next_symbol_name">next_symbol_name() (evokit.evolvables.gp.ProgramFactory method)</a>
-</li>
       <li><a href="evokit.evolvables.html#evokit.evolvables.gp.Expression.nodes">nodes() (evokit.evolvables.gp.Expression method)</a>
+</li>
+      <li><a href="evokit.core.html#evokit.core.evaluator.NullEvaluator">NullEvaluator (class in evokit.core.evaluator)</a>
 
       <ul>
-        <li><a href="evokit.evolvables.html#evokit.evolvables.gp.Program.nodes">(evokit.evolvables.gp.Program method)</a>
+        <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.NullEvaluator">(class in evokit.evolvables.binstring)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.NullEvaluator">NullEvaluator (class in evokit.evolvables.binstring)</a>
-</li>
       <li><a href="evokit.core.html#evokit.core.selector.NullSelector">NullSelector (class in evokit.core.selector)</a>
 </li>
-  </ul></td>
-</tr></table>
-
-<h2 id="O">O</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ExpressionFactory.over_budget">over_budget() (evokit.evolvables.gp.ExpressionFactory method)</a>
+      <li><a href="evokit.core.html#evokit.core.variator.NullVariator">NullVariator (class in evokit.core.variator)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -514,9 +516,11 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ExpressionFactory.poll_arity">poll_arity() (evokit.evolvables.gp.ExpressionFactory method)</a>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.gp_visualiser.p2dot">p2dot() (in module evokit.evolvables.gp_visualiser)</a>
 </li>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ExpressionFactory.poll_function">poll_function() (evokit.evolvables.gp.ExpressionFactory method)</a>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.gp_visualiser.p2dot_recurse">p2dot_recurse() (in module evokit.evolvables.gp_visualiser)</a>
+</li>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.PenaliseNodeCount">PenaliseNodeCount (class in evokit.evolvables.gp)</a>
 </li>
       <li><a href="evokit.core.html#evokit.core.population.AbstractCollection.populate">populate() (evokit.core.population.AbstractCollection method)</a>
 </li>
@@ -524,11 +528,11 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.Symbol.pos">pos (evokit.evolvables.gp.Symbol attribute)</a>
+</li>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ExpressionFactory.primitive_by_arity">primitive_by_arity() (evokit.evolvables.gp.ExpressionFactory method)</a>
+</li>
       <li><a href="evokit.evolvables.html#evokit.evolvables.gp.Program">Program (class in evokit.evolvables.gp)</a>
-</li>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ProgramArityMismatchError">ProgramArityMismatchError</a>
-</li>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ProgramCrossoverVariator">ProgramCrossoverVariator (class in evokit.evolvables.gp)</a>
 </li>
       <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ProgramFactory">ProgramFactory (class in evokit.evolvables.gp)</a>
 </li>
@@ -588,11 +592,13 @@
 </li>
       <li><a href="evokit.core.html#evokit.core.selector.Selector">Selector (class in evokit.core.selector)</a>
 </li>
+      <li><a href="evokit.core.html#evokit.core.controller.SimpleLinearController">SimpleLinearController (class in evokit.core.controller)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="evokit.core.html#evokit.core.selector.SimpleSelector">SimpleSelector (class in evokit.core.selector)</a>
 </li>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.sin">sin() (in module evokit.evolvables.gp)</a>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.funcs.sin">sin() (in module evokit.evolvables.funcs)</a>
 </li>
       <li><a href="evokit.core.html#evokit.core.population.Population.sort">sort() (evokit.core.population.Population method)</a>
 </li>
@@ -601,12 +607,12 @@
       <ul>
         <li><a href="evokit.core.html#evokit.core.controller.LinearController.step">(evokit.core.controller.LinearController method)</a>
 </li>
+        <li><a href="evokit.core.html#evokit.core.controller.SimpleLinearController.step">(evokit.core.controller.SimpleLinearController method)</a>
+</li>
       </ul></li>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.sub">sub() (in module evokit.evolvables.gp)</a>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.funcs.sub">sub() (in module evokit.evolvables.funcs)</a>
 </li>
       <li><a href="evokit.core.html#evokit.core.accountant.Accountant.subject">subject (evokit.core.accountant.Accountant attribute)</a>
-</li>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ProgramCrossoverVariator.swap_children">swap_children() (evokit.evolvables.gp.ProgramCrossoverVariator static method)</a>
 </li>
       <li><a href="evokit.evolvables.html#evokit.evolvables.gp.Symbol">Symbol (class in evokit.evolvables.gp)</a>
 </li>
@@ -618,7 +624,7 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.gp.tan">tan() (in module evokit.evolvables.gp)</a>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.funcs.tan">tan() (in module evokit.evolvables.funcs)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -642,14 +648,18 @@
 </li>
       <li><a href="evokit.core.html#evokit.core.variator.Variator">Variator (class in evokit.core.variator)</a>
 </li>
-      <li><a href="evokit.core.html#evokit.core.variator.DefaultVariator.vary">vary() (evokit.core.variator.DefaultVariator method)</a>
+      <li><a href="evokit.core.html#evokit.core.variator.NullVariator.vary">vary() (evokit.core.variator.NullVariator method)</a>
 
       <ul>
         <li><a href="evokit.core.html#evokit.core.variator.Variator.vary">(evokit.core.variator.Variator method)</a>
 </li>
         <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.RandomBitMutator.vary">(evokit.evolvables.binstring.RandomBitMutator method)</a>
 </li>
-        <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ProgramCrossoverVariator.vary">(evokit.evolvables.gp.ProgramCrossoverVariator method)</a>
+        <li><a href="evokit.evolvables.html#evokit.evolvables.gp.CrossoverSubtree.vary">(evokit.evolvables.gp.CrossoverSubtree method)</a>
+</li>
+        <li><a href="evokit.evolvables.html#evokit.evolvables.gp.MutateNode.vary">(evokit.evolvables.gp.MutateNode method)</a>
+</li>
+        <li><a href="evokit.evolvables.html#evokit.evolvables.gp.MutateSubtree.vary">(evokit.evolvables.gp.MutateSubtree method)</a>
 </li>
       </ul></li>
   </ul></td>
