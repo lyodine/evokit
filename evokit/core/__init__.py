@@ -1,3 +1,4 @@
+# flake8: noqa 
 """ Export modules from core.
 """
 from .controller import Controller, SimpleLinearController, LinearController

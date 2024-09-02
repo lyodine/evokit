@@ -30,7 +30,7 @@ class Variator(ABC, Generic[D]):
         instance.arity = None
         instance.coarity = None
         return instance
-    
+
     def __init__(self: Self) -> None:
         self.arity: Optional[int]
         self.coarity: Optional[int]
@@ -42,7 +42,7 @@ class Variator(ABC, Generic[D]):
         Produce a tuple of individuals from a tuple of individuals.
         The input and output tuple sizes should match the arity and coarity of
         this selector, respectively.
-        
+
         Note:
             If the result could have a different
             :attr:`fitness .Individual.reset_fitness`

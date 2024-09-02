@@ -1,11 +1,13 @@
 # mypy: ignore-errors
+# flake8: noqa 
+
 from __future__ import annotations
+
 import numpy as np
 
 from typing import Annotated, Sequence
 
 # It's just so appropriate here.
-import numpy
 from abc import ABC
 
 from functools import singledispatch

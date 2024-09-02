@@ -161,7 +161,7 @@ class ElitistSimpleSelector(SimpleSelector[D]):
     """
     @override
     def __init__(self: Self, budget: int):
-        super().__init__(budget-1)
+        super().__init__(budget - 1)
         self.best_individual: Optional[D] = None
 
     @override
@@ -251,12 +251,13 @@ def Elitist(sel: Selector[D]) -> Selector:
             """
             population_best: D = population.best()
             my_best: D
-            
+
             # Monkey-patch an attribute onto the selector.
             # This attribute retains the HOF individual.
             # Current name is taken from a randomly generated SSH pubkey.
             #   Nobody else will use a name *this* absurd.
-            UBER_SECRET_BEST_INDIVIDUAL_NAME = "___g1AfoA2NMh8ZZCmRJbwFcne4jS1f3Y2TRPIvBmVXQP"
+            UBER_SECRET_BEST_INDIVIDUAL_NAME =\
+                "___g1AfoA2NMh8ZZCmRJbwFcne4jS1f3Y2TRPIvBmVXQP"
             if not hasattr(self, UBER_SECRET_BEST_INDIVIDUAL_NAME):
                 setattr(self, UBER_SECRET_BEST_INDIVIDUAL_NAME, population_best.copy())
 
