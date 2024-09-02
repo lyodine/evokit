@@ -4,6 +4,14 @@ core package
 Submodules
 ----------
 
+core.accountant module
+----------------------
+
+.. automodule:: core.accountant
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 core.controller module
 ----------------------
 
