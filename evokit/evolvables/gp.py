@@ -13,6 +13,7 @@ if TYPE_CHECKING:
     from typing import Iterable
     from typing import Sequence
     from typing import Type
+
 from typing import TypeVar
 
 from operator import itemgetter
@@ -50,9 +51,6 @@ def _get_arity(fun: Any) -> int:
 
     Args:
         fun: An object
-
-    Return:
-        The arity of `fun`
     """
     if (callable(fun)):
         return len(signature(fun).parameters)
@@ -109,6 +107,9 @@ class Expression(Generic[T]):
         Recursively evaluate expression nodes in :attr:`children`. Then,
         apply :attr:`value` to the results, in the same order as the
         :attr:`children` they are resolved from.
+
+        Args:
+            *args: Arguments to the program.
         """
         self_arity: int = self.arity
         params_arity: int = len(args)
