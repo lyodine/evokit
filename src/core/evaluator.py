@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from abc import ABC, ABCMeta, abstractmethod
 from typing import TYPE_CHECKING, Generic, TypeVar
+from functools import wraps
 
 from .population import Individual
 
@@ -17,87 +18,66 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound=Individual)
 
 
-class _MetaEvaluator(ABCMeta):
-    """Machineary for the evaluator.
-        Because ABC (abstract base class) is also implemented with metaclasses,
-        and a class cannot have two metaclasses, I must implement the
-        following:
-            (1) MetaEvaluator extends ABCMeta
-            (2) Evaluator has MetaEvaluator as metaclass, thereby indirectly
-                using ABCMeta as metaclass
-            (3) Evaluator extends abc.ABC, which has ABCMeta as metaclass.
-            (4) Things work out, because both "chains" lead to the same
-                metaclass, which is ABCMeta.
+class MetaEvaluator(ABCMeta):
+    """Machinery. Implement special behavious in :class:`Evaluator`.
 
-        ABCMeta <|-- MetaEvaluator
-        ^               ^
-        | <metaclass>   | <metaclass>
-        |               |
-        abc.ABC <|-- Evaluator
-
+    :meta private:
     """
-    # cls, name, bases, attrs
-    def __new__(mcls: Type, name: str, bases: Tuple[type], namespace: Dict[str, Any]) -> Type:
-        """
-        """
-        # Moderately cursed Python magic.
-        # This metaclass modifies the behaviour of a evaluator.
-        def wrap_function(custom_evaluate):
-            def wrapper(*args, **kwargs) -> float:
-                individual = args[1]
+    def __new__(mcls: Type, name: str, bases: Tuple[type],
+                namespace: Dict[str, Any]) -> Type:
+        ABCMeta.__init__(mcls, name, bases, namespace)
+        # TODO This classifies as metaclass abuse. Though, I find it reasonable to
+        #   leave the machinery to the background, so that the user can have 
+        #   an easier time extending the framework.
+        def wrap_function(custom_evaluate: Callable) -> Callable:
+            @wraps(custom_evaluate)
+            def wrapper(self: Evaluator, individual: Individual, *args, **kwargs) -> float:
                 if not isinstance(individual, Individual):
                     raise TypeError("Evaluator is not an individual")
-                elif individual.is_scored():
-                    return individual.score
+                # If :attr:`retain_fitness` and the individual is scored, then
+                #   return that score. Otherwise, evaluate the individual.
+                if (self.retain_fitness and individual.has_fitness()):
+                    return individual.fitness
                 else:
-                    score: float = custom_evaluate(*args, **kwargs)
-                    individual.score = score
-                    return score
+                    return custom_evaluate(self, individual, *args, **kwargs)
             return wrapper
-
-        if name != "Evaluator":
-            namespace["evaluate"] = wrap_function(
-                namespace.setdefault("evaluate", lambda: None)
-            )
-        # This is necessary. Because __new__ is an instance method.
+        
+        namespace["evaluate"] = wrap_function(
+            namespace.setdefault("evaluate", lambda: None)
+        )
         return type.__new__(mcls, name, bases, namespace)
 
 
-class Evaluator(ABC, Generic[T]):
+class Evaluator(ABC, Generic[T], metaclass=MetaEvaluator):
     """Base class for all evaluators.
 
     Derive this class to create custom evaluators.
     """
-    @staticmethod
-    def evaluate_shortcut(func: Callable) -> Callable:
-        """Annotation that applies the "evaluator guard" to an evaluator.
+    def __new__(cls, *args, **kwargs):
+        """Machinery. Implement managed attributes.
 
-        A child class may apply this annotation to `evaluate`. Doing so
-        prevents the evaluator from re-scoring individuals
-        that already have a fitness.
-
-        This may accelerate learning, as individuals retained from the
-        parent generation are no longer re-evaluated. However,
-        doing so also prevents the evaluator from correctly modeling
-        a changing fitness landscape, where the fitness of an
-        individual may change across generations.
+        :meta private:
         """
-        def wrapper(*args, **kwargs) -> float:
-            print("shortcut used")
-            individual = args[1]
-            if not isinstance(individual, Individual):
-                raise TypeError("Evaluator is not an individual")
-            elif individual.is_scored():
-                return individual.score
-            else:
-                score: float = func(*args, **kwargs)
-                individual.score = score
-                return score
-        return wrapper
+        instance = super().__new__(cls)
+        instance.retain_fitness = False
+        return instance
+
+    @abstractmethod
+    def __init__(self) -> None:
+        """
+        Args:
+            events: Collection of events that can be fired by the controller.
+
+        Note:
+            No need to not call `super().init(...)` when overriding :func:`__init__`.
+            The attributes :attr:`generation`, :attr:`accountants`,
+            and :attr:`events` are automatically managed.
+        """
+        self.retain_fitness = False
 
     @abstractmethod
     def evaluate(self: Self, individual: T) -> float:
-        """Evaluation strategy of the evaluator.
+        """Evaluation strategy.
 
         All subclasses should override this method. The implementation should
         assign higher fitness to higher-quality individuals.
@@ -110,12 +90,18 @@ class Evaluator(ABC, Generic[T]):
         """
 
     def evaluate_population(self: Self,
-                            pop: Population[T]) -> Population[T]:
-        """Context for the evaluation strategy.
+                            pop: Population[T]) -> None:
+        """Context of :meth:`evaluate`.
 
-        Iterate individuals in a population. For each individual, assign to it
-        a fitness given by `evaluate`.
+        Iterate individuals in a population. For each individual, compute a
+        fitness with :meth:`evaluate`, then assign that value to the individual.
+
+        A subclass may override this method to implement behaviours that
+        require access to the entire population.
+
+        Attention:
+            This method should **never** return a value. It should assign to
+            :attr:`.fitness` for each :class:`.Individual` in the :class:`.Population`.
         """
         for x in pop:
-            x.score = self.evaluate(x)
-        return pop
+            x.fitness = self.evaluate(x)

@@ -33,7 +33,9 @@ class Selector(ABC, Generic[T]):
 
     def select_to_population(self,
                              population: Population[T]) -> Population[T]:
-        """As an offspring selector, select from a population to a population.
+        """Select from a population to a population.
+
+        Invoke :meth:`select_to_many`, then shape the result to a :class:`.Population`.
 
         Args:
             population: population to select from.
@@ -42,19 +44,23 @@ class Selector(ABC, Generic[T]):
         new_population = Population[T]()
         for x in selected:
             new_population.append(x)
-
         return new_population
 
     def select_to_many(self, population: Population[T]) -> Tuple[T, ...]:
-        """Context for the selection strategy.
+        """Context of :attr:`select`.
 
-        Repeatedly apply select() to create a collection of solutions.
+        Repeatedly apply select() to create a collection of solutions. Each
+        application removes an item in the original population.
+        
         A subclass may override this method to implement behaviours that
-            require access to the entire selection process.
+        require access to the entire selection process.
 
         Args:
             population: population to select from.
         """
+
+        # TODO This method destroys the original population (by calling .draw).
+        #   Should I let it retain the original population?
 
         return_list: List[T] = []
         old_population: Population[T] = population
@@ -78,14 +84,17 @@ class Selector(ABC, Generic[T]):
     @abstractmethod
     def select(self,
                population: Population[T]) -> Tuple[T, ...]:
-        """Selection strategy of the selector.
+        """Selection strategy.
 
         All subclasses should override this method. The implementation should
-            return a tuple of individuals. Each item in the tuple should also
-            be a member of `population`.
+        return a tuple of individuals. Each item in the tuple should also
+        be a member of `population`.
 
         Args:
             population: population to select from.
+
+        Return:
+            A tuple that includes all selected individuals.
         """
         pass
 
@@ -114,7 +123,7 @@ class SimpleSelector(Selector[T]):
 
         Select the item in the population with highest fitness.
         """
-        population.sort(lambda x: x.score)
+        population.sort(lambda x: x.fitness)
         selected_solution = population[0]
         return (selected_solution,)
 
@@ -134,14 +143,14 @@ class ElitistSimpleSelector(SimpleSelector[T]):
         """Context that implements elitism.
 
         Preserve and update an elite. Each time the selector is used, insert
-            the current elite to the results.
+        the current elite to the results.
         """
         results: Tuple[T, ...] = super().select_to_many(population)
         best_individual: Optional[T] = self.best_individual
         if best_individual is None:
             best_individual = results[0]
         for x in results:
-            if x.score < best_individual.score:
+            if x.fitness < best_individual.fitness:
                 best_individual = x
         self.best_individual = best_individual
 
@@ -171,7 +180,7 @@ class TournamentSelector(Selector[T]):
             sample = list(population)
         else:
             sample = random.sample(tuple(population), self.bracket_size)
-        sample.sort(key=lambda x: x.score, reverse=True)
+        sample.sort(key=lambda x: x.fitness, reverse=True)
 
         # If nothing is selected stochastically, select the last element
         selected_solution: T = sample[-1]
@@ -210,7 +219,7 @@ def Elitist(sel: Selector[T]) -> Selector:  # type:ignore
         if best_individual is None:
             best_individual = results[0]
         for x in results:
-            if x.score > best_individual.score:
+            if x.fitness > best_individual.fitness:
                 best_individual = x
         self.best_individual = best_individual
 
