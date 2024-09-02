@@ -270,12 +270,12 @@ def Elitist(sel: Selector[D]) -> Selector:
 
             if my_best.fitness > population_best.fitness:
                 hof_individual = my_best
-                print("use my best", end="")
+                #print("use my best", end="")
             else:
                 hof_individual = population_best
                 setattr(self, UBER_SECRET_BEST_INDIVIDUAL_NAME, population_best.copy())
-                print("use population best", end="")
-            print(f", {str(hof_individual)}score is m{my_best.fitness} > p{population_best.fitness}")
+                #print("use population best", end="")
+            #print(f", {str(hof_individual)}score is m{my_best.fitness} > p{population_best.fitness}")
 
             # Acquire results of the original selector
             results: Tuple[D, ...] = \
