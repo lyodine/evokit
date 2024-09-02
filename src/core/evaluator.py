@@ -99,7 +99,9 @@ class Evaluator(ABC, Generic[T], metaclass=MetaEvaluator):
         Note:
             This method must **never** return a value. It must assign to
             :attr:`.fitness` for each :class:`.Individual` in the
-            :class:`.Population`.
+            :class:`.Population`. The result must be sorted, so that the earliest
+            item has the highest fitness.
         """
         for x in pop:
             x.fitness = self.evaluate(x)
+        pop.sort()
