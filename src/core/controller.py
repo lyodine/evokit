@@ -213,6 +213,5 @@ class LinearController(Controller):
         self.survivor_evaluator.evaluate_population(self.population)
         self.update("POST_SURVIVOR_EVALUATION")
 
-        self.population = self.survivor_selector.\
-            select_to_population(self.population)
+        self.population = self.survivor_selector.select_to_population(self.population)
         self.update("POST_SURVIVOR_SELECTION")
