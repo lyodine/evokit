@@ -61,7 +61,7 @@ class Individual(ABC, Generic[R], metaclass=MetaGenome):
 
     Derive this class to create custom representations.
 
-    See :doc:`../guides/examples/onemax`.
+    Tutorial: :doc:`../guides/examples/onemax`.
     """
     def __new__(cls: Type[Self], *args: Any, **kwargs: Any) -> Self:
         """Machinery. Implement managed attributes.
