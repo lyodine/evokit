@@ -1,0 +1,345 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Controller Example"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os\n",
+    "import sys\n",
+    "nb_dir = os.path.abspath(os.path.join('..', '..', '..', '..'))\n",
+    "if nb_dir not in sys.path:\n",
+    "    sys.path.append(nb_dir)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from evokit.core import Population\n",
+    "from evokit.evolvables.binstring import BinaryString"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "First create a `Population`. This example uses the binary string representation."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "['[1, 1, 1, 1, 1]', '[1, 1, 1, 1, 0]', '[1, 1, 1, 0, 0]', '[1, 1, 0, 0, 0]', '[1, 0, 0, 0, 0]', '[0, 0, 0, 0, 0]']\n"
+     ]
+    }
+   ],
+   "source": [
+    "pop : Population[BinaryString] = Population[BinaryString]()\n",
+    "\n",
+    "pop.append(BinaryString(int('11111', 2), 5))\n",
+    "pop.append(BinaryString(int('11110', 2), 5))\n",
+    "pop.append(BinaryString(int('11100', 2), 5))\n",
+    "pop.append(BinaryString(int('11000', 2), 5))\n",
+    "pop.append(BinaryString(int('10000', 2), 5))\n",
+    "pop.append(BinaryString(int('00000', 2), 5))\n",
+    "\n",
+    "print(pop)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "When an BinaryString is created, it has yet to be evaluated. Attempting to access its `.fitness` attribute raises an error."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "An ValueError is raised, with message \"Score is accessed but null\"\n"
+     ]
+    }
+   ],
+   "source": [
+    "try:\n",
+    "    pop[0].fitness\n",
+    "except ValueError as e:\n",
+    "    print(f\"An {type(e).__name__} is raised, with message \\\"{e}\\\"\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The selector only operates on individuals whose `.fitness` is defined. Import an evaluator for `BinaryString` to evaluate all items in `pop`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Fitness of [1, 1, 1, 1, 1] is 5\n",
+      "Fitness of [1, 1, 1, 1, 0] is 4\n",
+      "Fitness of [1, 1, 1, 0, 0] is 3\n",
+      "Fitness of [1, 1, 0, 0, 0] is 2\n",
+      "Fitness of [1, 0, 0, 0, 0] is 1\n",
+      "Fitness of [0, 0, 0, 0, 0] is 0\n"
+     ]
+    }
+   ],
+   "source": [
+    "from evokit.evolvables.binstring import CountBits\n",
+    "\n",
+    "CountBits().evaluate_population(pop)\n",
+    "\n",
+    "for individual in pop:\n",
+    "    print(f\"Fitness of {individual} is {individual.fitness}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "A selector selects from a `Population` into a strict subset of it. For each item selected into this subset, that item is removed from the original `Population` to prevent duplication of references.\n",
+    "\n",
+    "This example uses a `SimpleSelector`, which simply selects a number of individuals with the highest `.fitness`. Set `budget=3` to select 3 such individuals."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from evokit.core import SimpleSelector"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Original population has items ['[1, 1, 0, 0, 0]', '[1, 0, 0, 0, 0]', '[0, 0, 0, 0, 0]']\n",
+      "Output population has items ['[1, 1, 1, 1, 1]', '[1, 1, 1, 1, 0]', '[1, 1, 1, 0, 0]']\n"
+     ]
+    }
+   ],
+   "source": [
+    "sel = SimpleSelector(budget=3)\n",
+    "original_population = pop\n",
+    "parents = sel.select_to_population(original_population)\n",
+    "\n",
+    "print(f\"Original population has items {original_population}\")\n",
+    "print(f\"Output population has items {parents}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "A variator creates new individuals from existing individuals. Here, use `MutateBits` which randomly flips each bit with probability `mutation_rate`. Use 0.1 for now.\n",
+    "\n",
+    "Apply the mutator to output_population to create a new population of offspring. Note that, unlike selectors, variators do not affect the `Population` that is given argument.\n",
+    "\n",
+    "Notice that not all items in the survivor pool are changed. With `mutation_rate=0.1`, there is a probability of 0.6 that the variator does not affect an individual. The first and third individuals are duplicated exactly."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Parent:    ['[1, 1, 1, 1, 1]', '[1, 1, 1, 1, 0]', '[1, 1, 1, 0, 0]']\n",
+      "Offspring: ['[1, 1, 1, 1, 1]', '[1, 1, 0, 1, 0]', '[1, 1, 1, 0, 0]']\n"
+     ]
+    }
+   ],
+   "source": [
+    "import random\n",
+    "random.seed(24601)\n",
+    "\n",
+    "from evokit.evolvables.binstring import MutateBits\n",
+    "variator = MutateBits(mutation_rate=0.1)\n",
+    "\n",
+    "survivors = variator.vary_population(parents)\n",
+    "print (f\"Parent:    {parents}\")\n",
+    "print (f\"Offspring: {survivors}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Put everything together, define a `Controller` that automates this process. The controller can take one "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from evokit.core import Controller\n",
+    "from typing import override\n",
+    "\n",
+    "from evokit.core import Evaluator, Selector, Variator\n",
+    "\n",
+    "class ExampleController(Controller):\n",
+    "\n",
+    "    @override\n",
+    "    def __init__(self,\n",
+    "                 population: Population[BinaryString],\n",
+    "                 evaluator: Evaluator[BinaryString],\n",
+    "                 selector: Selector[BinaryString],\n",
+    "                 variator: Variator[BinaryString]) -> None:\n",
+    "        self.population = population\n",
+    "        self.evaluator = evaluator\n",
+    "        self.selector = selector\n",
+    "        self.variator = variator\n",
+    "\n",
+    "    @override\n",
+    "    def step(self) -> None:\n",
+    "        self.population = self.variator.vary_population(self.population)\n",
+    "        self.evaluator.evaluate_population(self.population)\n",
+    "        self.population = \\\n",
+    "            self.selector.select_to_population(self.population)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This time, create random individuals by calling `BinaryString.random`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Initial population: ['[0, 0, 1, 1, 0]', '[0, 1, 1, 1, 0]', '[0, 0, 1, 0, 1]', '[0, 0, 0, 1, 0]', '[0, 1, 0, 1, 1]']\n"
+     ]
+    }
+   ],
+   "source": [
+    "another_pop = Population[BinaryString]()\n",
+    "for _ in range(5):\n",
+    "    another_pop.append(BinaryString.random(size=5))\n",
+    "\n",
+    "print(f\"Initial population: {another_pop}\")\n",
+    "\n",
+    "ctrl = ExampleController(another_pop,\n",
+    "                         CountBits(),\n",
+    "                         SimpleSelector(budget=3),\n",
+    "                         MutateBits(mutation_rate=0.1))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Run the controller. Observe that each iteration results in a new population. This is because `ExampleController` replaces the entirely of its population with the survivor pool. Doing so might, as is shown in the example, result in an decrease in fitness."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Current population: ['[1, 1, 0, 1, 1]', '[0, 0, 1, 1, 1]', '[0, 1, 1, 1, 0]']\n",
+      "Current fitnesses: [4, 3, 3]\n",
+      "Current population: ['[1, 1, 0, 1, 1]', '[0, 0, 1, 1, 1]', '[0, 1, 1, 1, 0]']\n",
+      "Current fitnesses: [4, 3, 3]\n",
+      "Current population: ['[1, 1, 0, 1, 1]', '[0, 0, 1, 1, 1]', '[0, 1, 1, 0, 0]']\n",
+      "Current fitnesses: [4, 3, 2]\n",
+      "Current population: ['[1, 1, 0, 1, 1]', '[0, 1, 1, 0, 0]', '[0, 0, 0, 1, 0]']\n",
+      "Current fitnesses: [4, 2, 1]\n",
+      "Current population: ['[1, 1, 0, 1, 1]', '[0, 1, 1, 0, 0]', '[0, 0, 0, 1, 0]']\n",
+      "Current fitnesses: [4, 2, 1]\n",
+      "Current population: ['[1, 1, 0, 1, 1]', '[0, 1, 1, 0, 0]', '[0, 0, 0, 1, 0]']\n",
+      "Current fitnesses: [4, 2, 1]\n",
+      "Current population: ['[1, 1, 0, 1, 1]', '[0, 1, 0, 0, 0]', '[0, 0, 0, 1, 0]']\n",
+      "Current fitnesses: [4, 1, 1]\n",
+      "Current population: ['[0, 1, 0, 1, 1]', '[1, 1, 0, 0, 0]', '[0, 0, 0, 0, 0]']\n",
+      "Current fitnesses: [3, 2, 0]\n",
+      "Current population: ['[0, 1, 0, 0, 1]', '[1, 1, 0, 0, 0]', '[0, 0, 0, 1, 0]']\n",
+      "Current fitnesses: [2, 2, 1]\n",
+      "Current population: ['[1, 1, 1, 0, 0]', '[0, 1, 0, 0, 0]', '[0, 0, 0, 1, 0]']\n",
+      "Current fitnesses: [3, 1, 1]\n"
+     ]
+    }
+   ],
+   "source": [
+    "for _ in range (10):\n",
+    "    ctrl.step()\n",
+    "    print(f\"Current population: {ctrl.population}\")\n",
+    "    print(f\"Current fitnesses: {[ind.fitness for ind in ctrl.population]}\")"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.0"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
