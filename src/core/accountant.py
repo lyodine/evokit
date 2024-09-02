@@ -14,12 +14,10 @@ if TYPE_CHECKING:
 
 from typing import NamedTuple
 
-from .controller import ControllerEvent
-
 
 class AccountantRecord(NamedTuple):
     generation: int
-    event: ControllerEvent
+    event: str
     value: Any
 
 class Accountant:
@@ -28,15 +26,15 @@ class Accountant:
     Otherwise, the event may update the accountant, which triggers another event,
         and so on.
     """
-    def __init__(self: Self, handlers: Dict[ControllerEvent, Callable[[Controller], Any]]):
+    def __init__(self: Self, handlers: Dict[str, Callable[[Controller], Any]]):
         self.records: List[AccountantRecord] = []
-        self.handlers: Dict[ControllerEvent, Callable[[Controller], Any]] = handlers
+        self.handlers: Dict[str, Callable[[Controller], Any]] = handlers
         self.subject: Optional[Controller] = None
 
     def register(self: Self, subject: Controller)-> None:
         self.subject = subject
 
-    def update(self: Self, event: ControllerEvent)-> None:
+    def update(self: Self, event: str)-> None:
         if self.subject == None:
             raise ValueError("This accountant is updated without an attached controller; this should not happen")
         else:
