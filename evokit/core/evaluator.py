@@ -34,10 +34,11 @@ class MetaEvaluator(ABCMeta):
         # This bad boy violates so many OO practices. Everything for ease
         #   of use, I guess.
 
-        def wrap_function(custom_evaluate: Callable[[Any, Any], float]) -> Callable:
+        def wrap_function(custom_evaluate: Callable[[Any, Any],
+                                                    tuple[float, ...]]) -> Callable:
             @wraps(custom_evaluate)
             def wrapper(self: Evaluator, individual: Individual,
-                        *args: Any, **kwargs: Any) -> float:
+                        *args: Any, **kwargs: Any) -> tuple[float, ...]:
                 if not isinstance(individual, Individual):
                     raise TypeError("The input is not an individual")
                 # If :attr:`retain_fitness` and the individual is scored, then
@@ -77,7 +78,7 @@ class Evaluator(ABC, Generic[D], metaclass=MetaEvaluator):
         """
 
     @abstractmethod
-    def evaluate(self: Self, individual: D) -> float:
+    def evaluate(self: Self, individual: D) -> tuple[float, ...]:
         """Evaluation strategy. Return the fitness of an individual.
 
         Subclasses should override this method.
@@ -115,5 +116,5 @@ class Evaluator(ABC, Generic[D], metaclass=MetaEvaluator):
 
 class NullEvaluator(Evaluator[Any]):
     @override
-    def evaluate(self: Self, _: Any) -> float:
-        return 0
+    def evaluate(self: Self, _: Any) -> Tuple[float]:
+        return (0,)

@@ -15,6 +15,8 @@ if TYPE_CHECKING:
     from typing import Union
     from typing import Tuple
     from typing import Dict
+    from _typeshed import SupportsRichComparison
+
 from functools import wraps
 
 from typing import overload
@@ -82,13 +84,13 @@ class Individual(ABC, Generic[R], metaclass=MetaGenome):
     @abstractmethod
     def __init__(self) -> None:
         #: Fitness of the individual.
-        self._fitness: Optional[float]
+        self._fitness: Optional[tuple[float, ...]]
 
         #: Genotype of the individual.
         self.genome: R
 
     @property
-    def fitness(self) -> float:
+    def fitness(self) -> tuple[float, ...]:
         """Fitness of an individual.
 
         Writing to this property changes the fitness of the individual.
@@ -111,7 +113,7 @@ class Individual(ABC, Generic[R], metaclass=MetaGenome):
             return self._fitness
 
     @fitness.setter
-    def fitness(self, value: float) -> None:
+    def fitness(self, value: tuple[float, ...]) -> None:
         """Sphinx does not pick up docstrings on setters.
 
         This docstring should never be seen.
@@ -295,8 +297,10 @@ class Population(AbstractCollection[D]):
         return self.__class__(*[x.copy() for x in self._items])
 
     def sort(self: Self,
-             ranker: Callable[[D], float] = lambda x: x.fitness) -> None:
+             ranker: Callable[[D], SupportsRichComparison] = lambda x: x.fitness) -> None:
         """Rearrange items by fitness, highest-first.
+
+        If individuals have multiple fitnesses, sort lexi ... what?.
 
         Args:
             ranker: Sort key, called on each item prior to sorting.
