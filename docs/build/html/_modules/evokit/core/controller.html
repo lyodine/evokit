@@ -106,7 +106,7 @@
 
 
 <span class="k">class</span> <span class="nc">MetaController</span><span class="p">(</span><span class="n">ABCMeta</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Machinery. Implement special behavious in :class:`Controller`.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Machinery. Implement special behaviours in :class:`Controller`.</span>
 
 <span class="sd">    :meta private:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -138,9 +138,11 @@
 <div class="viewcode-block" id="Controller">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.controller.Controller">[docs]</a>
 <span class="k">class</span> <span class="nc">Controller</span><span class="p">(</span><span class="n">ABC</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MetaController</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all evolutionary algorothms.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all evolutionary algorithms.</span>
 
 <span class="sd">    Derive this class to create custom algorithms.</span>
+
+<span class="sd">    See :doc:`../guides/examples/controller`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Controller.__new__">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.controller.Controller.__new__">[docs]</a>
@@ -164,12 +166,10 @@
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-
 <span class="sd">        Subclasses should override this method.</span>
 
-<span class="sd">        The implementation can accept operators as arguments. Alternatively,</span>
-<span class="sd">        it may also acquire operators from the global scope, or define them</span>
-<span class="sd">        in the initialiser.</span>
+<span class="sd">        The initialiser should create (or accept as argument) operators used</span>
+<span class="sd">        in the algorithm.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO The note is just not right - normally, the child should</span>
         <span class="c1">#   call the initialiser of the parent/</span>
@@ -178,7 +178,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">generation</span><span class="p">:</span> <span class="nb">int</span>
         <span class="c1">#: Registered :class:`Accountant` objects.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">accountants</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Accountant</span><span class="p">]</span>
-        <span class="c1">#: Collection of events that can be reported by this controller.</span>
+        <span class="c1">#: Events that can be reported by this controller.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></div>
 
 
@@ -188,13 +188,26 @@
     <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Advance the population by one generation.</span>
 
-<span class="sd">        Subclasses should override this method.</span>
+<span class="sd">        Subclasses should override this method. Use operators to update</span>
+<span class="sd">        the population (or populations). Call :meth:`update` to fire events.</span>
+
+<span class="sd">        Example:</span>
+
+<span class="sd">        .. code-block:: Python</span>
+
+<span class="sd">            self.population = self.variator.vary_population(self.population)</span>
+<span class="sd">            self.update(&quot;POST_VARIATION&quot;)</span>
+
+<span class="sd">            self.evaluator.evaluate_population(self.population)</span>
+<span class="sd">            self.update(&quot;POST_EVALUATION&quot;)</span>
+
+<span class="sd">            self.population = \\</span>
+<span class="sd">                self.selector.select_to_population(self.population)</span>
 
 <span class="sd">        Note:</span>
 <span class="sd">            Do not manually increment :attr:`generation`. This property</span>
 <span class="sd">            is automatically managed.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># TODO Should I use this note to make it clear?</span>
         <span class="k">pass</span></div>
 
 
@@ -208,7 +221,7 @@
 <span class="sd">                collects data from this Controller.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">accountants</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accountant</span><span class="p">)</span>
-        <span class="n">accountant</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+        <span class="n">accountant</span><span class="o">.</span><span class="n">_subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Controller.update">
@@ -216,7 +229,7 @@
     <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Report an event to all attached :class:`.Accountant` objects.</span>
 
-<span class="sd">        The event must be in :attr:`events`. If not, raise an exception.</span>
+<span class="sd">        If the event is not in :attr:`events`, raise an exception.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            event: the event to report.</span>
@@ -228,7 +241,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Controller fires unregistered event </span><span class="si">{</span><span class="n">event</span><span class="si">}</span><span class="s2">.&quot;</span>
                              <span class="sa">f</span><span class="s2">&quot;Add </span><span class="si">{</span><span class="n">event</span><span class="si">}</span><span class="s2"> to the controller&#39;s .events value&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">acc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">accountants</span><span class="p">:</span>
-            <span class="n">acc</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">event</span><span class="p">)</span></div>
+            <span class="n">acc</span><span class="o">.</span><span class="n">_update</span><span class="p">(</span><span class="n">event</span><span class="p">)</span></div>
 </div>
 
 
@@ -242,11 +255,15 @@
 <span class="sd">    take advantage of parallelism. The algorithm applies its operators</span>
 <span class="sd">    in the following order:</span>
 
+<span class="sd">        #. fire event ``GENERATION_BEGIN``</span>
 <span class="sd">        #. **evaluate** for selection</span>
-<span class="sd">        #. **selection**</span>
-<span class="sd">        #. *update population*</span>
+<span class="sd">        #. fire event ``POST_VARIATION``</span>
+<span class="sd">        #. select for **survivors**</span>
+<span class="sd">        #. update :attr:`population`</span>
+<span class="sd">        #. fire event ``POST_EVALUATION``</span>
 <span class="sd">        #. **vary** parents</span>
-<span class="sd">        #. *update population*</span>
+<span class="sd">        #. update :attr:`population`</span>
+<span class="sd">        #. fire event ``POST_SELECTION``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="SimpleLinearController.__init__">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.controller.SimpleLinearController.__init__">[docs]</a>
@@ -268,21 +285,6 @@
                                   <span class="s2">&quot;POST_EVALUATION&quot;</span><span class="p">,</span>
                                   <span class="s2">&quot;POST_SELECTION&quot;</span><span class="p">]</span></div>
 
-        <span class="c1"># &quot;&quot;&quot;</span>
-        <span class="c1"># Args:</span>
-        <span class="c1"># TODO These names are repeated in the class docstring.</span>
-        <span class="c1">#     population: initial population.</span>
-
-        <span class="c1">#     parent_evaluator: operator that evaluate the fitness of an individual.</span>
-
-        <span class="c1">#     parent_selector: operator that selects individuals for variation.</span>
-
-        <span class="c1">#     variator: operator that creates new individuals from existing ones.</span>
-
-        <span class="c1">#     survivor_evaluator: operator that selects to the next generation.</span>
-
-        <span class="c1">#     survivor_selector: operator that selects to the next generation.</span>
-        <span class="c1"># &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="SimpleLinearController.step">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.controller.SimpleLinearController.step">[docs]</a>
@@ -296,7 +298,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">evaluator</span><span class="o">.</span><span class="n">evaluate_population</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">population</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;POST_EVALUATION&quot;</span><span class="p">)</span>
-        
+
         <span class="bp">self</span><span class="o">.</span><span class="n">population</span> <span class="o">=</span> \
             <span class="bp">self</span><span class="o">.</span><span class="n">selector</span><span class="o">.</span><span class="n">select_to_population</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">population</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;POST_SELECTION&quot;</span><span class="p">)</span></div>
@@ -313,13 +315,19 @@
 <span class="sd">    take advantage of parallelism. The algorithm applies its operators</span>
 <span class="sd">    in the following order:</span>
 
+<span class="sd">        #. fire event ``&quot;GENERATION_BEGIN&quot;``</span>
 <span class="sd">        #. **evaluate** for parent selection</span>
-<span class="sd">        #. parent **selection**</span>
-<span class="sd">        #. *update population*</span>
+<span class="sd">        #. fire event ``POST_PARENT_EVALUATION``</span>
+<span class="sd">        #. select for **parents**</span>
+<span class="sd">        #. update :attr:`population`</span>
+<span class="sd">        #. fire event ``POST_PARENT_SELECTION``</span>
 <span class="sd">        #. **vary** parents</span>
+<span class="sd">        #. fire event ``POST_VARIATION``</span>
 <span class="sd">        #. **evaluate** for survivor selection</span>
-<span class="sd">        #. survivor **selection**</span>
-<span class="sd">        #. *update population*</span>
+<span class="sd">        #. fire event ``POST_SURVIVOR_EVALUATION``</span>
+<span class="sd">        #. select for **survivors**</span>
+<span class="sd">        #. update :attr:`population`</span>
+<span class="sd">        #. fire event ``POST_SURVIVOR_SELECTION``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="LinearController.__init__">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.controller.LinearController.__init__">[docs]</a>
@@ -333,7 +341,7 @@
                  <span class="n">survivor_selector</span><span class="p">:</span> <span class="n">Selector</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># _Introduction to Evolutionary Computing_ calls</span>
         <span class="c1">#   selectors &quot;survivor selection&quot; and the outcome</span>
-        <span class="c1">#   &quot;offspring&quot;. I&#39;m not making the call there.</span>
+        <span class="c1">#   &quot;offspring&quot;. These terms are taken from that book.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">population</span> <span class="o">=</span> <span class="n">population</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parent_evaluator</span> <span class="o">=</span> <span class="n">parent_evaluator</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parent_selector</span> <span class="o">=</span> <span class="n">parent_selector</span>
@@ -344,56 +352,37 @@
         <span class="c1"># Each event name informs what action has taken place.</span>
         <span class="c1">#   This should be easier to understand, compared to &quot;PRE_...&quot;.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;GENERATION_BEGIN&quot;</span><span class="p">,</span>
+                                  <span class="s2">&quot;POST_PARENT_EVALUATION&quot;</span><span class="p">,</span>
                                   <span class="s2">&quot;POST_PARENT_SELECTION&quot;</span><span class="p">,</span>
                                   <span class="s2">&quot;POST_VARIATION&quot;</span><span class="p">,</span>
                                   <span class="s2">&quot;POST_SURVIVOR_EVALUATION&quot;</span><span class="p">,</span>
                                   <span class="s2">&quot;POST_SURVIVOR_SELECTION&quot;</span><span class="p">]</span></div>
 
-        <span class="c1"># wwerwe</span>
-        <span class="c1"># &quot;&quot;&quot;</span>
-        <span class="c1"># Args:</span>
-        <span class="c1"># TODO These names are repeated in the class docstring.</span>
-        <span class="c1">#     population: initial population.</span>
-
-        <span class="c1">#     parent_evaluator: operator that evaluate the fitness of an individual.</span>
-
-        <span class="c1">#     parent_selector: operator that selects individuals for variation.</span>
-
-        <span class="c1">#     variator: operator that creates new individuals from existing ones.</span>
-
-        <span class="c1">#     survivor_evaluator: operator that selects to the next generation.</span>
-
-        <span class="c1">#     survivor_selector: operator that selects to the next generation.</span>
-        <span class="c1"># &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="LinearController.step">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.controller.LinearController.step">[docs]</a>
     <span class="nd">@override</span>
     <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">parent_evaluator</span><span class="o">.</span><span class="n">evaluate_population</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">population</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;GENERATION_BEGIN&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent_evaluator</span><span class="o">.</span><span class="n">evaluate_population</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">population</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;POST_PARENT_EVALUATION&quot;</span><span class="p">)</span>
         <span class="c1"># Update the population after each event. This ensures that</span>
         <span class="c1">#   the :class:`Accountant` always has access to the most</span>
         <span class="c1">#   up-to-date information.</span>
-        <span class="c1"># print(f&quot;POP PE is {[x.fitness for x in self.population]}&quot;)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">population</span> <span class="o">=</span> \
             <span class="bp">self</span><span class="o">.</span><span class="n">parent_selector</span><span class="o">.</span><span class="n">select_to_population</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">population</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;POST_PARENT_SELECTION&quot;</span><span class="p">)</span>
-        <span class="c1"># print(f&quot;POP PS is {[x.fitness for x in self.population]}&quot;)</span>
-        
+
         <span class="bp">self</span><span class="o">.</span><span class="n">population</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">variator</span><span class="o">.</span><span class="n">vary_population</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">population</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;POST_VARIATION&quot;</span><span class="p">)</span>
-        <span class="c1"># print(f&quot;POP VAR is {[x.fitness for x in self.population]}&quot;)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">survivor_evaluator</span><span class="o">.</span><span class="n">evaluate_population</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">population</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;POST_SURVIVOR_EVALUATION&quot;</span><span class="p">)</span>
-        <span class="c1"># print(f&quot;POP SE is {[x.fitness for x in self.population]}&quot;)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">population</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">survivor_selector</span><span class="o">.</span><span class="n">select_to_population</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">population</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;POST_SURVIVOR_SELECTION&quot;</span><span class="p">)</span></div>
 </div>
 
-        <span class="c1"># print(f&quot;POP SS is {[x.fitness for x in self.population]}&quot;)</span>
 </pre></div>
 
            </div>
