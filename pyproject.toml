@@ -33,7 +33,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Artificial Life  ",
     "Topic :: Software Development :: Libraries :: Python Modules ",
     "Typing :: Typed",
-    "License :: MIT"
+    "License :: OSI Approved :: MIT License"
 ]
 
 # Add tags:
