@@ -1,5 +1,5 @@
 # mypy: ignore-errors
-# flake8: noqa 
+# flake8: noqa
 
 from __future__ import annotations\
 
@@ -91,13 +91,13 @@ class Label():
     def __init__(self: Self, label: str):
         """
         Args:
-            label: Text of the label. 
+            label: Text of the label.
         """
         self.label = label
 
 class For(StructureType):
     """Simple \"for\" loop.
-    
+
     A control structure with this type repeats :arg:`count` times.
     """
     def __init__(self: Self, count: int):
@@ -177,7 +177,7 @@ class Operation(Instruction):
         self.function: Callable[..., float] = function
         self.target: int = target
         self.args: Tuple[int, ...] = args
-        
+
         # If true, then operands are all constants. Apparently a bad thing
         #   according to the Banzhaf LGP book.
         # If this is the case, raise an warning.
@@ -195,9 +195,9 @@ class Operation(Instruction):
         function_name: str = getattr(self.function,
                                      '__name__',
                                      repr(self.function))
-        
+
         return f"r[{self.target}] <- {function_name}({args})"
-    
+
     __repr__ = __str__
 
 class Condition():
@@ -239,7 +239,7 @@ class LinearProgram():
                  reg_length: int,
                  constants: Sequence[float],
                  initialiser: float | Callable[[], float]):
-        
+
         #: Number of output registers
         self.coarity: int
         self.coarity = coarity
@@ -256,7 +256,7 @@ class LinearProgram():
                 self.registers[i] = initialiser()
         else:
             raise ValueError("Initialiser is not callable and not a value.")
-        
+
         # Initialise constants
         self.constants = np.fromiter(constants, dtype=float64)
         self.constants.flags.writeable = False
@@ -281,8 +281,8 @@ class LinearProgram():
     def check(self: Self, cond: Conditional) -> bool:
         return cond.function(*(self.constants[-i-1] if i < 0 else self.registers[i]\
                       for i in cond.args))
-    
-    
+
+
     def run_instruction(self: Self, instruction: Instruction,
                         instructions: Sequence[Instruction],
                         pos: int) -> int:
@@ -299,7 +299,7 @@ class LinearProgram():
                 return self._run_label()
             case _:
                 raise ValueError(f"Instruction type {type(instruction).__name__} Not recognised")
-            
+
     def _run_label(self: Self) -> int:
         return 1
 
@@ -314,15 +314,15 @@ class LinearProgram():
         print(str(instruction))
         return 1
 
-    def _run_struct_over_lines(self: Self, instruction: StructOverLines, 
+    def _run_struct_over_lines(self: Self, instruction: StructOverLines,
                                instructions: Sequence[Instruction],
                                pos: int) -> int:
         collected_lines: List[Instruction] = []
         current_pos: int = pos+1
-        
+
         num_of_steps: int = min([len(instructions) - current_pos, instruction.line_count])
 
-        
+
         for _ in range(num_of_steps-1):
             print(f"Collect command into structure: {instructions[current_pos]}")
             collected_lines.append(instructions[current_pos])
@@ -335,29 +335,29 @@ class LinearProgram():
     def _run_struct_next_line(self: Self, instruction: StructOverLines,
                               instructions: Sequence[Instruction],
                               pos: int) -> int:
-        
+
         collected_lines: List[Instruction] = []
         current_pos: int = pos+1
-        
+
         num_of_steps: int = min([len(instructions) - current_pos, 1])
-        
+
         for _ in range(num_of_steps):
             collected_lines.append(instructions[current_pos])
             current_pos += 1
         instruction.stype(self, collected_lines)
-        
+
 
         return num_of_steps
-        
+
     def _run_struct_until_label(self: Self, instruction: StructUntilLabel,
                                 instructions: Sequence[Instruction],
                                 pos: int) -> int:
-        
+
         collected_lines: List[Instruction] = []
         current_pos: int = pos+1
-        
+
         num_of_steps: int = len(instructions) - current_pos
-        
+
         for _ in range(num_of_steps):
             current_instruction: Instruction = instructions[current_pos]
 
@@ -372,7 +372,7 @@ class LinearProgram():
         instruction.stype(self, collected_lines)
 
         return len(instructions)
-        
+
     def __str__(self: Self):
         return (f"Linear program. Current output values: {self.get_output_values()}\n") +\
                 f"Constants c = {str(self.constants)},\n" +\
