@@ -5,7 +5,6 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from typing import Optional
     from typing import Sequence
-    from typing import Tuple
     from typing import Self
     from typing import Type
     from typing import Any
@@ -36,7 +35,7 @@ class Variator(ABC, Generic[D]):
         self.coarity: Optional[int]
 
     @abstractmethod
-    def vary(self, parents: Sequence[D]) -> Tuple[D, ...]:
+    def vary(self, parents: Sequence[D]) -> tuple[D, ...]:
         """Apply the variator to a tuple of parents
 
         Produce a tuple of individuals from a tuple of individuals.
@@ -92,5 +91,5 @@ class NullVariator(Variator[D]):
         self.coarity = 1
 
     @override
-    def vary(self, parents: Sequence[D]) -> Tuple[D, ...]:
+    def vary(self, parents: Sequence[D]) -> tuple[D, ...]:
         return tuple(parents)
