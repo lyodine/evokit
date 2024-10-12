@@ -43,9 +43,8 @@ class Variator(ABC, Generic[D]):
         this selector, respectively.
 
         Note:
-            If the result could have a different
-            :attr:`fitness .Individual.reset_fitness`
-            than the original individual, call :meth:`.Individual.reset_fitness`
+            If the result could have a different :attr:`fitness` than the
+            original individual, call :meth:`.Individual.reset_fitness`
             to clear its fitness.
         """
         pass
@@ -54,6 +53,8 @@ class Variator(ABC, Generic[D]):
                           population: Population[D])\
             -> Sequence[Sequence[D]]:
         """Machinery.
+
+        Divide the population into sequences of the given size.
         """
         # Tuple magic. Zipping an iterable with itself extracts a tuple of
         #   that size. The "discarding" behaviour is implemented this way.
@@ -65,7 +66,8 @@ class Variator(ABC, Generic[D]):
             parent_groups = tuple(zip(*(iter(population),) * self.arity))
         return parent_groups
 
-    def vary_population(self: Self, population: Population[D]) -> Population[D]:
+    def vary_population(self: Self,
+                        population: Population[D]) -> Population[D]:
         """Vary the population.
 
         Separate ``population`` into groups of size `.arity`. For each group,
