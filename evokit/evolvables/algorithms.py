@@ -61,7 +61,7 @@ class SimpleLinearAlgorithm(Algorithm[T]):
         self.update("POST_EVALUATION")
 
         self.population = \
-            self.selector.select_to_population(self.population)
+            self.selector.select_population(self.population)
         self.update("POST_SELECTION")
 
 
@@ -124,7 +124,7 @@ class LinearAlgorithm(Algorithm[T]):
         #   the :class:`Accountant` always has access to the most
         #   up-to-date information.
         self.population = \
-            self.parent_selector.select_to_population(self.population)
+            self.parent_selector.select_population(self.population)
         self.update("POST_PARENT_SELECTION")
 
         self.population = self.variator.vary_population(self.population)
@@ -133,5 +133,7 @@ class LinearAlgorithm(Algorithm[T]):
         self.survivor_evaluator.evaluate_population(self.population)
         self.update("POST_SURVIVOR_EVALUATION")
 
-        self.population = self.survivor_selector.select_to_population(self.population)
+        self.population = self.survivor_selector.select_population(
+            self.population)
+
         self.update("POST_SURVIVOR_SELECTION")
