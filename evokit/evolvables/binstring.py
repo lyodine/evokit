@@ -127,7 +127,8 @@ class BinaryString(Individual[int]):
     def __str__(self: Self) -> str:
         size: int = self.size
         return str(
-            (size * [0] + [int(digit) for digit in bin(self.genome)[2:]])[-size:])
+            (size * [0] + [int(digit) for digit in bin(self.genome)[2:]])
+            [-size:])
 
     def _assert_pos_out_of_bound(self: Self, pos: int) -> None:
         """Assert that an index is within bound of this bit string.
@@ -136,7 +137,7 @@ class BinaryString(Individual[int]):
             pos: An index.
 
         Raise:
-            IndexError: If :arg:`pos` is outside of range :math:`[0, self.size-1]`
+            IndexError: If :arg:`pos` is not in range ``[0 ... self.size-1]``
         """
         if pos > self.size - 1:
             raise IndexError(f"Index {pos} is out of bound for a binary"
@@ -174,7 +175,8 @@ class MutateBits(Variator[BinaryString]):
         self.coarity = 1
         self.mutation_rate = mutation_rate
 
-    def vary(self, parents: Sequence[BinaryString]) -> tuple[BinaryString, ...]:
+    def vary(self: Self,
+             parents: Sequence[BinaryString]) -> tuple[BinaryString, ...]:
         offspring = parents[0].copy()
 
         for i in range(0, offspring.size):

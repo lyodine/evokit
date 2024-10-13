@@ -28,12 +28,13 @@ class MetaEvaluator(ABCMeta):
     def __new__(mcls: Type, name: str, bases: tuple[type],
                 namespace: dict[str, Any]) -> Any:  # BAD
         ABCMeta.__init__(mcls, name, bases, namespace)
-        # Remorseless metaclass abuse. Consider using __init_subclass__ instead.
+        # Remorseless metaclass abuse. Consider using __init_subclass__.
         # This bad boy violates so many OO practices. Everything for ease
         #   of use, I guess.
 
-        def wrap_function(custom_evaluate: Callable[[Any, Any],
-                                                    tuple[float, ...]]) -> Callable:
+        def wrap_function(
+                custom_evaluate: Callable[[Any, Any],
+                                          tuple[float, ...]]) -> Callable:
             @wraps(custom_evaluate)
             def wrapper(self: Evaluator, individual: Individual,
                         *args: Any, **kwargs: Any) -> tuple[float, ...]:
@@ -82,7 +83,9 @@ class Evaluator(ABC, Generic[D], metaclass=MetaEvaluator):
         Subclasses should override this method.
 
         Note:
-            The implementation should assign higher fitness to better individuals.
+            "Better" individuals should have higher fitness.
+
+            :class:`.Selector` should prefer individuals with higher fitness.
 
         Args:
             individual: individual to evaluate
@@ -92,24 +95,23 @@ class Evaluator(ABC, Generic[D], metaclass=MetaEvaluator):
                             pop: Population[D]) -> None:
         """Context of :meth:`evaluate`.
 
-        Iterate individuals in a population. For each individual, compute a
-        fitness with :meth:`evaluate`, then assign that value to the individual.
+        Iterate individuals in a population. For each individual, compute its
+        fitness with :meth:`evaluate`, then assign that value to
+        its :attr:`.Individual.fitness`.
 
         A subclass may override this method to implement behaviours that
         require access to the entire population.
 
         Effect:
-            For each item in :arg:`pop`, set its :attr:`.fitness .Individual.fitness`.
+            For each item in :arg:`pop`, set its :attr:`Individual.fitness`.
 
         Note:
             This method must **never** return a value. It must assign to
             :attr:`.fitness` for each :class:`.Individual` in the
-            :class:`.Population`. The result must be sorted, so that the earliest
-            item has the highest fitness.
+            :class:`.Population`.
         """
         for x in pop:
             x.fitness = self.evaluate(x)
-        pop.sort()
 
 
 class NullEvaluator(Evaluator[Any]):
