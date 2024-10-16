@@ -4,9 +4,9 @@ Why EvoKit?
 Operators are Easy to Make
 -----------------------------
 
-When extending a framework, you can just define what matters. The framework takes care of the rest.
+Define only what matters, let the framework automate wht it can.
 
-Define the OneMax evaluator in 3 lines!
+The stock OneMax evaluator is written just in 3 lines! [#]_
 
 .. literalinclude:: ../../evokit/evolvables/binstring.py
     :language: python
@@ -27,9 +27,9 @@ Operators of the same type are interchangeable. That is:
 Completely Documented
 ---------------------
 
-**All** public members are documented (see [:doc:`modules`]).
+**All** public members are documented (see [:doc:`modules`] for the API documentation).
 
-**All** private member (except for well-known dunders) are thoroughly described. You can find examples like this in the source code:
+**All** private members (except for well-known dunders) are documented. You can find examples like this in the source code:
 
 .. literalinclude:: ../../evokit/evolvables/gp.py
     :language: python
@@ -43,7 +43,7 @@ Well Described
 
 * All methods (public or private) have type hints:
 
-.. literalinclude:: ../../evokit/core/algorithm.py
+.. literalinclude:: ../../evokit/evolvables/algorithms.py
     :language: python
     :pyobject: SimpleLinearAlgorithm.__init__
     :lines: 2-6
@@ -72,4 +72,10 @@ Transparent
 
 Core modules (in :mod:`.core`) do not depend on any external module.
 
-All randomness come from :mod:`.random` and can be reproduced by setting the right :meth:`.random.seed`.
+Reproducible
+------------
+
+All randomness in existing modules come from :mod:`random` and
+can be reproduced by setting the same :meth:`random.seed`.
+
+.. [#] ... and a few more lines for comments.

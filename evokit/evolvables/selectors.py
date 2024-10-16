@@ -44,18 +44,20 @@ class TruncationSelector(Selector[D]):
     @override
     def select_population(self: Self,
                           from_population: Population[D]) -> Population[D]:
-        return Population(*sorted(from_population, key=attrgetter("fitness"))
-                          [-self.budget:])
+        return Population(*sorted(list(from_population),
+                                  key=attrgetter("fitness"))[-self.budget:])
 
 
 class TournamentSelector(Selector[D]):
     """Tournament selector:
 
     #. From the population, select uniform sample of size :arg:`bracket_size`.
+
     #. Iterate through the sample, stop when a selection is made.
-        At index i, select the ith item with probability :math:`p * (1- p)^i`.
-        If no selection is made when reaching the end of the sample, select
-        the last item.
+       At index ``i``, select that item with probability :math:`p * (1- p)^i`.
+       If no selection is made when reaching the end of the sample, select
+       the last item.
+
     #. Repeat until :arg:`budget` items are selected.
     """
     def __init__(self: Self, budget: int, bracket_size: int = 2,
@@ -100,7 +102,7 @@ def Elitist(sel: Selector[D]) -> Selector:
     of the output population.
 
     Modify `select_population` of `sel` to use elitism. If `sel` already
-        overrides `select_population`, that implementation is destroyed.
+    overrides `select_population`, that implementation is destroyed.
 
     Args:
         sel: A selector

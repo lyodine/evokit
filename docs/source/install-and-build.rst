@@ -1,13 +1,13 @@
 Installing
-----------
+==========
 
-This tutorial installs EvoKit with the |PIPMOD|_ module. Please
-ensure that the module is available.
+EvoKit can be installed with |PIPMOD|_.
+If an error occurs during installation, update ``pip`` then try again.
 
 .. |PIPMOD| replace:: ``pip``
 .. _PIPMOD: https://docs.python.org/3/installing/
 
-If an error occurs during installation, update ``pip`` then try again.
+
 If you do not wish to install EvoKit globally, please consider using
 a virtual environment. An official tutorial can be found `here <https://
 packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-
@@ -23,35 +23,31 @@ or update it by running the following script:
 
    pip install build --upgrade
 
-Install from source
-~~~~~~~~~~~~~~~~~~~
+Install from PiPy
+-----------------
 
-Navigate to the root directory, then run
+To install EvoKit directly from |EVOKIT_ON_PIPY|_, run the following command:
+
+.. |EVOKIT_ON_PIPY| replace:: PyPi
+.. _EVOKIT_ON_PIPY: https://pypi.org/project/evokit/
+
+.. code-block:: bash
+
+   pip install evokit
+
+
+Install from Source
+-------------------
+
+To install EvoKit directly from source, run the following command at
+the root directory:
 
 .. code-block:: bash
 
    pip install .
 
-Build a source distribution
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Navigate to the root directory, then run
-
-.. code-block:: bash
-
-   python3 -m build --sdist
-
-Build a built distribution (wheel)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Navigate to the root directory, then run
-
-.. code-block:: bash
-
-   python3 -m build --wheel
-
 Build Documentation
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
 The directory ``docs/`` contains everything related to building documentations.
 
@@ -62,7 +58,7 @@ The directory ``docs/`` contains everything related to building documentations.
 * ``source/`` contains all configuration files, including ``conf.py``.
 
 Trial Run
-~~~~~~~~~
+---------
 
 After installing the package, check if it is working by running
 
@@ -102,3 +98,19 @@ increasing) values. A sample of the output follows.
    (17,)
    (17,)
 
+Optional Dependencies
+---------------------
+
+EvoKit has several optional dependencies. These dependencies are not required
+for the framework to function.
+
+.. list-table:: Title
+   :widths: 25 25
+   :header-rows: 1
+
+   * - Dependency
+     - Purpose
+   * - ``evokit[visualise]``
+     - Visualise representations.
+   * - ``evokit[test]``
+     - Test the framework; not used by the framework.
