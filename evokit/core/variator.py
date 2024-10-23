@@ -26,19 +26,23 @@ class Variator(ABC, Generic[D]):
         :meta private:
         """
         instance: Self = super().__new__(cls)
+
         instance.arity = None
         instance.coarity = None
+
         return instance
 
     def __init__(self: Self) -> None:
+        #: Size of input to :meth:`vary`
         self.arity: Optional[int]
+        #: Declared size of output of :meth:`vary`, not enforced
         self.coarity: Optional[int]
 
     @abstractmethod
     def vary(self, parents: Sequence[D]) -> tuple[D, ...]:
         """Apply the variator to a tuple of parents
 
-        Produce a tuple of individuals from a tuple of individuals.
+        Produce a tuple of individuals from a sequence of individuals.
         The input and output tuple sizes should match the arity and coarity of
         this selector, respectively.
         """

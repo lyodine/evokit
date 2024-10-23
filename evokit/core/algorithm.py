@@ -81,14 +81,12 @@ class Algorithm(ABC, Generic[T], metaclass=MetaAlgorithm):
         The initialiser should create (or accept as argument) operators used
         in the algorithm.
         """
-        # TODO The note is just not right - normally, the child should
-        #   call the initialiser of the parent/
 
-        #: Generation counter, automatically increments wit :py:attr:`step`.
+        #! Generation counter, automatically increments wit :py:attr:`step`.
         self.generation: int
-        #: Registered :class:`Accountant` objects.
+        #! Registered :class:`Accountant` objects.
         self.accountants: list[Accountant]
-        #: Events that can be reported by this algorithm.
+        #! Events that can be reported by this algorithm.
         self.events: list[str]
 
     @abstractmethod

@@ -32,6 +32,7 @@ class Selector(ABC, Generic[D]):
             Implementations that select a variable number of
             individuals may ignore :attr:`budget`.
         """
+        #: Declared size of the output population
         self.budget = budget
 
     def select_population(self: Self,
