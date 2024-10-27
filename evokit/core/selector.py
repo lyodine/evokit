@@ -30,7 +30,7 @@ class Selector(ABC, Generic[D]):
 
         Note:
             Implementations that select a variable number of
-            individuals may ignore :attr:`budget`.
+            individuals may ignore :attr:`.budget`.
         """
         #: Declared size of the output population
         self.budget = budget
@@ -49,9 +49,10 @@ class Selector(ABC, Generic[D]):
         Args:
             from_population: population to select from.
 
-        Warn:
-            The default implementation calls :meth:`select` as long as
-            the number of selected individuals is less than :attr:`budget`.
+        Warning:
+            The default implementation calls :meth:`.select` as long as
+            the number of selected individuals is less than :attr:`.budget`.
+
             As such, if :meth:`.select` can return multiple individuals, then
             the last call may return more individuals than what the budget
             permits.

@@ -116,10 +116,10 @@ class Accountant(Generic[C]):
     def publish(self) -> list[AccountantRecord]:
         """Report collected data.
 
-        Each time an event fires in the attached :class`.Algorithm`,
+        Each time an event fires in the attached :class:`.Algorithm`,
         if that event is registered in :attr:`handlers`, supply the
-        :class`.Algorithm` to the handler as argument then collect
-        the result in an :class:`AccountantRecord`. This method
+        :class:`.Algorithm` to the handler as argument then collect
+        the result in an :class:`.AccountantRecord`. This method
         returns a list of all collected records.
         """
         if not self.is_registered():
@@ -128,6 +128,6 @@ class Accountant(Generic[C]):
         return self.records
 
     def is_registered(self) -> bool:
-        """Return if this accountant is attached to an :class:Algorithm.
+        """Return if this accountant is attached to an :class:`.Algorithm`.
         """
         return self.subject is not None
