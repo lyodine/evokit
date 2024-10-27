@@ -5,3 +5,8 @@ body {
 code.literal {
     color:black !important
 }
+
+.graphviz {
+    max-width: fit-content;
+    margin-left: 1em;
+}
