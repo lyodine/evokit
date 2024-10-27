@@ -149,7 +149,7 @@ class While(StructureType):
         to how many times a while loop may be repeated for.
     """
 
-    #! Maximum number of iterations a :class:`While` loop can run for.
+    #: Maximum number of iterations a :class:`While` loop can run for.
     loop_cap = 20
 
     def __init__(self: Self, conditional: Condition):

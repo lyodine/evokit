@@ -172,7 +172,6 @@ class MutateBits(Variator[BinaryString]):
             raise ValueError(f"Mutation rate must be between 0 and 1."
                              f"Got: {mutation_rate}")
         self.arity = 1
-        self.coarity = 1
         self.mutation_rate = mutation_rate
 
     def vary(self: Self,
