@@ -28,7 +28,7 @@ class Variator(ABC, Generic[D]):
     """
 
     def __new__(cls: Type[Self], *args: Any, **kwargs: Any) -> Self:
-        """Machinery. Implement managed attributes.
+        """Machinery.
 
         :meta private:
         """
@@ -57,6 +57,8 @@ class Variator(ABC, Generic[D]):
                           population: Population[D])\
             -> Sequence[Sequence[D]]:
         """Machinery.
+
+        :meta private:
 
         Divide the population into sequences of the given size.
         """

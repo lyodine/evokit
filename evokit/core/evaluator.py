@@ -18,10 +18,12 @@ from typing import Any
 D = TypeVar("D", bound=Individual)
 
 
-class MetaEvaluator(ABCMeta):
-    """Machinery. Implement special behaviours in :class:`Evaluator`.
+class _MetaEvaluator(ABCMeta):
+    """Machinery.
 
     :meta private:
+
+    Implement special behaviours in :class:`Evaluator`.
     """
     # ^^ Actually a private metaclass! :meta private: indeed.
     def __new__(mcls: Type, name: str, bases: tuple[type],
@@ -53,7 +55,7 @@ class MetaEvaluator(ABCMeta):
         return type.__new__(mcls, name, bases, namespace)
 
 
-class Evaluator(ABC, Generic[D], metaclass=MetaEvaluator):
+class Evaluator(ABC, Generic[D], metaclass=_MetaEvaluator):
     """Base class for all evaluators.
 
     Derive this class to create custom evaluators.
@@ -61,9 +63,11 @@ class Evaluator(ABC, Generic[D], metaclass=MetaEvaluator):
     Tutorial: :doc:`../guides/examples/onemax`.
     """
     def __new__(cls, *args: Any, **kwargs: Any) -> Self:
-        """Machinery. Implement managed attributes.
+        """Machinery.
 
         :meta private:
+
+        Implement managed attributes.
         """
         instance = super().__new__(cls)
         instance.retain_fitness = False

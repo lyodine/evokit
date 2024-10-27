@@ -18,9 +18,11 @@ import random
 
 @dataclass
 class ValueRange:
-    """Typing machinery. Represents a range of numbers.
+    """Typing machinery.
 
     :meta private:
+
+    Represents a range of numbers.
     """
     lo: int
     hi: int

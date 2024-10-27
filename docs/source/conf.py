@@ -46,6 +46,7 @@ language = 'en-uk'
 autoclass_content = 'class'
 autosummary_generate = True
 
+napoleon_include_special_with_doc = True
 autodoc_default_options = {
     'undoc-members': True,
     # Note: `autodoc_class_signature='separated'` causes `ClassDocumenter` to
@@ -78,7 +79,6 @@ html_css_files = ['styles.css',]
 templates_path = ['_templates']
 exclude_patterns: list[str] = []
 
-napoleon_include_special_with_doc = True
 
 rst_prolog = """
 .. role:: python(code)
