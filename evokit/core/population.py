@@ -157,7 +157,7 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
         """
 
 
-class AbstractCollection(ABC, Generic[R], Sequence[R], Iterable[R]):
+class AbstractCollection(ABC, Generic[R], Sequence[R]):
     """Machinery.
 
     :meta private:
