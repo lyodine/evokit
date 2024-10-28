@@ -3,20 +3,14 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from typing import Iterator
+
     from typing import Callable
     from typing import Optional
     from typing import Self
     from typing import Type
     from typing import Any
-    from typing import Union
-    from _typeshed import SupportsRichComparison
 
 from functools import wraps
-
-from typing import overload
-from typing import Iterable
-from typing import Sequence
 
 from abc import ABC, abstractmethod, ABCMeta
 from typing import Generic, TypeVar
@@ -157,130 +151,10 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
         """
 
 
-class AbstractCollection(ABC, Generic[R], Sequence[R]):
-    """Machinery.
-
-    :meta private:
-    """
-    def __init__(self, *args: R):
-        self._items = list(args)
-        self._index = 0
-
-    def __len__(self) -> int:
-        return len(self._items)
-
-    @overload
-    def __getitem__(self, key: int) -> R:
-        ...
-
-    @overload
-    def __getitem__(self, key: slice) -> Sequence[R]:
-        ...
-
-    def __getitem__(self, key: Union[int, slice]) -> R | Sequence[R]:
-        return self._items[key]
-
-    def __setitem__(self, key: int, value: R) -> None:
-        self._items[key] = value
-
-    def __delitem__(self, key: int) -> None:
-        del self._items[key]
-
-    def __str__(self) -> str:
-        return str(list(map(str, self._items)))
-
-    def __iter__(self) -> Iterator[R]:
-        for i in range(len(self)):
-            yield self[i]
-
-    def __next__(self) -> R:
-        if self._index < len(self._items):
-            old_index = self._index
-            self._index = self._index + 1
-            return self._items[old_index]
-        else:
-            raise StopIteration
-
-    def append(self, value: R) -> None:
-        """Append an item to this collection.
-
-        Args:
-            value: The item to add to this item
-        """
-        # TODO value is a really bad name
-        self._items.append(value)
-
-    def join(self, values: Iterable[R]) -> Self:
-        """Produce a new collection with items from :arg:`self` and
-        :arg:`values`.
-
-        Args:
-            values: Collection whose values are appended to this collection.
-        """
-        # TODO Inefficient list comprehension. Looks awesome though.
-        # Improve at my own convenience.
-        return self.__class__(*self, *values)
-
-    def populate(self, new_data: Iterable[R]) -> None:
-        """Replace items in this population with items in :arg:`new_data`.
-
-        Args:
-            new_data: Collection whose items replace items in this
-                population.
-
-        Effect:
-            Replace all items in this population with those in :arg:`new_data`.
-        """
-        # Redundant.
-        self._items = list(new_data)
-
-    def draw(self, key: Optional[R] = None, pos: Optional[int] = None) -> R:
-        """Remove an item from the population.
-
-        Identify an item either by value (in :arg:`key`) or by position
-        (in :arg:`pos`). Remove that item from the collection,
-        then return that item.
-
-        Returns:
-            The :class:`Individual` that is removed from the population
-
-        Raises:
-            :class:`TypeError`: If neither :arg:`key` nor :arg:`pos` is given.
-        """
-        if (key is None and pos is None):
-            raise TypeError("An item must be specified, either by"
-                            " value or by position. Neither is given.")
-        elif (key is not None and pos is not None):
-            raise TypeError("The item can only be specified by value"
-                            "or by position. Both are given.")
-        elif (pos is not None):
-            a: R = self[pos]
-            del self[pos]
-            return a
-        elif (key is not None):
-            has_removed = False
-            # TODO refactor with enumerate and filter.
-            #   Still up for debate. Loops are easy to understand.
-            #   Consider the trade-off.
-            for i in range(len(self)):
-                # Development mark: delete the exception when I finish this
-                if self[i] == key:
-                    has_removed = True
-                    del self[i]
-                    break
-
-            if (not has_removed):
-                raise IndexError("the requested item is not in the list")
-            else:
-                return key
-        else:
-            raise RuntimeError("key and pos changed during evaluation")
-
-
 D = TypeVar("D", bound=Individual)
 
 
-class Population(AbstractCollection[D]):
+class Population(list[D]):
     """A flat collection of individuals.
     """
     def __init__(self, *args: D):
@@ -288,7 +162,7 @@ class Population(AbstractCollection[D]):
         Args:
             *args: Initial items in the population
         """
-        super().__init__(*args)
+        super().__init__(args)
 
     def copy(self) -> Self:
         """Return an independent population.
@@ -301,23 +175,7 @@ class Population(AbstractCollection[D]):
         population. Collect the results, then create a new population with
         these values.
         """
-        return self.__class__(*[x.copy() for x in self._items])
-
-    def sort(self: Self,
-             ranker:
-             Callable[[D], SupportsRichComparison] = lambda x: x.fitness)\
-            -> None:
-        """Rearrange items by fitness, highest-first.
-
-        If individuals have multiple fitnesses, sort lexi ... what?.
-
-        Args:
-            ranker: Sort key, called on each item prior to sorting.
-
-        Effect:
-            Rearrange items in this population.
-        """
-        self._items.sort(reverse=True, key=ranker)
+        return self.__class__(*(x.copy() for x in self))
 
     def reset_fitness(self: Self) -> None:
         """Remove fitness values of all Individuals in the population.
@@ -326,7 +184,7 @@ class Population(AbstractCollection[D]):
             For each item in this population, set
             its :attr:`.fitness Individual.fitness` to ``None``.
         """
-        for x in self._items:
+        for x in self:
             x.reset_fitness()
 
     def best(self: Self) -> D:
@@ -339,3 +197,80 @@ class Population(AbstractCollection[D]):
                 best_individual = x
 
         return best_individual
+
+    # def append(self, value: R) -> None:
+    #     """Append an item to this collection.
+
+    #     Args:
+    #         value: The item to add to this item
+    #     """
+    #     # TODO value is a really bad name
+    #     self._items.append(value)
+
+    # def join(self, values: Iterable[R]) -> Self:
+    #     """Produce a new collection with items from :arg:`self` and
+    #     :arg:`values`.
+
+    #     Args:
+    #         values: Collection whose values are appended to this collection.
+    #     """
+    #     # TODO Inefficient list comprehension. Looks awesome though.
+    #     # Improve at my own convenience.
+    #     return self.__class__(*self, *values)
+
+    # def populate(self, new_data: Iterable[R]) -> None:
+    #     """Replace items in this population with items in :arg:`new_data`.
+
+    #     Args:
+    #         new_data: Collection whose items replace items in this
+    #             population.
+
+    #     Effect:
+    #         Replace all items in this population with those in
+    # :arg:`new_data`.
+    #     """
+    #     # Redundant.
+    #     self._items = list(new_data)
+
+    # def draw(self, key: Optional[R] = None, pos: Optional[int] = None) -> R:
+    #     """Remove an item from the population.
+
+    #     Identify an item either by value (in :arg:`key`) or by position
+    #     (in :arg:`pos`). Remove that item from the collection,
+    #     then return that item.
+
+    #     Returns:
+    #         The :class:`Individual` that is removed from the population
+
+    #     Raises:
+    #         :class:`TypeError`: If neither :arg:`key` nor :arg:`pos` is
+    # given.
+    #     """
+    #     if (key is None and pos is None):
+    #         raise TypeError("An item must be specified, either by"
+    #                         " value or by position. Neither is given.")
+    #     elif (key is not None and pos is not None):
+    #         raise TypeError("The item can only be specified by value"
+    #                         "or by position. Both are given.")
+    #     elif (pos is not None):
+    #         a: R = self[pos]
+    #         del self[pos]
+    #         return a
+    #     elif (key is not None):
+    #         has_removed = False
+    #         # TODO refactor with enumerate and filter.
+    #         #   Still up for debate. Loops are easy to understand.
+    #         #   Consider the trade-off.
+    #         for i in range(len(self)):
+    #             # Development mark: delete the exception when I finish this
+    #             if self[i] == key:
+    #                 has_removed = True
+    #                 del self[i]
+    #                 break
+
+    #         if (not has_removed):
+    #             raise IndexError("the requested item is not in the list")
+    #         else:
+    #             return key
+    #     else:
+    #         raise RuntimeError("key and pos changed during evaluation")
