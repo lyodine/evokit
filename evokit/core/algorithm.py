@@ -25,7 +25,10 @@ class _MetaAlgorithm(ABCMeta):
 
     :meta private:
 
-    Implement special behaviours in :class:`Algorithm`.
+    Implement special behaviours in :class:`Algorithm`:
+
+        * After step is called, :attr:`.Algorithm.generation`
+          increments by ``1``.
     """
     def __new__(mcls: Type[Any], name: str, bases: tuple[type],
                 namespace: dict[str, Any]) -> Any:
@@ -36,12 +39,12 @@ class _MetaAlgorithm(ABCMeta):
             # The `@wraps` decorator ensures that the wrapper correctly
             #   inherits properties of the wrapped function, including
             #   docstring and signature.
-            # Return type is Any, because `wrapper` returns
-            #   the output of the wrapped function.
-            def wrapper(*args: Any, **kwargs: Any) -> Any:
+            # Return type is None, because `wrapper` returns
+            #   the output of the wrapped function: :meth:`step` returns None.
+            def wrapper(*args: Any, **kwargs: Any) -> None:
                 self = args[0]
+                custom_step(*args, **kwargs)
                 self.generation += 1
-                return custom_step(*args, **kwargs)
 
             return wrapper
 
@@ -82,11 +85,12 @@ class Algorithm(ABC, Generic[T], metaclass=_MetaAlgorithm):
         """
         Subclasses should override this method.
 
-        The initialiser should create (or accept as argument) operators used
-        in the algorithm.
+        Initialise the state of an algorithm, including operators,
+        the initial population(s), truncation strategy, and other
+        parameters associated with the learning process as a whole.
         """
 
-        #! Generation counter, automatically increments wit :py:attr:`step`.
+        #! Number of elapsed generations.
         self.generation: int
         #! Registered :class:`Accountant` objects.
         self.accountants: list[Accountant]
@@ -100,20 +104,10 @@ class Algorithm(ABC, Generic[T], metaclass=_MetaAlgorithm):
         Subclasses should override this method. Use operators to update
         the population (or populations). Call :meth:`update` to fire events.
 
-        Example:
-
-        .. code-block:: Python
-
-            self.population = self.variator.vary_population(self.population)
-            self.update("POST_VARIATION")
-
-            self.evaluator.evaluate_population(self.population)
-            self.update("POST_EVALUATION")
-
-            self.population = \\
-                self.selector.select_to_population(self.population)
-
         Note:
+            The :attr:`.generation` attribute increments by 1 _after_
+            :meth:`.step` is called.
+
             Do not manually increment :attr:`generation`. This property
             is automatically managed.
         """
