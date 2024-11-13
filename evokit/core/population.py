@@ -198,6 +198,9 @@ class Population(list[D]):
 
         return best_individual
 
+    def __str__(self: Self) -> str:
+        return "[" + ", ".join(str(item) for item in self) + "]"
+
     # def append(self, value: R) -> None:
     #     """Append an item to this collection.
 
