@@ -13,9 +13,9 @@ from abc import ABC, abstractmethod
 from types import MethodType
 from typing import Generic, TypeVar
 
-from .population import Genome, Population
+from .population import Individual, Population
 
-T = TypeVar("T", bound=Genome)
+T = TypeVar("T", bound=Individual)
 
 class Selector(ABC, Generic[T]):
     """Base class for all selectors.
@@ -192,13 +192,13 @@ def Elitist(sel: Selector[T])-> Selector: #type:ignore
     Return:
         A selector
     """
-    def select_to_many(self, population: Population[T], budget: Optional[int] = None) -> Tuple[Genome[T], ...]:
+    def select_to_many(self, population: Population[T], budget: Optional[int] = None) -> Tuple[Individual[T], ...]:
         """Context that implements elitism.
         """
         # Python magic. Since super() cannot be used in this context,
         #   directly call select_to_many in the parent.
-        results: Tuple[Genome[T]] = self.__class__.__mro__[1].select_to_many(self, population)
-        best_genome: Optional[Genome[T]] = self.best_genome
+        results: Tuple[Individual[T]] = self.__class__.__mro__[1].select_to_many(self, population)
+        best_genome: Optional[Individual[T]] = self.best_genome
         if best_genome is None:
             best_genome = results[0]
         for x in results:

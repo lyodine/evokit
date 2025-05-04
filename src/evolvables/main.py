@@ -4,7 +4,7 @@ from typing import Optional, Tuple, TypeVar
 
 from core.controller import Controller
 from core.evaluator import Evaluator
-from core.population import Genome, Population
+from core.population import Individual, Population
 from core.selector import Elitist, SimpleSelector, TournamentSelector
 from core.variator import Variator
 
@@ -13,9 +13,9 @@ class IllegalVariation(Exception):
     def __init__(self):
         super().__init__("Given index out of bound!")
 
-T = TypeVar('T', bound=Genome)
+T = TypeVar('T', bound=Individual)
 
-class Binary(Genome[T]):
+class Binary(Individual[T]):
     def __init__(self, len: int, value: typing.Optional[int] = None) -> None: 
         super().__init__()
         self.length = len

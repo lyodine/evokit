@@ -19,7 +19,7 @@ from typing import Generic, Tuple, TypeVar
 
 R = TypeVar('R')
 
-class Genome(ABC, Generic[R]):
+class Individual(ABC, Generic[R]):
     """Base class for all genomes.
 
     Representation of a solution. 
@@ -78,7 +78,7 @@ class Genome(ABC, Generic[R]):
             genome.
         """
 
-T = TypeVar('T', bound=Genome)
+T = TypeVar('T', bound=Individual)
 
 class AbstractCollection(ABC, Generic[R]):
     """An abstract collection of things.
