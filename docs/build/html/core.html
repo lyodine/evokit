@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>core package &mdash; Evoframe  documentation</title>
+  <title>core package &mdash; evokit  documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="_static/styles.css?v=dd041f00" />
@@ -21,9 +21,7 @@
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="evolvables package" href="evolvables.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="modules.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -35,7 +33,7 @@
           
           
           <a href="index.html" class="icon icon-home">
-            Evoframe
+            evokit
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -46,130 +44,8 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">core package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-core.accountant">core.accountant module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#core.accountant.AccountantRecord"><code class="docutils literal notranslate"><span class="pre">AccountantRecord</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.accountant.AccountantRecord.event"><code class="docutils literal notranslate"><span class="pre">AccountantRecord.event</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.accountant.AccountantRecord.generation"><code class="docutils literal notranslate"><span class="pre">AccountantRecord.generation</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.accountant.AccountantRecord.value"><code class="docutils literal notranslate"><span class="pre">AccountantRecord.value</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#core.accountant.Accountant"><code class="docutils literal notranslate"><span class="pre">Accountant</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.accountant.Accountant.__init__"><code class="docutils literal notranslate"><span class="pre">Accountant.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.accountant.Accountant.subject"><code class="docutils literal notranslate"><span class="pre">Accountant.subject</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.accountant.Accountant.publish"><code class="docutils literal notranslate"><span class="pre">Accountant.publish()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.accountant.Accountant.is_registered"><code class="docutils literal notranslate"><span class="pre">Accountant.is_registered()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#module-core.controller">core.controller module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#core.controller.Controller"><code class="docutils literal notranslate"><span class="pre">Controller</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.controller.Controller.__init__"><code class="docutils literal notranslate"><span class="pre">Controller.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.controller.Controller.generation"><code class="docutils literal notranslate"><span class="pre">Controller.generation</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.controller.Controller.accountants"><code class="docutils literal notranslate"><span class="pre">Controller.accountants</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.controller.Controller.events"><code class="docutils literal notranslate"><span class="pre">Controller.events</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.controller.Controller.step"><code class="docutils literal notranslate"><span class="pre">Controller.step()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.controller.Controller.register"><code class="docutils literal notranslate"><span class="pre">Controller.register()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.controller.Controller.update"><code class="docutils literal notranslate"><span class="pre">Controller.update()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#core.controller.LinearController"><code class="docutils literal notranslate"><span class="pre">LinearController</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.controller.LinearController.__init__"><code class="docutils literal notranslate"><span class="pre">LinearController.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.controller.LinearController.step"><code class="docutils literal notranslate"><span class="pre">LinearController.step()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#module-core.evaluator">core.evaluator module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#core.evaluator.Evaluator"><code class="docutils literal notranslate"><span class="pre">Evaluator</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.evaluator.Evaluator.__init__"><code class="docutils literal notranslate"><span class="pre">Evaluator.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.evaluator.Evaluator.retain_fitness"><code class="docutils literal notranslate"><span class="pre">Evaluator.retain_fitness</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.evaluator.Evaluator.evaluate"><code class="docutils literal notranslate"><span class="pre">Evaluator.evaluate()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.evaluator.Evaluator.evaluate_population"><code class="docutils literal notranslate"><span class="pre">Evaluator.evaluate_population()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#module-core.population">core.population module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#core.population.Individual"><code class="docutils literal notranslate"><span class="pre">Individual</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.population.Individual.__init__"><code class="docutils literal notranslate"><span class="pre">Individual.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.population.Individual.fitness"><code class="docutils literal notranslate"><span class="pre">Individual.fitness</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.population.Individual.reset_fitness"><code class="docutils literal notranslate"><span class="pre">Individual.reset_fitness()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.population.Individual.has_fitness"><code class="docutils literal notranslate"><span class="pre">Individual.has_fitness()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.population.Individual.copy"><code class="docutils literal notranslate"><span class="pre">Individual.copy()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#core.population.AbstractCollection"><code class="docutils literal notranslate"><span class="pre">AbstractCollection</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.population.AbstractCollection.__init__"><code class="docutils literal notranslate"><span class="pre">AbstractCollection.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.population.AbstractCollection.append"><code class="docutils literal notranslate"><span class="pre">AbstractCollection.append()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.population.AbstractCollection.extend"><code class="docutils literal notranslate"><span class="pre">AbstractCollection.extend()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.population.AbstractCollection.populate"><code class="docutils literal notranslate"><span class="pre">AbstractCollection.populate()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.population.AbstractCollection.draw"><code class="docutils literal notranslate"><span class="pre">AbstractCollection.draw()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#core.population.Population"><code class="docutils literal notranslate"><span class="pre">Population</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.population.Population.__init__"><code class="docutils literal notranslate"><span class="pre">Population.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.population.Population.copy"><code class="docutils literal notranslate"><span class="pre">Population.copy()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.population.Population.sort"><code class="docutils literal notranslate"><span class="pre">Population.sort()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.population.Population.reset_fitness"><code class="docutils literal notranslate"><span class="pre">Population.reset_fitness()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.population.Population.best"><code class="docutils literal notranslate"><span class="pre">Population.best()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#module-core.selector">core.selector module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#core.selector.Selector"><code class="docutils literal notranslate"><span class="pre">Selector</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.selector.Selector.__init__"><code class="docutils literal notranslate"><span class="pre">Selector.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.selector.Selector.select_to_population"><code class="docutils literal notranslate"><span class="pre">Selector.select_to_population()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.selector.Selector.select_to_many"><code class="docutils literal notranslate"><span class="pre">Selector.select_to_many()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.selector.Selector.select"><code class="docutils literal notranslate"><span class="pre">Selector.select()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#core.selector.NullSelector"><code class="docutils literal notranslate"><span class="pre">NullSelector</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.selector.NullSelector.__init__"><code class="docutils literal notranslate"><span class="pre">NullSelector.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.selector.NullSelector.select"><code class="docutils literal notranslate"><span class="pre">NullSelector.select()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.selector.NullSelector.select_to_many"><code class="docutils literal notranslate"><span class="pre">NullSelector.select_to_many()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#core.selector.SimpleSelector"><code class="docutils literal notranslate"><span class="pre">SimpleSelector</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.selector.SimpleSelector.__init__"><code class="docutils literal notranslate"><span class="pre">SimpleSelector.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.selector.SimpleSelector.select"><code class="docutils literal notranslate"><span class="pre">SimpleSelector.select()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#core.selector.ElitistSimpleSelector"><code class="docutils literal notranslate"><span class="pre">ElitistSimpleSelector</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.selector.ElitistSimpleSelector.__init__"><code class="docutils literal notranslate"><span class="pre">ElitistSimpleSelector.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.selector.ElitistSimpleSelector.select_to_many"><code class="docutils literal notranslate"><span class="pre">ElitistSimpleSelector.select_to_many()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#core.selector.TournamentSelector"><code class="docutils literal notranslate"><span class="pre">TournamentSelector</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.selector.TournamentSelector.__init__"><code class="docutils literal notranslate"><span class="pre">TournamentSelector.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.selector.TournamentSelector.select"><code class="docutils literal notranslate"><span class="pre">TournamentSelector.select()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#core.selector.Elitist"><code class="docutils literal notranslate"><span class="pre">Elitist()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#module-core.variator">core.variator module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#core.variator.Variator"><code class="docutils literal notranslate"><span class="pre">Variator</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.variator.Variator.__init__"><code class="docutils literal notranslate"><span class="pre">Variator.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.variator.Variator.vary"><code class="docutils literal notranslate"><span class="pre">Variator.vary()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.variator.Variator.vary_population"><code class="docutils literal notranslate"><span class="pre">Variator.vary_population()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#core.variator.DefaultVariator"><code class="docutils literal notranslate"><span class="pre">DefaultVariator</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.variator.DefaultVariator.__init__"><code class="docutils literal notranslate"><span class="pre">DefaultVariator.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.variator.DefaultVariator.vary"><code class="docutils literal notranslate"><span class="pre">DefaultVariator.vary()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#module-core">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="evolvables.html">evolvables package</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">evokit</a></li>
 </ul>
 
         </div>
@@ -178,7 +54,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">Evoframe</a>
+          <a href="index.html">evokit</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -186,7 +62,6 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">&lt;no title&gt;</a></li>
       <li class="breadcrumb-item active">core package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/core.rst.txt" rel="nofollow"> View page source</a>
@@ -236,13 +111,13 @@ in which it is collected.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Monitor and collect data from a running <code class="xref py py-class docutils literal notranslate"><span class="pre">Controller</span></code>.</p>
 <p>Maintain a dictionary of <cite>event : handler</cite> mappings. When
-<cite>event</cite> fires in the attached <a class="reference internal" href="#core.controller.Controller" title="core.controller.Controller"><code class="xref py py-class docutils literal notranslate"><span class="pre">Controller</span></code></a>,
+<cite>event</cite> fires in the attached <a class="reference internal" href="evokit.core.html#evokit.core.controller.Controller" title="evokit.core.controller.Controller"><code class="xref py py-class docutils literal notranslate"><span class="pre">Controller</span></code></a>,
 <cite>handler</cite> collects data.</p>
-<p>The accountant subscribes to a <a class="reference internal" href="#core.controller.Controller" title="core.controller.Controller"><code class="xref py py-class docutils literal notranslate"><span class="pre">Controller</span></code></a>,
-the <a class="reference internal" href="#core.controller.Controller" title="core.controller.Controller"><code class="xref py py-class docutils literal notranslate"><span class="pre">Controller</span></code></a> registers an accountant.</p>
+<p>The accountant subscribes to a <a class="reference internal" href="evokit.core.html#evokit.core.controller.Controller" title="evokit.core.controller.Controller"><code class="xref py py-class docutils literal notranslate"><span class="pre">Controller</span></code></a>,
+the <a class="reference internal" href="evokit.core.html#evokit.core.controller.Controller" title="evokit.core.controller.Controller"><code class="xref py py-class docutils literal notranslate"><span class="pre">Controller</span></code></a> registers an accountant.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="core.accountant.Accountant.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handlers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#core.controller.Controller" title="core.controller.Controller"><span class="pre">Controller</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/accountant.html#Accountant.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.accountant.Accountant.__init__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handlers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="evokit.core.html#evokit.core.controller.Controller" title="evokit.core.controller.Controller"><span class="pre">Controller</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/accountant.html#Accountant.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.accountant.Accountant.__init__" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>handlers</strong> – a dictionary of <cite>event : handler</cite> mappings. Each <cite>handler</cite>
@@ -256,7 +131,7 @@ should have the following signature:</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="core.accountant.Accountant.subject">
-<span class="sig-name descname"><span class="pre">subject</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#core.controller.Controller" title="core.controller.Controller"><span class="pre">Controller</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#core.accountant.Accountant.subject" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">subject</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="evokit.core.html#evokit.core.controller.Controller" title="evokit.core.controller.Controller"><span class="pre">Controller</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#core.accountant.Accountant.subject" title="Link to this definition"></a></dt>
 <dd><p>The attached <code class="xref py py-class docutils literal notranslate"><span class="pre">Controller</span></code></p>
 </dd></dl>
 
@@ -315,7 +190,7 @@ in the initialiser.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="core.controller.Controller.accountants">
-<span class="sig-name descname"><span class="pre">accountants</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#core.accountant.Accountant" title="core.accountant.Accountant"><span class="pre">Accountant</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#core.controller.Controller.accountants" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">accountants</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="evokit.core.html#evokit.core.accountant.Accountant" title="evokit.core.accountant.Accountant"><span class="pre">Accountant</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#core.controller.Controller.accountants" title="Link to this definition"></a></dt>
 <dd><p>Registered <code class="xref py py-class docutils literal notranslate"><span class="pre">Accountant</span></code> objects.</p>
 </dd></dl>
 
@@ -339,11 +214,11 @@ is automatically managed.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="core.controller.Controller.register">
-<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">accountant</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.accountant.Accountant" title="core.accountant.Accountant"><span class="pre">Accountant</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/controller.html#Controller.register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.controller.Controller.register" title="Link to this definition"></a></dt>
-<dd><p>Attach an <a class="reference internal" href="#core.accountant.Accountant" title="core.accountant.Accountant"><code class="xref py py-class docutils literal notranslate"><span class="pre">Accountant</span></code></a> to this controller.</p>
+<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">accountant</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="evokit.core.html#evokit.core.accountant.Accountant" title="evokit.core.accountant.Accountant"><span class="pre">Accountant</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/controller.html#Controller.register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.controller.Controller.register" title="Link to this definition"></a></dt>
+<dd><p>Attach an <a class="reference internal" href="evokit.core.html#evokit.core.accountant.Accountant" title="evokit.core.accountant.Accountant"><code class="xref py py-class docutils literal notranslate"><span class="pre">Accountant</span></code></a> to this controller.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>accountant</strong> – An <a class="reference internal" href="#core.accountant.Accountant" title="core.accountant.Accountant"><code class="xref py py-class docutils literal notranslate"><span class="pre">Accountant</span></code></a> that observes and
+<dd class="field-odd"><p><strong>accountant</strong> – An <a class="reference internal" href="evokit.core.html#evokit.core.accountant.Accountant" title="evokit.core.accountant.Accountant"><code class="xref py py-class docutils literal notranslate"><span class="pre">Accountant</span></code></a> that observes and
 collects data from this Controller.</p>
 </dd>
 </dl>
@@ -352,7 +227,7 @@ collects data from this Controller.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="core.controller.Controller.update">
 <span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/controller.html#Controller.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.controller.Controller.update" title="Link to this definition"></a></dt>
-<dd><p>Report an event to all attached <a class="reference internal" href="#core.accountant.Accountant" title="core.accountant.Accountant"><code class="xref py py-class docutils literal notranslate"><span class="pre">Accountant</span></code></a> objects.</p>
+<dd><p>Report an event to all attached <a class="reference internal" href="evokit.core.html#evokit.core.accountant.Accountant" title="evokit.core.accountant.Accountant"><code class="xref py py-class docutils literal notranslate"><span class="pre">Accountant</span></code></a> objects.</p>
 <p>The event must be in <a class="reference internal" href="#core.controller.Controller.events" title="core.controller.Controller.events"><code class="xref py py-attr docutils literal notranslate"><span class="pre">events</span></code></a>. If not, raise an exception.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -387,7 +262,7 @@ in the following order:</p>
 </div></blockquote>
 <dl class="py method">
 <dt class="sig sig-object py" id="core.controller.LinearController.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_evaluator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.evaluator.Evaluator" title="core.evaluator.Evaluator"><span class="pre">Evaluator</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_selector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.selector.Selector" title="core.selector.Selector"><span class="pre">Selector</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.variator.Variator" title="core.variator.Variator"><span class="pre">Variator</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">survivor_evaluator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.evaluator.Evaluator" title="core.evaluator.Evaluator"><span class="pre">Evaluator</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">survivor_selector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.selector.Selector" title="core.selector.Selector"><span class="pre">Selector</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/controller.html#LinearController.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.controller.LinearController.__init__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="evokit.core.html#evokit.core.population.Population" title="evokit.core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_evaluator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="evokit.core.html#evokit.core.evaluator.Evaluator" title="evokit.core.evaluator.Evaluator"><span class="pre">Evaluator</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_selector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="evokit.core.html#evokit.core.selector.Selector" title="evokit.core.selector.Selector"><span class="pre">Selector</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="evokit.core.html#evokit.core.variator.Variator" title="evokit.core.variator.Variator"><span class="pre">Variator</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">survivor_evaluator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="evokit.core.html#evokit.core.evaluator.Evaluator" title="evokit.core.evaluator.Evaluator"><span class="pre">Evaluator</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">survivor_selector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="evokit.core.html#evokit.core.selector.Selector" title="evokit.core.selector.Selector"><span class="pre">Selector</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/controller.html#LinearController.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.controller.LinearController.__init__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -415,7 +290,7 @@ in the following order:</p>
 <dt class="sig sig-object py" id="core.evaluator.Evaluator.retain_fitness">
 <span class="sig-name descname"><span class="pre">retain_fitness</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#core.evaluator.Evaluator.retain_fitness" title="Link to this definition"></a></dt>
 <dd><p>If this evaluator should re-evaluate an <code class="xref py py-class docutils literal notranslate"><span class="pre">Individual</span></code> whose
-<a class="reference internal" href="#core.population.Individual.fitness" title="core.population.Individual.fitness"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fitness</span></code></a> is already set.</p>
+<a class="reference internal" href="evokit.core.html#evokit.core.population.Individual.fitness" title="evokit.core.population.Individual.fitness"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fitness</span></code></a> is already set.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -439,7 +314,7 @@ in the following order:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="core.evaluator.Evaluator.evaluate_population">
-<span class="sig-name descname"><span class="pre">evaluate_population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/evaluator.html#Evaluator.evaluate_population"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.evaluator.Evaluator.evaluate_population" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">evaluate_population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="evokit.core.html#evokit.core.population.Population" title="evokit.core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/evaluator.html#Evaluator.evaluate_population"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.evaluator.Evaluator.evaluate_population" title="Link to this definition"></a></dt>
 <dd><p>Context of <a class="reference internal" href="#core.evaluator.Evaluator.evaluate" title="core.evaluator.Evaluator.evaluate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">evaluate()</span></code></a>.</p>
 <p>Iterate individuals in a population. For each individual, compute a
 fitness with <a class="reference internal" href="#core.evaluator.Evaluator.evaluate" title="core.evaluator.Evaluator.evaluate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">evaluate()</span></code></a>, then assign that value to the individual.</p>
@@ -448,8 +323,8 @@ require access to the entire population.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This method must <strong>never</strong> return a value. It must assign to
-<a class="reference internal" href="#core.population.Individual.fitness" title="core.population.Individual.fitness"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fitness</span></code></a> for each <a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><code class="xref py py-class docutils literal notranslate"><span class="pre">Individual</span></code></a> in the
-<a class="reference internal" href="#core.population.Population" title="core.population.Population"><code class="xref py py-class docutils literal notranslate"><span class="pre">Population</span></code></a>. The result must be sorted, so that the earliest
+<a class="reference internal" href="evokit.core.html#evokit.core.population.Individual.fitness" title="evokit.core.population.Individual.fitness"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fitness</span></code></a> for each <a class="reference internal" href="evokit.core.html#evokit.core.population.Individual" title="evokit.core.population.Individual"><code class="xref py py-class docutils literal notranslate"><span class="pre">Individual</span></code></a> in the
+<a class="reference internal" href="evokit.core.html#evokit.core.population.Population" title="evokit.core.population.Population"><code class="xref py py-class docutils literal notranslate"><span class="pre">Population</span></code></a>. The result must be sorted, so that the earliest
 item has the highest fitness.</p>
 </div>
 </dd></dl>
@@ -661,7 +536,7 @@ these values.</p>
 <span class="sig-name descname"><span class="pre">select_to_population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#Selector.select_to_population"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.Selector.select_to_population" title="Link to this definition"></a></dt>
 <dd><p>Select from a population to a population.</p>
 <p>Invoke <a class="reference internal" href="#core.selector.Selector.select_to_many" title="core.selector.Selector.select_to_many"><code class="xref py py-meth docutils literal notranslate"><span class="pre">select_to_many()</span></code></a>, then shape the result into a
-<a class="reference internal" href="#core.population.Population" title="core.population.Population"><code class="xref py py-class docutils literal notranslate"><span class="pre">Population</span></code></a>.</p>
+<a class="reference internal" href="evokit.core.html#evokit.core.population.Population" title="evokit.core.population.Population"><code class="xref py py-class docutils literal notranslate"><span class="pre">Population</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>population</strong> – population to select from.</p>
@@ -679,7 +554,7 @@ these values.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="core.selector.Selector.select_to_many">
-<span class="sig-name descname"><span class="pre">select_to_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#Selector.select_to_many"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.Selector.select_to_many" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">select_to_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="evokit.core.html#evokit.core.population.Population" title="evokit.core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#Selector.select_to_many"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.Selector.select_to_many" title="Link to this definition"></a></dt>
 <dd><p>Context of <a class="reference internal" href="#core.selector.Selector.select" title="core.selector.Selector.select"><code class="xref py py-attr docutils literal notranslate"><span class="pre">select</span></code></a>.</p>
 <p>Repeatedly apply select() to create a collection of solutions. Each
 application removes an item in the original population.</p>
@@ -701,7 +576,7 @@ require access to the entire selection process.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="core.selector.Selector.select">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#Selector.select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.Selector.select" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="evokit.core.html#evokit.core.population.Population" title="evokit.core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#Selector.select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.Selector.select" title="Link to this definition"></a></dt>
 <dd><p>Selection strategy.</p>
 <p>All subclasses should override this method. The implementation should
 return a tuple of individuals. Each item in the tuple should also
@@ -735,7 +610,7 @@ be a member of <cite>population</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="core.selector.NullSelector.select_to_many">
-<span class="sig-name descname"><span class="pre">select_to_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#NullSelector.select_to_many"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.NullSelector.select_to_many" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">select_to_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="evokit.core.html#evokit.core.population.Population" title="evokit.core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#NullSelector.select_to_many"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.NullSelector.select_to_many" title="Link to this definition"></a></dt>
 <dd><p>Select every item in the population.</p>
 </dd></dl>
 
@@ -754,7 +629,7 @@ be a member of <cite>population</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="core.selector.SimpleSelector.select">
-<span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#SimpleSelector.select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.SimpleSelector.select" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="evokit.core.html#evokit.core.population.Population" title="evokit.core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#SimpleSelector.select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.SimpleSelector.select" title="Link to this definition"></a></dt>
 <dd><p>Greedy selection.</p>
 <p>Select the item in the population with highest fitness.</p>
 </dd></dl>
@@ -778,7 +653,7 @@ individual of a _population_.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="core.selector.ElitistSimpleSelector.select_to_many">
-<span class="sig-name descname"><span class="pre">select_to_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#ElitistSimpleSelector.select_to_many"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.ElitistSimpleSelector.select_to_many" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">select_to_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="evokit.core.html#evokit.core.population.Population" title="evokit.core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#ElitistSimpleSelector.select_to_many"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.ElitistSimpleSelector.select_to_many" title="Link to this definition"></a></dt>
 <dd><p>Context that implements elitism.</p>
 <p>Preserve and update an elite. Each time the selector is used, insert
 the current elite to the results.</p>
@@ -798,7 +673,7 @@ the current elite to the results.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="core.selector.TournamentSelector.select">
-<span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#TournamentSelector.select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.TournamentSelector.select" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="evokit.core.html#evokit.core.population.Population" title="evokit.core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#TournamentSelector.select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.TournamentSelector.select" title="Link to this definition"></a></dt>
 <dd><p>Tournament selection.</p>
 <p>Select a uniform sample, then select the best member in that sample.</p>
 </dd></dl>
@@ -847,7 +722,7 @@ Implementation note: clear the score first.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="core.variator.Variator.vary_population">
-<span class="sig-name descname"><span class="pre">vary_population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/variator.html#Variator.vary_population"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.variator.Variator.vary_population" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">vary_population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="evokit.core.html#evokit.core.population.Population" title="evokit.core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="evokit.core.html#evokit.core.population.Population" title="evokit.core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/variator.html#Variator.vary_population"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.variator.Variator.vary_population" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -879,10 +754,7 @@ Implementation note: clear the score first.</p>
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="modules.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="evolvables.html" class="btn btn-neutral float-right" title="evolvables package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 

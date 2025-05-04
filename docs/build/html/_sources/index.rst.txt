@@ -13,7 +13,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
-.. role:: python(code)
-  :language: python
-  :class: highlight
