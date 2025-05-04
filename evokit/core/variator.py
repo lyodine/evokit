@@ -42,7 +42,12 @@ class Variator(ABC, Generic[D]):
         Produce a tuple of individuals from a tuple of individuals.
         The input and output tuple sizes should match the arity and coarity of
         this selector, respectively.
-        Implementation note: clear the score first.
+        
+        Note:
+            If the result could have a different
+            :attr:`fitness .Individual.reset_fitness`
+            than the original individual, call :meth:`.Individual.reset_fitness`
+            to clear its fitness.
         """
         pass
 
@@ -62,6 +67,13 @@ class Variator(ABC, Generic[D]):
         return parent_groups
 
     def vary_population(self: Self, population: Population[D]) -> Population[D]:
+        """Vary the population.
+
+        Separate ``population`` into groups of size `.arity`. For each group,
+        call `.vary` with that group as argument, then collect the result.
+
+        At the end, return a :class:`.Population` of collected results.
+        """
         next_population = Population[D]()
         parent_groups: Sequence[Sequence[D]] =\
             self._group_to_parents(population)
