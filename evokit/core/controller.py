@@ -119,7 +119,7 @@ class Controller(ABC, metaclass=MetaController):
                 collects data from this Controller.
         """
         self.accountants.append(accountant)
-        accountant.subscribe(self)
+        accountant._subscribe(self)
 
     def update(self, event: str) -> None:
         """Report an event to all attached :class:`.Accountant` objects.
@@ -136,7 +136,7 @@ class Controller(ABC, metaclass=MetaController):
             raise ValueError(f"Controller fires unregistered event {event}."
                              f"Add {event} to the controller's .events value")
         for acc in self.accountants:
-            acc.update(event)
+            acc._update(event)
 
 
 class SimpleLinearController(Controller):
