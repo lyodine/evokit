@@ -10,7 +10,7 @@
 EvoKit Documentation
 ====================
 
-EvoKit is an evolutionary computation framework written in Python. The framework is highly extensible and capable of implementing various algorithms and representations.
+EvoKit is an evolutionary computation framework written in Python. The framework can implement a large range of interoperating representations and operators.
 
 Using EvoKit is easy! With all operators defined, you can run an evolutionary algorithm in just 7 lines! [#]_ [#]_
 
