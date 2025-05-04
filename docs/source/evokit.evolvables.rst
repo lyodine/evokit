@@ -36,6 +36,14 @@ evokit.evolvables.gp\_visualiser module
    :undoc-members:
    :show-inheritance:
 
+evokit.evolvables.lgp module
+----------------------------
+
+.. automodule:: evokit.evolvables.lgp
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

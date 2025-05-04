@@ -37,8 +37,7 @@ Developer tutorials
    :caption: Contents:
 
    modules
-   guides/introduction
-   examples/e1
+   guides/index
 
 Indices and tables
 ==================
