@@ -28,7 +28,7 @@ class Selector(ABC, Generic[D]):
 
     Derive this class to create custom selectors.
 
-    See :doc:`../guides/examples/selector`.
+    Tutorial: :doc:`../guides/examples/selector`.
     """
 
     def __init__(self: Self, budget: int):

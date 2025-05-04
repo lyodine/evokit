@@ -63,12 +63,13 @@ class Controller(ABC, metaclass=MetaController):
     """Base class for all evolutionary algorithms.
 
     Derive this class to create custom algorithms.
+
+    Tutorial: :doc:`../guides/examples/controller`.
     """
     def __new__(cls, *_: Any, **__: Any) -> Self:
         """Machinery.
 
         Implement managed attributes.
-
         """
         # Note that Sphinx does not collect these values.
         #   It is therefore necessary to repeat them in :meth:`__init__`.
