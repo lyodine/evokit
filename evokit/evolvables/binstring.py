@@ -261,10 +261,11 @@ class OnePointCrossover(Variator[BinaryString]):
                     parents[1].copy())
 
 
-def trial_run() -> None:
-    BINSTRING_LENGTH: int = 20
+def trial_run() -> list[BinaryString]:
+    BINSTRING_LENGTH: int = 40
     POPULATION_SIZE: int = 10
-    GENERATION_COUNT: int = 10
+    GENERATION_COUNT: int = 100
+
     init_pop = Population[BinaryString]()
 
     for i in range(0, POPULATION_SIZE):
@@ -281,16 +282,18 @@ def trial_run() -> None:
         selector=selector,
     )
 
-    dicts: dict[int, BinaryString] = {}
+    bests: list[BinaryString] = []
 
     for i in range(GENERATION_COUNT):
         ctrl.step()
-        dicts[i] = ctrl.population.best()
+        bests.append(ctrl.population.best())
         # Because algorithms are not generic, the type of the population
         #   is not preserved.
 
-    for best_individual in dicts.values():
+    for best_individual in bests:
         print(best_individual.fitness)
+
+    return bests
 
 
 if __name__ == "__main__":
