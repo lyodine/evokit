@@ -29,23 +29,20 @@ import math
 import functools
 
 from inspect import signature
-
 import random
-
 import gymnasium as gym
-
 from random import choice
 
 
 T = typing.TypeVar("T")
 
-class ArityMismatch(Exception):
+class ArityMismatch(TypeError):
     def __init__(self, expr, expected:Optional[int], given: Optional[int]):
-        super().__init__(f"Arity mismatch: while evaluating {str(expr)}, "
-                         f"{expected} arguments are expected, while "
-                         f"{given} are given")
+        super().__init__(f"function {str(expr)} expects "
+                         f"{expected} arguments, got"
+                         f"{given}.")
 
-def get_arity(fun: Any) -> int:
+def _get_arity(fun: Any) -> int:
     if (callable(fun)):
         return len(signature(fun).parameters)                 
     else:
@@ -57,7 +54,7 @@ class Expression(abc.ABC, typing.Generic[T]):
         self.children : List[Expression[T]] = list(children)
     
     def evaluate(self) -> T:
-        expected_arity = get_arity(self._function)
+        expected_arity = _get_arity(self._function)
         children_arity = len(self.children)
         results = tuple(x.evaluate() for x in self.children)
         if callable(self._function):
@@ -105,7 +102,7 @@ class ExpressionFactory(typing.Generic[T]):
         #   value is a list of functions (or terminals!) with that arity.
         self.function_pool: Dict[int, List[Callable[..., T]]] = {}
         for fun in functions:
-            arity: int = get_arity(fun)
+            arity: int = _get_arity(fun)
             if arity in self.function_pool:
                 self.function_pool[arity].append(fun)
             else:
@@ -121,7 +118,7 @@ class ExpressionFactory(typing.Generic[T]):
         self.budget_used = 0
 
         target_function = self.poll_function(nullary_ratio)
-        arity = get_arity(target_function)
+        arity = _get_arity(target_function)
 
         children : List [Expression]= []
         for i in range(0, arity):
@@ -142,7 +139,7 @@ class ExpressionFactory(typing.Generic[T]):
         else:
             
             target_function = self.poll_function(nullary_ratio)
-            arity = get_arity(target_function)
+            arity = _get_arity(target_function)
             children : List [Expression]= []
             for i in range(0, arity):
                 children.append(self._build_recurse(depth_left-1, nullary_ratio))
@@ -340,7 +337,7 @@ class ProgramCrossoverVariator(Variator[Program[float]]):
     @staticmethod
     def _draw_replacement_function(program: Program)-> Callable:
         source_factory = program.factory
-        arity = get_arity(program.expr._function)
+        arity = _get_arity(program.expr._function)
         functions = source_factory.exprfactory.function_pool[arity]
         return random.choice(functions)
 
