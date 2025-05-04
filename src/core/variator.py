@@ -53,7 +53,8 @@ class Variator(ABC, Generic[T]):
 
     def vary_population(self: Self, population: Population[T]) -> Population[T]:
         next_population = Population[T]()
-        parent_groups: Sequence[Sequence[Individual[T]]] = self._group_to_parents(population)
+        parent_groups: Sequence[Sequence[Individual[T]]] =\
+            self._group_to_parents(population)
         for group in parent_groups:
             results = self.vary(group)
             for individual in results:
