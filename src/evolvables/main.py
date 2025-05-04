@@ -96,7 +96,7 @@ class RandomBitMutator(Variator[Binary]):
 
 init_pop = Population[Binary]()
 
-for i in range (0, 10):
+for i in range (0, 1):
     init_pop.append(Binary.create_random(10))
 
 evaluator = BitDistanceEvaluator()
@@ -114,8 +114,18 @@ ctrl = Controller[Binary] (
 
 dicts : typing.Dict[int, Optional[float]]= {}
 
+from core.accountant import Accountant
+from core.controller import ControllerEvent
+
+acc = Accountant({ControllerEvent.GENERATION_BEGIN: lambda x : len(x.population)})
+
+ctrl.attach(acc)
+
+
 for i in range(0, 100):
     ctrl.step()
     dicts[i] = ctrl.population[0].score
 
 print (dicts)
+
+print(acc.publish())
