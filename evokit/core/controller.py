@@ -30,7 +30,7 @@ T = TypeVar("T", bound=Individual)
 
 
 class MetaController(ABCMeta):
-    """Machinery. Implement special behavious in :class:`Controller`.
+    """Machinery. Implement special behaviours in :class:`Controller`.
 
     :meta private:
     """
@@ -60,7 +60,7 @@ class MetaController(ABCMeta):
 
 
 class Controller(ABC, metaclass=MetaController):
-    """Base class for all evolutionary algorothms.
+    """Base class for all evolutionary algorithms.
 
     Derive this class to create custom algorithms.
     """
@@ -81,12 +81,10 @@ class Controller(ABC, metaclass=MetaController):
     @abstractmethod
     def __init__(self) -> None:
         """
-
         Subclasses should override this method.
 
-        The implementation can accept operators as arguments. Alternatively,
-        it may also acquire operators from the global scope, or define them
-        in the initialiser.
+        The initialiser should create (or accept as argument) operators used
+        in the algorithm.
         """
         # TODO The note is just not right - normally, the child should
         #   call the initialiser of the parent/
@@ -95,20 +93,33 @@ class Controller(ABC, metaclass=MetaController):
         self.generation: int
         #: Registered :class:`Accountant` objects.
         self.accountants: List[Accountant]
-        #: Collection of events that can be reported by this controller.
+        #: Events that can be reported by this controller.
         self.events: List[str]
 
     @abstractmethod
     def step(self) -> None:
         """Advance the population by one generation.
 
-        Subclasses should override this method.
+        Subclasses should override this method. Use operators to update
+        the population (or populations). Call :meth:`update` to fire events.
+
+        Example:
+
+        .. code-block:: Python
+
+            self.population = self.variator.vary_population(self.population)
+            self.update("POST_VARIATION")
+
+            self.evaluator.evaluate_population(self.population)
+            self.update("POST_EVALUATION")
+
+            self.population = \\
+                self.selector.select_to_population(self.population)
 
         Note:
             Do not manually increment :attr:`generation`. This property
             is automatically managed.
         """
-        # TODO Should I use this note to make it clear?
         pass
 
     def register(self: Self, accountant: Accountant) -> None:
@@ -124,7 +135,7 @@ class Controller(ABC, metaclass=MetaController):
     def update(self, event: str) -> None:
         """Report an event to all attached :class:`.Accountant` objects.
 
-        The event must be in :attr:`events`. If not, raise an exception.
+        If the event is not in :attr:`events`, raise an exception.
 
         Args:
             event: the event to report.
@@ -146,11 +157,15 @@ class SimpleLinearController(Controller):
     take advantage of parallelism. The algorithm applies its operators
     in the following order:
 
+        #. fire event ``GENERATION_BEGIN``
         #. **evaluate** for selection
-        #. **selection**
-        #. *update population*
+        #. fire event ``POST_VARIATION``
+        #. select for **survivors**
+        #. update :attr:`population`
+        #. fire event ``POST_EVALUATION``
         #. **vary** parents
-        #. *update population*
+        #. update :attr:`population`
+        #. fire event ``POST_SELECTION``
     """
     @override
     def __init__(self,
@@ -169,21 +184,6 @@ class SimpleLinearController(Controller):
                                   "POST_VARIATION",
                                   "POST_EVALUATION",
                                   "POST_SELECTION"]
-        # """
-        # Args:
-        # TODO These names are repeated in the class docstring.
-        #     population: initial population.
-
-        #     parent_evaluator: operator that evaluate the fitness of an individual.
-
-        #     parent_selector: operator that selects individuals for variation.
-
-        #     variator: operator that creates new individuals from existing ones.
-
-        #     survivor_evaluator: operator that selects to the next generation.
-
-        #     survivor_selector: operator that selects to the next generation.
-        # """
 
     @override
     def step(self) -> None:
@@ -195,7 +195,7 @@ class SimpleLinearController(Controller):
 
         self.evaluator.evaluate_population(self.population)
         self.update("POST_EVALUATION")
-        
+
         self.population = \
             self.selector.select_to_population(self.population)
         self.update("POST_SELECTION")
@@ -208,13 +208,19 @@ class LinearController(Controller):
     take advantage of parallelism. The algorithm applies its operators
     in the following order:
 
+        #. fire event ``"GENERATION_BEGIN"``
         #. **evaluate** for parent selection
-        #. parent **selection**
-        #. *update population*
+        #. fire event ``POST_PARENT_EVALUATION``
+        #. select for **parents**
+        #. update :attr:`population`
+        #. fire event ``POST_PARENT_SELECTION``
         #. **vary** parents
+        #. fire event ``POST_VARIATION``
         #. **evaluate** for survivor selection
-        #. survivor **selection**
-        #. *update population*
+        #. fire event ``POST_SURVIVOR_EVALUATION``
+        #. select for **survivors**
+        #. update :attr:`population`
+        #. fire event ``POST_SURVIVOR_SELECTION``
     """
     @override
     def __init__(self,
@@ -226,7 +232,7 @@ class LinearController(Controller):
                  survivor_selector: Selector[T]) -> None:
         # _Introduction to Evolutionary Computing_ calls
         #   selectors "survivor selection" and the outcome
-        #   "offspring". I'm not making the call there.
+        #   "offspring". These terms are taken from that book.
         self.population = population
         self.parent_evaluator = parent_evaluator
         self.parent_selector = parent_selector
@@ -237,48 +243,29 @@ class LinearController(Controller):
         # Each event name informs what action has taken place.
         #   This should be easier to understand, compared to "PRE_...".
         self.events: List[str] = ["GENERATION_BEGIN",
+                                  "POST_PARENT_EVALUATION",
                                   "POST_PARENT_SELECTION",
                                   "POST_VARIATION",
                                   "POST_SURVIVOR_EVALUATION",
                                   "POST_SURVIVOR_SELECTION"]
-        # wwerwe
-        # """
-        # Args:
-        # TODO These names are repeated in the class docstring.
-        #     population: initial population.
-
-        #     parent_evaluator: operator that evaluate the fitness of an individual.
-
-        #     parent_selector: operator that selects individuals for variation.
-
-        #     variator: operator that creates new individuals from existing ones.
-
-        #     survivor_evaluator: operator that selects to the next generation.
-
-        #     survivor_selector: operator that selects to the next generation.
-        # """
 
     @override
     def step(self) -> None:
-        self.parent_evaluator.evaluate_population(self.population)
         self.update("GENERATION_BEGIN")
+        self.parent_evaluator.evaluate_population(self.population)
+        self.update("POST_PARENT_EVALUATION")
         # Update the population after each event. This ensures that
         #   the :class:`Accountant` always has access to the most
         #   up-to-date information.
-        # print(f"POP PE is {[x.fitness for x in self.population]}")
         self.population = \
             self.parent_selector.select_to_population(self.population)
         self.update("POST_PARENT_SELECTION")
-        # print(f"POP PS is {[x.fitness for x in self.population]}")
-        
+
         self.population = self.variator.vary_population(self.population)
         self.update("POST_VARIATION")
-        # print(f"POP VAR is {[x.fitness for x in self.population]}")
 
         self.survivor_evaluator.evaluate_population(self.population)
         self.update("POST_SURVIVOR_EVALUATION")
-        # print(f"POP SE is {[x.fitness for x in self.population]}")
 
         self.population = self.survivor_selector.select_to_population(self.population)
         self.update("POST_SURVIVOR_SELECTION")
-        # print(f"POP SS is {[x.fitness for x in self.population]}")
