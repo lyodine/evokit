@@ -1,3 +1,5 @@
+import sys
+import os
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 # -- Project information -----------------------------------------------------
@@ -11,7 +13,6 @@ author = 'Yiding Li'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 # Add path to source directory
-import sys, os
 sys.path.append(os.path.abspath(os.path.join('..', '..', 'src')))
 
 extensions = ['sphinx.ext.todo',
@@ -38,16 +39,15 @@ autodoc_default_options = {
     # Override the override with `'exclude-members'`, so that `__new__`
     #   is ABSOLUTELY not be documented ... until another patch breaks it.
     'exclude-members': '__new__',
-    
+
 }
 
-    
 
-autodoc_class_signature='separated'
-autodoc_inherit_docstrings=False
+autodoc_class_signature = 'separated'
+autodoc_inherit_docstrings = False
 
 autodoc_member_order = 'bysource'
-autodoc_typehints='signature'
+autodoc_typehints = 'signature'
 autodoc_typehints_description_target = 'all'
 
 napoleon_use_rtype = False
