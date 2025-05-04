@@ -81,7 +81,6 @@
     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
-    <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
     <span class="kn">from</span> <span class="nn">.controller</span> <span class="kn">import</span> <span class="n">Controller</span>
@@ -96,7 +95,8 @@
 <span class="sd">    in which it is collected.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># TODO Sphinx somehow collects `__new__`, which should not be documented.</span>
-    <span class="c1"># Spent 1 hour on this to no avail, will leave it be for the interest of time.</span>
+    <span class="c1"># Spent 1 hour on this to no avail, will leave it be for the interest</span>
+    <span class="c1">#   of time.</span>
 
     <span class="c1">#: Event that triggers the handler.</span>
     <span class="n">event</span><span class="p">:</span> <span class="nb">str</span>
@@ -108,13 +108,14 @@
     <span class="n">value</span><span class="p">:</span> <span class="n">Any</span></div>
 
 
+
 <div class="viewcode-block" id="Accountant">
 <a class="viewcode-back" href="../../core.html#core.accountant.Accountant">[docs]</a>
 <span class="k">class</span> <span class="nc">Accountant</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Monitor and collect data from a running :class:`Controller`.</span>
 
 <span class="sd">    Maintain a dictionary of `event : handler` mappings. When</span>
-<span class="sd">    `event` fires in the attached :class:`.Controller`, </span>
+<span class="sd">    `event` fires in the attached :class:`.Controller`,</span>
 <span class="sd">    `handler` collects data.</span>
 
 <span class="sd">    The accountant subscribes to a :class:`.Controller`,</span>
@@ -132,21 +133,21 @@
 <span class="sd">        .. code-block::</span>
 
 <span class="sd">            Controller -&gt; Any</span>
-<span class="sd">            </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">records</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AccountantRecord</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="c1"># TODO I will skip on commenting it - the handler should not be directly accessed</span>
         <span class="c1">#   though ... should I make it possible to change the handlers once they are declared?</span>
         <span class="c1"># Meditating on how to do it.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">handlers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Controller</span><span class="p">],</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="n">handlers</span>
-        
+
         <span class="c1">#: The attached :class:`Controller`</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">subject</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Controller</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
     <span class="k">def</span> <span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="n">Controller</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Machinery.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Subscribe for events in a :class:`.Controller`.</span>
 
 <span class="sd">        Args:</span>
@@ -157,9 +158,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">subject</span> <span class="o">=</span> <span class="n">subject</span>
 
-    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span><span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Machinery.</span>
-<span class="sd">        </span>
+
 <span class="sd">        When the attached :class:`.Controller` calls :meth:`.Controller.update`,</span>
 <span class="sd">        it calls this method on every registered accountant.</span>
 
@@ -172,7 +173,7 @@
 
 <span class="sd">        :meta private:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subject</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subject</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Accountant updated without a subject.&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">trigger</span><span class="p">,</span> <span class="n">action</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">handlers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -183,7 +184,7 @@
 
 <div class="viewcode-block" id="Accountant.publish">
 <a class="viewcode-back" href="../../core.html#core.accountant.Accountant.publish">[docs]</a>
-    <span class="k">def</span> <span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AccountantRecord</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AccountantRecord</span><span class="p">]:</span>
         <span class="c1"># Bad comment!</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Report collected data.</span>
 
@@ -204,7 +205,7 @@
 
 <div class="viewcode-block" id="Accountant.is_registered">
 <a class="viewcode-back" href="../../core.html#core.accountant.Accountant.is_registered">[docs]</a>
-    <span class="k">def</span> <span class="nf">is_registered</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">is_registered</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return if this accountant is attached to a :class:Controller.</span>
 
 <span class="sd">        Returns:</span>
