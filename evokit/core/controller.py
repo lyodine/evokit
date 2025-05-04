@@ -139,6 +139,69 @@ class Controller(ABC, metaclass=MetaController):
             acc.update(event)
 
 
+class SimpleLinearController(Controller):
+    """A very simple evolutionary algorithm.
+
+    An evolutionary algorithm that maintains one population and does not
+    take advantage of parallelism. The algorithm applies its operators
+    in the following order:
+
+        #. **evaluate** for selection
+        #. **selection**
+        #. *update population*
+        #. **vary** parents
+        #. *update population*
+    """
+    @override
+    def __init__(self,
+                 population: Population[T],
+                 evaluator: Evaluator[T],
+                 selector: Selector[T],
+                 variator: Variator[T]) -> None:
+        self.population = population
+        self.evaluator = evaluator
+        self.selector = selector
+        self.variator = variator
+        self.accountants: List[Accountant] = []
+        # Each event name informs what action has taken place.
+        #   This should be easier to understand, compared to "PRE_...".
+        self.events: List[str] = ["GENERATION_BEGIN",
+                                  "POST_PARENT_SELECTION",
+                                  "POST_VARIATION"]
+        # wwerwe
+        # """
+        # Args:
+        # TODO These names are repeated in the class docstring.
+        #     population: initial population.
+
+        #     parent_evaluator: operator that evaluate the fitness of an individual.
+
+        #     parent_selector: operator that selects individuals for variation.
+
+        #     variator: operator that creates new individuals from existing ones.
+
+        #     survivor_evaluator: operator that selects to the next generation.
+
+        #     survivor_selector: operator that selects to the next generation.
+        # """
+
+    @override
+    def step(self) -> None:
+        self.evaluator.evaluate_population(self.population)
+        self.update("GENERATION_BEGIN")
+        # Update the population after each event. This ensures that
+        #   the :class:`Accountant` always has access to the most
+        #   up-to-date information.
+        # print(f"POP PE is {[x.fitness for x in self.population]}")
+        self.population = \
+            self.selector.select_to_population(self.population)
+        self.update("POST_PARENT_SELECTION")
+        # print(f"POP PS is {[x.fitness for x in self.population]}")
+        
+        self.population = self.variator.vary_population(self.population)
+        self.update("POST_VARIATION")
+        # print(f"POP VAR is {[x.fitness for x in self.population]}")
+
 class LinearController(Controller):
     """A simple evolutionary algorithm.
 
