@@ -36,9 +36,10 @@ class _MetaEvaluator(ABCMeta):
     """
     # cls, name, bases, attrs
     def __new__(mcls, name, bases, namespace):
-        """!Python magic. This is only moderately cursed: one gets used to
+        """Python magic. This is only moderately cursed: one gets used to
             metaclasses after a while.
             This {decorator/metaclass} modifies the behaviour of a evaluator.
+
         """
         def wrap_function(custom_evaluate):
             def wrapper(*args, **kwargs) -> float:
@@ -84,8 +85,14 @@ class Evaluator(ABC, Generic[T]):
 
     @abstractmethod
     def evaluate(self: Self, s1: T)-> float:
-        """!Evaluate an individual and return the score.
-            Higher scores are better.
+        """Evaluate an individual and return the score.
+        Higher scores are better.
+
+        Args:
+            s1: A genome
+            
+        Return:
+            A number
         """
 
     def evaluate_population(self: Self,
