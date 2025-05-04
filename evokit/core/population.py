@@ -24,10 +24,12 @@ from typing import Generic, TypeVar
 R = TypeVar('R')
 
 
-class MetaGenome(ABCMeta):
-    """Machinery. Implement special behaviours in :class:`Individual`.
+class _MetaGenome(ABCMeta):
+    """Machinery.
 
     :meta private:
+
+    Implement special behaviours in :class:`Individual`.
     """
     def __new__(mcls: Type, name: str, bases: tuple[type],
                 namespace: dict[str, Any]) -> Any:  # `Any` is BAD
@@ -54,7 +56,7 @@ class MetaGenome(ABCMeta):
         return type.__new__(mcls, name, bases, namespace)
 
 
-class Individual(ABC, Generic[R], metaclass=MetaGenome):
+class Individual(ABC, Generic[R], metaclass=_MetaGenome):
     """Base class for all individuals.
 
     Derive this class to create custom representations.
@@ -71,9 +73,11 @@ class Individual(ABC, Generic[R], metaclass=MetaGenome):
     Tutorial: :doc:`../guides/examples/onemax`.
     """
     def __new__(cls: Type[Self], *args: Any, **kwargs: Any) -> Self:
-        """Machinery. Implement managed attributes.
+        """Machinery.
 
         :meta private:
+
+        Implement managed attributes.
         """
         instance: Self = super().__new__(cls)
         instance._fitness = None
@@ -155,6 +159,8 @@ class Individual(ABC, Generic[R], metaclass=MetaGenome):
 
 class AbstractCollection(ABC, Generic[R], Sequence[R], Iterable[R]):
     """Machinery.
+
+    :meta private:
     """
     def __init__(self, *args: R):
         self._items = list(args)
