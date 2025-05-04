@@ -5,9 +5,19 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from abc import ABC
+from abc import ABCMeta
+from abc import abstractmethod
+
+
 if TYPE_CHECKING:
     from typing import Self
     from typing import List
+    from typing import Any
+    from typing import Dict
+    from typing import Tuple
+    from typing import Type
+    from typing import Callable
     from .evaluator import Evaluator
     from .variator import Variator
     from .selector import Selector
@@ -16,14 +26,62 @@ if TYPE_CHECKING:
 
 from enum import Flag, auto
 from typing import Generic, TypeVar
+from typing import override
 
 from .population import Individual
 
 T = TypeVar("T", bound=Individual)
 
-class Controller(Generic[T]):
+
+class MetaController(ABCMeta):
+    """ Metaclass of all controllers. 
+
+    """
+    def __new__(mcls: Type, name: str, bases: Tuple[type], namespace: Dict[str, Any]) -> Type:
+        ABCMeta.__init__(mcls, name, bases, namespace)
+        def wrap_step(custom_step: Callable) -> Callable:
+            def wrapper(*args, **kwargs) -> Controller:    
+                self = args[0]
+                self.generation += 1
+                return custom_step(*args, **kwargs)
+            return wrapper
+        namespace["step"] = wrap_step(
+            namespace.setdefault("step", lambda: None)
+        )
+        return type.__new__(mcls, name, bases, namespace)
+
+class Controller(ABC, Generic[T], metaclass=MetaController):
     """Controller that manages the learning process.
     """
+    @abstractmethod
+    def __init__(self) -> None:
+        #: Generation counter, automatically increments before :py:attr:`step` is called.
+        self.generation: int = 0
+        #: generation count of the controller.
+        self.accountants: List[Accountant] = []
+        self.events: List[str] = []
+
+    @abstractmethod
+    def step(self) -> Self:
+        pass
+
+    def attach(self: Self, accountant: Accountant)-> None:
+        self.accountants.append(accountant)
+        accountant.register(self)
+
+    def update(self, event: str) -> None:
+        if event not in self.events:
+            raise ValueError(f"Controller fires unregistered event {event}."
+                             f"Add {event} to the controller's .events value")
+        for acc in self.accountants:
+            acc.update(event)
+
+
+class LinearController(Controller[T]):
+    """Controller that manages the learning process.
+    """
+
+    @override
     def __init__(self,
                  population: Population[T],
                  evaluator: Evaluator[T],
@@ -57,13 +115,13 @@ class Controller(Generic[T]):
                                   "PRE_SURVIVOR_SELECTION",
                                   "GENERATION_END"]
 
+    @override
     def step(self) -> Self:
         """Advance the population by one generation.
         """
         # Increment the generation count
         # The generation count begins at 0. Before the first generation,
         #   increment the count to 1.
-        self.generation = self.generation + 1
 
         self.update("GENERATION_BEGIN")
 
@@ -105,11 +163,10 @@ class Controller(Generic[T]):
 
     def update(self, event: str) -> None:
         if event not in self.events:
-            raise ValueError(f"Controller reports unregistered event {event}."
+            raise ValueError(f"Controller fires unregistered event {event}."
                              f"Add {event} to the controller's .events value")
         for acc in self.accountants:
             acc.update(event)
-
 
 # One main problem is that some members are unavailable at some points:
 #   for example, the population is dry after parent selection.
