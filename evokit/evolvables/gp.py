@@ -63,7 +63,7 @@ def _get_arity(fun: Any) -> int:
         return 0
 
 class Expression(abc.ABC, Generic[T]):
-    def __init__(self):
+    def __init__(self: Self)-> None:
         self.arity: int
         self.children: List[Expression[T]]
 
@@ -74,13 +74,13 @@ class Expression(abc.ABC, Generic[T]):
     def copy(self: Self) -> Self: ...
 
     @abstractmethod
-    def nodes(self) -> Tuple[Expression[T], ...]: ...
+    def nodes(self: Self) -> Tuple[Expression[T], ...]: ...
 
     @abstractmethod
-    def __str__(self) -> str: ...
+    def __str__(self: Self) -> str: ...
 
     @abstractmethod
-    def __repr__(self) -> str: ...
+    def __repr__(self: Self) -> str: ...
 
 
 class ExpressionSymbol(Expression[T]):
@@ -91,7 +91,7 @@ class ExpressionSymbol(Expression[T]):
 
         #! Children of the expression node
         self.arity = 0
-        self.children: List[ExpressionBranch[T]] = []
+        self.children: List[Expression[T]] = []
 
     @override
     def __call__(self: Self, *params: T) -> T:
@@ -130,7 +130,7 @@ class ExpressionBranch(Expression[T]):
         self.arity = _get_arity(self.value)
         
 
-    def set_children(self, *children: Expression[T]):
+    def set_children(self, *children: Expression[T]) -> None:
         value_arity: int = _get_arity(self.value)
         children_arity: int = len(children)
 
@@ -245,13 +245,13 @@ class ExpressionFactory(Generic[T]):
             # Remember to test it
             raise ValueError("Factory is initialised with no terminal node.")
 
-    def _build_is_node_overbudget(self):
+    def _build_is_node_overbudget(self) -> bool:
         return self._temp_node_budget_used > self._temp_node_budget_cap
 
-    def _build_cost_node_budget(self, cost: int):
+    def _build_cost_node_budget(self, cost: int) -> None:
         self._temp_node_budget_used += cost
 
-    def _build_initialise_node_budget(self, node_budget: int):
+    def _build_initialise_node_budget(self, node_budget: int) -> None:
         self._temp_node_budget_cap: int = node_budget
         self._temp_node_budget_used: int = 0
 
