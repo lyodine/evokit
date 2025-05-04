@@ -1,3 +1,3 @@
-sphinx-apidoc -f -o ./source ../src
+sphinx-apidoc -f -o ./source ../evokit
 
 %~dp0\make.bat html

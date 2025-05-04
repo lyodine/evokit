@@ -46,45 +46,113 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="core.html">core package</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">evolvables package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-evolvables.binstring">evolvables.binstring module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.binstring.getrandbits"><code class="docutils literal notranslate"><span class="pre">getrandbits()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.binstring.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.binstring.BinaryString"><code class="docutils literal notranslate"><span class="pre">BinaryString</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.binstring.BitDistanceEvaluator"><code class="docutils literal notranslate"><span class="pre">BitDistanceEvaluator</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.binstring.NullEvaluator"><code class="docutils literal notranslate"><span class="pre">NullEvaluator</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.binstring.RandomBitMutator"><code class="docutils literal notranslate"><span class="pre">RandomBitMutator</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="core.html">core package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">evolvables package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-evolvables.binstring">evolvables.binstring module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.binstring.getrandbits"><code class="docutils literal notranslate"><span class="pre">getrandbits()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.binstring.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.binstring.BinaryString"><code class="docutils literal notranslate"><span class="pre">BinaryString</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.binstring.BinaryString.__init__"><code class="docutils literal notranslate"><span class="pre">BinaryString.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.binstring.BinaryString.random"><code class="docutils literal notranslate"><span class="pre">BinaryString.random()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.binstring.BinaryString.copy"><code class="docutils literal notranslate"><span class="pre">BinaryString.copy()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-evolvables.gp">evolvables.gp module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ArityMismatch"><code class="docutils literal notranslate"><span class="pre">ArityMismatch</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.Expression"><code class="docutils literal notranslate"><span class="pre">Expression</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ExpressionFactory"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.BadSymbolError"><code class="docutils literal notranslate"><span class="pre">BadSymbolError</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.Symbol"><code class="docutils literal notranslate"><span class="pre">Symbol</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ProgramFactory"><code class="docutils literal notranslate"><span class="pre">ProgramFactory</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ProgramArityMismatchError"><code class="docutils literal notranslate"><span class="pre">ProgramArityMismatchError</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.Program"><code class="docutils literal notranslate"><span class="pre">Program</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.sin"><code class="docutils literal notranslate"><span class="pre">sin()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.cos"><code class="docutils literal notranslate"><span class="pre">cos()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.tan"><code class="docutils literal notranslate"><span class="pre">tan()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.add"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.sub"><code class="docutils literal notranslate"><span class="pre">sub()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.mul"><code class="docutils literal notranslate"><span class="pre">mul()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.div"><code class="docutils literal notranslate"><span class="pre">div()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.avg"><code class="docutils literal notranslate"><span class="pre">avg()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.lim"><code class="docutils literal notranslate"><span class="pre">lim()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ProgramCrossoverVariator"><code class="docutils literal notranslate"><span class="pre">ProgramCrossoverVariator</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.SymbolicEvaluator"><code class="docutils literal notranslate"><span class="pre">SymbolicEvaluator</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.GymEvaluator"><code class="docutils literal notranslate"><span class="pre">GymEvaluator</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.binstring.BitDistanceEvaluator"><code class="docutils literal notranslate"><span class="pre">BitDistanceEvaluator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.binstring.BitDistanceEvaluator.evaluate"><code class="docutils literal notranslate"><span class="pre">BitDistanceEvaluator.evaluate()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-evolvables">Module contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.binstring.NullEvaluator"><code class="docutils literal notranslate"><span class="pre">NullEvaluator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.binstring.NullEvaluator.evaluate"><code class="docutils literal notranslate"><span class="pre">NullEvaluator.evaluate()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.binstring.RandomBitMutator"><code class="docutils literal notranslate"><span class="pre">RandomBitMutator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.binstring.RandomBitMutator.__init__"><code class="docutils literal notranslate"><span class="pre">RandomBitMutator.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.binstring.RandomBitMutator.vary"><code class="docutils literal notranslate"><span class="pre">RandomBitMutator.vary()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-evolvables.gp">evolvables.gp module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.gp.ArityMismatch"><code class="docutils literal notranslate"><span class="pre">ArityMismatch</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ArityMismatch.__init__"><code class="docutils literal notranslate"><span class="pre">ArityMismatch.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.gp.Expression"><code class="docutils literal notranslate"><span class="pre">Expression</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.Expression.__init__"><code class="docutils literal notranslate"><span class="pre">Expression.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.Expression.evaluate"><code class="docutils literal notranslate"><span class="pre">Expression.evaluate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.Expression.copy"><code class="docutils literal notranslate"><span class="pre">Expression.copy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.Expression.nodes"><code class="docutils literal notranslate"><span class="pre">Expression.nodes()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.gp.ExpressionFactory"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ExpressionFactory.__init__"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ExpressionFactory.build"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory.build()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ExpressionFactory.over_budget"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory.over_budget()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ExpressionFactory.cost_budget"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory.cost_budget()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ExpressionFactory.poll_function"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory.poll_function()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ExpressionFactory.poll_arity"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory.poll_arity()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.gp.BadSymbolError"><code class="docutils literal notranslate"><span class="pre">BadSymbolError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.BadSymbolError.__init__"><code class="docutils literal notranslate"><span class="pre">BadSymbolError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.gp.Symbol"><code class="docutils literal notranslate"><span class="pre">Symbol</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.Symbol.__init__"><code class="docutils literal notranslate"><span class="pre">Symbol.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.Symbol.assign"><code class="docutils literal notranslate"><span class="pre">Symbol.assign()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.gp.ProgramFactory"><code class="docutils literal notranslate"><span class="pre">ProgramFactory</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ProgramFactory.__init__"><code class="docutils literal notranslate"><span class="pre">ProgramFactory.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ProgramFactory.next_symbol_name"><code class="docutils literal notranslate"><span class="pre">ProgramFactory.next_symbol_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ProgramFactory.deposit_symbol"><code class="docutils literal notranslate"><span class="pre">ProgramFactory.deposit_symbol()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ProgramFactory.next_symbol"><code class="docutils literal notranslate"><span class="pre">ProgramFactory.next_symbol()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ProgramFactory.build"><code class="docutils literal notranslate"><span class="pre">ProgramFactory.build()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.gp.ProgramArityMismatchError"><code class="docutils literal notranslate"><span class="pre">ProgramArityMismatchError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ProgramArityMismatchError.__init__"><code class="docutils literal notranslate"><span class="pre">ProgramArityMismatchError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.gp.Program"><code class="docutils literal notranslate"><span class="pre">Program</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.Program.__init__"><code class="docutils literal notranslate"><span class="pre">Program.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.Program.evaluate"><code class="docutils literal notranslate"><span class="pre">Program.evaluate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.Program.nodes"><code class="docutils literal notranslate"><span class="pre">Program.nodes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.Program.copy"><code class="docutils literal notranslate"><span class="pre">Program.copy()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.gp.sin"><code class="docutils literal notranslate"><span class="pre">sin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.gp.cos"><code class="docutils literal notranslate"><span class="pre">cos()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.gp.tan"><code class="docutils literal notranslate"><span class="pre">tan()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.gp.add"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.gp.sub"><code class="docutils literal notranslate"><span class="pre">sub()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.gp.mul"><code class="docutils literal notranslate"><span class="pre">mul()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.gp.div"><code class="docutils literal notranslate"><span class="pre">div()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.gp.avg"><code class="docutils literal notranslate"><span class="pre">avg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.gp.lim"><code class="docutils literal notranslate"><span class="pre">lim()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.gp.ProgramCrossoverVariator"><code class="docutils literal notranslate"><span class="pre">ProgramCrossoverVariator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ProgramCrossoverVariator.vary"><code class="docutils literal notranslate"><span class="pre">ProgramCrossoverVariator.vary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ProgramCrossoverVariator.crossover"><code class="docutils literal notranslate"><span class="pre">ProgramCrossoverVariator.crossover()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ProgramCrossoverVariator.mutate"><code class="docutils literal notranslate"><span class="pre">ProgramCrossoverVariator.mutate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ProgramCrossoverVariator.swap_children"><code class="docutils literal notranslate"><span class="pre">ProgramCrossoverVariator.swap_children()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.gp.SymbolicEvaluator"><code class="docutils literal notranslate"><span class="pre">SymbolicEvaluator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.SymbolicEvaluator.__init__"><code class="docutils literal notranslate"><span class="pre">SymbolicEvaluator.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.SymbolicEvaluator.evaluate"><code class="docutils literal notranslate"><span class="pre">SymbolicEvaluator.evaluate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#evolvables.gp.GymEvaluator"><code class="docutils literal notranslate"><span class="pre">GymEvaluator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.GymEvaluator.__init__"><code class="docutils literal notranslate"><span class="pre">GymEvaluator.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.GymEvaluator.evaluate"><code class="docutils literal notranslate"><span class="pre">GymEvaluator.evaluate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.GymEvaluator.evaluate_episode"><code class="docutils literal notranslate"><span class="pre">GymEvaluator.evaluate_episode()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.GymEvaluator.evaluate_step"><code class="docutils literal notranslate"><span class="pre">GymEvaluator.evaluate_step()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-evolvables">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -103,7 +171,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">src</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">&lt;no title&gt;</a></li>
       <li class="breadcrumb-item active">evolvables package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/evolvables.rst.txt" rel="nofollow"> View page source</a>

@@ -23,7 +23,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="evolvables package" href="evolvables.html" />
-    <link rel="prev" title="src" href="modules.html" /> 
+    <link rel="prev" title="&lt;no title&gt;" href="modules.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,49 +47,129 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">core package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-core.accountant">core.accountant module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.accountant.AccountantRecord"><code class="docutils literal notranslate"><span class="pre">AccountantRecord</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.accountant.Accountant"><code class="docutils literal notranslate"><span class="pre">Accountant</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">core package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-core.accountant">core.accountant module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#core.accountant.AccountantRecord"><code class="docutils literal notranslate"><span class="pre">AccountantRecord</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#core.accountant.AccountantRecord.event"><code class="docutils literal notranslate"><span class="pre">AccountantRecord.event</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.accountant.AccountantRecord.generation"><code class="docutils literal notranslate"><span class="pre">AccountantRecord.generation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.accountant.AccountantRecord.value"><code class="docutils literal notranslate"><span class="pre">AccountantRecord.value</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-core.controller">core.controller module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.controller.Controller"><code class="docutils literal notranslate"><span class="pre">Controller</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.controller.LinearController"><code class="docutils literal notranslate"><span class="pre">LinearController</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#core.accountant.Accountant"><code class="docutils literal notranslate"><span class="pre">Accountant</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#core.accountant.Accountant.__init__"><code class="docutils literal notranslate"><span class="pre">Accountant.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.accountant.Accountant.subject"><code class="docutils literal notranslate"><span class="pre">Accountant.subject</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.accountant.Accountant.publish"><code class="docutils literal notranslate"><span class="pre">Accountant.publish()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.accountant.Accountant.is_registered"><code class="docutils literal notranslate"><span class="pre">Accountant.is_registered()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-core.evaluator">core.evaluator module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.evaluator.Evaluator"><code class="docutils literal notranslate"><span class="pre">Evaluator</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-core.population">core.population module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.population.Individual"><code class="docutils literal notranslate"><span class="pre">Individual</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.population.AbstractCollection"><code class="docutils literal notranslate"><span class="pre">AbstractCollection</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.population.Population"><code class="docutils literal notranslate"><span class="pre">Population</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-core.controller">core.controller module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#core.controller.Controller"><code class="docutils literal notranslate"><span class="pre">Controller</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#core.controller.Controller.__init__"><code class="docutils literal notranslate"><span class="pre">Controller.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.controller.Controller.generation"><code class="docutils literal notranslate"><span class="pre">Controller.generation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.controller.Controller.accountants"><code class="docutils literal notranslate"><span class="pre">Controller.accountants</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.controller.Controller.events"><code class="docutils literal notranslate"><span class="pre">Controller.events</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.controller.Controller.step"><code class="docutils literal notranslate"><span class="pre">Controller.step()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.controller.Controller.register"><code class="docutils literal notranslate"><span class="pre">Controller.register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.controller.Controller.update"><code class="docutils literal notranslate"><span class="pre">Controller.update()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-core.selector">core.selector module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.selector.Selector"><code class="docutils literal notranslate"><span class="pre">Selector</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.selector.NullSelector"><code class="docutils literal notranslate"><span class="pre">NullSelector</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.selector.SimpleSelector"><code class="docutils literal notranslate"><span class="pre">SimpleSelector</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.selector.ElitistSimpleSelector"><code class="docutils literal notranslate"><span class="pre">ElitistSimpleSelector</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.selector.TournamentSelector"><code class="docutils literal notranslate"><span class="pre">TournamentSelector</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.selector.Elitist"><code class="docutils literal notranslate"><span class="pre">Elitist()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#core.controller.LinearController"><code class="docutils literal notranslate"><span class="pre">LinearController</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#core.controller.LinearController.__init__"><code class="docutils literal notranslate"><span class="pre">LinearController.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.controller.LinearController.step"><code class="docutils literal notranslate"><span class="pre">LinearController.step()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-core.variator">core.variator module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#core.variator.Variator"><code class="docutils literal notranslate"><span class="pre">Variator</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#core.variator.DefaultVariator"><code class="docutils literal notranslate"><span class="pre">DefaultVariator</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-core">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-core.evaluator">core.evaluator module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#core.evaluator.Evaluator"><code class="docutils literal notranslate"><span class="pre">Evaluator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#core.evaluator.Evaluator.__init__"><code class="docutils literal notranslate"><span class="pre">Evaluator.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.evaluator.Evaluator.retain_fitness"><code class="docutils literal notranslate"><span class="pre">Evaluator.retain_fitness</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.evaluator.Evaluator.evaluate"><code class="docutils literal notranslate"><span class="pre">Evaluator.evaluate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.evaluator.Evaluator.evaluate_population"><code class="docutils literal notranslate"><span class="pre">Evaluator.evaluate_population()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="evolvables.html">evolvables package</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#module-core.population">core.population module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#core.population.Individual"><code class="docutils literal notranslate"><span class="pre">Individual</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#core.population.Individual.__init__"><code class="docutils literal notranslate"><span class="pre">Individual.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.population.Individual.fitness"><code class="docutils literal notranslate"><span class="pre">Individual.fitness</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.population.Individual.reset_fitness"><code class="docutils literal notranslate"><span class="pre">Individual.reset_fitness()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.population.Individual.has_fitness"><code class="docutils literal notranslate"><span class="pre">Individual.has_fitness()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.population.Individual.copy"><code class="docutils literal notranslate"><span class="pre">Individual.copy()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#core.population.AbstractCollection"><code class="docutils literal notranslate"><span class="pre">AbstractCollection</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#core.population.AbstractCollection.__init__"><code class="docutils literal notranslate"><span class="pre">AbstractCollection.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.population.AbstractCollection.append"><code class="docutils literal notranslate"><span class="pre">AbstractCollection.append()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.population.AbstractCollection.extend"><code class="docutils literal notranslate"><span class="pre">AbstractCollection.extend()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.population.AbstractCollection.populate"><code class="docutils literal notranslate"><span class="pre">AbstractCollection.populate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.population.AbstractCollection.draw"><code class="docutils literal notranslate"><span class="pre">AbstractCollection.draw()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#core.population.Population"><code class="docutils literal notranslate"><span class="pre">Population</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#core.population.Population.__init__"><code class="docutils literal notranslate"><span class="pre">Population.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.population.Population.copy"><code class="docutils literal notranslate"><span class="pre">Population.copy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.population.Population.sort"><code class="docutils literal notranslate"><span class="pre">Population.sort()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.population.Population.reset_fitness"><code class="docutils literal notranslate"><span class="pre">Population.reset_fitness()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.population.Population.best"><code class="docutils literal notranslate"><span class="pre">Population.best()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-core.selector">core.selector module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#core.selector.Selector"><code class="docutils literal notranslate"><span class="pre">Selector</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#core.selector.Selector.__init__"><code class="docutils literal notranslate"><span class="pre">Selector.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.selector.Selector.select_to_population"><code class="docutils literal notranslate"><span class="pre">Selector.select_to_population()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.selector.Selector.select_to_many"><code class="docutils literal notranslate"><span class="pre">Selector.select_to_many()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.selector.Selector.select"><code class="docutils literal notranslate"><span class="pre">Selector.select()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#core.selector.NullSelector"><code class="docutils literal notranslate"><span class="pre">NullSelector</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#core.selector.NullSelector.__init__"><code class="docutils literal notranslate"><span class="pre">NullSelector.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.selector.NullSelector.select"><code class="docutils literal notranslate"><span class="pre">NullSelector.select()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.selector.NullSelector.select_to_many"><code class="docutils literal notranslate"><span class="pre">NullSelector.select_to_many()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#core.selector.SimpleSelector"><code class="docutils literal notranslate"><span class="pre">SimpleSelector</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#core.selector.SimpleSelector.__init__"><code class="docutils literal notranslate"><span class="pre">SimpleSelector.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.selector.SimpleSelector.select"><code class="docutils literal notranslate"><span class="pre">SimpleSelector.select()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#core.selector.ElitistSimpleSelector"><code class="docutils literal notranslate"><span class="pre">ElitistSimpleSelector</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#core.selector.ElitistSimpleSelector.__init__"><code class="docutils literal notranslate"><span class="pre">ElitistSimpleSelector.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.selector.ElitistSimpleSelector.select_to_many"><code class="docutils literal notranslate"><span class="pre">ElitistSimpleSelector.select_to_many()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#core.selector.TournamentSelector"><code class="docutils literal notranslate"><span class="pre">TournamentSelector</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#core.selector.TournamentSelector.__init__"><code class="docutils literal notranslate"><span class="pre">TournamentSelector.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.selector.TournamentSelector.select"><code class="docutils literal notranslate"><span class="pre">TournamentSelector.select()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#core.selector.Elitist"><code class="docutils literal notranslate"><span class="pre">Elitist()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-core.variator">core.variator module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#core.variator.Variator"><code class="docutils literal notranslate"><span class="pre">Variator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#core.variator.Variator.__init__"><code class="docutils literal notranslate"><span class="pre">Variator.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.variator.Variator.vary"><code class="docutils literal notranslate"><span class="pre">Variator.vary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.variator.Variator.vary_population"><code class="docutils literal notranslate"><span class="pre">Variator.vary_population()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#core.variator.DefaultVariator"><code class="docutils literal notranslate"><span class="pre">DefaultVariator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#core.variator.DefaultVariator.__init__"><code class="docutils literal notranslate"><span class="pre">DefaultVariator.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.variator.DefaultVariator.vary"><code class="docutils literal notranslate"><span class="pre">DefaultVariator.vary()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-core">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="evolvables.html">evolvables package</a></li>
 </ul>
 
         </div>
@@ -106,7 +186,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">src</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">&lt;no title&gt;</a></li>
       <li class="breadcrumb-item active">core package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/core.rst.txt" rel="nofollow"> View page source</a>
@@ -800,7 +880,7 @@ Implementation note: clear the score first.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="modules.html" class="btn btn-neutral float-left" title="src" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="evolvables.html" class="btn btn-neutral float-right" title="evolvables package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

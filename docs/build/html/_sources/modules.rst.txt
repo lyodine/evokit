@@ -1,5 +1,5 @@
-src
-===
+evokit
+======
 
 .. toctree::
    :maxdepth: 4
