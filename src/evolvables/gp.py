@@ -421,8 +421,8 @@ evaluator = GymEvaluator(eval, cartpole_wrapper, step_bound, episode_bound, scor
 
 # Prepare the selector.
 import gymnasium as gym
-selc = Elitist(SimpleSelector[Program[float]](coarity = 2, budget = pop_size))
-selp = Elitist(SimpleSelector[Program[float]](coarity = 2, budget = pop_size))
+selc = Elitist(SimpleSelector[Program[float]](budget = pop_size))
+selp = Elitist(SimpleSelector[Program[float]](budget = pop_size))
 
 # selc = Elitist(SimpleSelector[Program[float]](coarity = 2, budget = pop_size))
 # selp = Elitist(SimpleSelector[Program[float]](coarity = 2, budget = pop_size))
@@ -432,7 +432,7 @@ ctrl = Controller[Program[float]](
     evaluator = evaluator,
     parent_selector = selc,
     variator = variator,
-    survivor_selector = selp
+    offspring_selector = selp
 )
 
 best_solutions: List[Program] = []
