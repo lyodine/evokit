@@ -40,7 +40,8 @@ class Selector(ABC, Generic[T]):
                              population: Population[T]) -> Population[T]:
         """Select from a population to a population.
 
-        Invoke :meth:`select_to_many`, then shape the result to a :class:`.Population`.
+        Invoke :meth:`select_to_many`, then shape the result into a
+        :class:`.Population`.
 
         Args:
             population: population to select from.
@@ -246,7 +247,8 @@ def Elitist(sel: Selector[T]) -> Selector:
             UBER_SECRET_BEST_INDIVIDIAUL_NAME = "__best_individual"
 
             # If the ``UBER_SECRET_BEST_INDIVIDIAUL_NAME`` has not been set, set it.
-            # Then, collect the best individual from the population, make a copy of it.
+            # Then, collect the best individual from the population, make a copy of
+            #   it.
             if not hasattr(self, UBER_SECRET_BEST_INDIVIDIAUL_NAME):
                 setattr(self, UBER_SECRET_BEST_INDIVIDIAUL_NAME, None)
 

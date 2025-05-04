@@ -91,7 +91,7 @@ class Controller(ABC, metaclass=MetaController):
         # TODO The note is just not right - normally, the child should
         #   call the initialiser of the parent/
 
-        #: Generation counter, automatically increments when :py:attr:`step` is called.
+        #: Generation counter, automatically increments wit :py:attr:`step`.
         self.generation: int
         #: Registered :class:`Accountant` objects.
         self.accountants: List[Accountant]
@@ -213,5 +213,6 @@ class LinearController(Controller):
         self.survivor_evaluator.evaluate_population(self.population)
         self.update("POST_SURVIVOR_EVALUATION")
 
-        self.population = self.survivor_selector.select_to_population(self.population)
+        self.population = self.survivor_selector.\
+            select_to_population(self.population)
         self.update("POST_SURVIVOR_SELECTION")

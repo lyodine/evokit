@@ -32,7 +32,8 @@ class MetaEvaluator(ABCMeta):
 
         def wrap_function(custom_evaluate: Callable[[Any, Any], float]) -> Callable:
             @wraps(custom_evaluate)
-            def wrapper(self: Evaluator, individual: Individual, *args: Any, **kwargs: Any) -> float:
+            def wrapper(self: Evaluator, individual: Individual,
+                        *args: Any, **kwargs: Any) -> float:
                 if not isinstance(individual, Individual):
                     raise TypeError("Evaluator is not an individual")
                 # If :attr:`retain_fitness` and the individual is scored, then
@@ -97,7 +98,8 @@ class Evaluator(ABC, Generic[T], metaclass=MetaEvaluator):
 
         Note:
             This method must **never** return a value. It must assign to
-            :attr:`.fitness` for each :class:`.Individual` in the :class:`.Population`.
+            :attr:`.fitness` for each :class:`.Individual` in the
+            :class:`.Population`.
         """
         for x in pop:
             x.fitness = self.evaluate(x)
