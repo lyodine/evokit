@@ -91,9 +91,9 @@
 </div>
 <section id="evokit-documentation">
 <h1>EvoKit Documentation<a class="headerlink" href="#evokit-documentation" title="Link to this heading"></a></h1>
-<p>EvoKit is an evolutionary computation framework written in Python. The framework can implement a large range of interoperating representations and operators.</p>
+<p><strong>EvoKit</strong> is an evolutionary computation framework written in Python. The framework can implement a large range of interoperating representations and operators.</p>
 <p>Using EvoKit is easy! With all operators defined, you can run an evolutionary algorithm in just 7 lines! <a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p>
-<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="ss">ctrl</span><span class="p">:</span><span class="w"> </span><span class="no">SimpleLinearController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">SimpleLinearController</span><span class="p">(</span>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="ss">ctrl</span><span class="p">:</span><span class="w"> </span><span class="no">SimpleLinearController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">SimpleLinearConstroller</span><span class="p">(</span>
 <span class="linenos">2</span><span class="w">   </span><span class="n">population</span><span class="o">=</span><span class="n">init_pop</span><span class="p">,</span>
 <span class="linenos">3</span><span class="w">   </span><span class="n">variator</span><span class="o">=</span><span class="no">RandomBitMutator</span><span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span><span class="p">),</span>
 <span class="linenos">4</span><span class="w">   </span><span class="n">selector</span><span class="o">=</span><span class="no">Elitist</span><span class="p">(</span><span class="no">SimpleSelector</span><span class="o">[</span><span class="no">BinaryString</span><span class="o">]</span><span class="p">(</span><span class="no">POPULATION_SIZE</span><span class="p">)),</span>
@@ -109,9 +109,10 @@
 <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="why.html">Why EvoKit?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="why.html#operators-are-easy-to-make">Operators are Easy to Make</a></li>
 <li class="toctree-l2"><a class="reference internal" href="why.html#operators-are-interchangeable">Operators are Interchangeable</a></li>
 <li class="toctree-l2"><a class="reference internal" href="why.html#completely-documented">Completely Documented</a></li>
-<li class="toctree-l2"><a class="reference internal" href="why.html#completely-typed">Completely Typed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="why.html#well-described">Well Described</a></li>
 <li class="toctree-l2"><a class="reference internal" href="why.html#transparent">Transparent</a></li>
 </ul>
 </li>
@@ -155,7 +156,7 @@
 </aside>
 <aside class="footnote brackets" id="id4" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
-<p>Techincally 10 including the parenthesis and an empty line</p>
+<p>Technically 9 lines including the parenthesis and an empty line</p>
 </aside>
 </aside>
 </section>
