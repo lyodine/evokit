@@ -23,7 +23,6 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Introduction" href="guides/index.html" />
     <link rel="prev" title="evokit.core package" href="evokit.core.html" /> 
 </head>
 
@@ -47,6 +46,10 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="why.html">Why EvoKit?</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">evokit</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="evokit.html">evokit package</a><ul class="current">
@@ -60,7 +63,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="guides/index.html">Introduction</a></li>
 </ul>
 
         </div>
@@ -135,13 +137,13 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="evokit.evolvables.binstring.BinaryString.get">
 <span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/evokit/evolvables/binstring.html#BinaryString.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.binstring.BinaryString.get" title="Link to this definition"></a></dt>
-<dd><p>Return the bit at position <code class="code arg docutils literal notranslate"><span class="pre">pos</span></code>.</p>
+<dd><p>Return the bit at position <code class="code highlight docutils literal notranslate"><span class="pre">pos</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>pos</strong> – Position of the returned bit value.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>IndexError</strong> – If <code class="code arg docutils literal notranslate"><span class="pre">pos</span></code> is out of range.`</p>
+<dd class="field-even"><p><strong>IndexError</strong> – If <code class="code highlight docutils literal notranslate"><span class="pre">pos</span></code> is out of range.`</p>
 </dd>
 </dl>
 </dd></dl>
@@ -149,13 +151,13 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="evokit.evolvables.binstring.BinaryString.set">
 <span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/evokit/evolvables/binstring.html#BinaryString.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.binstring.BinaryString.set" title="Link to this definition"></a></dt>
-<dd><p>Set the bit at position <code class="code arg docutils literal notranslate"><span class="pre">pos</span></code> to 0.</p>
+<dd><p>Set the bit at position <code class="code highlight docutils literal notranslate"><span class="pre">pos</span></code> to 0.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>pos</strong> – Position of the bit value to set.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>IndexError</strong> – If <code class="code arg docutils literal notranslate"><span class="pre">pos</span></code> is out of range.`</p>
+<dd class="field-even"><p><strong>IndexError</strong> – If <code class="code highlight docutils literal notranslate"><span class="pre">pos</span></code> is out of range.`</p>
 </dd>
 </dl>
 </dd></dl>
@@ -163,13 +165,13 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="evokit.evolvables.binstring.BinaryString.clear">
 <span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/evokit/evolvables/binstring.html#BinaryString.clear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.binstring.BinaryString.clear" title="Link to this definition"></a></dt>
-<dd><p>Set the bit at position <code class="code arg docutils literal notranslate"><span class="pre">pos</span></code> to 0.</p>
+<dd><p>Set the bit at position <code class="code highlight docutils literal notranslate"><span class="pre">pos</span></code> to 0.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>pos</strong> – Position of the bit value to clear.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>IndexError</strong> – If <code class="code arg docutils literal notranslate"><span class="pre">pos</span></code> is out of range.`</p>
+<dd class="field-even"><p><strong>IndexError</strong> – If <code class="code highlight docutils literal notranslate"><span class="pre">pos</span></code> is out of range.`</p>
 </dd>
 </dl>
 </dd></dl>
@@ -177,13 +179,13 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="evokit.evolvables.binstring.BinaryString.flip">
 <span class="sig-name descname"><span class="pre">flip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/evokit/evolvables/binstring.html#BinaryString.flip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.binstring.BinaryString.flip" title="Link to this definition"></a></dt>
-<dd><p>Flip the bit at position <code class="code arg docutils literal notranslate"><span class="pre">pos</span></code>.</p>
+<dd><p>Flip the bit at position <code class="code highlight docutils literal notranslate"><span class="pre">pos</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>pos</strong> – Position of the bit value to flip.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>IndexError</strong> – If <code class="code arg docutils literal notranslate"><span class="pre">pos</span></code> is outside of range.</p>
+<dd class="field-even"><p><strong>IndexError</strong> – If <code class="code highlight docutils literal notranslate"><span class="pre">pos</span></code> is outside of range.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -210,7 +212,7 @@ incur a reward of 1.</p>
 <dd><p>Bases: <a class="reference internal" href="evokit.core.html#evokit.core.variator.Variator" title="evokit.core.variator.Variator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variator</span></code></a>[<a class="reference internal" href="#evokit.evolvables.binstring.BinaryString" title="evokit.evolvables.binstring.BinaryString"><code class="xref py py-class docutils literal notranslate"><span class="pre">BinaryString</span></code></a>]</p>
 <p>Randomly flip each bit in the parent.</p>
 <p>1-to-1 variator for <a class="reference internal" href="#evokit.evolvables.binstring.BinaryString" title="evokit.evolvables.binstring.BinaryString"><code class="xref py py-class docutils literal notranslate"><span class="pre">BinaryString</span></code></a>. At each bit in the parent,
-flip it with probability <code class="code arg docutils literal notranslate"><span class="pre">mutation_rate`</span></code>.</p>
+flip it with probability <code class="code highlight docutils literal notranslate"><span class="pre">mutation_rate`</span></code>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="evokit.evolvables.binstring.MutateBits.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mutation_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evokit/evolvables/binstring.html#MutateBits.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.binstring.MutateBits.__init__" title="Link to this definition"></a></dt>
@@ -219,7 +221,7 @@ flip it with probability <code class="code arg docutils literal notranslate"><sp
 <dd class="field-odd"><p><strong>mutation_rate</strong> – Probability to flip each bit in the parent.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If <code class="code arg docutils literal notranslate"><span class="pre">mutation_rate</span></code> is not in range [0,1].</p>
+<dd class="field-even"><p><strong>ValueError</strong> – If <code class="code highlight docutils literal notranslate"><span class="pre">mutation_rate</span></code> is not in range [0,1].</p>
 </dd>
 </dl>
 </dd></dl>
@@ -651,213 +653,6 @@ genetic program.</p>
 </dd></dl>
 
 </section>
-<section id="module-evokit.evolvables.lgp">
-<span id="evokit-evolvables-lgp-module"></span><h2>evokit.evolvables.lgp module<a class="headerlink" href="#module-evokit.evolvables.lgp" title="Link to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.Instruction">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.evolvables.lgp.</span></span><span class="sig-name descname"><span class="pre">Instruction</span></span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#Instruction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.Instruction" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.Runner">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.evolvables.lgp.</span></span><span class="sig-name descname"><span class="pre">Runner</span></span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#Runner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.Runner" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.StructOverLines">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.evolvables.lgp.</span></span><span class="sig-name descname"><span class="pre">StructOverLines</span></span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#StructOverLines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.StructOverLines" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.StructOverLines.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evokit.evolvables.lgp.Runner" title="evokit.evolvables.lgp.Runner"><span class="pre">Runner</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#StructOverLines.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.StructOverLines.__init__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.StructUntilLabel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.evolvables.lgp.</span></span><span class="sig-name descname"><span class="pre">StructUntilLabel</span></span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#StructUntilLabel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.StructUntilLabel" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.StructUntilLabel.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evokit.evolvables.lgp.Runner" title="evokit.evolvables.lgp.Runner"><span class="pre">Runner</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#StructUntilLabel.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.StructUntilLabel.__init__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.StructNextLine">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.evolvables.lgp.</span></span><span class="sig-name descname"><span class="pre">StructNextLine</span></span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#StructNextLine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.StructNextLine" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.StructNextLine.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evokit.evolvables.lgp.Runner" title="evokit.evolvables.lgp.Runner"><span class="pre">Runner</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#StructNextLine.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.StructNextLine.__init__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.Label">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.evolvables.lgp.</span></span><span class="sig-name descname"><span class="pre">Label</span></span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#Label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.Label" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.Label.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#Label.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.Label.__init__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.For">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.evolvables.lgp.</span></span><span class="sig-name descname"><span class="pre">For</span></span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#For"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.For" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#evokit.evolvables.lgp.Runner" title="evokit.evolvables.lgp.Runner"><code class="xref py py-class docutils literal notranslate"><span class="pre">Runner</span></code></a></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.For.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#For.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.For.__init__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.While">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.evolvables.lgp.</span></span><span class="sig-name descname"><span class="pre">While</span></span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#While"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.While" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#evokit.evolvables.lgp.Runner" title="evokit.evolvables.lgp.Runner"><code class="xref py py-class docutils literal notranslate"><span class="pre">Runner</span></code></a></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.While.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conditional</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evokit.evolvables.lgp.Conditional" title="evokit.evolvables.lgp.Conditional"><span class="pre">Conditional</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#While.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.While.__init__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.If">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.evolvables.lgp.</span></span><span class="sig-name descname"><span class="pre">If</span></span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#If"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.If" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#evokit.evolvables.lgp.Runner" title="evokit.evolvables.lgp.Runner"><code class="xref py py-class docutils literal notranslate"><span class="pre">Runner</span></code></a></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.If.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conditional</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evokit.evolvables.lgp.Conditional" title="evokit.evolvables.lgp.Conditional"><span class="pre">Conditional</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#If.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.If.__init__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.ValueRange">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.evolvables.lgp.</span></span><span class="sig-name descname"><span class="pre">ValueRange</span></span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#ValueRange"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.ValueRange" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>ValueRange(min: ‘float’, max: ‘float’)</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.ValueRange.min">
-<span class="sig-name descname"><span class="pre">min</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#evokit.evolvables.lgp.ValueRange.min" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.ValueRange.max">
-<span class="sig-name descname"><span class="pre">max</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#evokit.evolvables.lgp.ValueRange.max" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.ValueRange.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#evokit.evolvables.lgp.ValueRange.__init__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.Operation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.evolvables.lgp.</span></span><span class="sig-name descname"><span class="pre">Operation</span></span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#Operation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.Operation" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#evokit.evolvables.lgp.Instruction" title="evokit.evolvables.lgp.Instruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">Instruction</span></code></a></p>
-<p>Operation(function: ‘Callable[…, float]’, target: “Annotated[int, ValueRange(0, float(‘inf’))]”, args: ‘Tuple[int, …]’)</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.Operation.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#Operation.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.Operation.__init__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.Operation.function">
-<span class="sig-name descname"><span class="pre">function</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#evokit.evolvables.lgp.Operation.function" title="Link to this definition"></a></dt>
-<dd><p>Function of the operation.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.Operation.target">
-<span class="sig-name descname"><span class="pre">target</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#evokit.evolvables.lgp.Operation.target" title="Link to this definition"></a></dt>
-<dd><p>Index of the target register.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.Operation.args">
-<span class="sig-name descname"><span class="pre">args</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#evokit.evolvables.lgp.Operation.args" title="Link to this definition"></a></dt>
-<dd><p>Indices of operand registers</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.Conditional">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.evolvables.lgp.</span></span><span class="sig-name descname"><span class="pre">Conditional</span></span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#Conditional"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.Conditional" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.Conditional.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#Conditional.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.Conditional.__init__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.LinearProgram">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.evolvables.lgp.</span></span><span class="sig-name descname"><span class="pre">LinearProgram</span></span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#LinearProgram"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.LinearProgram" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.LinearProgram.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coarity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_can_change</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constants</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initialiser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#LinearProgram.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.LinearProgram.__init__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.LinearProgram.coarity">
-<span class="sig-name descname"><span class="pre">coarity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#evokit.evolvables.lgp.LinearProgram.coarity" title="Link to this definition"></a></dt>
-<dd><p>Number of output registers</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.LinearProgram.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instructions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#evokit.evolvables.lgp.Instruction" title="evokit.evolvables.lgp.Instruction"><span class="pre">Instruction</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#LinearProgram.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.LinearProgram.run" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.LinearProgram.get_output_values">
-<span class="sig-name descname"><span class="pre">get_output_values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#LinearProgram.get_output_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.LinearProgram.get_output_values" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.LinearProgram.check">
-<span class="sig-name descname"><span class="pre">check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cond</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evokit.evolvables.lgp.Conditional" title="evokit.evolvables.lgp.Conditional"><span class="pre">Conditional</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#LinearProgram.check"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.LinearProgram.check" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.LinearProgram.run_instruction">
-<span class="sig-name descname"><span class="pre">run_instruction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instruction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evokit.evolvables.lgp.Instruction" title="evokit.evolvables.lgp.Instruction"><span class="pre">Instruction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">instructions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#evokit.evolvables.lgp.Instruction" title="evokit.evolvables.lgp.Instruction"><span class="pre">Instruction</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#LinearProgram.run_instruction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.LinearProgram.run_instruction" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.add">
-<span class="sig-prename descclassname"><span class="pre">evokit.evolvables.lgp.</span></span><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.add" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.sub">
-<span class="sig-prename descclassname"><span class="pre">evokit.evolvables.lgp.</span></span><span class="sig-name descname"><span class="pre">sub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#sub"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.sub" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="evokit.evolvables.lgp.less">
-<span class="sig-prename descclassname"><span class="pre">evokit.evolvables.lgp.</span></span><span class="sig-name descname"><span class="pre">less</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evokit/evolvables/lgp.html#less"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.lgp.less" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</section>
 <section id="module-evokit.evolvables">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-evokit.evolvables" title="Link to this heading"></a></h2>
 </section>
@@ -868,7 +663,6 @@ genetic program.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="evokit.core.html" class="btn btn-neutral float-left" title="evokit.core package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="guides/index.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
