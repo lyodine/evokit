@@ -4,21 +4,25 @@
 #   TODO Are you sure evolearn is the package? Not core?
 #   Rethink your life choices, and how things came to this.
 
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from typing import Tuple
+    from typing import List
+    from typing import Optional
+    from typing import Iterator
+    from typing import Self
 
+from .population import Population
 from abc import ABC
 from abc import abstractmethod
 from typing import Generic
 from typing import TypeVar
-from typing import Tuple
-from typing import List
-from typing import Optional
-from typing import Iterator
-from typing import Self
+
 
 from .globals import report
 from .globals import LogLevel
 from .population import Genome
-from .population import Population
 from .population import GenomePool
 
 T = TypeVar("T", bound=Genome)
