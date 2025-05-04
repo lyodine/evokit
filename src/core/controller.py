@@ -15,14 +15,13 @@ if TYPE_CHECKING:
     from typing import Tuple
     from typing import Type
     from typing import Callable
-    from typing import Protocol
     from .evaluator import Evaluator
     from .variator import Variator
     from .selector import Selector
     from .population import Population
     from .accountant import Accountant
 
-from typing import Generic, TypeVar
+from typing import TypeVar
 from typing import override
 
 from .population import Individual
@@ -38,6 +37,7 @@ class MetaController(ABCMeta):
     def __new__(mcls: Type[Any], name: str, bases: Tuple[type],
                 namespace: Dict[str, Any]) -> Any:
         ABCMeta.__init__(mcls, name, bases, namespace)
+
         def wrap_step(custom_step: Callable) -> Callable:
             @wraps(custom_step)
             # The `@wraps` decorator ensures that the wrapper correctly
@@ -64,7 +64,7 @@ class Controller(ABC, metaclass=MetaController):
 
     Derive this class to create custom algorithms.
     """
-    def __new__(cls, *_: Any, **__: Any)-> Controller:
+    def __new__(cls, *_: Any, **__: Any) -> Controller:
         """Machinery.
         
         Implement managed attributes.
@@ -111,7 +111,7 @@ class Controller(ABC, metaclass=MetaController):
         # TODO Should I use this note to make it clear?
         pass
 
-    def register(self: Self, accountant: Accountant)-> None:
+    def register(self: Self, accountant: Accountant) -> None:
         """Attach an :class:`.Accountant` to this controller.
 
         Args:
