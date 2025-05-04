@@ -1,8 +1,8 @@
 [project]
 
 name = "evokit"
-version = "0"
-description = "The EvoKit framework, experiment build 0"
+version = "0.1"
+description = "The EvoKit framework, experiment build 1"
 dependencies = ["numpy>=1.26"]
 requires-python = ">= 3.12.0"
 
@@ -47,7 +47,7 @@ test = ["pytest", "nbmake"]
 
 [build-system]
 
-requires = ["setuptools > 60.1.1"]
+requires = ["setuptools >= 60.1.1"]
 build-backend = "setuptools.build_meta"
 
 # [tools.setuptools.packages.find]
