@@ -33,6 +33,8 @@ class Accountant:
         self.subject = subject
 
     def update(self: Self, event: ControllerEvent):
+        if self.subject == None:
+            raise ValueError("This accountant is updated without an attached controller; this should not happen")
         for trigger, action in self.handlers.items():
             if event == trigger:
                 self.records.append(AccountantRecord(self.subject.generation, event, action(self.subject)))

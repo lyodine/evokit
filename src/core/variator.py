@@ -2,8 +2,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from typing import Any
+    from typing import Optional
+    from typing import Sequence
     from .population import Tuple
-    from .population import GenomePool
 
 import abc
 from abc import abstractmethod
@@ -21,9 +22,9 @@ class ArityException(Exception):
     pass
 
 class Variator(abc.ABC, Generic[T]):
-    def __init__(self, arity: int, coarity: int) -> None:
-        self.arity = arity
-        self.coarity = coarity
+    def __init__(self, arity: int, coarity = None) -> None:
+        self.arity: Optional[int] = arity
+        self.coarity: Optional[int] = coarity
 
     @abc.abstractmethod
     def vary(self, parents: Tuple[T, ...]) -> Tuple[T, ...]:
@@ -36,29 +37,32 @@ class Variator(abc.ABC, Generic[T]):
         pass
 
         # magic remove the Nones
-    def vary_pool(self, pool: GenomePool[T], rate: Any = None, a=None, b=None) -> Population[T] :
-        """Apply the variator to a pool of tuples of parents.
-        
-        Also applies the "dynamic scoring" heuristic: the score of a genome is assigned to it as a field.
-        Inspecting this field instead of evaluating the solution may save cost.
-
-        Todo:
-            This heuristic has caused several problems in implementation. One more moving piece.
-            does it appply "dynamic scoring" (or the evaluator guard, or the "pre-evaluation heuristic"?
-        """
-        new_population = Population[T]()
-        for pair in pool:
-            results = self.vary(pair)
+    
+    def _group_to_parents(self, population: Population[T])-> Sequence[Genome[T]]:
+        # Tuple magic. Zipping an iterable with itself extracts a tuple of that size. The "discarding" behaviour is implemented this way.
+        parent_groups: Sequence[int]
+        if self.arity is None:
+            raise ValueError("Variator does not specify arity, cannot create parent groups")
+        else:
+            parent_groups = tuple(zip(*(iter(population),) * self.arity))
+        return parent_groups
+            
+    
+    def vary_population(self, population: Population[T]) -> Population[T]:
+        next_population = Population[T]()
+        parent_groups: ... = self._group_to_parents(population)
+        for group in parent_groups:
+            results = self.vary(group)
             for individual in results:
-                new_population.append(individual)
-
-        return new_population
+                next_population.append(individual)
+        return next_population
+        
     
 class DefaultVariator(Variator[T]):
     """!The default variator does not change anything
     """
     def __init__(self):
-        super().__init__(1, 1, False)
+        super().__init__(1, 1)
 
     @abc.abstractmethod
     def vary(self, parents: Tuple[T, ...]) -> Tuple[T, ...]:
