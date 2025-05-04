@@ -225,25 +225,40 @@ class OnePointCrossover(Variator[BinaryString]):
     2-to-1 variator for :class:`.BinaryString`. Split parents at position
     `k`, then interleave the segments.
     """
-    def __init__(self):
+    def __init__(self, crossover_probability: float):
+        """
+        Arg:
+            crossover_probability: Probability that crossover is performed.
+        """
         self.arity = 2
+        if (crossover_probability < 0 or crossover_probability > 1):
+            raise ValueError(f"Mutation rate must be between 0 and 1."
+                             f"Got: {crossover_probability}")
+
+        self.crossover_probability = crossover_probability
 
     def vary(self: Self,
              parents: Sequence[BinaryString]) -> tuple[BinaryString, ...]:
 
-        # Since :meth:`.from_bit_list(.)` creates a :class:`BinaryString`
-        #   that is independent of the input list, no need to copy the
-        #   parent this time.
-        pa = parents[0].to_bit_list()
-        pb = parents[1].to_bit_list()
+        should_perform_crossover: float = random.random()
 
-        k = random.randrange(len(pa) + 1)
+        if should_perform_crossover < self.crossover_probability:
+            # Since :meth:`.from_bit_list(.)` creates a :class:`BinaryString`
+            #   that is independent of the input list, no need to copy the
+            #   parent this time.
+            pa = parents[0].to_bit_list()
+            pb = parents[1].to_bit_list()
 
-        new_pa: list[int] = pb[:k] + pa[k:]
-        new_pb: list[int] = pa[:k] + pb[k:]
+            k = random.randrange(len(pa) + 1)
 
-        return (BinaryString.from_bit_list(new_pa),
-                BinaryString.from_bit_list(new_pb))
+            new_pa: list[int] = pb[:k] + pa[k:]
+            new_pb: list[int] = pa[:k] + pb[k:]
+
+            return (BinaryString.from_bit_list(new_pa),
+                    BinaryString.from_bit_list(new_pb))
+        else:
+            return (parents[0].copy(),
+                    parents[1].copy())
 
 
 def trial_run() -> None:
@@ -257,7 +272,7 @@ def trial_run() -> None:
 
     evaluator = CountBits()
     selector = Elitist(TruncationSelector[BinaryString](1))
-    variator = OnePointCrossover()
+    variator = OnePointCrossover(0.7)
 
     ctrl: SimpleLinearAlgorithm[BinaryString] = SimpleLinearAlgorithm(
         population=init_pop,
