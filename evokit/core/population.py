@@ -13,8 +13,6 @@ if TYPE_CHECKING:
     from typing import Type
     from typing import Any
     from typing import Union
-    from typing import Tuple
-    from typing import Dict
     from _typeshed import SupportsRichComparison
 
 from functools import wraps
@@ -35,8 +33,8 @@ class MetaGenome(ABCMeta):
 
     :meta private:
     """
-    def __new__(mcls: Type, name: str, bases: Tuple[type],
-                namespace: Dict[str, Any]) -> Any:  # `Any` is BAD
+    def __new__(mcls: Type, name: str, bases: tuple[type],
+                namespace: dict[str, Any]) -> Any:  # `Any` is BAD
         ABCMeta.__init__(mcls, name, bases, namespace)
 
         def wrap_function(custom_copy: Callable[[Individual], Individual]) -> Callable:

@@ -4,11 +4,9 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing import Self
-    from typing import Dict
     from typing import Any
     from typing import Callable
     from typing import Optional
-    from typing import List
 
 from typing import Generic
 from .algorithm import Algorithm
@@ -62,17 +60,17 @@ class Accountant(Generic[C]):
     Tutorial: :doc:`../guides/examples/accountant`.
 
     """
-    def __init__(self: Self, handlers: Dict[str, Callable[[C], Any]]):
+    def __init__(self: Self, handlers: dict[str, Callable[[C], Any]]):
         """
         Args:
             handlers: a dictionary of `event : handler` mappings. Each `handler`
                 should have the signature :python:`Algorithm -> Any`:
         """
         #: Records collected by the ``Accountant``
-        self.records: List[AccountantRecord] = []
+        self.records: list[AccountantRecord] = []
 
         #: `Event - handler` pairs of the ``Accountant``
-        self.handlers: Dict[str, Callable[[C], Any]] = handlers
+        self.handlers: dict[str, Callable[[C], Any]] = handlers
 
         #: The attached :class:`Algorithm`
         self.subject: Optional[C] = None
@@ -110,7 +108,7 @@ class Accountant(Generic[C]):
                                                          self.subject.generation,
                                                          action(self.subject)))
 
-    def publish(self) -> List[AccountantRecord]:
+    def publish(self) -> list[AccountantRecord]:
         """Report collected data.
 
         Each time an event fires in the attached :class`.Algorithm`,

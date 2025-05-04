@@ -10,8 +10,6 @@ from .population import Individual
 if TYPE_CHECKING:
     from typing import Self
     from typing import Type
-    from typing import Tuple
-    from typing import Dict
     from typing import Callable
     from .population import Population
 
@@ -27,8 +25,8 @@ class MetaEvaluator(ABCMeta):
     :meta private:
     """
     # ^^ Actually a private metaclass! :meta private: indeed.
-    def __new__(mcls: Type, name: str, bases: Tuple[type],
-                namespace: Dict[str, Any]) -> Any:  # BAD
+    def __new__(mcls: Type, name: str, bases: tuple[type],
+                namespace: dict[str, Any]) -> Any:  # BAD
         ABCMeta.__init__(mcls, name, bases, namespace)
         # Remorseless metaclass abuse. Consider using __init_subclass__ instead.
         # This bad boy violates so many OO practices. Everything for ease
@@ -116,5 +114,5 @@ class Evaluator(ABC, Generic[D], metaclass=MetaEvaluator):
 
 class NullEvaluator(Evaluator[Any]):
     @override
-    def evaluate(self: Self, _: Any) -> Tuple[float]:
+    def evaluate(self: Self, _: Any) -> tuple[float]:
         return (0,)

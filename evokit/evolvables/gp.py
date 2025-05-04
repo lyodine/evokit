@@ -4,9 +4,6 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing import Optional
-    from typing import Tuple
-    from typing import Dict
-    from typing import List
     from typing import Any
     from typing import Self
     from typing import Callable
@@ -66,7 +63,7 @@ class Expression(Generic[T]):
     def __init__(self: Self,
                  arity: int,
                  value: T | Callable[..., T] | Symbol,
-                 children: List[Expression[T]],
+                 children: list[Expression[T]],
                  factory: Optional[ExpressionFactory] = None):
         #! Arity of the expression node.
         self.arity: int = arity
@@ -142,11 +139,11 @@ class Expression(Generic[T]):
         else:
             new_value = self.value
 
-        new_children: List[Expression[T]] = [x.copy() for x in self.children]
+        new_children: list[Expression[T]] = [x.copy() for x in self.children]
 
         return self.__class__(self.arity, new_value, new_children, self.factory)
 
-    def nodes(self: Self) -> Tuple[Expression[T], ...]:
+    def nodes(self: Self) -> tuple[Expression[T], ...]:
         """Return a flat list view of all nodes and subnodes.
 
         Note that operations performed on items in the returned list affect
@@ -205,7 +202,7 @@ class ExpressionFactory(Generic[T]):
         :attr:`Expression.factory`
     """
     def __init__(self: Self,
-                 primitives: Tuple[T | Callable[..., T], ...],
+                 primitives: tuple[T | Callable[..., T], ...],
                  arity: int):
         """
         Args:
@@ -220,7 +217,7 @@ class ExpressionFactory(Generic[T]):
             values. The tree cannot be built without terminals.
         """
 
-        self.primitive_pool: Dict[int, List[T | Callable[..., T] | Symbol]] = {}
+        self.primitive_pool: dict[int, list[T | Callable[..., T] | Symbol]] = {}
 
         self.arity = arity
 
@@ -312,7 +309,7 @@ class ExpressionFactory(Generic[T]):
         if (self._build_is_node_overbudget() and not free_draw):
             nullary_ratio = 1
 
-        value_pool: List[T | Callable[..., T] | Symbol]
+        value_pool: list[T | Callable[..., T] | Symbol]
 
         if (nullary_ratio is None):
             value_pool = list(
@@ -361,7 +358,7 @@ class ProgramFactory(Generic[T]):
     hyperparameters and :meth:`ProgramFactory.build` to the internal
     :class`ExpressionFactory`.
     """
-    def __init__(self: Self, primitives: Tuple[T | Callable[..., T], ...], arity: int):
+    def __init__(self: Self, primitives: tuple[T | Callable[..., T], ...], arity: int):
         self.exprfactory = ExpressionFactory[T](primitives=primitives,
                                                 arity=arity)
 
@@ -392,7 +389,7 @@ class CrossoverSubtree(Variator[Program[float]]):
         self.shuffle = shuffle
 
     def vary(self,
-             parents: Sequence[Program[float]]) -> Tuple[Program[float], ...]:
+             parents: Sequence[Program[float]]) -> tuple[Program[float], ...]:
 
         root1: Program = parents[0].copy()
         root2: Program = parents[1].copy()
@@ -455,7 +452,7 @@ class CrossoverSubtree(Variator[Program[float]]):
 #         self.coarity = 1
 
 #     def vary(self,
-#              parents: Sequence[Program[float]]) -> Tuple[Program[float], ...]:
+#              parents: Sequence[Program[float]]) -> tuple[Program[float], ...]:
 
 #         root1: Program = parents[0].copy()
 #         random_node = random.choice(root1.genome.nodes())
@@ -469,7 +466,7 @@ class MutateNode(Variator[Program]):
         self.coarity = 1
 
     def vary(self: Self,
-             parents: Sequence[Program]) -> Tuple[Program, ...]:
+             parents: Sequence[Program]) -> tuple[Program, ...]:
         """
         Args:
             parents: collection where the 0th item is the parent.
@@ -511,11 +508,11 @@ class MutateSubtree(Variator[Program]):
         self.nullary_ratio = nullary_ratio
 
     def vary(self: Self,
-             parents: Sequence[Program]) -> Tuple[Program, ...]:
+             parents: Sequence[Program]) -> tuple[Program, ...]:
 
         root1: Program = parents[0].copy()
         root_pass: Program = parents[0].copy()
-        internal_nodes: Tuple[Expression, ...] =\
+        internal_nodes: tuple[Expression, ...] =\
             tuple(x for x in root1.genome.nodes() if len(x.children) > 0)
 
         if (internal_nodes):
@@ -540,7 +537,7 @@ class SymbolicEvaluator(Evaluator[Program[float]]):
     """
     def __init__(self,
                  objective: Callable[..., float],
-                 support: Tuple[Tuple[float, ...], ...]):
+                 support: tuple[tuple[float, ...], ...]):
         """
         Args:
             objective: function that
@@ -552,7 +549,7 @@ class SymbolicEvaluator(Evaluator[Program[float]]):
             match the arity of ``objective``.
         """
         self.objective: Callable[..., float] = objective
-        self.support: Tuple[Tuple[float, ...], ...] = support
+        self.support: tuple[tuple[float, ...], ...] = support
         self.arity = _get_arity(objective)
 
         if self.arity != len(support[0]):
