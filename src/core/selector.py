@@ -1,5 +1,7 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from typing import Tuple
     from typing import List
@@ -7,14 +9,11 @@ if TYPE_CHECKING:
     from typing import Iterator
     from typing import Self
 
+from abc import ABC, abstractmethod
 from types import MethodType
+from typing import Generic, TypeVar
 
-from abc import ABC
-from abc import abstractmethod
-from typing import Generic
-from typing import TypeVar
-from .population import Population
-from .population import Genome
+from .population import Genome, Population
 
 T = TypeVar("T", bound=Genome)
 
@@ -143,6 +142,8 @@ class ElitistSimpleSelector(SimpleSelector[T]):
         return (*results, self.best_genome)
 
 import random
+
+
 class TournamentSelector(Selector[T]):
     """Tournament selector.
     """

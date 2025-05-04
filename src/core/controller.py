@@ -1,7 +1,9 @@
 """ The controller is an iterative optimizer that receives various evolutionary operators.
 """
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from typing import Self
     from .evaluator import Evaluator
@@ -10,12 +12,10 @@ if TYPE_CHECKING:
     from .population import Population
     from .accountant import Accountant
 
-from enum import auto
-from enum import Flag
+from enum import Flag, auto
+from typing import Generic, TypeVar
 
 from .population import Genome
-from typing import Generic
-from typing import TypeVar
 
 T = TypeVar("T", bound = Genome)
 

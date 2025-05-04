@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from typing import Self
     from typing import Dict
@@ -9,9 +10,10 @@ if TYPE_CHECKING:
     from typing import Sequence
     from .controller import Controller
 
+from typing import NamedTuple
+
 from .controller import ControllerEvent
 
-from typing import NamedTuple
 
 class AccountantRecord(NamedTuple):
     generation: int
