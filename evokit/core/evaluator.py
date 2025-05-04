@@ -4,7 +4,6 @@ from abc import ABC, ABCMeta, abstractmethod
 from typing import TYPE_CHECKING, Generic, TypeVar
 from functools import wraps
 from typing import override
-from typing import Any
 
 from .population import Individual
 
@@ -110,6 +109,7 @@ class Evaluator(ABC, Generic[D], metaclass=MetaEvaluator):
         for x in pop:
             x.fitness = self.evaluate(x)
         pop.sort()
+
 
 class NullEvaluator(Evaluator[Any]):
     @override

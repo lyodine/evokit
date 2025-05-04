@@ -17,6 +17,7 @@ from typing import NamedTuple
 
 C = TypeVar("C", bound=Controller)
 
+
 class AccountantRecord(NamedTuple, Generic[C]):
     """A value collected by an :class:`Accountant`; also contains the context
     in which that value is collected.

@@ -193,7 +193,6 @@ class SimpleLinearController(Controller):
         self.population = self.variator.vary_population(self.population)
         self.update("POST_VARIATION")
 
-
         self.evaluator.evaluate_population(self.population)
         self.update("POST_EVALUATION")
 

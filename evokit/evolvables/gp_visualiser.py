@@ -1,5 +1,5 @@
 # mypy: disable-error-code="import-untyped,no-any-unimported"
-from graphviz import Digraph 
+from graphviz import Digraph
 
 from .gp import Expression
 
@@ -8,19 +8,19 @@ from .gp import Program
 #: Global counter of the number of dispatched identifiers.
 ident = 0
 
+
 def _dispatch_ident() -> str:
     """Return an unique identifier.
-    
+
     During the same runtime, each call of this method returns a
     different identifier.
     """
     global ident
-    return "a" + str(*(ident:=ident+1,))
+    return "a" + str(*(ident := ident + 1,))
 
 
 def p2dot(gp: Program,
-          dispatcher: Callable[[], str] = _dispatch_ident)\
-            -> Digraph:
+          dispatcher: Callable[[], str] = _dispatch_ident) -> Digraph:
     """Visualise a tree-based genetic program.
 
     Return a :class:`graphviz.Digraph` that represents the given tree-based
@@ -44,21 +44,22 @@ def p2dot(gp: Program,
 
     return dot
 
+
 def _p2dot_recurse(expr: Expression,
                    dot: Digraph,
                    parent_ident: str,
-                   dispatcher: Callable[[], str])-> None:
+                   dispatcher: Callable[[], str]) -> None:
     """Recursive function that builds the visualisation.
 
     Recursively add nodes to a :class:`graphviz.Digraph`, then return it.
-    
+
     Args:
         expr: An :class:`.Expression`
-        
+
         dot: A :class:`graphviz.Digraph`
 
         parent_ident: Identifier of the parent node
-        
+
         dispatcher: :class:`Callable` that should return a unique
         identifier when called.
     """
