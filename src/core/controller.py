@@ -21,17 +21,6 @@ from .population import Individual
 
 T = TypeVar("T", bound=Individual)
 
-
-class ControllerEvent(Flag):
-    INITIALISATION = auto()
-    GENERATION_BEGIN = PRE_PARENT_EVALUATION = auto()
-    PRE_PARENT_SELECTION = POST_PARENT_EVALUATION = auto()
-    PRE_VARIATION = POST_PARENT_SELECTION = auto()
-    PRE_SURVIVOR_EVALUATION = POST_VARIATION = auto()
-    PRE_SURVIVOR_SELECTION = POST_SURVIVOR_EVALUATION = auto()
-    GENERATION_END = POST_SURVIVOR_SELECTION = auto()
-
-
 class Controller(Generic[T]):
     """Controller that manages the learning process.
     """
@@ -70,28 +59,28 @@ class Controller(Generic[T]):
         #   increment the count to 1.
         self.generation = self.generation + 1
 
-        self.update(ControllerEvent.GENERATION_BEGIN)
+        self.update("GENERATION_BEGIN")
 
         # Evaluate the population
         self.evaluator.evaluate_population(self.population)
 
-        self.update(ControllerEvent.PRE_PARENT_SELECTION)
+        self.update("PRE_PARENT_SELECTION")
 
         # Select from the population into a new population
         parents: Population[T] = self.parent_selector.select_to_population(
             self.population)
 
-        self.update(ControllerEvent.PRE_VARIATION)
+        self.update("PRE_VARIATION")
 
         # Vary the population to create offspring
         offspring = self.variator.vary_population(parents)
 
-        self.update(ControllerEvent.PRE_SURVIVOR_EVALUATION)
+        self.update("PRE_SURVIVOR_EVALUATION")
 
         # Evaluate the offspring
         self.evaluator.evaluate_population(offspring)
 
-        self.update(ControllerEvent.PRE_SURVIVOR_SELECTION)
+        self.update("PRE_SURVIVOR_SELECTION")
 
         # Select from the offspring
         offspring = self.offspring_selector.select_to_population(offspring)
@@ -99,7 +88,7 @@ class Controller(Generic[T]):
         # The survivor become the next population.
         self.population = offspring
 
-        self.update(ControllerEvent.GENERATION_END)
+        self.update("GENERATION_END")
 
         # Returning self allows chaining multiple calls to `step`
         return self
@@ -108,7 +97,7 @@ class Controller(Generic[T]):
         self.accountants.append(accountant)
         accountant.register(self)
 
-    def update(self, event: ControllerEvent) -> None:
+    def update(self, event: str) -> None:
         for acc in self.accountants:
             acc.update(event)
 
