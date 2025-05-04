@@ -88,6 +88,11 @@ class Selector(ABC, Generic[D]):
         Note:
             Each item in the returned tuple must be in :arg:`from_pool`.
 
+            The selector should treat higher fitness as "better".
+
+            :class:`.Evaluator` should assign higher fitness to
+                "better" individuals.
+
         Raise:
             NotImplementedError: If the subclass does not override this
                 method.
