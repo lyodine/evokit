@@ -66,7 +66,7 @@ class Controller(ABC, metaclass=MetaController):
     """
     def __new__(cls, *_: Any, **__: Any) -> Controller:
         """Machinery.
-        
+
         Implement managed attributes.
 
         """
@@ -81,7 +81,7 @@ class Controller(ABC, metaclass=MetaController):
     @abstractmethod
     def __init__(self) -> None:
         """
-        
+
         Subclasses should override this method.
 
         The implementation can accept operators as arguments. Alternatively,
@@ -90,7 +90,7 @@ class Controller(ABC, metaclass=MetaController):
         """
         # TODO The note is just not right - normally, the child should
         #   call the initialiser of the parent/
-        
+
         #: Generation counter, automatically increments when :py:attr:`step` is called.
         self.generation: int
         #: Registered :class:`Accountant` objects.
@@ -212,6 +212,6 @@ class LinearController(Controller):
 
         self.survivor_evaluator.evaluate_population(self.population)
         self.update("POST_SURVIVOR_EVALUATION")
-        
+
         self.population = self.survivor_selector.select_to_population(self.population)
         self.update("POST_SURVIVOR_SELECTION")
