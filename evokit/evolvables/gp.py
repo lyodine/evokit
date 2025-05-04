@@ -82,13 +82,6 @@ class Expression(abc.ABC, Generic[T]):
     @abstractmethod
     def __repr__(self: Self) -> str: ...
 
-    def kwargs_to_args(self, *args: T, **kwargs: T) -> Tuple[T, ...]:
-        global _EXPR_PARAM_PREFIX
-        kwargs_names: List[str] = [_EXPR_PARAM_PREFIX + str(i)
-                                   for i in range(self.arity)]
-        kwargs_from_args = dict(zip(kwargs_names, args))
-        kwargs_from_args.update(kwargs)
-        return tuple(kwargs_from_args.values())
 
 
 class ExpressionSymbol(Expression[T]):
