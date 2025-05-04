@@ -12,10 +12,10 @@ evokit.core.accountant module
    :undoc-members:
    :show-inheritance:
 
-evokit.core.controller module
------------------------------
+evokit.core.algorithm module
+----------------------------
 
-.. automodule:: evokit.core.controller
+.. automodule:: evokit.core.algorithm
    :members:
    :undoc-members:
    :show-inheritance:

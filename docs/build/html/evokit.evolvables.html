@@ -105,13 +105,14 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.evolvables.binstring.</span></span><span class="sig-name descname"><span class="pre">BinaryString</span></span><a class="reference internal" href="_modules/evokit/evolvables/binstring.html#BinaryString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.binstring.BinaryString" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="evokit.core.html#evokit.core.population.Individual" title="evokit.core.population.Individual"><code class="xref py py-class docutils literal notranslate"><span class="pre">Individual</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</p>
 <p>A string of bits.</p>
+<p>Tutorial: <a class="reference internal" href="guides/examples/onemax.html"><span class="doc">Getting Started with OneMax</span></a>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="evokit.evolvables.binstring.BinaryString.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/evokit/evolvables/binstring.html#BinaryString.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.binstring.BinaryString.__init__" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>value</strong> – Integer whose binary representation is used</p></li>
+<li><p><strong>value</strong> – Integer whose binary representation is used.</p></li>
 <li><p><strong>size</strong> – Length of the binary string</p></li>
 </ul>
 </dd>
@@ -121,7 +122,9 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="evokit.evolvables.binstring.BinaryString.random">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#evokit.evolvables.binstring.BinaryString" title="evokit.evolvables.binstring.BinaryString"><span class="pre">BinaryString</span></a></span></span><a class="reference internal" href="_modules/evokit/evolvables/binstring.html#BinaryString.random"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.binstring.BinaryString.random" title="Link to this definition"></a></dt>
-<dd><p>Generate a random binary string.</p>
+<dd><p>Return a random binary string.</p>
+<p>Each item in the returned value may be either 1 or 0 with equal
+probability.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>size</strong> – Size of the generated binary string.</p>
@@ -158,8 +161,14 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>pos</strong> – Position of the bit value to set.</p>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>IndexError</strong> – If <code class="code highlight docutils literal notranslate"><span class="pre">pos</span></code> is out of range.`</p>
+</dl>
+<dl class="simple">
+<dt>Effect:</dt><dd><p>Change <a class="reference internal" href="evokit.core.html#evokit.core.population.Individual.genome" title="evokit.core.population.Individual.genome"><code class="xref py py-attr docutils literal notranslate"><span class="pre">genome</span></code></a>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>IndexError</strong> – If <code class="code highlight docutils literal notranslate"><span class="pre">pos</span></code> is out of range.`</p>
 </dd>
 </dl>
 </dd></dl>
@@ -172,8 +181,14 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>pos</strong> – Position of the bit value to clear.</p>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>IndexError</strong> – If <code class="code highlight docutils literal notranslate"><span class="pre">pos</span></code> is out of range.`</p>
+</dl>
+<dl class="simple">
+<dt>Effect:</dt><dd><p>Change <a class="reference internal" href="evokit.core.html#evokit.core.population.Individual.genome" title="evokit.core.population.Individual.genome"><code class="xref py py-attr docutils literal notranslate"><span class="pre">genome</span></code></a>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>IndexError</strong> – If <code class="code highlight docutils literal notranslate"><span class="pre">pos</span></code> is out of range.`</p>
 </dd>
 </dl>
 </dd></dl>
@@ -186,8 +201,14 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>pos</strong> – Position of the bit value to flip.</p>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>IndexError</strong> – If <code class="code highlight docutils literal notranslate"><span class="pre">pos</span></code> is outside of range.</p>
+</dl>
+<dl class="simple">
+<dt>Effect:</dt><dd><p>Change <a class="reference internal" href="evokit.core.html#evokit.core.population.Individual.genome" title="evokit.core.population.Individual.genome"><code class="xref py py-attr docutils literal notranslate"><span class="pre">genome</span></code></a>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>IndexError</strong> – If <code class="code highlight docutils literal notranslate"><span class="pre">pos</span></code> is outside of range.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -223,7 +244,7 @@ flip it with probability <code class="code highlight docutils literal notranslat
 <dd class="field-odd"><p><strong>mutation_rate</strong> – Probability to flip each bit in the parent.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If <code class="code highlight docutils literal notranslate"><span class="pre">mutation_rate</span></code> is not in range [0,1].</p>
+<dd class="field-even"><p><strong>ValueError</strong> – If <code class="code highlight docutils literal notranslate"><span class="pre">mutation_rate</span></code> is not in range <code class="docutils literal notranslate"><span class="pre">[0,1]</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -367,9 +388,11 @@ the original objects.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">ExpressionFactory</span></span><a class="reference internal" href="_modules/evokit/evolvables/gp.html#ExpressionFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.gp.ExpressionFactory" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
 <p>Factory class for <a class="reference internal" href="#evokit.evolvables.gp.Expression" title="evokit.evolvables.gp.Expression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Expression</span></code></a>.</p>
-<p>Build <a class="reference internal" href="#evokit.evolvables.gp.Expression" title="evokit.evolvables.gp.Expression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Expression</span></code></a> with supplied hyperparameters. Then,
-register itself with each created object by setting its
-<a class="reference internal" href="#evokit.evolvables.gp.Expression.factory" title="evokit.evolvables.gp.Expression.factory"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Expression.factory</span></code></a> attribute.</p>
+<p>Build <a class="reference internal" href="#evokit.evolvables.gp.Expression" title="evokit.evolvables.gp.Expression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Expression</span></code></a> instances with supplied hyperparameters.
+Register the factory itself with each expression built by setting
+<a class="reference internal" href="#evokit.evolvables.gp.Expression.factory" title="evokit.evolvables.gp.Expression.factory"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Expression.factory</span></code></a>.</p>
+<p>Please see <a class="reference internal" href="#module-evokit.evolvables.funcs" title="evokit.evolvables.funcs"><code class="xref py py-mod docutils literal notranslate"><span class="pre">evolvables.funcs</span></code></a> for a set of primitives, or
+define custom functions.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">arity</span> <span class="pre">=</span> <span class="pre">0</span></code>, then <code class="docutils literal notranslate"><span class="pre">primitives</span></code> must include at least one literal.
@@ -456,6 +479,7 @@ too much.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.evolvables.gp.</span></span><span class="sig-name descname"><span class="pre">Program</span></span><a class="reference internal" href="_modules/evokit/evolvables/gp.html#Program"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.gp.Program" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="evokit.core.html#evokit.core.population.Individual" title="evokit.core.population.Individual"><code class="xref py py-class docutils literal notranslate"><span class="pre">Individual</span></code></a>[<a class="reference internal" href="#evokit.evolvables.gp.Expression" title="evokit.evolvables.gp.Expression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Expression</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]]</p>
 <p>A tree-based genetic program.</p>
+<p>Tutorial: <a class="reference internal" href="guides/examples/gp.html"><span class="doc">Symbolic Regression with Genetic Programming</span></a>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="evokit.evolvables.gp.Program.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evokit.evolvables.gp.Expression" title="evokit.evolvables.gp.Expression"><span class="pre">Expression</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evokit/evolvables/gp.html#Program.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.gp.Program.__init__" title="Link to this definition"></a></dt>

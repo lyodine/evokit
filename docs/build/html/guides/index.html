@@ -57,7 +57,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#advanced-tutorials">Advanced Tutorials</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="examples/accountant.html">Collect Runtime Statistics with <code class="docutils literal notranslate"><span class="pre">Accountant</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples/controller.html">Creating a Custom <code class="docutils literal notranslate"><span class="pre">Controller</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/algorithm.html">Creating a Custom <code class="docutils literal notranslate"><span class="pre">Controller</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="examples/gp.html">Symbolic Regression with Genetic Programming</a></li>
 <li class="toctree-l3"><a class="reference internal" href="examples/interceptor.html">Modifying Operators with the Interceptor Pattern</a></li>
 <li class="toctree-l3"><a class="reference internal" href="examples/onemax.html">Getting Started with OneMax</a></li>
@@ -104,7 +104,7 @@
 <h2>Base Classes<a class="headerlink" href="#base-classes" title="Link to this heading"></a></h2>
 <p>Everything that form an algorithm derive from the following base classes:</p>
 <p>Operators derive <a class="reference internal" href="../evokit.core.html#evokit.core.selector.Selector" title="evokit.core.selector.Selector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Selector</span></code></a>, <a class="reference internal" href="../evokit.core.html#evokit.core.evaluator.Evaluator" title="evokit.core.evaluator.Evaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Evaluator</span></code></a>, and <a class="reference internal" href="../evokit.core.html#evokit.core.variator.Variator" title="evokit.core.variator.Variator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variator</span></code></a>.</p>
-<p>Algorithms derive <a class="reference internal" href="../evokit.core.html#evokit.core.controller.Controller" title="evokit.core.controller.Controller"><code class="xref py py-class docutils literal notranslate"><span class="pre">Controller</span></code></a>.</p>
+<p>Algorithms derive <a class="reference internal" href="../evokit.core.html#evokit.core.algorithm.Algorithm" title="evokit.core.algorithm.Algorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">Algorithm</span></code></a>.</p>
 <p>Representations derive <a class="reference internal" href="../evokit.core.html#evokit.core.population.Individual" title="evokit.core.population.Individual"><code class="xref py py-class docutils literal notranslate"><span class="pre">Individual</span></code></a>; <a class="reference internal" href="../evokit.core.html#evokit.core.population.Population" title="evokit.core.population.Population"><code class="xref py py-class docutils literal notranslate"><span class="pre">Population</span></code></a> models a population.</p>
 </section>
 <section id="getting-started">
@@ -113,7 +113,7 @@
 <li><p>Begin with the OneMax Problem: <a class="reference internal" href="examples/onemax.html"><span class="doc">Getting Started with OneMax</span></a></p></li>
 <li><p>Genetic programming: <a class="reference internal" href="examples/gp.html"><span class="doc">Symbolic Regression with Genetic Programming</span></a></p></li>
 <li><p>Custom selectors: <a class="reference internal" href="examples/selector.html"><span class="doc">Creating a Custom Selector</span></a></p></li>
-<li><p>Custom algorithms: <a class="reference internal" href="examples/controller.html"><span class="doc">Creating a Custom Controller</span></a></p></li>
+<li><p>Custom algorithms: <a class="reference internal" href="examples/algorithm.html"><span class="doc">Creating a Custom Controller</span></a></p></li>
 </ul>
 </section>
 <section id="advanced-tutorials">

@@ -43,9 +43,10 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../why.html">Why EvoKit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install-and-built.html">Installing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Guides</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
@@ -82,15 +83,15 @@
 
 <span class="kn">import</span> <span class="nn">typing</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Annotated</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Literal</span>
 
-<span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="n">SimpleLinearController</span>
+<span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="n">SimpleLinearAlgorithm</span>
 <span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="n">Evaluator</span>
 <span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="n">Individual</span><span class="p">,</span> <span class="n">Population</span>
-<span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="n">Elitist</span><span class="p">,</span> <span class="n">SimpleSelector</span><span class="p">,</span> <span class="n">NullSelector</span>
+<span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="n">Elitist</span><span class="p">,</span> <span class="n">SimpleSelector</span>
 <span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="n">Variator</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Self</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Self</span><span class="p">,</span> <span class="n">Sequence</span>
 
 <span class="kn">import</span> <span class="nn">random</span>
 
@@ -112,17 +113,18 @@
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.binstring.BinaryString">[docs]</a>
 <span class="k">class</span> <span class="nc">BinaryString</span><span class="p">(</span><span class="n">Individual</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A string of bits.</span>
+
+<span class="sd">    Tutorial: :doc:`../guides/examples/onemax`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="BinaryString.__init__">
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.binstring.BinaryString.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
-<span class="sd">            value: Integer whose binary representation is used</span>
+<span class="sd">            value: Integer whose binary representation is used.</span>
 
 <span class="sd">            size: Length of the binary string</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># TODO better way to denote ``value``?</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">genome</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">value</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">size</span></div>
 
@@ -131,7 +133,10 @@
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.binstring.BinaryString.random">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">random</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BinaryString</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a random binary string.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a random binary string.</span>
+
+<span class="sd">        Each item in the returned value may be either 1 or 0 with equal</span>
+<span class="sd">        probability.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            size: Size of the generated binary string.</span>
@@ -165,7 +170,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_assert_pos_out_of_bound</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">genome</span> <span class="o">&gt;&gt;</span> <span class="n">pos</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span> <span class="c1"># To make mypy happy</span></div>
+        <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span>  <span class="c1"># To make mypy happy</span></div>
 
 
 <div class="viewcode-block" id="BinaryString.set">
@@ -176,13 +181,16 @@
 <span class="sd">        Args:</span>
 <span class="sd">            pos: Position of the bit value to set.</span>
 
+<span class="sd">        Effect:</span>
+<span class="sd">            Change :attr:`.genome`.</span>
+
 <span class="sd">        Raise:</span>
 <span class="sd">            IndexError: If :arg:`pos` is out of range.`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_assert_pos_out_of_bound</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">genome</span> <span class="o">|=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">pos</span></div>
 
-        
+
 <div class="viewcode-block" id="BinaryString.clear">
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.binstring.BinaryString.clear">[docs]</a>
     <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -191,11 +199,14 @@
 <span class="sd">        Args:</span>
 <span class="sd">            pos: Position of the bit value to clear.</span>
 
+<span class="sd">        Effect:</span>
+<span class="sd">            Change :attr:`.genome`.</span>
+
 <span class="sd">        Raise:</span>
 <span class="sd">            IndexError: If :arg:`pos` is out of range.`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_assert_pos_out_of_bound</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">genome</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">pos</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">genome</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">pos</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BinaryString.flip">
@@ -206,20 +217,26 @@
 <span class="sd">        Args:</span>
 <span class="sd">            pos: Position of the bit value to flip.</span>
 
+<span class="sd">        Effect:</span>
+<span class="sd">            Change :attr:`.genome`.</span>
+
 <span class="sd">        Raise:</span>
 <span class="sd">            IndexError: If :arg:`pos` is outside of range.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_assert_pos_out_of_bound</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">genome</span> <span class="o">^=</span> <span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">pos</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">genome</span> <span class="o">^=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">pos</span></div>
 
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">((</span><span class="n">size</span> <span class="o">*</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span>
-                <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">digit</span><span class="p">)</span> <span class="k">for</span> <span class="n">digit</span> <span class="ow">in</span> <span class="nb">bin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">genome</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]])[</span><span class="o">-</span><span class="n">size</span><span class="p">:])</span>
-    
-    <span class="k">def</span> <span class="nf">_assert_pos_out_of_bound</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span><span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">size</span> <span class="o">*</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">digit</span><span class="p">)</span> <span class="k">for</span> <span class="n">digit</span> <span class="ow">in</span> <span class="nb">bin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">genome</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]])[</span><span class="o">-</span><span class="n">size</span><span class="p">:])</span>
+
+    <span class="k">def</span> <span class="nf">_assert_pos_out_of_bound</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Assert that an index is within bound of this bit string.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            pos: An index.</span>
 
 <span class="sd">        Raise:</span>
 <span class="sd">            IndexError: If :arg:`pos` is outside of range :math:`[0, self.size-1]`</span>
@@ -227,6 +244,7 @@
         <span class="k">if</span> <span class="n">pos</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Index </span><span class="si">{</span><span class="n">pos</span><span class="si">}</span><span class="s2"> is out of bound for a binary&quot;</span>
                              <span class="sa">f</span><span class="s2">&quot;string of length </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="CountBits">
@@ -250,18 +268,18 @@
 <span class="k">class</span> <span class="nc">MutateBits</span><span class="p">(</span><span class="n">Variator</span><span class="p">[</span><span class="n">BinaryString</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Randomly flip each bit in the parent.</span>
 
-<span class="sd">    1-to-1 variator for :class:`BinaryString`. At each bit in the parent,</span>
+<span class="sd">    1-to-1 variator for :class:`.BinaryString`. At each bit in the parent,</span>
 <span class="sd">    flip it with probability :arg:`mutation_rate``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="MutateBits.__init__">
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.binstring.MutateBits.__init__">[docs]</a>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mutation_rate</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">ValueRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)]):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mutation_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            mutation_rate: Probability to flip each bit in the parent.</span>
 
 <span class="sd">        Raise:</span>
-<span class="sd">            ValueError: If :arg:`mutation_rate` is not in range [0,1].</span>
+<span class="sd">            ValueError: If :arg:`mutation_rate` is not in range ``[0,1]``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">mutation_rate</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">mutation_rate</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mutation rate must be between 0 and 1.&quot;</span>
@@ -298,7 +316,7 @@
     <span class="n">selector</span> <span class="o">=</span> <span class="n">Elitist</span><span class="p">(</span><span class="n">SimpleSelector</span><span class="p">[</span><span class="n">BinaryString</span><span class="p">](</span><span class="mi">1</span><span class="p">))</span>
     <span class="n">variator</span> <span class="o">=</span> <span class="n">MutateBits</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
 
-    <span class="n">ctrl</span><span class="p">:</span> <span class="n">SimpleLinearController</span> <span class="o">=</span> <span class="n">SimpleLinearController</span><span class="p">(</span>
+    <span class="n">ctrl</span><span class="p">:</span> <span class="n">SimpleLinearAlgorithm</span> <span class="o">=</span> <span class="n">SimpleLinearAlgorithm</span><span class="p">(</span>
         <span class="n">population</span><span class="o">=</span><span class="n">init_pop</span><span class="p">,</span>
         <span class="n">variator</span><span class="o">=</span><span class="n">variator</span><span class="p">,</span>
         <span class="n">evaluator</span><span class="o">=</span><span class="n">evaluator</span><span class="p">,</span>
@@ -307,27 +325,12 @@
 
     <span class="n">dicts</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="c1"># from core.accountant import Accountant</span>
-
-    <span class="c1"># Ignore type checking. Because `Accountant` is defined for the</span>
-    <span class="c1">#       `Controller` class, which does not necessarily have one</span>
-    <span class="c1">#       `population`, type checkers report error on this line.\</span>
-    <span class="c1"># Because an LinearController is registered with this `Accountant`,</span>
-    <span class="c1">#       we can be _somewhat_ sure that the accountant&#39;s suject has</span>
-    <span class="c1">#       a `.population`.</span>
-    <span class="c1">#</span>
-    <span class="c1"># acc = Accountant({&quot;GENERATION_BEGIN&quot;: lambda x: len(x.population)})  # type:ignore</span>
-
-    <span class="c1"># ctrl.register(acc)</span>
-
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">GENERATION_COUNT</span><span class="p">):</span>
         <span class="n">ctrl</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
         <span class="n">dicts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">population</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">fitness</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">ctrl</span><span class="o">.</span><span class="n">population</span><span class="p">)</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="n">dicts</span><span class="p">)</span>
-
-    <span class="c1"># print(acc.publish())</span>
 </pre></div>
 
            </div>
