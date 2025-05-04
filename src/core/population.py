@@ -23,40 +23,51 @@ from math import inf
 
 R = TypeVar('R')
 
-# TODO Consider if the exception should be raised from:
-#   - the user (evaluator, which must handle none values), or
-#   - the "used" (Genome, which reports if the value is none but accessed)
-class NullScoreException(Exception):
-    pass
-
 class Genome(ABC, Generic[R]):
-    """!A solution
-        A genotypical representation of a solution that specifies the
-        capabilities a solution must have in order to work with evolutionary operators.
+    """Base class for all genomes.
+
+    Representation of a solution. 
+
+        Todo: find the right name, is it a representation, an individual,
+            a solution, a genome, or just the genotype (since it does not implement a behaviour)?
     """
     def __init__(self) -> None:
-        # The genome
+        # The genome has a score
         self._score: Optional[float] = None
 
     @property
     def score(self)-> float:
-        """!Return the score that has been assigned to this genome.
-            Raise an NullScoreException if the score has not been assigned.
-        TODO consider refactoring this method into a getter.
-            Because apparently Python can do that.
-        @return
-        @raise
+        """Return the fitness that has been assigned to this genome.
+        
+        Raise an NullScoreException if the score has not been assigned.
+
+        Return:
+            Fitness of the individual
+
+        Raise:
+            ValueError if the score is accessed when it is `None`
+
+        Todo: rename to fitness
+
         """
         if (self._score is None):
-            raise NullScoreException("Score is accessed but null")
+            raise ValueError("Score is accessed but null")
         else:
             return self._score
 
     @score.setter
     def score(self, value: float)-> None:
+        """Set the fitness of the genome.
+        Args:
+            value: new fitness.
+        """
         self._score = value
 
     def descore(self)-> None:
+        """Reset the fitness of the genome.
+
+        Set the fitness of the genome to None, as if it has not been evaluated.
+        """
         self._score = None
 
     def is_scored(self)-> bool:
@@ -64,15 +75,20 @@ class Genome(ABC, Generic[R]):
 
     @abstractmethod
     def copy(self) -> Self:
-        """!Copy the solution.
-            Copy the solution, so that changes made on the copy do not affect the original genome.
-            The implementation decides if all components must be copied.
+        """Copy the solution.
+
+        All subclasses should override this method. The implementation should
+            prevent changes made on the result from affecting the original
+            genome.
         """
 
 T = TypeVar('T', bound=Genome)
 
 class AbstractCollection(ABC, Generic[R]):
-    """!An abstract collection of things. Provides the behaviour of other collections. Improving it will surely lead to improvement in overall performance of the model.
+    """An abstract collection of things.
+    
+    Provides the behaviour of other collections.
+    Improving it will surely lead to improvement in overall performance of the framework.
     """
     def __init__(self, *args: R):
         self._solutions = list(args)
@@ -107,14 +123,18 @@ class AbstractCollection(ABC, Generic[R]):
 
     def append(self, value: R) -> None:
         """Append an item to this collection
-            @param value the item to add to this item
+
+        Args:
+            value: the item to add to this item
         """
         # TODO value is a really bad name
         self._solutions.append(value)
 
     def extend(self, values: Iterable[R])-> None:
         """Append all items from another collection to this collection
-            @param values collection whose values are appended to this collection
+        
+        Args:
+            values: collection whose values are appended to this collection
         """
         # TODO WOW list comprehension magic. Might be totally inefficient though.
         # Remember that this class is a performance bottleneck.
@@ -122,7 +142,9 @@ class AbstractCollection(ABC, Generic[R]):
 
     def populate(self, new_data: Iterable[R])-> None:
         """Remove items in this collection with all items from another collection.
-            @param values collection whose values are appended to this collection
+        
+        Args:
+            values: collection whose values are appended to this collection
         """
         # TODO This method is defined but not used, as of 2024-04-02.
         #   It was added for "completeness". Completeness does not warrant redundancy.
@@ -151,9 +173,7 @@ class AbstractCollection(ABC, Generic[R]):
                 return key
 
 class GenomePool(AbstractCollection[Tuple[T, ...]]):
-    """!A collection of tuple  of parents.
-        A collection of tuples of solutions.
-        Passed from the parent selector to the variator. Its arity is not enforced.
+    """A collection of tuple of parents.
     """
     def __init__(self, arity: int, *args: Tuple[T, ...]):
         super().__init__(*args)
@@ -173,8 +193,7 @@ class GenomePool(AbstractCollection[Tuple[T, ...]]):
         return best_score
 
 class Population(AbstractCollection[T]):
-    """!A collection of solutions.
-        A population of many genomes.
+    """A flat collection of genomes.
     """
     def __init__(self, *args: T):
         super().__init__(*args)
