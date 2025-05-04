@@ -139,7 +139,7 @@ class Controller(ABC, metaclass=MetaController):
         If the event is not in :attr:`events`, raise an exception.
 
         Args:
-            event: the event to report.
+            event: The event to report.
 
         Raise:
             ValueError: if an reported event is not registered.
