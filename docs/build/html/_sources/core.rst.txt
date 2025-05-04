@@ -28,14 +28,6 @@ core.evaluator module
    :undoc-members:
    :show-inheritance:
 
-core.globals module
--------------------
-
-.. automodule:: core.globals
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 core.population module
 ----------------------
 
