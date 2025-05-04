@@ -1,6 +1,10 @@
 Introduction
 ============
 
+All algorithms in EvoKit derive from the following base classes:
+
+
+
 `This is the hard part: How do I write it?`
 
 EvoKit represents evolutionary operators with classes `Individual`, `Evaluator`, `Selector`, `Variator`, and `Controller`. Components of a concrete algorithm derive from these classes.
@@ -18,20 +22,38 @@ EvoKit represents evolutionary operators with classes `Individual`, `Evaluator`,
 The user can define custom operators, or use existing ones.
 
 
+Designing novel algorithms: :doc:`examples/controller`
+
+Getting Started
+............
+
+Genetic programming: :doc:`examples/gp`
+
+Begin with the OneMax Problem: :doc:`examples/onemax`
+
+Implementing custom selectors: :doc:`examples/selector`
+
+Advanced Tutorials
+..................
+
+Modifying the behaviour of existing operators: :doc:`examples/interceptor`
+
+Collecting runtime statistics using the :doc:`Accountant examples/accountant`
 
 
-Stock Selectors
-~~~~~~~~~~~~~~~
-The evolutionary algorithm (is that the right term?) is generic, and so is the selector. Moduels `core.controller` and `core.selector` include instances of these things.
-
-The Genome Suite
-~~~~~~~~~~~~~~~~
-As the variator and the evaluator depend on the individual, the variator, the evaluator, and the individual consist of the `genome suite`. Each module in `evolvables` includes one representation and related variators and evaluators.
-
+:doc:`examples/accountant`
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   examples/e_gp.ipynb
+   examples/accountant.ipynb
+   examples/controller.ipynb
+   examples/gp.ipynb
+   examples/interceptor.ipynb
+   examples/onemax.ipynb
+   examples/selector.ipynb
+   
+
+   
    
