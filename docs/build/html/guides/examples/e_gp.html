@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en-uk" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Example: Symbolic Regression &mdash; evokit  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="../../_static/styles.css?v=dd041f00" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=92c5c9a7"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Introduction" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            evokit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">evokit</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Introduction</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#stock-selectors">Stock Selectors</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#the-genome-suite">The Genome Suite</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Example: Symbolic Regression</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">evokit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Introduction</a></li>
+      <li class="breadcrumb-item active">Example: Symbolic Regression</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/guides/examples/e_gp.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Example:-Symbolic-Regression">
+<h1>Example: Symbolic Regression<a class="headerlink" href="#Example:-Symbolic-Regression" title="Link to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">nb_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">))</span>
+<span class="k">if</span> <span class="n">nb_dir</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nb_dir</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Import controllers and selectors from modules in <code class="docutils literal notranslate"><span class="pre">core</span></code>; import representation-related operators from the appropriate module in <code class="docutils literal notranslate"><span class="pre">evolvables</span></code> (in this case, <code class="docutils literal notranslate"><span class="pre">evolvables.gp</span></code> for tree-based genetic programming).</p>
+<p>The following modules are imported:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SimpleLinearController</span></code> for a simple algorithm that applies the variator, the evaluator, and the selector in this exact order.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Population</span></code> contains individuals used in the learning process.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Elitist</span></code> and <code class="docutils literal notranslate"><span class="pre">TournamentSelector</span></code> together construct an elitist tournament selector.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Program</span></code> represents a tree-based genetic program, <code class="docutils literal notranslate"><span class="pre">ProgramFactory</span></code> constructs instances of <code class="docutils literal notranslate"><span class="pre">Program</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SymbolicEvaluator</span></code> evaluates instances of <code class="docutils literal notranslate"><span class="pre">Program</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CrossoverSubtree</span></code> creates new <code class="docutils literal notranslate"><span class="pre">Program</span></code>s from existing ones.</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">evokit.core.controller</span> <span class="kn">import</span> <span class="n">SimpleLinearController</span>
+<span class="kn">from</span> <span class="nn">evokit.core.population</span> <span class="kn">import</span> <span class="n">Population</span>
+<span class="kn">from</span> <span class="nn">evokit.core.selector</span> <span class="kn">import</span> <span class="n">Elitist</span><span class="p">,</span> <span class="n">SimpleSelector</span><span class="p">,</span> <span class="n">TournamentSelector</span>
+
+<span class="kn">from</span> <span class="nn">evokit.evolvables.funcs</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">evokit.evolvables.gp</span> <span class="kn">import</span> <span class="n">CrossoverSubtree</span><span class="p">,</span> <span class="n">ProgramFactory</span><span class="p">,</span> <span class="n">Program</span><span class="p">,</span> <span class="n">SymbolicEvaluator</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+</pre></div>
+</div>
+</div>
+<p>To begin, initialise the following hyperparameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">POP_SIZE</span></code> is the size of the population. It affects the size of the initial population, and affects how many individuals are selected by the selector.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">STEP_COUNT</span></code> decides the number of generation before termination.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TREE_DEPTH</span></code> and <code class="docutils literal notranslate"><span class="pre">NODE_BUDGET</span></code> affect how the <code class="docutils literal notranslate"><span class="pre">ProgramFactory</span></code> builds programs. By default, the factory builds with a modified full method, where it can only draw terminal nodes when depth exceeds <code class="docutils literal notranslate"><span class="pre">TREE_DEPTH</span></code> and the total number of nodes exceeds <code class="docutils literal notranslate"><span class="pre">NODE_BUDGET</span></code>.</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">POP_SIZE</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">STEP_COUNT</span> <span class="o">=</span> <span class="mi">50</span>
+
+<span class="n">TREE_DEPTH</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">NODE_BUDGET</span> <span class="o">=</span> <span class="mi">20</span>
+</pre></div>
+</div>
+</div>
+<p>Define a program factory with a set of primitives and the arity of programs produced. Here, arity=1 means produced programs are unary.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">progf</span><span class="p">:</span> <span class="n">ProgramFactory</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span>\
+        <span class="n">ProgramFactory</span><span class="p">((</span><span class="n">add</span><span class="p">,</span> <span class="n">sub</span><span class="p">,</span> <span class="n">mul</span><span class="p">,</span> <span class="n">div</span><span class="p">,</span> <span class="n">sin</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">mul</span><span class="p">,</span> <span class="n">div</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+        <span class="n">arity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Define, then populate a population. The optional parameter <code class="docutils literal notranslate"><span class="pre">nullary_ratio</span></code> forces the factory to select terminal nodes with that probability; therefore, a higher value encourages wider trees. This setting does not bypass <code class="docutils literal notranslate"><span class="pre">TREE_DEPTH</span></code> and <code class="docutils literal notranslate"><span class="pre">NODE_BUDGET</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pops</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">Program</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Population</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">POP_SIZE</span><span class="p">):</span>
+    <span class="n">new_individual</span><span class="p">:</span> <span class="n">Program</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">progf</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">NODE_BUDGET</span><span class="p">,</span> <span class="n">TREE_DEPTH</span><span class="p">,</span> <span class="n">nullary_ratio</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+    <span class="n">pops</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_individual</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Define an objective function, then initialise an symbolic evaluator using that objective function. The parameter <code class="docutils literal notranslate"><span class="pre">support</span></code> decides the domain on which each program is compared against the objective function.</p>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">SymbolicEvaluator</span></code> is genetic. Whereas the type of <code class="docutils literal notranslate"><span class="pre">new_individual</span></code> is Program[float], the type <code class="docutils literal notranslate"><span class="pre">SymbolicEvaluator</span></code> needs no subscript. This is because this evaluator is defined only for programs of floating-point numbers.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">weird_function</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">support</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">((</span><span class="n">x</span><span class="o">/</span><span class="mi">4</span><span class="p">,)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">80</span><span class="p">,</span> <span class="mi">80</span><span class="p">))</span>
+
+<span class="n">symbolic_fitness</span><span class="p">:</span> <span class="n">SymbolicEvaluator</span> <span class="o">=</span> <span class="n">SymbolicEvaluator</span><span class="p">(</span><span class="n">objective</span><span class="o">=</span><span class="n">weird_function</span><span class="p">,</span> <span class="n">support</span> <span class="o">=</span> <span class="n">support</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Pick the selectors and the variator, then initialise the controller using the operators defined so far.</p>
+<p>The interceptor <code class="docutils literal notranslate"><span class="pre">Elitist</span></code> forces its argument, which must be a selector, to adopt elitism.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">CrossoverSubtree</span></code> uses two parents. It randomly selects one internal node from each parent, selects one child node for each internal node, then exchanges the selected child nodes.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tournament_selector</span> <span class="o">=</span> <span class="n">Elitist</span><span class="p">(</span><span class="n">TournamentSelector</span><span class="p">(</span><span class="n">POP_SIZE</span><span class="p">))</span>
+
+<span class="n">crossover_subtree</span> <span class="o">=</span> <span class="n">CrossoverSubtree</span><span class="p">()</span>
+
+<span class="n">ctrl</span> <span class="o">=</span> <span class="n">SimpleLinearController</span><span class="p">(</span><span class="n">evaluator</span><span class="o">=</span><span class="n">symbolic_fitness</span><span class="p">,</span>
+                              <span class="n">selector</span><span class="o">=</span><span class="n">tournament_selector</span><span class="p">,</span>
+                              <span class="n">population</span><span class="o">=</span><span class="n">pops</span><span class="p">,</span>
+                              <span class="n">variator</span><span class="o">=</span><span class="n">crossover_subtree</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bests</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">STEP_COUNT</span><span class="p">):</span>
+    <span class="n">ctrl</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="n">generational_best</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">best</span><span class="p">()</span>
+    <span class="n">bests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">generational_best</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Generation: </span><span class="si">{</span><span class="n">ctrl</span><span class="o">.</span><span class="n">generation</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best individual is: </span><span class="si">{</span><span class="n">generational_best</span><span class="si">}</span><span class="s2">, with fitnss </span><span class="si">{</span><span class="n">generational_best</span><span class="o">.</span><span class="n">fitness</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Generation: 1
+Best individual is: Program:sin(add(mul(1, div(1, 1)), x0)), with fitnss -127.65582808704299
+Generation: 2
+Best individual is: Program:sin(add(mul(1, div(1, 1)), x0)), with fitnss -127.65582808704299
+Generation: 3
+Best individual is: Program:sin(add(mul(1, div(1, 1)), x0)), with fitnss -127.65582808704299
+Generation: 4
+Best individual is: Program:sin(add(mul(1, div(1, 1)), x0)), with fitnss -127.65582808704299
+Generation: 5
+Best individual is: Program:sin(add(mul(1, div(1, 1)), x0)), with fitnss -127.65582808704299
+Generation: 6
+Best individual is: Program:sin(add(mul(1, div(1, 1)), x0)), with fitnss -127.65582808704299
+Generation: 7
+Best individual is: Program:sin(add(mul(1, div(1, 1)), x0)), with fitnss -127.65582808704299
+Generation: 8
+Best individual is: Program:sin(add(mul(1, div(1, 1)), x0)), with fitnss -127.65582808704299
+Generation: 9
+Best individual is: Program:mul(1, cos(sub(0.5, x0))), with fitnss -126.51070812473542
+Generation: 10
+Best individual is: Program:mul(1, cos(sub(0.5, x0))), with fitnss -126.51070812473542
+Generation: 11
+Best individual is: Program:mul(1, cos(sub(0.5, x0))), with fitnss -126.51070812473542
+Generation: 12
+Best individual is: Program:mul(1, cos(sub(0.5, x0))), with fitnss -126.51070812473542
+Generation: 13
+Best individual is: Program:add(add(sin(x0), mul(cos(x0), 1)), div(sub(cos(add(mul(x0, x0), 0.5)), mul(0.5, 1)), 2)), with fitnss -106.95855663138987
+Generation: 14
+Best individual is: Program:add(add(sin(x0), mul(cos(x0), 1)), div(sub(cos(add(mul(x0, x0), 0.5)), mul(0.5, 1)), 2)), with fitnss -106.95855663138987
+Generation: 15
+Best individual is: Program:add(add(sin(x0), mul(cos(x0), 1)), div(sub(cos(add(mul(x0, x0), 0.5)), mul(0.5, 1)), 2)), with fitnss -106.95855663138987
+Generation: 16
+Best individual is: Program:add(add(sin(x0), mul(cos(x0), 1)), div(sub(cos(add(mul(x0, x0), 0.5)), mul(0.5, 1)), 2)), with fitnss -106.95855663138987
+Generation: 17
+Best individual is: Program:add(add(sin(x0), cos(x0)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 18
+Best individual is: Program:add(add(sin(x0), cos(x0)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 19
+Best individual is: Program:add(add(sin(x0), cos(x0)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 20
+Best individual is: Program:add(add(sin(x0), cos(x0)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 21
+Best individual is: Program:add(add(sin(x0), cos(x0)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 22
+Best individual is: Program:add(add(sin(x0), cos(x0)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 23
+Best individual is: Program:add(add(sin(x0), cos(x0)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 24
+Best individual is: Program:add(add(sin(x0), cos(x0)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 25
+Best individual is: Program:add(add(sin(x0), cos(x0)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 26
+Best individual is: Program:add(add(sin(x0), cos(x0)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 27
+Best individual is: Program:add(add(sin(x0), cos(x0)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 28
+Best individual is: Program:add(add(sin(x0), cos(x0)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 29
+Best individual is: Program:add(add(sin(x0), cos(x0)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 30
+Best individual is: Program:add(add(sin(x0), mul(cos(x0), 1)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 31
+Best individual is: Program:add(add(sin(x0), mul(cos(x0), 1)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 32
+Best individual is: Program:add(add(sin(x0), mul(cos(x0), 1)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 33
+Best individual is: Program:add(add(sin(x0), mul(cos(x0), 1)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 34
+Best individual is: Program:add(add(sin(x0), mul(cos(x0), 1)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 35
+Best individual is: Program:add(add(sin(x0), mul(cos(x0), 1)), cos(mul(x0, 1))), with fitnss -4.496403249731884e-15
+Generation: 36
+Best individual is: Program:add(add(sin(x0), mul(cos(mul(x0, 1)), 1)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 37
+Best individual is: Program:add(add(sin(x0), mul(cos(mul(x0, 1)), 1)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 38
+Best individual is: Program:add(add(sin(x0), mul(cos(mul(x0, 1)), 1)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 39
+Best individual is: Program:add(add(sin(x0), mul(cos(mul(x0, 1)), 1)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 40
+Best individual is: Program:add(add(sin(x0), mul(cos(mul(x0, 1)), 1)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 41
+Best individual is: Program:add(add(sin(x0), mul(cos(mul(x0, 1)), 1)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 42
+Best individual is: Program:add(add(sin(x0), mul(cos(x0), 1)), cos(div(x0, div(x0, x0)))), with fitnss -4.496403249731884e-15
+Generation: 43
+Best individual is: Program:add(add(sin(x0), mul(cos(x0), 1)), cos(mul(x0, 1))), with fitnss -4.496403249731884e-15
+Generation: 44
+Best individual is: Program:add(add(sin(x0), mul(cos(x0), 1)), cos(div(x0, div(mul(x0, 1), x0)))), with fitnss -4.496403249731884e-15
+Generation: 45
+Best individual is: Program:add(add(sin(x0), mul(cos(x0), 1)), cos(div(x0, div(mul(x0, 1), x0)))), with fitnss -4.496403249731884e-15
+Generation: 46
+Best individual is: Program:add(add(sin(x0), mul(cos(x0), 1)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 47
+Best individual is: Program:add(add(sin(x0), mul(cos(x0), 1)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 48
+Best individual is: Program:add(add(sin(x0), mul(cos(x0), 1)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 49
+Best individual is: Program:add(add(sin(x0), mul(cos(x0), 1)), cos(x0)), with fitnss -4.496403249731884e-15
+Generation: 50
+Best individual is: Program:add(add(sin(x0), mul(cos(x0), 1)), cos(x0)), with fitnss -4.496403249731884e-15
+</pre></div></div>
+</div>
+<p>Note that the fitness of the best individual never declines - this is because the interceptor <code class="docutils literal notranslate"><span class="pre">Elitist</span></code> successfully turns the tournament selector elitist. This is expected behaviour.</p>
+<p>Each <code class="docutils literal notranslate"><span class="pre">Program.genome</span></code> is a callable function - as an example, call the best individual of the last generation with argument 1.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bests</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">genome</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.9092974268256817
+</pre></div></div>
+</div>
+<p>The module <code class="docutils literal notranslate"><span class="pre">evokit.evolvables.gp_visualiser</span></code> contains an utility for visualising genetic programs. Use it to visualise the last best individual. Because the tournament selector is elitist, this individual is also the best in all generations.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">evokit.evolvables.gp_visualiser</span> <span class="kn">import</span> <span class="n">p2dot</span>
+<span class="n">p2dot</span><span class="p">(</span><span class="n">bests</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/guides_examples_e_gp_19_0.svg" src="../../_images/guides_examples_e_gp_19_0.svg" /></div>
+</div>
+<p>To visualise the learning process: note that earlier highest-fitness programs (whose plotted colours are lighter) do not approximate the objective function as closely as later ones.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="kn">import</span> <span class="n">Patch</span>
+
+<span class="k">def</span> <span class="nf">plot_range</span><span class="p">(</span><span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">],</span>
+               <span class="n">support</span><span class="p">:</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,]],</span>
+               <span class="n">color</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+               <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+               <span class="n">linewidth</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">support</span><span class="p">]</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="p">[</span><span class="n">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xs</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="n">linewidth</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">alpha_from_index</span><span class="p">(</span><span class="n">bests</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">index</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">bests</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+<span class="n">plot_range</span><span class="p">(</span><span class="n">weird_function</span><span class="p">,</span> <span class="n">support</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bests</span><span class="p">)):</span>
+    <span class="n">plot_range</span><span class="p">(</span><span class="n">bests</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">genome</span><span class="p">,</span> <span class="n">support</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">alpha_from_index</span><span class="p">(</span><span class="n">bests</span><span class="p">,</span> <span class="n">i</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Best Individuals over Generations&#39;</span><span class="p">)</span>
+
+
+<span class="n">obj_color</span> <span class="o">=</span> <span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Objective&#39;</span><span class="p">)</span>
+<span class="n">bests_color</span> <span class="o">=</span> <span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Best Individuals&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">obj_color</span><span class="p">,</span> <span class="n">bests_color</span><span class="p">])</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/guides_examples_e_gp_21_0.png" src="../../_images/guides_examples_e_gp_21_0.png" />
+</div>
+</div>
+<p>The following plot illustrates the learning curve.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bests</span><span class="p">))),</span> <span class="p">[</span><span class="n">ind</span><span class="o">.</span><span class="n">fitness</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">bests</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Training Curve of the Custom Algorithm&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Generation&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Fitness of Best Individual&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/guides_examples_e_gp_23_0.png" src="../../_images/guides_examples_e_gp_23_0.png" />
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Yiding Li.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

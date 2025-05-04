@@ -46,7 +46,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">evokit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../guides/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Introduction</a></li>
 </ul>
 
         </div>
@@ -361,6 +361,10 @@
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.selector.Elitist">[docs]</a>
 <span class="k">def</span> <span class="nf">Elitist</span><span class="p">(</span><span class="n">sel</span><span class="p">:</span> <span class="n">Selector</span><span class="p">[</span><span class="n">D</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Selector</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorator that adds elitism to a selector.</span>
+
+<span class="sd">    Retain and update the highest-fitness individual encountered so far.</span>
+<span class="sd">    Each time the selector is called, append that individual to the end</span>
+<span class="sd">    of the output population.</span>
 
 <span class="sd">    Modify `select_to_many` of `sel` to use elitism. If `sel` already</span>
 <span class="sd">        overrides `select_to_many`, that implementation is destroyed.</span>
