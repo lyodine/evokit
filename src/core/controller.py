@@ -50,6 +50,12 @@ class Controller(Generic[T]):
         self.offspring_selector = offspring_selector
         self.generation = 0
         self.accountants: List[Accountant] = []
+        self.events: List[str] = ["GENERATION_BEGIN",
+                                  "PRE_PARENT_SELECTION",
+                                  "PRE_VARIATION",
+                                  "PRE_SURVIVOR_EVALUATION",
+                                  "PRE_SURVIVOR_SELECTION",
+                                  "GENERATION_END"]
 
     def step(self) -> Self:
         """Advance the population by one generation.
@@ -98,6 +104,9 @@ class Controller(Generic[T]):
         accountant.register(self)
 
     def update(self, event: str) -> None:
+        if event not in self.events:
+            raise ValueError(f"Controller reports unregistered event {event}."
+                             f"Add {event} to the controller's .events value")
         for acc in self.accountants:
             acc.update(event)
 
