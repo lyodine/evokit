@@ -6,6 +6,8 @@ Submodules
 
 evokit.core.accountant module
 -----------------------------
+.. inheritance-diagram:: evokit.core.accountant
+   :parts: 1
 
 .. automodule:: evokit.core.accountant
    :members:
@@ -14,6 +16,8 @@ evokit.core.accountant module
 
 evokit.core.algorithm module
 ----------------------------
+.. inheritance-diagram:: evokit.core.algorithm
+   :parts: 1
 
 .. automodule:: evokit.core.algorithm
    :members:
@@ -22,6 +26,8 @@ evokit.core.algorithm module
 
 evokit.core.evaluator module
 ----------------------------
+.. inheritance-diagram:: evokit.core.evaluator
+   :parts: 1
 
 .. automodule:: evokit.core.evaluator
    :members:
@@ -30,6 +36,8 @@ evokit.core.evaluator module
 
 evokit.core.population module
 -----------------------------
+.. inheritance-diagram:: evokit.core.population
+   :parts: 1
 
 .. automodule:: evokit.core.population
    :members:
@@ -38,6 +46,8 @@ evokit.core.population module
 
 evokit.core.selector module
 ---------------------------
+.. inheritance-diagram:: evokit.core.selector
+   :parts: 1
 
 .. automodule:: evokit.core.selector
    :members:
@@ -46,6 +56,8 @@ evokit.core.selector module
 
 evokit.core.variator module
 ---------------------------
+.. inheritance-diagram:: evokit.core.variator
+   :parts: 1
 
 .. automodule:: evokit.core.variator
    :members:

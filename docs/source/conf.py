@@ -23,10 +23,24 @@ extensions = ['nbsphinx',
               'sphinx.ext.viewcode',
               'sphinx.ext.autodoc',
               'sphinx.ext.napoleon',
-              'sphinx.ext.autosummary']
+              'sphinx.ext.autosummary',
+              'sphinx.ext.graphviz',
+              'sphinx.ext.inheritance_diagram']
+
+""" To generate inheritance diagrams, add this to
+`site-packages/sphinx/templates/apidoc/package.rst_t`:
+
+.. inheritance-diagram:: {{submodule}}
+   :parts: 1
+
+(source: https://stackoverflow.com/a/59319659)
+"""
+
 
 # -- Options for Typing ------------------------------------------------------
 
+graphviz_output_format = 'svg'
+inheritance_graph_attrs = dict(rankdir='TB')
 language = 'en-uk'
 
 autoclass_content = 'class'
