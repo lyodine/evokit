@@ -43,7 +43,7 @@ class Controller(Generic[T]):
             population: The initial population
             evaluator: The evaluator acts on an individual to determine its fitness.
             parent_selector: The parent selector applies to the population before variation. The range of the parent selector must match the domain of the variator.
-            variator: The variator receives a collection of elements and outputs a list of genomes. These genomes are deposited into the population.
+            variator: The variator receives a collection of elements and outputs a list of individuals. These individuals are deposited into the population.
             offspring_selector: The parent selector that is applied before variation.
         """
         self.population = population
@@ -69,12 +69,12 @@ class Controller(Generic[T]):
 
         self.update(ControllerEvent.PRE_PARENT_SELECTION)
         
-        # Select from the population into the genome pool
+        # Select from the population into a new population
         parents: Population = self.parent_selector.select_to_population(self.population)
 
         self.update(ControllerEvent.PRE_VARIATION)
 
-        # Vary the genome pool to create offspring
+        # Vary the population to create offspring
         offspring = self.variator.vary_population(parents)
 
         self.update(ControllerEvent.PRE_SURVIVOR_EVALUATION)
