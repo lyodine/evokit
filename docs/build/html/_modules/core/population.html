@@ -6,6 +6,7 @@
   <title>core.population &mdash; Evoframe  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/styles.css?v=dd041f00" />
 
   
   <!--[if lt IE 9]>
@@ -97,59 +98,78 @@
 <span class="k">class</span> <span class="nc">Individual</span><span class="p">(</span><span class="n">ABC</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">R</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all individuals.</span>
 
-<span class="sd">    Representation of a solution.</span>
-
-<span class="sd">        Todo: find the right name, is it a representation, an individual,</span>
-<span class="sd">        a solution, a individual, or just the genotype (since it does not</span>
-<span class="sd">        implement a behaviour)?</span>
+<span class="sd">    Derive this class to create custom representations.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Machinery. Implement managed attributes.</span>
+
+<span class="sd">        :meta private:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">_fitness</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">instance</span>
+    
+<div class="viewcode-block" id="Individual.__init__">
+<a class="viewcode-back" href="../../core.html#core.population.Individual.__init__">[docs]</a>
+    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="c1"># The individual has a score</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_score</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1">#: Fitness of the individual</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fitness</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+        <span class="c1">#: Genotype of the individual. Subclasses should store</span>
+        <span class="c1">#  the representation in this attribute.</span>
+        <span class="c1"># TODO Think about a better way to put it, &quot;contained value&quot;?</span>
+        <span class="c1">#   surely &quot;value&quot; is too general.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">genome</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">R</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the fitness that has been assigned to this individual.</span>
+    <span class="k">def</span> <span class="nf">fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fitness of an individual.</span>
 
-<span class="sd">        Raise an NullScoreException if the score has not been assigned.</span>
+<span class="sd">        Writing to this property changes the fitness of the individual.</span>
+<span class="sd">        Reading this property may raise an exception, if a fitness has</span>
+<span class="sd">        not been assigned.</span>
 
 <span class="sd">        Return:</span>
 <span class="sd">            Fitness of the individual</span>
 
 <span class="sd">        Raise:</span>
-<span class="sd">            ValueError if the score is accessed when it is `None`</span>
-
-<span class="sd">        Todo: rename to fitness</span>
-
+<span class="sd">            ValueError: if the current fitness is ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_score</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># TODO: Consider letting fitness return None if it is not assigned,</span>
+        <span class="c1">#   instead of raising an exception.</span>
+        <span class="c1"># There should be a limit to hand-holding the developer, and this might be it.</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fitness</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Score is accessed but null&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_score</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fitness</span>
 
-    <span class="nd">@score</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the fitness of the individual.</span>
-<span class="sd">        Args:</span>
-<span class="sd">            value: new fitness.</span>
+    <span class="nd">@fitness</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sphinx does not register docstrings on setters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_score</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fitness</span> <span class="o">=</span> <span class="n">value</span>
 
-<div class="viewcode-block" id="Individual.descore">
-<a class="viewcode-back" href="../../core.html#core.population.Individual.descore">[docs]</a>
-    <span class="k">def</span> <span class="nf">descore</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Individual.reset_fitness">
+<a class="viewcode-back" href="../../core.html#core.population.Individual.reset_fitness">[docs]</a>
+    <span class="k">def</span> <span class="nf">reset_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset the fitness of the individual.</span>
 
-<span class="sd">        Set the fitness of the individual to None, as if it has not been</span>
-<span class="sd">        evaluated.</span>
+<span class="sd">        Set the fitness of the individual to ``None``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_score</span> <span class="o">=</span> <span class="kc">None</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fitness</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="Individual.is_scored">
-<a class="viewcode-back" href="../../core.html#core.population.Individual.is_scored">[docs]</a>
-    <span class="k">def</span> <span class="nf">is_scored</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_score</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
+<div class="viewcode-block" id="Individual.has_fitness">
+<a class="viewcode-back" href="../../core.html#core.population.Individual.has_fitness">[docs]</a>
+    <span class="k">def</span> <span class="nf">has_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return if the genome has a fitness value.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            ``False`` if the current :attr:`fitness` is ``None``, otherwise ``True``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fitness</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="Individual.copy">
@@ -158,53 +178,64 @@
     <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Copy the solution.</span>
 
-<span class="sd">        All subclasses should override this method. The implementation should</span>
-<span class="sd">            prevent changes made on the result from affecting the original</span>
-<span class="sd">            individual.</span>
+<span class="sd">        Subclasses should override this method.</span>
+<span class="sd">        </span>
+<span class="sd">        In addition to duplicating :attr:`genome`, the implementation</span>
+<span class="sd">        should decide whether to retain other fields such as :attr:`fitness`.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new individual.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            Ensure that changes made to the returned value do not affect</span>
+<span class="sd">            the original value.</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 </div>
 
-
+        <span class="c1"># TODO Some people do not how to do this -- link to an example</span>
+        <span class="c1">#   to make this function more usable.</span>
 
 <span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Individual</span><span class="p">)</span>
-
 
 <div class="viewcode-block" id="AbstractCollection">
 <a class="viewcode-back" href="../../core.html#core.population.AbstractCollection">[docs]</a>
 <span class="k">class</span> <span class="nc">AbstractCollection</span><span class="p">(</span><span class="n">ABC</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">R</span><span class="p">]):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An abstract collection of things.</span>
-<span class="sd">    Provides the behaviour of other collections.</span>
-<span class="sd">    Improving it will surely lead to improvement in overall performance of the</span>
-<span class="sd">    framework.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Machinery.</span>
+<span class="sd">    </span>
+<span class="sd">    Data structure for collections that may be performance bottlecaps.</span>
+<span class="sd">    TODO: I cannot find a way to document methods inherited from this class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="AbstractCollection.__init__">
+<a class="viewcode-back" href="../../core.html#core.population.AbstractCollection.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">R</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_solutions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">=</span> <span class="mi">0</span></div>
+
 
     <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_solutions</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">R</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solutions</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">R</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_solutions</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="k">def</span> <span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solutions</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solutions</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">)))</span>
 
     <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">R</span><span class="p">]:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">R</span><span class="p">:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_solutions</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">):</span>
             <span class="n">old_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solutions</span><span class="p">[</span><span class="n">old_index</span><span class="p">]</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="n">old_index</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">StopIteration</span>
 
@@ -217,7 +248,7 @@
 <span class="sd">            value: the item to add to this item</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO value is a really bad name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_solutions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="AbstractCollection.extend">
@@ -231,7 +262,7 @@
         <span class="c1"># TODO WOW list comprehension magic. Might be totally inefficient</span>
         <span class="c1"># though.</span>
         <span class="c1"># Remember that this class is a performance bottleneck.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_solutions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_solutions</span><span class="p">,</span> <span class="n">values</span><span class="p">))</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">,</span> <span class="n">values</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="AbstractCollection.populate">
@@ -246,17 +277,33 @@
         <span class="c1"># TODO This method is defined but not used, as of 2024-04-02.</span>
         <span class="c1">#   It was added for &quot;completeness&quot;. Completeness does not warrant</span>
         <span class="c1">#   redundancy.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_solutions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">new_data</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">new_data</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="AbstractCollection.draw">
 <a class="viewcode-back" href="../../core.html#core.population.AbstractCollection.draw">[docs]</a>
-    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">R</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">R</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="n">a</span><span class="p">:</span> <span class="n">R</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-            <span class="k">del</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">R</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">R</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove an item.</span>
+
+<span class="sd">        Identify an item either by value (in key) or by position (in pos).</span>
+<span class="sd">        Remove that item from the collection, then return that value.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The :class:`Individual` that is removed from the population</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            TypeError: If neither ``key`` nor ``pos`` is given.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">pos</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;An item must be speccified, either by&quot;</span>
+                            <span class="s2">&quot; value or by position. Neither is given.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">pos</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The item can only be specified by value&quot;</span>
+                            <span class="s2">&quot;or by position. Both are given.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">pos</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">a</span><span class="p">:</span> <span class="n">R</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span>
             <span class="k">return</span> <span class="n">a</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">has_removed</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="c1"># TODO refactor with enumerate and filter.</span>
             <span class="c1">#   Still up for debate. Loops are easy to understand.</span>
@@ -271,9 +318,10 @@
             <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">has_removed</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;the requested item is not in the list&quot;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">key</span></div>
+                <span class="k">return</span> <span class="n">key</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Values of key and pos changed during evaluation&quot;</span><span class="p">)</span></div>
 </div>
-
 
 
 <div class="viewcode-block" id="Population">
@@ -281,43 +329,57 @@
 <span class="k">class</span> <span class="nc">Population</span><span class="p">(</span><span class="n">AbstractCollection</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A flat collection of individuals.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Population.__init__">
+<a class="viewcode-back" href="../../core.html#core.population.Population.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="Population.copy">
 <a class="viewcode-back" href="../../core.html#core.population.Population.copy">[docs]</a>
     <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns an independent population.</span>
-<span class="sd">        TODO Following the issue raised in Individual: be sure to</span>
-<span class="sd">        make explicit behaviours of this copy, and its guarantees.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return an independent population.</span>
+
+<span class="sd">        Changes made to items in the new population should not affect</span>
+<span class="sd">        items in this population. This behaviour depends on correct implementation</span>
+<span class="sd">        of `~.Individual.copy` in each item.</span>
+
+<span class="sd">        Call `~.Individual.copy` for each :class:`Individual` in this</span>
+<span class="sd">        population. Collect the results, then create a new population with</span>
+<span class="sd">        these values.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new population.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solutions</span><span class="p">])</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">])</span></div>
 
 
 <div class="viewcode-block" id="Population.sort">
 <a class="viewcode-back" href="../../core.html#core.population.Population.sort">[docs]</a>
     <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span>
-             <span class="n">ranker</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">score</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sort items in this report</span>
-<span class="sd">            TODO The process accesses _score_ in individuals, which may</span>
-<span class="sd">            cause an error, according to the &quot;current&quot; implementation</span>
-<span class="sd">            as of 2024-04-01.</span>
-<span class="sd">            If the reporter is in _score_, then leave a try catch clause to</span>
-<span class="sd">            make this explicit. Otherwise, don&#39;t care.</span>
+             <span class="n">ranker</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">fitness</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Rearrange items by fitness, highest-first.</span>
+
+<span class="sd">        The item at index 0 has the highest index.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_solutions</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">ranker</span><span class="p">)</span></div>
+        <span class="c1"># TODO Should I try-catch? Because accessing an individual</span>
+        <span class="c1">#   without fitness throws an exception.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">ranker</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Population.descore">
-<a class="viewcode-back" href="../../core.html#core.population.Population.descore">[docs]</a>
-    <span class="k">def</span> <span class="nf">descore</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clean the score of all Individuals in the population.</span>
-<span class="sd">            TODO This behaviour exists in two places: in evaluators</span>
-<span class="sd">            (which is responsible for cleaning offspring)</span>
-<span class="sd">            and here. Discuss it.</span>
+<div class="viewcode-block" id="Population.reset_fitness">
+<a class="viewcode-back" href="../../core.html#core.population.Population.reset_fitness">[docs]</a>
+    <span class="k">def</span> <span class="nf">reset_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove fitness values of all Individuals in the population.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_solutions</span><span class="p">:</span>
-            <span class="n">x</span><span class="o">.</span><span class="n">descore</span><span class="p">()</span></div>
+
+        <span class="c1"># TODO This behaviour exists in two places: in evaluators</span>
+        <span class="c1">#   (which is responsible for cleaning offspring)</span>
+        <span class="c1">#   and here. Discuss it.</span>
+        <span class="c1">#   This is an old comment.</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">:</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">reset_fitness</span><span class="p">()</span></div>
 </div>
 
 </pre></div>

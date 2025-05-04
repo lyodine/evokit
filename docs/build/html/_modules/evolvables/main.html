@@ -6,7 +6,7 @@
   <title>evolvables.main &mdash; Evoframe  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/styles.css?v=91cde0b6" />
+      <link rel="stylesheet" type="text/css" href="../../_static/styles.css?v=dd041f00" />
 
   
   <!--[if lt IE 9]>
@@ -233,11 +233,11 @@
     <span class="c1">#       </span>
     <span class="n">acc</span> <span class="o">=</span> <span class="n">Accountant</span><span class="p">({</span><span class="s2">&quot;GENERATION_BEGIN&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">population</span><span class="p">)})</span> <span class="c1"># type:ignore</span>
 
-    <span class="n">ctrl</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">acc</span><span class="p">)</span>
+    <span class="n">ctrl</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">acc</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
         <span class="n">ctrl</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-        <span class="n">dicts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">population</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">score</span>
+        <span class="n">dicts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">population</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">fitness</span>
 
     <span class="nb">print</span> <span class="p">(</span><span class="n">dicts</span><span class="p">)</span>
 
