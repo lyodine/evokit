@@ -56,7 +56,7 @@ def _get_arity(fun: Any) -> int:
         return len(signature(fun).parameters)                 
     elif isinstance(fun, Program):
         # Specialised code for programs
-        return len(a.symbols)
+        return len(fun.symbols)
     else:
         return 0
 
