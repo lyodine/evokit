@@ -123,7 +123,7 @@ if __name__ == "__main__":
     #       
     acc = Accountant({"GENERATION_BEGIN": lambda x : len(x.population)}) # type:ignore
 
-    ctrl.attach(acc)
+    ctrl.register(acc)
 
     for i in range(0, 100):
         ctrl.step()

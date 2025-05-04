@@ -122,7 +122,7 @@ class Controller(ABC, Generic[T], metaclass=MetaController):
         # Try to prevent this.
         pass
 
-    def attach(self: Self, accountant: Accountant)-> None:
+    def register(self: Self, accountant: Accountant)-> None:
         """Attach an :class:`.Accountant` to this `Controller`.
 
         Args:
@@ -131,7 +131,7 @@ class Controller(ABC, Generic[T], metaclass=MetaController):
         """
         # TODO I just can't come up with a good name
         self.accountants.append(accountant)
-        accountant.register(self)
+        accountant.subscribe(self)
 
     def update(self, event: str) -> None:
         """Report an event to all attached :class:`.Accountant` s.
