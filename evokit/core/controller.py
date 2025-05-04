@@ -169,7 +169,6 @@ class SimpleLinearController(Controller):
                                   "POST_VARIATION",
                                   "POST_EVALUATION",
                                   "POST_SELECTION"]
-        # wwerwe
         # """
         # Args:
         # TODO These names are repeated in the class docstring.
