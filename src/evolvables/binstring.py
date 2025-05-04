@@ -100,7 +100,7 @@ if __name__ == "__main__":
     cselector = Elitist(SimpleSelector[Binary](10))
     variator = RandomBitMutator()
 
-    ctrl = LinearController[Binary] (
+    ctrl = LinearController (
         population = init_pop,
         parent_evaluator = evaluator,
         parent_selector = pselector,
