@@ -66,7 +66,7 @@ class RandomBitMutator(Variator[BinaryString]):
 
 
 if __name__ == "__main__":
-    BINSTRING_LENGTH: int = 20
+    BINSTRING_LENGTH: int = 1000
     POPULATION_SIZE: int = 20
     GENERATION_COUNT: int = 100
     init_pop = Population[BinaryString]()
@@ -81,16 +81,16 @@ if __name__ == "__main__":
 
     ctrl: LinearController = LinearController(
         population=init_pop,
-        parent_evaluator=evaluator,
-        parent_selector=pselector,
+        parent_evaluator=NullEvaluator(),
+        parent_selector=NullSelector(),
         variator=variator,
-        survivor_evaluator=NullEvaluator(),
-        survivor_selector=NullSelector(),
+        survivor_evaluator=evaluator,
+        survivor_selector=cselector,
     )
 
     dicts: typing.Dict[int, Optional[float]] = {}
 
-    from core.accountant import Accountant
+    # from core.accountant import Accountant
 
     # Ignore type checking. Because `Accountant` is defined for the
     #       `Controller` class, which does not necessarily have one
@@ -99,9 +99,9 @@ if __name__ == "__main__":
     #       we can be _somewhat_ sure that the accountant's suject has
     #       a `.population`.
     #
-    acc = Accountant({"GENERATION_BEGIN": lambda x: len(x.population)})  # type:ignore
+    # acc = Accountant({"GENERATION_BEGIN": lambda x: len(x.population)})  # type:ignore
 
-    ctrl.register(acc)
+    # ctrl.register(acc)
 
     for i in range(GENERATION_COUNT):
         ctrl.step()
@@ -109,4 +109,4 @@ if __name__ == "__main__":
 
     print(dicts)
 
-    print(acc.publish())
+    # print(acc.publish())
