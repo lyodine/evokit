@@ -1,9 +1,7 @@
 Introduction
 ============
 
-The class `Individual` represents an what `Variator`
-
-This is the hard part: How do I write it?
+`This is the hard part: How do I write it?`
 
 EvoKit represents evolutionary operators with classes `Individual`, `Evaluator`, `Selector`, `Variator`, and `Controller`. Components of a concrete algorithm derive from these classes.
 
@@ -16,3 +14,16 @@ EvoKit represents evolutionary operators with classes `Individual`, `Evaluator`,
 - `Variator` represents a mutator (a unary operator), a crossover operator (a binary operator), and a _I'll loook at the doc for that.
 
 - `Controller` represents an algorithm that incorporates operators.
+
+The user can define custom operators, or use existing ones.
+
+
+
+
+Stock Selectors
+~~~~~~~~~~~~~~~
+The evolutionary algorithm (is that the right term?) is generic, and so is the selector. Moduels `core.controller` and `core.selector` include instances of these things.
+
+The Genome Suite
+~~~~~~~~~~~~~~~~
+As the variator and the evaluator depend on the individual, the variator, the evaluator, and the individual consist of the `genome suite`. Each module in `evolvables` includes one representation and related variators and evaluators.
