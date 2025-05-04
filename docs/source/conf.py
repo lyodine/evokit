@@ -64,6 +64,7 @@ html_css_files = ['styles.css',]
 templates_path = ['_templates']
 exclude_patterns = []
 
+napoleon_include_special_with_doc = True
 
 rst_prolog = """
 .. role:: python(code)
