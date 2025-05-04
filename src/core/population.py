@@ -8,9 +8,14 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from typing import Iterator
     from typing import Iterable
+    from typing import Sequence
     from typing import Callable
     from typing import Optional
     from typing import Self
+    from typing import Type
+    from typing import Any
+    from typing import Union
+    from typing import overload
 
 import itertools
 from abc import ABC, abstractmethod
@@ -24,12 +29,12 @@ class Individual(ABC, Generic[R]):
 
     Derive this class to create custom representations.
     """
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls: Type[Self], *args: Any, **kwargs: Any)-> Self:
         """Machinery. Implement managed attributes.
 
         :meta private:
         """
-        instance = super().__new__(cls)
+        instance: Self = super().__new__(cls)
         instance._fitness = None
         return instance
     
@@ -108,7 +113,7 @@ class Individual(ABC, Generic[R]):
 
 T = TypeVar('T', bound=Individual)
 
-class AbstractCollection(ABC, Generic[R]):
+class AbstractCollection(ABC, Sequence[R], Iterable[R]):
     """Machinery.
     
     Data structure for collections that may be performance bottlecaps.
@@ -120,8 +125,15 @@ class AbstractCollection(ABC, Generic[R]):
 
     def __len__(self) -> int:
         return len(self._items)
-
+    
+    @overload
     def __getitem__(self, key: int) -> R:
+        ...
+    @overload
+    def __getitem__(self, key: slice) -> Sequence[R]:
+        ...
+
+    def __getitem__(self, key: Union[int, slice]) -> R | Sequence[R]:
         return self._items[key]
 
     def __setitem__(self, key: int, value: R) -> None:
@@ -134,8 +146,8 @@ class AbstractCollection(ABC, Generic[R]):
         return str(list(map(str, self._items)))
 
     def __iter__(self) -> Iterator[R]:
-        self._index = 0
-        return self
+        for i in range(len(self)):
+            yield self[i]
 
     def __next__(self) -> R:
         if self._index < len(self._items):
@@ -217,10 +229,10 @@ class AbstractCollection(ABC, Generic[R]):
         else:
             raise RuntimeError("Values of key and pos changed during evaluation")
 
-class Population(AbstractCollection[T]):
+class Population(AbstractCollection[Individual[R]], Sequence[Individual[R]], Iterable[Individual[R]]):
     """A flat collection of individuals.
     """
-    def __init__(self, *args: T):
+    def __init__(self, *args: Individual[R]):
         super().__init__(*args)
 
     def copy(self) -> Self:
@@ -240,7 +252,7 @@ class Population(AbstractCollection[T]):
         return self.__class__(*[x.copy() for x in self._items])
 
     def sort(self: Self,
-             ranker: Callable[[T], float] = lambda x: x.fitness) -> None:
+             ranker: Callable[[Individual[R]], float] = lambda x: x.fitness) -> None:
         """Rearrange items by fitness, highest-first.
 
         The item at index 0 has the highest index.
@@ -260,3 +272,12 @@ class Population(AbstractCollection[T]):
         #   This is an old comment.
         for x in self._items:
             x.reset_fitness()
+
+    def best(self: Self) -> Individual[R]:
+        best_individual: Individual[R] = self[0]
+
+        for x in self:
+            if x.fitness > best_individual.fitness:
+                best_individual = x
+
+        return x

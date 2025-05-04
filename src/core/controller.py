@@ -15,6 +15,7 @@ if TYPE_CHECKING:
     from typing import Tuple
     from typing import Type
     from typing import Callable
+    from typing import Protocol
     from .evaluator import Evaluator
     from .variator import Variator
     from .selector import Selector
@@ -34,8 +35,8 @@ class MetaController(ABCMeta):
 
     :meta private:
     """
-    def __new__(mcls: Type, name: str, bases: Tuple[type],
-                namespace: Dict[str, Any]) -> Type:
+    def __new__(mcls: Type[Any], name: str, bases: Tuple[type],
+                namespace: Dict[str, Any]) -> Any:
         ABCMeta.__init__(mcls, name, bases, namespace)
         def wrap_step(custom_step: Callable) -> Callable:
             @wraps(custom_step)
@@ -44,7 +45,7 @@ class MetaController(ABCMeta):
             #   docstring and signature.
             # Return type is Any, because `wrapper` returns
             #   the output of the wrapped function.
-            def wrapper(*args, **kwargs) -> Any:
+            def wrapper(*args: Any, **kwargs: Any) -> Any:
                 self = args[0]
                 self.generation += 1
                 return custom_step(*args, **kwargs)
@@ -58,12 +59,12 @@ class MetaController(ABCMeta):
         return type.__new__(mcls, name, bases, namespace)
 
 
-class Controller(ABC, Generic[T], metaclass=MetaController):
+class Controller(ABC, metaclass=MetaController):
     """Base class for all evolutionary algorothms.
 
     Derive this class to create custom algorithms.
     """
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *_: Any, **__: Any)-> Controller:
         """Machinery.
         
         Implement managed attributes.
@@ -98,7 +99,7 @@ class Controller(ABC, Generic[T], metaclass=MetaController):
         self.events: List[str]
 
     @abstractmethod
-    def step(self) -> Self:
+    def step(self) -> None:
         """Advance the population by one generation.
 
         Subclasses should override this method.
@@ -138,7 +139,7 @@ class Controller(ABC, Generic[T], metaclass=MetaController):
             acc.update(event)
 
 
-class LinearController(Controller[T]):
+class LinearController(Controller):
     """A simple evolutionary algorithm.
 
     An evolutionary algorithm that maintains one population and does not
