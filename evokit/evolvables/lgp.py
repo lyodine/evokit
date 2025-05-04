@@ -8,10 +8,8 @@ import numpy as np
 
 from abc import abstractmethod
 from dataclasses import dataclass
-from numbers import Number
 from typing import Self, TypeVar, override
 
-import random
 from typing import List
 
 from numpy import float64
@@ -266,70 +264,55 @@ class LinearProgram():
     the program.
     """
     def __init__(self: Self,
-                 coarity: int,
-                 inputs: Sequence[float],
-                 input_can_change: bool,
-                 reg_length: int,
+                 registers: Sequence[float],
                  constants: Sequence[float],
-                 initialiser: float | Callable[[], float]):
+                 ):
         """
         Args:
-            coarity: Size of the output vector.
-            inputs: Input registers
-
-
+            coarity: Size of the output vector, taken from the end of the register vector.
+            inputs: Input registers.
+            input_can_change: If `True`, then append :arg:`inputs` to the register
+                vector. Otherwise, append :arg:`inputs` to the constant vector.
+            initialiser: Initialiser for the register vector. Can be one of:
+                * a number, which populates each register;
+                * a sequence of numbers, which is converted to the register; or
+                * a nullary function, whose return value populates each register.
+            reg_length: Length of the register vector. If :arg:`initialiser` is
+                a sequence, then its length must match :arg:`s`.
+            constants: The constant vector.
 
         Note:
-            :arg:`coarity`
+            Both constants and registers are indexed by integers.
+
+            * Indices for registers begin at 0. Examples: 0, 1, 2, ...
+
+            * Indices for constants begin at -1. Examples: -1, -2, -3, ...
         """
 
-        #: Number of output registers
-        self.coarity: int
-        self.coarity = coarity
-
         self.registers: NDArray[np.float64]
-
-        self.constants: NDArray[np.float64]
-
-        if isinstance(initialiser, Number):
-            self.registers = np.full(reg_length, initialiser, dtype=float64)
-        elif (callable(initialiser)):
-            self.registers = np.empty(reg_length, dtype=float64)
-            for i in range(len(self.registers)):
-                self.registers[i] = initialiser()
-        else:
-            raise ValueError("Initialiser is not callable and not a value.")
+        self.registers = np.fromiter(registers, dtype=float64)
 
         # Initialise constants
+        self.constants: NDArray[np.float64]
         self.constants = np.fromiter(constants, dtype=float64)
         self.constants.flags.writeable = False
 
-        # Append input registers to either constants or registers
-        if input_can_change:
-            self.registers = np.append(self.registers, inputs)
-        else:
-            self.constants = np.append(self.constants, inputs)
+    def run(self: Self, instructions: Sequence[Instruction]) -> None:
+        """Execute :arg:`instructions` in this context.
 
-    def run(self: Self, instructions: Sequence[Instruction]) -> NDArray[np.float64]:
+        Args:
+            instructions: Instructions to execute.
+
+        Effect:
+            Instructions, for example :class:`Operation` s, may alter
+            the state of this context.
+        """
         current_line: int = 0
 
         while current_line < len(instructions):
             current_line += self.run_instruction(instructions[current_line],
                                                  instructions,
                                                  current_line)
-
-        return self.get_output_values()
-
-    def get_output_values(self: Self) -> NDArray[np.float64]:
-        """Return output registers.
-
-        Return the values in the last :attr:`.coarity` registers.
-
-        Note:
-            If input registers are mutable, they are appended to the end of
-            the registers. In that case, these registers are returned first.
-        """
-        return self.registers[:self.coarity]
 
     def check(self: Self, cond: Condition) -> bool:
         """Check if a condition is satisfied in the current context.
@@ -444,55 +427,8 @@ class LinearProgram():
         return len(instructions)
 
     def __str__(self: Self) -> str:
-        return (f"Linear program. Current output values: {self.get_output_values()}\n"
+        return (f"This is a linear program."
                 f"Constants c = {str(self.constants)},\n"
                 f"Registers r = {str(self.registers)}")
 
     __repr__ = __str__
-
-
-if __name__ == "__main__":
-    A = LinearProgram(coarity=3,
-                      inputs=(1, 2, 3),
-                      input_can_change=False,
-                      reg_length=4,
-                      constants=(5, 6, 7),
-                      initialiser=random.random)
-
-    initial_registers = list(A.registers.copy())
-
-    def add(a: float, b: float) -> float:
-        return a + b
-
-    def sub(a: float, b: float) -> float:
-        return a + b
-
-    def less(a: float, b: float) -> bool:
-        return a < b
-
-    oprs: Sequence[Instruction] = [Operation(add, 1, (2, 3)),
-                                   Operation(sub, 0, (1, 2)),
-                                   Operation(add, 2, (-2, 2)),
-                                   StructOverLines(If(Condition(less, (1, 2))), 2),
-                                   Operation(add, 2, (-2, 2)),
-                                   Operation(add, 2, (-3, 1)),
-                                   ]
-
-    print("\n===== Running LGP in Context =====")
-    A.run(oprs)
-    print("\n===== End State of LGP =====")
-    print(str(A))
-
-    r = initial_registers
-    c = [5., 6., 7., 1., 2., 3.]
-    r[1] = add(r[2], r[3])
-    r[0] = sub(r[1], r[2])
-    r[2] = add(c[1], r[2])
-
-    if (1 < 2):
-        r[2] = add(c[1], r[2])
-        r[2] = add(c[2], r[1])
-
-    print("\n===== End State of Benchmark for Comparison =====")
-    print(f"Test: benchmark registers: {r},")
-    print(f"Benchmark constants: {c}")
