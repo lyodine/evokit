@@ -20,6 +20,13 @@ D = TypeVar("D", bound=Individual)
 
 
 class Variator(ABC, Generic[D]):
+    """Base class for all selectors.
+
+    Derive this class to create custom selectors.
+
+    Tutorial: :doc:`../guides/examples/onemax`.
+    """
+
     def __new__(cls: Type[Self], *args: Any, **kwargs: Any) -> Self:
         """Machinery. Implement managed attributes.
 
