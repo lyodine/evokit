@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en-uk" data-content_root="../">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Overview: module code &mdash; evokit  documentation</title>
+  <title>Introduction &mdash; evokit  documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/styles.css?v=dd041f00" />
@@ -20,7 +21,8 @@
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="evokit.evolvables package" href="../evokit.evolvables.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,9 +45,9 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">evokit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../guides/introduction.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a></li>
 </ul>
 
         </div>
@@ -62,8 +64,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Overview: module code</li>
+      <li class="breadcrumb-item active">Introduction</li>
       <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/introduction.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -71,20 +74,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="evokit/core/accountant.html">evokit.core.accountant</a></li>
-<li><a href="evokit/core/controller.html">evokit.core.controller</a></li>
-<li><a href="evokit/core/evaluator.html">evokit.core.evaluator</a></li>
-<li><a href="evokit/core/population.html">evokit.core.population</a></li>
-<li><a href="evokit/core/selector.html">evokit.core.selector</a></li>
-<li><a href="evokit/core/variator.html">evokit.core.variator</a></li>
-<li><a href="evokit/evolvables/binstring.html">evokit.evolvables.binstring</a></li>
-<li><a href="evokit/evolvables/gp.html">evokit.evolvables.gp</a></li>
+  <section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h1>
+<p>The class <cite>Individual</cite> represents an what <cite>Variator</cite></p>
+<p>This is the hard part: How do I write it?</p>
+<p>EvoKit represents evolutionary operators with classes <cite>Individual</cite>, <cite>Evaluator</cite>, <cite>Selector</cite>, <cite>Variator</cite>, and <cite>Controller</cite>. Components of a concrete algorithm derive from these classes.</p>
+<ul class="simple">
+<li><p><cite>Individual</cite> represents an individual. The individual encapsulates a genome and represents additional capabilities, such as being copied and _recording information of their ancestors.</p></li>
+<li><p><cite>Evaluator</cite> receives an individual, then assigns to it a fitness.</p></li>
+<li><p><cite>Selector</cite> represnets both parent selection and survivor selection (replacement).</p></li>
+<li><p><cite>Variator</cite> represents a mutator (a unary operator), a crossover operator (a binary operator), and a _I’ll loook at the doc for that.</p></li>
+<li><p><cite>Controller</cite> represents an algorithm that incorporates operators.</p></li>
 </ul>
+</section>
+
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../evokit.evolvables.html" class="btn btn-neutral float-left" title="evokit.evolvables package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
 
   <hr/>
 
