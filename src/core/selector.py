@@ -18,13 +18,15 @@ from .population import GenomePool
 
 T = TypeVar("T", bound=Genome)
 
-
 class Selector(ABC, Generic[T]):
     """!An abstract selector
         A selector that can be applied as a parent selector or a survivor selector.
     """
 
     def __init__(self: Self, coarity: int, budget: int):
+        """!Initialise the selector
+            @param coarity: {TODO} Hide this logic in the controller
+        """
         self.coarity = coarity
         self.budget = budget
 
@@ -110,7 +112,6 @@ class NullSelector(Selector[T]):
     def select_to_many(self, population: Population[T], budget: Optional[int] = None) -> Tuple[T, ...]:
         return tuple(x for x in population)
 
-
 class SimpleSelector(Selector[T]):
     def __init__(self: Self, coarity:int, budget: int):
         super().__init__(coarity, budget)
@@ -123,7 +124,6 @@ class SimpleSelector(Selector[T]):
         population.sort(lambda x : x.score)
         selected_solution = population[0]
         return (selected_solution,)
-
 
 class ElitistSimpleSelector(SimpleSelector[T]):
     def __init__(self: Self, coarity:int, budget: int):
@@ -204,41 +204,3 @@ def Elitist(sel: Selector[T])-> Selector:
     setattr(sel, 'best_genome', None)
     setattr(sel, 'select_to_many', types.MethodType(select_to_many, sel))
     return sel
-
-
-# The idea of having a selector decorator is highly restrictive - if it cannot tap into the "inner working" of the selector,
-#   then it cannot do much beyond pre- and post-processing.
-# On the other hand, the evaluator heuristic of, for example, pre-evaluation, might be useful.
-# Hope that does not come back to bite me again.
-
-# class SelectorDecorator(Selector[T]):
-#     """!Many-to-many selection strategy.
-#         Repeatedly applying strategy to create a collection of solutions.
-#         """
-#     def __init__(self: typing.Self, selector: Selector[T]):
-#         self.selector = selector
-
-#     def select_to_pool(self, *args) -> GenomePool[T]:
-#         return self.selector.select_to_pool(*args)
-
-#     def select_to_population(self, *args) -> Population[T]:
-#         return self.selector.select_to_population(*args)
-
-#     def select(self, *args) -> T:
-#         return self.select(*args)
-
-# class ElitisSelectorDecorator(SelectorDecorator[T]):
-#     def select(self, *args) -> T:
-#         pop = self.select(*args)
-#         best_score: float
-#         best_genome: T
-#         for genome in pop:
-#             if genome.score is None:
-#                 raise Exception("Genome score is none! The genome should have already been assigned a score. This should not happen.")
-#             if best_score is None:
-#                 best_score = genome.score
-#             elif best_score < genome.score:
-#                 best_score = genome.score
-#                 best_genome = genome.copy()
-#         pop.append(best_genome)
-#         return pop
