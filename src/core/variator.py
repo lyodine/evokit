@@ -13,6 +13,7 @@ from abc import ABC
 from typing import Generic, TypeVar
 
 from .population import Individual, Population
+from typing import override
 
 T = TypeVar("T", bound=Individual)
 
@@ -38,6 +39,8 @@ class Variator(ABC, Generic[T]):
     def _group_to_parents(self,
                           population: Population[T])\
             -> Sequence[Individual[T]]:
+        """Machinery.
+        """
         # Tuple magic. Zipping an iterable with itself extracts a tuple of
         #   that size. The "discarding" behaviour is implemented this way.
         parent_groups: Sequence[int]
@@ -59,12 +62,12 @@ class Variator(ABC, Generic[T]):
 
 
 class DefaultVariator(Variator[T]):
-    """!The default variator does not change anything
+    """Variator that does not change anything
     """
     def __init__(self):
         super().__init__(1, 1)
 
-    @abstractmethod
+    @override
     def vary(self, parents: Tuple[T, ...]) -> Tuple[T, ...]:
         e = []
         for x in parents:
