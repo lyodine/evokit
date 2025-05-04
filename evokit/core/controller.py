@@ -166,8 +166,9 @@ class SimpleLinearController(Controller):
         # Each event name informs what action has taken place.
         #   This should be easier to understand, compared to "PRE_...".
         self.events: List[str] = ["GENERATION_BEGIN",
-                                  "POST_PARENT_SELECTION",
-                                  "POST_VARIATION"]
+                                  "POST_VARIATION",
+                                  "POST_EVALUATION",
+                                  "POST_SELECTION"]
         # wwerwe
         # """
         # Args:
@@ -187,20 +188,19 @@ class SimpleLinearController(Controller):
 
     @override
     def step(self) -> None:
-        self.evaluator.evaluate_population(self.population)
         self.update("GENERATION_BEGIN")
-        # Update the population after each event. This ensures that
-        #   the :class:`Accountant` always has access to the most
-        #   up-to-date information.
-        # print(f"POP PE is {[x.fitness for x in self.population]}")
-        self.population = \
-            self.selector.select_to_population(self.population)
-        self.update("POST_PARENT_SELECTION")
-        # print(f"POP PS is {[x.fitness for x in self.population]}")
-        
+
         self.population = self.variator.vary_population(self.population)
         self.update("POST_VARIATION")
-        # print(f"POP VAR is {[x.fitness for x in self.population]}")
+
+
+        self.evaluator.evaluate_population(self.population)
+        self.update("POST_EVALUATION")
+        
+        self.population = \
+            self.selector.select_to_population(self.population)
+        self.update("POST_SELECTION")
+
 
 class LinearController(Controller):
     """A simple evolutionary algorithm.
