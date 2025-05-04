@@ -20,10 +20,10 @@ from typing import Generic, TypeVar
 from .population import Individual, Population
 import random
 
-T = TypeVar("T", bound=Individual)
+D = TypeVar("D", bound=Individual)
 
 
-class Selector(ABC, Generic[T]):
+class Selector(ABC, Generic[D]):
     """Base class for all selectors.
 
     Derive this class to create custom selectors.
@@ -37,7 +37,7 @@ class Selector(ABC, Generic[T]):
         self.budget = budget
 
     def select_to_population(self,
-                             population: Population[T]) -> Population[T]:
+                             population: Population[D]) -> Population[D]:
         """Select from a population to a population.
 
         Invoke :meth:`select_to_many`, then shape the result into a
@@ -54,12 +54,12 @@ class Selector(ABC, Generic[T]):
             :meth:`select_to_many`).
         """
         selected = self.select_to_many(population)
-        new_population = Population[T]()
+        new_population = Population[D]()
         for x in selected:
             new_population.append(x)
         return new_population
 
-    def select_to_many(self, population: Population[T]) -> Tuple[Individual[T], ...]:
+    def select_to_many(self, population: Population[D]) -> Tuple[D, ...]:
         """Context of :attr:`select`.
 
         Repeatedly apply select() to create a collection of solutions. Each
@@ -81,8 +81,8 @@ class Selector(ABC, Generic[T]):
         # TODO This method destroys the original population (by calling .draw).
         #   Should I let it retain the original population?
 
-        return_list: List[Individual[T]] = []
-        old_population: Population[T] = population
+        return_list: List[D] = []
+        old_population: Population[D] = population
 
         # Determine the appropriate budget.
         # The budget cannot exceed the population size. Take the minimum of two
@@ -102,7 +102,7 @@ class Selector(ABC, Generic[T]):
 
     @abstractmethod
     def select(self,
-               population: Population[T]) -> Tuple[Individual[T], ...]:
+               population: Population[D]) -> Tuple[D, ...]:
         """Selection strategy.
 
         All subclasses should override this method. The implementation should
@@ -118,7 +118,7 @@ class Selector(ABC, Generic[T]):
         pass
 
 
-class NullSelector(Selector[T]):
+class NullSelector(Selector[D]):
     """Selector that does nothing.
 
     """
@@ -131,13 +131,13 @@ class NullSelector(Selector[T]):
         pass
 
     @override
-    def select_to_many(self, population: Population[T]) -> Tuple[Individual[T], ...]:
+    def select_to_many(self, population: Population[D]) -> Tuple[D, ...]:
         """Select every item in the population.
         """
         return tuple(x for x in population)
 
 
-class SimpleSelector(Selector[T]):
+class SimpleSelector(Selector[D]):
     """Simple selector that select the highest-fitness individual.
 
     Example for overriding `select`.
@@ -147,7 +147,7 @@ class SimpleSelector(Selector[T]):
         super().__init__(budget)
 
     def select(self,
-               population: Population[T]) -> Tuple[Individual[T]]:
+               population: Population[D]) -> Tuple[D]:
         """Greedy selection.
 
         Select the item in the population with highest fitness.
@@ -157,7 +157,7 @@ class SimpleSelector(Selector[T]):
         return (selected_solution,)
 
 
-class ElitistSimpleSelector(SimpleSelector[T]):
+class ElitistSimpleSelector(SimpleSelector[D]):
     """Elitist selector that select the highest-fitness individual.
 
     Example for overriding `select_to_many`. Just overriding `select`
@@ -167,17 +167,17 @@ class ElitistSimpleSelector(SimpleSelector[T]):
     @override
     def __init__(self: Self, budget: int):
         super().__init__(budget-1)
-        self.best_individual: Optional[Individual[T]] = None
+        self.best_individual: Optional[D] = None
 
     @override
-    def select_to_many(self, population: Population[T]) -> Tuple[Individual[T], ...]:
+    def select_to_many(self, population: Population[D]) -> Tuple[D, ...]:
         """Context that implements elitism.
 
         Preserve and update an elite. Each time the selector is used, insert
         the current elite to the results.
         """
-        results: Tuple[Individual[T], ...] = super().select_to_many(population)
-        best_individual: Optional[Individual[T]] = self.best_individual
+        results: Tuple[D, ...] = super().select_to_many(population)
+        best_individual: Optional[D] = self.best_individual
         if best_individual is None:
             best_individual = results[0]
         for x in results:
@@ -188,7 +188,7 @@ class ElitistSimpleSelector(SimpleSelector[T]):
         return (*results, self.best_individual)
 
 
-class TournamentSelector(Selector[T]):
+class TournamentSelector(Selector[D]):
     """Tournament selector.
     """
     def __init__(self: Self, budget: int, bracket_size: int = 2,
@@ -199,7 +199,7 @@ class TournamentSelector(Selector[T]):
 
     @override
     def select(self,
-               population: Population[T]) -> Tuple[Individual[T]]:
+               population: Population[D]) -> Tuple[D]:
         """Tournament selection.
 
         Select a uniform sample, then select the best member in that sample.
@@ -207,7 +207,7 @@ class TournamentSelector(Selector[T]):
         # Do not select if
         #   (a) the sample is less than bracket_size, or
         #   (b) the budget is less than bracket_size
-        sample: List[Individual[T]]
+        sample: List[D]
         if min(len(population), self.budget) < self.bracket_size:
             sample = list(population)
         else:
@@ -215,7 +215,7 @@ class TournamentSelector(Selector[T]):
         sample.sort(key=lambda x: x.fitness, reverse=True)
 
         # If nothing is selected stochastically, select the last element
-        selected_solution: Individual[T] = sample[-1]
+        selected_solution: D = sample[-1]
 
         # Select the ith element with probability p * (1-p)**i
         probability = self.probability
@@ -227,7 +227,7 @@ class TournamentSelector(Selector[T]):
         return (selected_solution,)
 
 
-def Elitist(sel: Selector[T]) -> Selector:
+def Elitist(sel: Selector[D]) -> Selector:
     """Decorator that adds elitism to a selector.
 
     Modify `select_to_many` of `sel` to use elitism. If `sel` already
@@ -241,13 +241,13 @@ def Elitist(sel: Selector[T]) -> Selector:
     """
 
     def wrap_function(original_select_to_many:
-                      Callable[[Selector[T], Population[T]],
-                               Tuple[Individual[T], ...]]) -> Callable:
+                      Callable[[Selector[D], Population[D]],
+                               Tuple[D, ...]]) -> Callable:
 
         @wraps(original_select_to_many)
-        def wrapper(self: Selector[T],
-                    population: Population[T],
-                    *args: Any, **kwargs: Any) -> Tuple[Individual[T], ...]:
+        def wrapper(self: Selector[D],
+                    population: Population[D],
+                    *args: Any, **kwargs: Any) -> Tuple[D, ...]:
             """Context that implements elitism.
             """
             # Define an attribute that retains the best individual.
@@ -260,10 +260,10 @@ def Elitist(sel: Selector[T]) -> Selector:
             if not hasattr(self, UBER_SECRET_BEST_INDIVIDIAUL_NAME):
                 setattr(self, UBER_SECRET_BEST_INDIVIDIAUL_NAME, None)
 
-            best_individual: Individual[T] = population.best().copy()
+            best_individual: D = population.best().copy()
 
             # Acquire results of the original selector
-            results: Tuple[Individual[T], ...] = \
+            results: Tuple[D, ...] = \
                 original_select_to_many(self, population, *args, **kwargs)
 
             # Append the best individual to results

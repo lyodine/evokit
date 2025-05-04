@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from typing import Callable
     from .population import Population
 
-T = TypeVar("T", bound=Individual)
+D = TypeVar("D", bound=Individual)
 
 
 class MetaEvaluator(ABCMeta):
@@ -50,7 +50,7 @@ class MetaEvaluator(ABCMeta):
         return type.__new__(mcls, name, bases, namespace)
 
 
-class Evaluator(ABC, Generic[T], metaclass=MetaEvaluator):
+class Evaluator(ABC, Generic[D], metaclass=MetaEvaluator):
     """Base class for all evaluators.
 
     Derive this class to create custom evaluators.
@@ -71,7 +71,7 @@ class Evaluator(ABC, Generic[T], metaclass=MetaEvaluator):
         """
 
     @abstractmethod
-    def evaluate(self: Self, individual: Individual[T]) -> float:
+    def evaluate(self: Self, individual: D) -> float:
         """Evaluation strategy.
 
         Subclasses should override this method.
@@ -87,7 +87,7 @@ class Evaluator(ABC, Generic[T], metaclass=MetaEvaluator):
         """
 
     def evaluate_population(self: Self,
-                            pop: Population[T]) -> None:
+                            pop: Population[D]) -> None:
         """Context of :meth:`evaluate`.
 
         Iterate individuals in a population. For each individual, compute a
