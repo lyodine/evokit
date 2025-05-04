@@ -31,7 +31,7 @@ T = TypeVar("T")
 _EXPR_PARAM_PREFIX: str = "x"
 
 
-def _get_arity(fun: Any) -> int:
+def _get_arity(fun: Callable | Expression | Symbol | Any) -> int:
     """Return the arity of an object.
 
     If the argument is callable, return the length of its signature.
@@ -190,9 +190,12 @@ class Symbol():
 class ExpressionFactory(Generic[T]):
     """Factory class for :class:`Expression`.
 
-    Build :class:`Expression` with supplied hyperparameters. Then,
-    register itself with each created object by setting its
-    :attr:`Expression.factory` attribute.
+    Build :class:`.Expression` instances with supplied hyperparameters.
+    Register the factory itself with each expression built by setting
+    :attr:`Expression.factory`.
+
+    Please see :mod:`.evolvables.funcs` for a set of primitives, or
+    define custom functions.
 
     Note:
         If ``arity = 0``, then ``primitives`` must include at least one literal.
@@ -338,6 +341,8 @@ class ExpressionFactory(Generic[T]):
 
 class Program(Individual[Expression[T]]):
     """A tree-based genetic program.
+
+    Tutorial: :doc:`../guides/examples/gp`.
     """
     def __init__(self, expr: Expression[T]):
         self.genome: Expression[T] = expr
