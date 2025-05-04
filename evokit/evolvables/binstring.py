@@ -219,6 +219,33 @@ class MutateBits(Variator[BinaryString]):
         return (offspring,)
 
 
+class OnePointCrossover(Variator[BinaryString]):
+    """Split and recombine parents.
+
+    2-to-1 variator for :class:`.BinaryString`. Split parents at position
+    `k`, then interleave the segments.
+    """
+    def __init__(self):
+        self.arity = 2
+
+    def vary(self: Self,
+             parents: Sequence[BinaryString]) -> tuple[BinaryString, ...]:
+
+        # Since :meth:`.from_bit_list(.)` creates a :class:`BinaryString`
+        #   that is independent of the input list, no need to copy the
+        #   parent this time.
+        pa = parents[0].to_bit_list()
+        pb = parents[1].to_bit_list()
+
+        k = random.randrange(len(pa) + 1)
+
+        new_pa: list[int] = pb[:k] + pa[k:]
+        new_pb: list[int] = pa[:k] + pb[k:]
+
+        return (BinaryString.from_bit_list(new_pa),
+                BinaryString.from_bit_list(new_pb))
+
+
 def trial_run() -> None:
     BINSTRING_LENGTH: int = 20
     POPULATION_SIZE: int = 10
@@ -230,7 +257,7 @@ def trial_run() -> None:
 
     evaluator = CountBits()
     selector = Elitist(TruncationSelector[BinaryString](1))
-    variator = MutateBits(0.1)
+    variator = OnePointCrossover()
 
     ctrl: SimpleLinearAlgorithm[BinaryString] = SimpleLinearAlgorithm(
         population=init_pop,
