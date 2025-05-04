@@ -46,7 +46,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">evokit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../guides/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Introduction</a></li>
 </ul>
 
         </div>
@@ -97,16 +97,17 @@
 
 
 <span class="k">class</span> <span class="nc">MetaEvaluator</span><span class="p">(</span><span class="n">ABCMeta</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Machinery. Implement special behavious in :class:`Evaluator`.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Machinery. Implement special behaviours in :class:`Evaluator`.</span>
 
 <span class="sd">    :meta private:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># ^^ Actually a private metaclass! :meta private: indeed.</span>
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="n">mcls</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bases</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">type</span><span class="p">],</span>
                 <span class="n">namespace</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>  <span class="c1"># BAD</span>
         <span class="n">ABCMeta</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">mcls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">namespace</span><span class="p">)</span>
-        <span class="c1"># TODO This classifies as metaclass abuse. Though, I find it reasonable to</span>
-        <span class="c1">#   leave the machinery to the background, so that the user can have</span>
-        <span class="c1">#   an easier time extending the framework.</span>
+        <span class="c1"># Remorseless metaclass abuse. Consider using __init_subclass__ instead.</span>
+        <span class="c1"># This bad boy violates so many OO practices. Everything for ease</span>
+        <span class="c1">#   of use, I guess.</span>
 
         <span class="k">def</span> <span class="nf">wrap_function</span><span class="p">(</span><span class="n">custom_evaluate</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
             <span class="nd">@wraps</span><span class="p">(</span><span class="n">custom_evaluate</span><span class="p">)</span>
@@ -134,6 +135,8 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all evaluators.</span>
 
 <span class="sd">    Derive this class to create custom evaluators.</span>
+
+<span class="sd">    See :doc:`../guides/examples/onemax`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Evaluator.__new__">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.evaluator.Evaluator.__new__">[docs]</a>
@@ -160,7 +163,7 @@
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.evaluator.Evaluator.evaluate">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">individual</span><span class="p">:</span> <span class="n">D</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluation strategy.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluation strategy. Return the fitness of an individual.</span>
 
 <span class="sd">        Subclasses should override this method.</span>
 
@@ -169,9 +172,6 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            individual: individual to evaluate</span>
-
-<span class="sd">        Return:</span>
-<span class="sd">            Fitness of the individual</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
 
