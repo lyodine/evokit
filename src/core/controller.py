@@ -24,7 +24,6 @@ if TYPE_CHECKING:
     from .population import Population
     from .accountant import Accountant
 
-from enum import Flag, auto
 from typing import Generic, TypeVar
 from typing import override
 
@@ -64,13 +63,14 @@ class MetaController(ABCMeta):
                 self.generation = 0
                 self.accountants = []
                 self.events = []
-                return custom_init(*args, **kwargs)
+                return custom_init(self, *args, **kwargs)
 
             return wrapper
         namespace["__init__"] = wrap_init(
             namespace.setdefault("__init__", lambda: None)
         )
         return type.__new__(mcls, name, bases, namespace)
+
 
 class Controller(ABC, Generic[T], metaclass=MetaController):
     """Base class for all evolutionary algorothms.
