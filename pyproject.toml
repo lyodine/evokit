@@ -1,0 +1,48 @@
+[project]
+
+name = "evokit"
+version = "0"
+description = "The EvoKit framework, experiment build 0"
+dependencies = []
+requires-python = ">= 3.12.0"
+
+authors = [
+    {name = "Yiding Li", email = "redacted@example.ca"},
+]
+
+readme = "README.md"
+
+license = {file = "LICENSE.txt"}
+
+keywords = ["Machine Learning", "Evolutionary Computing", "Framework"]
+
+# Overtagging
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+
+    "Natural Language :: English  ",
+
+    "Topic :: Documentation :: Sphinx",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence   ",
+    "Topic :: Scientific/Engineering :: Artificial Life  ",
+    "Topic :: Software Development :: Libraries :: Python Modules ",
+    "Typing :: Typed",
+]
+
+# Add tags:
+#   Intended Audience
+#   License
+
+[build-system]
+
+requires = ["setuptools > 60.1.1"]
+build-backend = "setuptools.build_meta"
+
+# [tools.setuptools.packages.find]
+# where = ["src"]
