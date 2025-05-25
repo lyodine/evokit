@@ -1,5 +1,7 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from typing import Optional
     from typing import Tuple
@@ -9,26 +11,19 @@ if TYPE_CHECKING:
     from typing import Self
     from typing import Callable
 
-from core import Controller
-from core import SimpleSelector
-from core import Elitist
-from core import Population
-from core import Evaluator
-from core import Variator
-from core import Genome
-
-from typing import Generic
-    
 import abc
-import typing
-import math
 import functools
-
-from inspect import signature
+import math
 import random
-import gymnasium as gym
+import typing
+from inspect import signature
 from random import choice
+from typing import Generic
 
+import gymnasium as gym
+
+from core import (Controller, Elitist, Evaluator, Genome, Population,
+                  SimpleSelector, Variator)
 
 T = typing.TypeVar("T")
 

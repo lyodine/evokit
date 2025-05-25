@@ -1,17 +1,12 @@
-import typing
 import random
-from typing import TypeVar
-from typing import Tuple
-from typing import Optional
+import typing
+from typing import Optional, Tuple, TypeVar
+
 from core.controller import Controller
 from core.evaluator import Evaluator
-from core.population import Population
-from core.population import Genome
+from core.population import Genome, Population
+from core.selector import Elitist, SimpleSelector, TournamentSelector
 from core.variator import Variator
-from core.controller import Controller
-from core.selector import Elitist
-from core.selector import SimpleSelector
-from core.selector import TournamentSelector
 
 
 class IllegalVariation(Exception):

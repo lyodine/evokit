@@ -1,5 +1,7 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from typing import Any
     from typing import Optional
@@ -8,13 +10,9 @@ if TYPE_CHECKING:
 
 import abc
 from abc import abstractmethod
+from typing import Generic, TypeVar
 
-from .population import Population
-from .population import Genome
-
-
-from typing import TypeVar
-from typing import Generic
+from .population import Genome, Population
 
 T = TypeVar("T", bound=Genome)
 

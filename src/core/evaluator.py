@@ -1,20 +1,16 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from typing import Self
-    from .population import Population
+
+from abc import ABC, ABCMeta, abstractmethod
+from typing import TYPE_CHECKING, Generic, TypeVar
 
 from .population import Genome
-from typing import TypeVar
-from typing import Generic
 
-from abc import ABC
-from abc import ABCMeta
-from abc import abstractmethod
+if TYPE_CHECKING:
+    from typing import Self
+
+    from .population import Population
 
 T = TypeVar("T", bound=Genome)
-
-
 
 class _MetaEvaluator(ABCMeta):
     """Machineary for the evaluator.
