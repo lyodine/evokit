@@ -58,25 +58,19 @@ class Accountant(Generic[C]):
 
         report = acc1.publish()
 
-    See :doc:`../guides/examples/accountant`
+    Tutorial: :doc:`../guides/examples/accountant`.
 
     """
     def __init__(self: Self, handlers: Dict[str, Callable[[C], Any]]):
         """
         Args:
             handlers: a dictionary of `event : handler` mappings. Each `handler`
-                should have the following signature:
-
-        .. code-block::
-
-            Controller -> Any
-
+                should have the signature :python:`Controller -> Any`:
         """
+        #: Records collected by the ``Accountant``
         self.records: List[AccountantRecord] = []
-        # TODO I will skip on commenting it - the handler should not be
-        #   directly accessed though ... should I make it possible to
-        #   change the handlers once they are declared?
-        # Meditating on how to do it.
+
+        #: `Event - handler` pairs of the ``Accountant``
         self.handlers: Dict[str, Callable[[C], Any]] = handlers
 
         #: The attached :class:`Controller`

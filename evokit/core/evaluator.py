@@ -58,7 +58,7 @@ class Evaluator(ABC, Generic[D], metaclass=MetaEvaluator):
 
     Derive this class to create custom evaluators.
 
-    See :doc:`../guides/examples/onemax`.
+    Tutorial: :doc:`../guides/examples/onemax`.
     """
     def __new__(cls, *args: Any, **kwargs: Any) -> Self:
         """Machinery. Implement managed attributes.

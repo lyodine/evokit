@@ -266,12 +266,12 @@ class ExpressionFactory(Generic[T]):
         Costs are incurred after a batch nodes are drawn.
 
         Args:
-            node_budget: Total number of nodes in the tree
-            layer_budget: Depth of the tree
-            nullary_ratio: Probability of drawing a nullary node
+            node_budget: Total number of nodes in the tree.
+            layer_budget: Depth of the tree.
+            nullary_ratio: Probability of drawing a nullary node.
 
         Raise:
-            ``ValueError`` if ``nullary_ratio`` lies outside of range ``[0,1]``
+            ``ValueError`` if ``nullary_ratio`` lies outside of range ``[0,1]``.
         """
         if (nullary_ratio is not None and
            (nullary_ratio < 0 or nullary_ratio > 1)):
