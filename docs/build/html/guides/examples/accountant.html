@@ -26,7 +26,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Creating a Custom Controller" href="controller.html" />
+    <link rel="next" title="Symbolic Regression with Genetic Programming" href="gp.html" />
     <link rel="prev" title="Guides" href="../index.html" /> 
 </head>
 
@@ -58,7 +58,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../index.html#getting-started">Getting Started</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#advanced-tutorials">Advanced Tutorials</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Collect Runtime Statistics with <code class="docutils literal notranslate"><span class="pre">Accountant</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html">Creating a Custom <code class="docutils literal notranslate"><span class="pre">Controller</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="gp.html">Symbolic Regression with Genetic Programming</a></li>
 <li class="toctree-l3"><a class="reference internal" href="interceptor.html">Modifying Operators with the Interceptor Pattern</a></li>
 <li class="toctree-l3"><a class="reference internal" href="onemax.html">Getting Started with OneMax</a></li>
@@ -114,12 +113,13 @@
 </pre></div>
 </div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">Accountant</span></code> module</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Accountant</span></code> module can collect runtime statistics.</p>
+<p>Without the module, it is still possible to collect statistics before and after each iteration. The following example prints individuals in a population.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">evokit.core</span> <span class="kn">import</span> <span class="n">SimpleLinearController</span><span class="p">,</span> <span class="n">Population</span><span class="p">,</span> <span class="n">SimpleSelector</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">evokit.core</span> <span class="kn">import</span> <span class="n">SimpleLinearAlgorithm</span><span class="p">,</span> <span class="n">Population</span><span class="p">,</span> <span class="n">SimpleSelector</span>
 
 <span class="kn">from</span> <span class="nn">evokit.evolvables.binstring</span> <span class="kn">import</span> <span class="n">BinaryString</span><span class="p">,</span> <span class="n">CountBits</span><span class="p">,</span> <span class="n">MutateBits</span>
 
@@ -134,7 +134,7 @@
     <span class="o">*</span><span class="p">[</span><span class="n">BinaryString</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">BINSTRING_LENGTH</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">POPULATION_SIZE</span><span class="p">)]</span>
 <span class="p">)</span>
 
-<span class="n">ctrl</span> <span class="o">=</span> <span class="n">SimpleLinearController</span><span class="p">(</span><span class="n">evaluator</span><span class="o">=</span><span class="n">CountBits</span><span class="p">(),</span>
+<span class="n">ctrl</span> <span class="o">=</span> <span class="n">SimpleLinearAlgorithm</span><span class="p">(</span><span class="n">evaluator</span><span class="o">=</span><span class="n">CountBits</span><span class="p">(),</span>
                               <span class="n">variator</span><span class="o">=</span><span class="n">MutateBits</span><span class="p">(</span><span class="n">mutation_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span>
                               <span class="n">population</span> <span class="o">=</span> <span class="n">pop</span><span class="p">,</span>
                               <span class="n">selector</span><span class="o">=</span><span class="n">SimpleSelector</span><span class="p">(</span><span class="n">budget</span><span class="o">=</span><span class="n">POPULATION_SIZE</span><span class="p">))</span>
@@ -178,10 +178,10 @@ Best individual is [1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 
 Best individual is [1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0]
 </pre></div></div>
 </div>
-<p>The above approach can only take information after an iteration, not during.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">Accountant</span></code> module provides a way to collect information during an iteration. In short, an <code class="docutils literal notranslate"><span class="pre">Accountant</span></code> can be registered with a <code class="docutils literal notranslate"><span class="pre">Controller</span></code>; after that, the accountant is able to collect information from the <code class="docutils literal notranslate"><span class="pre">Controller</span></code> when an event fires.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">Controller</span></code> should report when it fires an event and what event is fired. Alternatively, the source code gives the most accurate information. Consider the <code class="docutils literal notranslate"><span class="pre">step</span></code> method of <code class="docutils literal notranslate"><span class="pre">SimpleLinearController</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SimpleLinearController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
+<p>The above approach can only take information before or after, but not during, an iteration.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Accountant</span></code> module provides a way to collect information during an iteration. In short, an <code class="docutils literal notranslate"><span class="pre">Accountant</span></code> can be registered with a <code class="docutils literal notranslate"><span class="pre">Algorithm</span></code>; after that, the accountant is able to collect information from the <code class="docutils literal notranslate"><span class="pre">Algorithm</span></code> when an event fires.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Algorithm</span></code> should report when it fires an event and what event is fired. Alternatively, the source code gives the most accurate information. Consider the <code class="docutils literal notranslate"><span class="pre">step</span></code> method of <code class="docutils literal notranslate"><span class="pre">SimpleLinearAlgorithm</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SimpleLinearAlgorithm</span><span class="p">(</span><span class="n">Algorithm</span><span class="p">):</span>
     <span class="o">...</span>
 
     <span class="nd">@override</span>
@@ -240,7 +240,7 @@ Best individual is [1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../index.html" class="btn btn-neutral float-left" title="Guides" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="controller.html" class="btn btn-neutral float-right" title="Creating a Custom Controller" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="gp.html" class="btn btn-neutral float-right" title="Symbolic Regression with Genetic Programming" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

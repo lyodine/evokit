@@ -43,9 +43,10 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../why.html">Why EvoKit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install-and-built.html">Installing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Guides</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
@@ -90,26 +91,17 @@
     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Self</span>
     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
-    <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span>
     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
-    <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span>
 
-<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">itemgetter</span>
-
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">override</span>
 <span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="n">Variator</span>
 
-<span class="kn">import</span> <span class="nn">abc</span>
 <span class="kn">import</span> <span class="nn">functools</span>
-<span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">typing</span>
 <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">signature</span>
-<span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generic</span>
 
 <span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="n">Evaluator</span><span class="p">,</span> <span class="n">Individual</span>
@@ -120,7 +112,7 @@
 <span class="n">_EXPR_PARAM_PREFIX</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span>
 
 
-<span class="k">def</span> <span class="nf">_get_arity</span><span class="p">(</span><span class="n">fun</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_get_arity</span><span class="p">(</span><span class="n">fun</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">|</span> <span class="n">Expression</span> <span class="o">|</span> <span class="n">Symbol</span> <span class="o">|</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the arity of an object.</span>
 
 <span class="sd">    If the argument is callable, return the length of its signature.</span>
@@ -143,6 +135,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span>
 
+
 <div class="viewcode-block" id="Expression">
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.gp.Expression">[docs]</a>
 <span class="k">class</span> <span class="nc">Expression</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
@@ -151,7 +144,7 @@
 <span class="sd">    Recursive data structure that implements program trees. An ``Expression``</span>
 <span class="sd">    is also a :class:`Callable` that only accepts arguments passed by position.</span>
 
-<span class="sd">    The attribute :attr:`.value` </span>
+<span class="sd">    The attribute :attr:`.value`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Expression.__init__">
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.gp.Expression.__init__">[docs]</a>
@@ -166,7 +159,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="n">T</span> <span class="o">|</span> <span class="n">typing</span><span class="o">.</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">|</span> <span class="n">Symbol</span> <span class="o">=</span> <span class="n">value</span>
         <span class="c1">#! Children of the expression node.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="n">children</span>
-        
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span> <span class="o">=</span> <span class="n">factory</span></div>
 
 
@@ -181,7 +174,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;This expression is not associated with a factory.&quot;</span><span class="p">)</span>
-    
+
     <span class="nd">@factory</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">factory</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">factory</span><span class="p">:</span> <span class="n">ExpressionFactory</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span> <span class="o">=</span> <span class="n">factory</span>
@@ -235,8 +228,8 @@
 <span class="sd">        a new :class:`Expression`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">new_value</span><span class="p">:</span> <span class="n">T</span> <span class="o">|</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">|</span> <span class="n">Symbol</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;copy&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="s1">&#39;copy&#39;</span><span class="p">))):</span>
-            <span class="n">new_value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="s1">&#39;copy&#39;</span><span class="p">)()</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;copy&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s1">&#39;copy&#39;</span><span class="p">))):</span>
+            <span class="n">new_value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s1">&#39;copy&#39;</span><span class="p">)()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">new_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
 
@@ -249,7 +242,7 @@
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.gp.Expression.nodes">[docs]</a>
     <span class="k">def</span> <span class="nf">nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Expression</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a flat list view of all nodes and subnodes.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Note that operations performed on items in the returned list affect</span>
 <span class="sd">        the original objects.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -272,7 +265,8 @@
 
         <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">my_name</span><span class="si">}{</span><span class="n">children_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-    
+
+
 <div class="viewcode-block" id="Symbol">
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.gp.Symbol">[docs]</a>
 <span class="k">class</span> <span class="nc">Symbol</span><span class="p">():</span>
@@ -282,15 +276,17 @@
 <span class="sd">        ??? TODO</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">]</span>
+
 <div class="viewcode-block" id="Symbol.__init__">
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.gp.Symbol.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">pos</span></div>
 
-    
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span><span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">global</span> <span class="n">_EXPR_PARAM_PREFIX</span>
         <span class="k">return</span> <span class="n">_EXPR_PARAM_PREFIX</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="ExpressionFactory">
@@ -298,9 +294,12 @@
 <span class="k">class</span> <span class="nc">ExpressionFactory</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory class for :class:`Expression`.</span>
 
-<span class="sd">    Build :class:`Expression` with supplied hyperparameters. Then,</span>
-<span class="sd">    register itself with each created object by setting its </span>
-<span class="sd">    :attr:`Expression.factory` attribute.</span>
+<span class="sd">    Build :class:`.Expression` instances with supplied hyperparameters.</span>
+<span class="sd">    Register the factory itself with each expression built by setting</span>
+<span class="sd">    :attr:`Expression.factory`.</span>
+
+<span class="sd">    Please see :mod:`.evolvables.funcs` for a set of primitives, or</span>
+<span class="sd">    define custom functions.</span>
 
 <span class="sd">    Note:</span>
 <span class="sd">        If ``arity = 0``, then ``primitives`` must include at least one literal.</span>
@@ -326,9 +325,9 @@
 <span class="sd">            ValueError if ``arity=0`` and ``primitives`` does not contain nullary</span>
 <span class="sd">            values. The tree cannot be built without terminals.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
+
         <span class="bp">self</span><span class="o">.</span><span class="n">primitive_pool</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">T</span> <span class="o">|</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">|</span> <span class="n">Symbol</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
-        
+
         <span class="bp">self</span><span class="o">.</span><span class="n">arity</span> <span class="o">=</span> <span class="n">arity</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">primitive_pool</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -381,8 +380,8 @@
 <span class="sd">        Raise:</span>
 <span class="sd">            ``ValueError`` if ``nullary_ratio`` lies outside of range ``[0,1]``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">nullary_ratio</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span>
-           <span class="p">(</span><span class="n">nullary_ratio</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">nullary_ratio</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">nullary_ratio</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="ow">and</span> <span class="p">(</span><span class="n">nullary_ratio</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">nullary_ratio</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Probability of drawing nullary values must be&quot;</span>
                              <span class="sa">f</span><span class="s2">&quot;between 1 and 0. Got: </span><span class="si">{</span><span class="n">nullary_ratio</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -395,26 +394,23 @@
                        <span class="n">layer_budget</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
                        <span class="n">nullary_ratio</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Expression</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
 
-        <span class="c1"># Get the new node value</span>
-        <span class="n">new_node</span><span class="p">:</span> <span class="n">Expression</span><span class="p">[</span><span class="n">T</span><span class="p">]</span>
-
         <span class="n">target_primitive</span><span class="p">:</span> <span class="n">T</span> <span class="o">|</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">|</span> <span class="n">Symbol</span> <span class="o">=</span>\
-                            <span class="bp">self</span><span class="o">.</span><span class="n">draw_primitive</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">layer_budget</span> <span class="o">&lt;</span> <span class="mi">1</span>\
-                            <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_primitive</span><span class="p">(</span><span class="n">nullary_ratio</span><span class="p">)</span>
-        
+            <span class="bp">self</span><span class="o">.</span><span class="n">draw_primitive</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">layer_budget</span> <span class="o">&lt;</span> <span class="mi">1</span>\
+            <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_primitive</span><span class="p">(</span><span class="n">nullary_ratio</span><span class="p">)</span>
+
         <span class="n">inferred_value_arity</span> <span class="o">=</span> <span class="n">_get_arity</span><span class="p">(</span><span class="n">target_primitive</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">Expression</span><span class="p">(</span><span class="n">arity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arity</span><span class="p">,</span>
-                          <span class="n">value</span> <span class="o">=</span> <span class="n">target_primitive</span><span class="p">,</span>
-                          <span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_build_recurse</span><span class="p">(</span><span class="n">layer_budget</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">nullary_ratio</span><span class="p">)</span>
-                            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">inferred_value_arity</span><span class="p">))],</span>
-                          <span class="n">factory</span> <span class="o">=</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Expression</span><span class="p">(</span><span class="n">arity</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">arity</span><span class="p">,</span>
+                          <span class="n">value</span><span class="o">=</span><span class="n">target_primitive</span><span class="p">,</span>
+                          <span class="n">children</span><span class="o">=</span><span class="p">[</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_build_recurse</span><span class="p">(</span><span class="n">layer_budget</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nullary_ratio</span><span class="p">)</span>
+                                    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">inferred_value_arity</span><span class="p">))],</span>
+                          <span class="n">factory</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ExpressionFactory.draw_primitive">
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.gp.ExpressionFactory.draw_primitive">[docs]</a>
     <span class="k">def</span> <span class="nf">draw_primitive</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span>
                        <span class="n">nullary_ratio</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                       <span class="n">free_draw</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span> <span class="o">|</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">|</span> <span class="n">Symbol</span> <span class="p">:</span>
+                       <span class="n">free_draw</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span> <span class="o">|</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">|</span> <span class="n">Symbol</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return an item from :attr:`primitive_pool`</span>
 
 <span class="sd">        Args:</span>
@@ -446,11 +442,11 @@
 
         <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">value_pool</span><span class="p">)</span></div>
 
-    
+
 <div class="viewcode-block" id="ExpressionFactory.primitive_by_arity">
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.gp.ExpressionFactory.primitive_by_arity">[docs]</a>
     <span class="k">def</span> <span class="nf">primitive_by_arity</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span>
-                           <span class="n">arity</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span> <span class="o">|</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">|</span> <span class="n">Symbol</span> <span class="p">:</span>
+                           <span class="n">arity</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span> <span class="o">|</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">T</span><span class="p">]</span> <span class="o">|</span> <span class="n">Symbol</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Draw a instruction or terminal of the given arity.</span>
 
 <span class="sd">        If no primitive of the given arity exists, return an empty list.</span>
@@ -458,11 +454,14 @@
         <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">primitive_pool</span><span class="p">[</span><span class="n">arity</span><span class="p">])</span></div>
 </div>
 
-    
+
+
 <div class="viewcode-block" id="Program">
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.gp.Program">[docs]</a>
 <span class="k">class</span> <span class="nc">Program</span><span class="p">(</span><span class="n">Individual</span><span class="p">[</span><span class="n">Expression</span><span class="p">[</span><span class="n">T</span><span class="p">]]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A tree-based genetic program.</span>
+
+<span class="sd">    Tutorial: :doc:`../guides/examples/gp`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Program.__init__">
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.gp.Program.__init__">[docs]</a>
@@ -493,8 +492,8 @@
 <div class="viewcode-block" id="ProgramFactory.__init__">
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.gp.ProgramFactory.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">primitives</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">T</span> <span class="o">|</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">T</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span> <span class="n">arity</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">exprfactory</span> <span class="o">=</span> <span class="n">ExpressionFactory</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="n">primitives</span> <span class="o">=</span> <span class="n">primitives</span><span class="p">,</span>
-                                                <span class="n">arity</span> <span class="o">=</span> <span class="n">arity</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exprfactory</span> <span class="o">=</span> <span class="n">ExpressionFactory</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="n">primitives</span><span class="o">=</span><span class="n">primitives</span><span class="p">,</span>
+                                                <span class="n">arity</span><span class="o">=</span><span class="n">arity</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ProgramFactory.build">
@@ -506,7 +505,6 @@
         <span class="c1"># new_deposit = [x.copy() for x in self.symbol_deposit]</span>
         <span class="k">return</span> <span class="n">Program</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exprfactory</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">node_budget</span><span class="p">,</span> <span class="n">layer_budget</span><span class="p">,</span> <span class="n">nullary_ratio</span><span class="p">))</span></div>
 </div>
-
 
 
 
@@ -562,14 +560,14 @@
                 <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">_shuffle_children</span><span class="p">(</span>
                     <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">internal_nodes_from_root_1</span><span class="p">),</span>
                     <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">internal_nodes_from_root_2</span><span class="p">))</span>
-            
+
             <span class="c1"># expression_node_from_root_1_to_swap =\</span>
             <span class="c1">#     random.choice(internal_nodes_from_root_1)</span>
             <span class="c1"># expression_node_from_root_2_to_swap =\</span>
             <span class="c1">#     random.choice(internal_nodes_from_root_2)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">root1</span><span class="p">,</span> <span class="n">root2</span><span class="p">,</span> <span class="n">root1_pass</span><span class="p">,</span> <span class="n">root2_pass</span><span class="p">)</span></div>
 
-            
+
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_swap_children</span><span class="p">(</span><span class="n">expr1</span><span class="p">:</span> <span class="n">Expression</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">expr2</span><span class="p">:</span> <span class="n">Expression</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">r1_children</span> <span class="o">=</span> <span class="n">expr1</span><span class="o">.</span><span class="n">children</span>
@@ -604,7 +602,7 @@
 <span class="c1">#              parents: Sequence[Program[float]]) -&gt; Tuple[Program[float], ...]:</span>
 
 <span class="c1">#         root1: Program = parents[0].copy()</span>
-<span class="c1">#         random_node = random.choice(root1.genome.nodes())  </span>
+<span class="c1">#         random_node = random.choice(root1.genome.nodes())</span>
 
 <div class="viewcode-block" id="MutateNode">
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.gp.MutateNode">[docs]</a>
@@ -626,26 +624,27 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            parents: collection where the 0th item is the parent.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Raise:</span>
 <span class="sd">            ``ValueError`` if the parent&#39;s :attr:`Program.genome`</span>
 <span class="sd">            does not have :attr:`Expression.factory` set.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">root1</span><span class="p">:</span> <span class="n">Program</span> <span class="o">=</span> <span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">root1</span><span class="o">.</span><span class="n">genome</span><span class="o">.</span><span class="n">factory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span> 
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
         <span class="n">root_pass</span><span class="p">:</span> <span class="n">Program</span> <span class="o">=</span> <span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">random_node</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">root1</span><span class="o">.</span><span class="n">genome</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
         <span class="n">random_node</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">root1</span><span class="o">.</span><span class="n">genome</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">primitive_by_arity</span><span class="p">(</span>
-                                <span class="n">_get_arity</span><span class="p">(</span><span class="n">random_node</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
-        
+            <span class="n">_get_arity</span><span class="p">(</span><span class="n">random_node</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+
         <span class="n">random_node</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">root1</span><span class="o">.</span><span class="n">genome</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">primitive_by_arity</span><span class="p">(</span>
-                                <span class="n">_get_arity</span><span class="p">(</span><span class="n">random_node</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
-        
+            <span class="n">_get_arity</span><span class="p">(</span><span class="n">random_node</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+
         <span class="k">return</span> <span class="p">(</span><span class="n">root1</span><span class="p">,</span> <span class="n">root_pass</span><span class="p">)</span></div>
 </div>
 
-    
+
+
 <div class="viewcode-block" id="MutateSubtree">
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.gp.MutateSubtree">[docs]</a>
 <span class="k">class</span> <span class="nc">MutateSubtree</span><span class="p">(</span><span class="n">Variator</span><span class="p">[</span><span class="n">Program</span><span class="p">]):</span>
@@ -658,7 +657,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="MutateSubtree.__init__">
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.gp.MutateSubtree.__init__">[docs]</a>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">node_budget</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">layer_budget</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">nullary_ratio</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span>
+                 <span class="n">node_budget</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">layer_budget</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">nullary_ratio</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">arity</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">coarity</span> <span class="o">=</span> <span class="mi">2</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">node_budget</span> <span class="o">=</span> <span class="n">node_budget</span>
@@ -670,19 +672,20 @@
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.gp.MutateSubtree.vary">[docs]</a>
     <span class="k">def</span> <span class="nf">vary</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span>
              <span class="n">parents</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Program</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Program</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-        
+
         <span class="n">root1</span><span class="p">:</span> <span class="n">Program</span> <span class="o">=</span> <span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">root_pass</span><span class="p">:</span> <span class="n">Program</span> <span class="o">=</span> <span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">internal_nodes</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Expression</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span>\
-                <span class="nb">tuple</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">root1</span><span class="o">.</span><span class="n">genome</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">children</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="nb">tuple</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">root1</span><span class="o">.</span><span class="n">genome</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">children</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="n">internal_nodes</span><span class="p">):</span>
             <span class="n">random_internal_node</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">internal_nodes</span><span class="p">)</span>
-            <span class="n">index_for_replacement</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">random_internal_node</span><span class="o">.</span><span class="n">children</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">index_for_replacement</span> <span class="o">=</span> \
+                <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">random_internal_node</span><span class="o">.</span><span class="n">children</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
             <span class="n">random_internal_node</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">index_for_replacement</span><span class="p">]</span> <span class="o">=</span> \
-                    <span class="n">random_internal_node</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_budget</span><span class="p">,</span>
-                                                <span class="bp">self</span><span class="o">.</span><span class="n">layer_budget</span><span class="p">,</span>
-                                                <span class="bp">self</span><span class="o">.</span><span class="n">nullary_ratio</span><span class="p">)</span>
+                <span class="n">random_internal_node</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_budget</span><span class="p">,</span>
+                                                   <span class="bp">self</span><span class="o">.</span><span class="n">layer_budget</span><span class="p">,</span>
+                                                   <span class="bp">self</span><span class="o">.</span><span class="n">nullary_ratio</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="p">(</span><span class="n">root1</span><span class="p">,</span> <span class="n">root_pass</span><span class="p">)</span></div>
 </div>
@@ -706,7 +709,7 @@
                  <span class="n">support</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="o">...</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
-<span class="sd">            objective: function that </span>
+<span class="sd">            objective: function that</span>
 <span class="sd">            support: collection of points on which the program</span>
 <span class="sd">            is compared against ``objective``.</span>
 
@@ -727,8 +730,10 @@
 <div class="viewcode-block" id="SymbolicEvaluator.evaluate">
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.gp.SymbolicEvaluator.evaluate">[docs]</a>
     <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">program</span><span class="p">:</span> <span class="n">Program</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="k">return</span> <span class="o">-</span><span class="nb">sum</span><span class="p">([</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objective</span><span class="p">(</span><span class="o">*</span><span class="n">sup</span><span class="p">)</span> <span class="o">-</span> <span class="n">program</span><span class="o">.</span><span class="n">genome</span><span class="p">(</span><span class="o">*</span><span class="n">sup</span><span class="p">))</span> <span class="k">for</span> <span class="n">sup</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">support</span><span class="p">])</span></div>
+        <span class="k">return</span> <span class="o">-</span><span class="nb">sum</span><span class="p">([</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objective</span><span class="p">(</span><span class="o">*</span><span class="n">sup</span><span class="p">)</span> <span class="o">-</span> <span class="n">program</span><span class="o">.</span><span class="n">genome</span><span class="p">(</span><span class="o">*</span><span class="n">sup</span><span class="p">))</span>
+                     <span class="k">for</span> <span class="n">sup</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">support</span><span class="p">])</span></div>
 </div>
+
 
 
 <div class="viewcode-block" id="PenaliseNodeCount">

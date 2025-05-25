@@ -27,7 +27,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Modifying Operators with the Interceptor Pattern" href="interceptor.html" />
-    <link rel="prev" title="Creating a Custom Controller" href="controller.html" /> 
+    <link rel="prev" title="Collect Runtime Statistics with Accountant" href="accountant.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -58,7 +58,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../index.html#getting-started">Getting Started</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#advanced-tutorials">Advanced Tutorials</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="accountant.html">Collect Runtime Statistics with <code class="docutils literal notranslate"><span class="pre">Accountant</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html">Creating a Custom <code class="docutils literal notranslate"><span class="pre">Controller</span></code></a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Symbolic Regression with Genetic Programming</a></li>
 <li class="toctree-l3"><a class="reference internal" href="interceptor.html">Modifying Operators with the Interceptor Pattern</a></li>
 <li class="toctree-l3"><a class="reference internal" href="onemax.html">Getting Started with OneMax</a></li>
@@ -114,10 +113,10 @@
 </pre></div>
 </div>
 </div>
-<p>Import controllers and selectors from modules in <code class="docutils literal notranslate"><span class="pre">core</span></code>; import representation-related operators from the appropriate module in <code class="docutils literal notranslate"><span class="pre">evolvables</span></code> (in this case, <code class="docutils literal notranslate"><span class="pre">evolvables.gp</span></code> for tree-based genetic programming).</p>
+<p>Import algorithms and selectors from modules in <code class="docutils literal notranslate"><span class="pre">core</span></code>; import representation-related operators from the appropriate module in <code class="docutils literal notranslate"><span class="pre">evolvables</span></code> (in this case, <code class="docutils literal notranslate"><span class="pre">evolvables.gp</span></code> for tree-based genetic programming).</p>
 <p>The following modules are imported:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">SimpleLinearController</span></code> for a simple algorithm that applies the variator, the evaluator, and the selector in this exact order.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SimpleLinearAlgorithm</span></code> for a simple algorithm that applies the variator, the evaluator, and the selector in this exact order.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Population</span></code> contains individuals used in the learning process.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Elitist</span></code> and <code class="docutils literal notranslate"><span class="pre">TournamentSelector</span></code> together construct an elitist tournament selector.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Program</span></code> represents a tree-based genetic program, <code class="docutils literal notranslate"><span class="pre">ProgramFactory</span></code> constructs instances of <code class="docutils literal notranslate"><span class="pre">Program</span></code>.</p></li>
@@ -128,7 +127,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">evokit.core.controller</span> <span class="kn">import</span> <span class="n">SimpleLinearController</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">evokit.core.algorithm</span> <span class="kn">import</span> <span class="n">SimpleLinearAlgorithm</span>
 <span class="kn">from</span> <span class="nn">evokit.core.population</span> <span class="kn">import</span> <span class="n">Population</span>
 <span class="kn">from</span> <span class="nn">evokit.core.selector</span> <span class="kn">import</span> <span class="n">Elitist</span><span class="p">,</span> <span class="n">SimpleSelector</span><span class="p">,</span> <span class="n">TournamentSelector</span>
 
@@ -196,7 +195,7 @@
 </pre></div>
 </div>
 </div>
-<p>Pick the selectors and the variator, then initialise the controller using the operators defined so far.</p>
+<p>Pick the selectors and the variator, then initialise the algorithm using the operators defined so far.</p>
 <p>The interceptor <code class="docutils literal notranslate"><span class="pre">Elitist</span></code> forces its argument, which must be a selector, to adopt elitism.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">CrossoverSubtree</span></code> uses two parents. It randomly selects one internal node from each parent, selects one child node for each internal node, then exchanges the selected child nodes.</p>
 <div class="nbinput nblast docutils container">
@@ -207,7 +206,7 @@
 
 <span class="n">crossover_subtree</span> <span class="o">=</span> <span class="n">CrossoverSubtree</span><span class="p">()</span>
 
-<span class="n">ctrl</span> <span class="o">=</span> <span class="n">SimpleLinearController</span><span class="p">(</span><span class="n">evaluator</span><span class="o">=</span><span class="n">symbolic_fitness</span><span class="p">,</span>
+<span class="n">ctrl</span> <span class="o">=</span> <span class="n">SimpleLinearAlgorithm</span><span class="p">(</span><span class="n">evaluator</span><span class="o">=</span><span class="n">symbolic_fitness</span><span class="p">,</span>
                               <span class="n">selector</span><span class="o">=</span><span class="n">tournament_selector</span><span class="p">,</span>
                               <span class="n">population</span><span class="o">=</span><span class="n">pops</span><span class="p">,</span>
                               <span class="n">variator</span><span class="o">=</span><span class="n">crossover_subtree</span><span class="p">)</span>
@@ -447,7 +446,7 @@ Best individual is: Program:add(add(sin(x0), mul(cos(x0), 1)), cos(x0)), with fi
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="controller.html" class="btn btn-neutral float-left" title="Creating a Custom Controller" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="accountant.html" class="btn btn-neutral float-left" title="Collect Runtime Statistics with Accountant" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="interceptor.html" class="btn btn-neutral float-right" title="Modifying Operators with the Interceptor Pattern" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

@@ -43,9 +43,10 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../why.html">Why EvoKit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install-and-built.html">Installing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Guides</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
@@ -91,11 +92,12 @@
     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generic</span>
-<span class="kn">from</span> <span class="nn">.controller</span> <span class="kn">import</span> <span class="n">Controller</span>
+<span class="kn">from</span> <span class="nn">.algorithm</span> <span class="kn">import</span> <span class="n">Algorithm</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
 
-<span class="n">C</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Controller</span><span class="p">)</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Algorithm</span><span class="p">)</span>
+
 
 <div class="viewcode-block" id="AccountantRecord">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.accountant.AccountantRecord">[docs]</a>
@@ -121,19 +123,19 @@
 <div class="viewcode-block" id="Accountant">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.accountant.Accountant">[docs]</a>
 <span class="k">class</span> <span class="nc">Accountant</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">C</span><span class="p">]):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Monitor and collect data from a running :class:`Controller`.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Monitor and collect data from a running :class:`Algorithm`.</span>
 
 <span class="sd">    Maintain a dictionary of `event : handler` mappings. Each time</span>
-<span class="sd">    `event` fires, `handler` collects data from the :class:`Controller`.</span>
+<span class="sd">    `event` fires, `handler` collects data from the :class:`Algorithm`.</span>
 
-<span class="sd">    Call :meth:`.Controller.register` to register an ``Accountant`` to</span>
-<span class="sd">    a :class:`Controller`.</span>
+<span class="sd">    Call :meth:`.Algorithm.register` to register an ``Accountant`` to</span>
+<span class="sd">    a :class:`Algorithm`.</span>
 
 <span class="sd">    Example:</span>
 
 <span class="sd">    .. code-block:: python</span>
 
-<span class="sd">        ctrl = SimpleLinearController(...)</span>
+<span class="sd">        ctrl = SimpleLinearAlgorithm(...)</span>
 <span class="sd">        acc1 = Accountant(handlers={&quot;POST_EVALUATION&quot;:</span>
 <span class="sd">                                    lambda x: len(x.population)})</span>
 <span class="sd">        ctrl.register(acc1)</span>
@@ -152,7 +154,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            handlers: a dictionary of `event : handler` mappings. Each `handler`</span>
-<span class="sd">                should have the signature :python:`Controller -&gt; Any`:</span>
+<span class="sd">                should have the signature :python:`Algorithm -&gt; Any`:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1">#: Records collected by the ``Accountant``</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">records</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AccountantRecord</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -160,17 +162,17 @@
         <span class="c1">#: `Event - handler` pairs of the ``Accountant``</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">handlers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">C</span><span class="p">],</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="n">handlers</span>
 
-        <span class="c1">#: The attached :class:`Controller`</span>
+        <span class="c1">#: The attached :class:`Algorithm`</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">subject</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">C</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
     <span class="k">def</span> <span class="nf">_subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="n">C</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Machinery.</span>
 
-<span class="sd">        Subscribe for events in a :class:`.Controller`.</span>
+<span class="sd">        Subscribe for events in a :class:`.Algorithm`.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            subject: the :class:`.Controller` whose events are monitored by</span>
+<span class="sd">            subject: the :class:`.Algorithm` whose events are monitored by</span>
 <span class="sd">                this accountant.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">subject</span> <span class="o">=</span> <span class="n">subject</span>
@@ -178,15 +180,15 @@
     <span class="k">def</span> <span class="nf">_update</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Machinery.</span>
 
-<span class="sd">        When the attached :class:`.Controller` calls :meth:`.Controller.update`,</span>
+<span class="sd">        When the attached :class:`.Algorithm` calls :meth:`.Algorithm.update`,</span>
 <span class="sd">        it calls this method on every registered accountant.</span>
 
 <span class="sd">        When an event matches a key in :attr:`handlers`, call the corresponding</span>
-<span class="sd">        value with the attached Controller as argument. Store the result in</span>
+<span class="sd">        value with the attached Algorithm as argument. Store the result in</span>
 <span class="sd">        :attr:`records`.</span>
 
 <span class="sd">        Raise:</span>
-<span class="sd">            RuntimeError: If no :class:`Controller` is attached.</span>
+<span class="sd">            RuntimeError: If no :class:`Algorithm` is attached.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">subject</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Accountant updated without a subject.&quot;</span><span class="p">)</span>
@@ -202,14 +204,14 @@
     <span class="k">def</span> <span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AccountantRecord</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Report collected data.</span>
 
-<span class="sd">        Each time an event fires in the attached :class`.Controller`,</span>
+<span class="sd">        Each time an event fires in the attached :class`.Algorithm`,</span>
 <span class="sd">        if that event is registered in :attr:`handlers`, supply the</span>
-<span class="sd">        :class`.Controller` to the handler as argument then collect</span>
+<span class="sd">        :class`.Algorithm` to the handler as argument then collect</span>
 <span class="sd">        the result in an :class:`AccountantRecord`. This method</span>
 <span class="sd">        returns a list of all collected records.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_registered</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Accountant is not attached to a controller;&quot;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Accountant is not attached to an algorithm;&quot;</span>
                              <span class="s2">&quot; cannot publish.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">records</span></div>
 
@@ -217,7 +219,7 @@
 <div class="viewcode-block" id="Accountant.is_registered">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.accountant.Accountant.is_registered">[docs]</a>
     <span class="k">def</span> <span class="nf">is_registered</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return if this accountant is attached to a :class:Controller.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return if this accountant is attached to an :class:Algorithm.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">subject</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
 </div>

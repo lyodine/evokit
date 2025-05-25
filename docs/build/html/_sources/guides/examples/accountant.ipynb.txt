@@ -24,7 +24,9 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "The `Accountant` module "
+    "The `Accountant` module can collect runtime statistics.\n",
+    "\n",
+    "Without the module, it is still possible to collect statistics before and after each iteration. The following example prints individuals in a population."
    ]
   },
   {
@@ -41,7 +43,7 @@
     }
    ],
    "source": [
-    "from evokit.core import SimpleLinearController, Population, SimpleSelector\n",
+    "from evokit.core import SimpleLinearAlgorithm, Population, SimpleSelector\n",
     "\n",
     "from evokit.evolvables.binstring import BinaryString, CountBits, MutateBits\n",
     "\n",
@@ -56,7 +58,7 @@
     "    *[BinaryString.random(BINSTRING_LENGTH) for _ in range(POPULATION_SIZE)]\n",
     ")\n",
     "\n",
-    "ctrl = SimpleLinearController(evaluator=CountBits(),\n",
+    "ctrl = SimpleLinearAlgorithm(evaluator=CountBits(),\n",
     "                              variator=MutateBits(mutation_rate=0.1),\n",
     "                              population = pop,\n",
     "                              selector=SimpleSelector(budget=POPULATION_SIZE))\n",
@@ -96,14 +98,14 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "The above approach can only take information after an iteration, not during.\n",
+    "The above approach can only take information before or after, but not during, an iteration.\n",
     "\n",
-    "The `Accountant` module provides a way to collect information during an iteration. In short, an `Accountant` can be registered with a `Controller`; after that, the accountant is able to collect information from the `Controller` when an event fires.\n",
+    "The `Accountant` module provides a way to collect information during an iteration. In short, an `Accountant` can be registered with a `Algorithm`; after that, the accountant is able to collect information from the `Algorithm` when an event fires.\n",
     "\n",
-    "The `Controller` should report when it fires an event and what event is fired. Alternatively, the source code gives the most accurate information. Consider the `step` method of `SimpleLinearController`:\n",
+    "The `Algorithm` should report when it fires an event and what event is fired. Alternatively, the source code gives the most accurate information. Consider the `step` method of `SimpleLinearAlgorithm`:\n",
     "\n",
     "``` python\n",
-    "class SimpleLinearController(Controller):\n",
+    "class SimpleLinearAlgorithm(Algorithm):\n",
     "    ...\n",
     "\n",
     "    @override\n",

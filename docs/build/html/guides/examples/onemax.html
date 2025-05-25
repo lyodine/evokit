@@ -58,7 +58,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../index.html#getting-started">Getting Started</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#advanced-tutorials">Advanced Tutorials</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="accountant.html">Collect Runtime Statistics with <code class="docutils literal notranslate"><span class="pre">Accountant</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="controller.html">Creating a Custom <code class="docutils literal notranslate"><span class="pre">Controller</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="gp.html">Symbolic Regression with Genetic Programming</a></li>
 <li class="toctree-l3"><a class="reference internal" href="interceptor.html">Modifying Operators with the Interceptor Pattern</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Getting Started with OneMax</a><ul>
@@ -218,7 +217,7 @@
 <h2>Put Everything Together<a class="headerlink" href="#Put-Everything-Together" title="Link to this heading"></a></h2>
 <p>Create and run an evolutionary algorithm using components that have already been defined.</p>
 <p>Since selectors and the overall algorithm do not depend on representations, the framework comes with generic ones thatare compatible with all representations.</p>
-<p>Import a selector and an algorithm from <code class="docutils literal notranslate"><span class="pre">evokit.core.selector</span></code> and <code class="docutils literal notranslate"><span class="pre">evokit.core.controller</span></code> respectively:</p>
+<p>Import a selector and an algorithm from <code class="docutils literal notranslate"><span class="pre">evokit.core.selector</span></code> and <code class="docutils literal notranslate"><span class="pre">evokit.core.algorithm</span></code> respectively:</p>
 <ul class="simple">
 <li><p>Together, <code class="docutils literal notranslate"><span class="pre">Elitist</span></code> and <code class="docutils literal notranslate"><span class="pre">SimpleSelector</span></code> form an elitist selector that always selects for highest-fitness individuals.</p></li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">SimpleLinearController</span></code> applies operators in the following order:</p>
@@ -237,7 +236,7 @@
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">evokit.core.selector</span> <span class="kn">import</span> <span class="n">Elitist</span><span class="p">,</span> <span class="n">SimpleSelector</span>
 
-<span class="kn">from</span> <span class="nn">evokit.core.controller</span> <span class="kn">import</span> <span class="n">SimpleLinearController</span>
+<span class="kn">from</span> <span class="nn">evokit.core.algorithm</span> <span class="kn">import</span> <span class="n">SimpleLinearAlgorithm</span>
 </pre></div>
 </div>
 </div>
@@ -268,7 +267,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ctrl</span><span class="p">:</span> <span class="n">SimpleLinearController</span> <span class="o">=</span> <span class="n">SimpleLinearController</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ctrl</span><span class="p">:</span> <span class="n">SimpleLinearAlgorithm</span> <span class="o">=</span> <span class="n">SimpleLinearAlgorithm</span><span class="p">(</span>
     <span class="n">population</span><span class="o">=</span><span class="n">init_pop</span><span class="p">,</span>
     <span class="n">variator</span><span class="o">=</span><span class="n">RandomBitMutator</span><span class="p">(</span><span class="mf">0.1</span><span class="p">),</span>
     <span class="n">selector</span><span class="o">=</span><span class="n">Elitist</span><span class="p">(</span><span class="n">SimpleSelector</span><span class="p">[</span><span class="n">BinaryString</span><span class="p">](</span><span class="n">POPULATION_SIZE</span><span class="p">)),</span>

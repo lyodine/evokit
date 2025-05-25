@@ -256,13 +256,6 @@
    ]
   },
   {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "~~This is bad~~"
-   ]
-  },
-  {
    "cell_type": "code",
    "execution_count": 23,
    "metadata": {},

@@ -43,9 +43,9 @@ Well Described
 
 * All methods (public or private) have type hints:
 
-.. literalinclude:: ../../evokit/core/controller.py
+.. literalinclude:: ../../evokit/core/algorithm.py
     :language: python
-    :pyobject: SimpleLinearController.__init__
+    :pyobject: SimpleLinearAlgorithm.__init__
     :lines: 2-6
 
 * All return values are explained:
@@ -62,9 +62,9 @@ Well Described
 
 * All managed attributes are explained:
 
-.. literalinclude:: ../../evokit/core/controller.py
+.. literalinclude:: ../../evokit/core/algorithm.py
     :language: python
-    :pyobject: Controller.step
+    :pyobject: Algorithm.step
     :lines: 2, 3, 20-24
 
 Transparent
