@@ -9,12 +9,14 @@ from .population import Individual
 
 if TYPE_CHECKING:
     from typing import Self
-    from typing import Any
     from typing import Type
     from typing import Tuple
     from typing import Dict
     from typing import Callable
     from .population import Population
+
+from typing import Any
+
 
 D = TypeVar("D", bound=Individual)
 
