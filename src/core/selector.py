@@ -1,9 +1,3 @@
-## @package evolearn
-#   Module selector
-
-#   TODO Are you sure evolearn is the package? Not core?
-#   Rethink your life choices, and how things came to this.
-
 from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -19,9 +13,6 @@ from abc import abstractmethod
 from typing import Generic
 from typing import TypeVar
 
-
-from .globals import report
-from .globals import LogLevel
 from .population import Genome
 from .population import GenomePool
 
@@ -131,7 +122,6 @@ class SimpleSelector(Selector[T]):
         """
         population.sort(lambda x : x.score)
         selected_solution = population[0]
-        report(LogLevel.TRC, f"Solution selected: {str(selected_solution)}")
         return (selected_solution,)
 
 
@@ -187,7 +177,6 @@ class TournamentSelector(Selector[T]):
                 selected_solution = sample[i]
                 break
 
-        report(LogLevel.TRC, f"(Tournament) Solution selected: {str(selected_solution)}")
         return (selected_solution,)
 
 import types
@@ -210,7 +199,6 @@ def Elitist(sel: Selector[T])-> Selector:
 
 
         self.best_genome = best_genome
-        report(LogLevel.DBG, f"Elitism: best score is {self.best_genome.score}")
         return (*results, self.best_genome)
 
     setattr(sel, 'best_genome', None)
