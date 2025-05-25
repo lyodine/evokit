@@ -99,14 +99,14 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
         Return:
             Fitness of the individual
 
-        Raise:
-            :class:`ValueError`: if the current fitness is ``None``.
+        Warning:
+            If the current fitness is ``None``, return ``(nan,)``.
+            This may happen when, for example, an offspring
+            has just been produced.
         """
 
         if (self._fitness is None):
-            raise ValueError("Fitness is accessed but null.\n"
-                             "   Call `.has_fitness` to "
-                             "check if the fitness is defined.")
+            return (float('nan'),)
         else:
             return self._fitness
 
@@ -193,7 +193,11 @@ class Population(list[D]):
         best_individual: D = self[0]
 
         for x in self:
-            if x.fitness > best_individual.fitness:
+            if best_individual.fitness is float('nan'):
+                best_individual = x
+            elif x.fitness is float('nan'):
+                pass
+            elif x.fitness > best_individual.fitness:
                 best_individual = x
 
         return best_individual
