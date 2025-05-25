@@ -15,6 +15,9 @@ from abc import ABC, abstractmethod, ABCMeta
 from typing import Generic, TypeVar
 from typing import Any
 
+from collections import UserList as UserList
+from typing import Sequence, Iterable
+
 R = TypeVar('R')
 
 
@@ -155,15 +158,16 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
 D = TypeVar("D", bound=Individual[Any])
 
 
-class Population(list[D]):
+class Population(UserList[D], Generic[D]):
     """A flat collection of individuals.
     """
-    def __init__(self, *args: D):
+    def __init__(self,
+                 initlist: Optional[Sequence[D]] | Iterable[D] = None):
         """
         Args:
-            *args: Initial items in the population
+            args: Initial items in the population
         """
-        super().__init__(args)
+        super().__init__(initlist)
 
     def copy(self) -> Self:
         """Return an independent population.
@@ -176,7 +180,7 @@ class Population(list[D]):
         population. Collect the results, then create a new population with
         these values.
         """
-        return self.__class__(*(x.copy() for x in self))
+        return self.__class__([x.copy() for x in self])
 
     def reset_fitness(self: Self) -> None:
         """Remove fitness values of all Individuals in the population.
@@ -192,6 +196,9 @@ class Population(list[D]):
         """Return the highest-fitness individual in this population.
         """
         best_individual: D = self[0]
+        # from evokit.core.population import Population
+        # a = Population(1, 2, 3)
+        # b = Population("1", "2", "3")
 
         for x in self:
             if best_individual.fitness == (float('nan'),):
@@ -205,6 +212,70 @@ class Population(list[D]):
 
     def __str__(self: Self) -> str:
         return "[" + ", ".join(str(item) for item in self) + "]"
+
+    __repr__ = __str__
+
+    # @override
+    # def __add__(self: Self, other: Iterable[D]) -> Population[D]:
+    #     return Population[D](*self, *other)
+
+    # @override
+    # def __add__(self: Self, other: Population[D]) -> Population[D]:
+    #     best_individual: D = self[0]
+
+    #     for x in self:
+    #         if best_individual.fitness == (float('nan'),):
+    #             best_individual = x
+    #         elif x.fitness == (float('nan'),):
+    #             pass
+    #         elif x.fitness > best_individual.fitness:
+    #             best_individual = x
+
+    #     return best_individual
+
+    # def __str__(self: Self) -> str:
+    #     return "[" + ", ".join(str(item) for item in self) + "]"
+
+    # @overload
+    # def __getitem__(self: Self, index: int) -> D:
+    #     pass
+
+    # @overload
+    # def __getitem__(self: Self, index: slice) -> Population[D]:
+    #     pass
+
+    # @override
+    # def __getitem__(self: Self, index: int | slice) -> D | Population[D]:
+    #     if isinstance(index, int):
+    #         return self._items[index]
+    #     else:
+    #         return Population[D](*self._items[index])
+
+    # @overload
+    # def __setitem__(self: Self,
+    #                 index: int,
+    #                 value: D) -> None:
+    #     pass
+
+    # @overload
+    # def __setitem__(self: Self,
+    #                 index: slice,
+    #                 value: Population[D]) -> None:
+    #     pass
+
+    # @override
+    # def __setitem__(self: Self, index: int | slice,
+    #                 value: D | Population[D]) -> None:
+    #     if isinstance(index, int):
+    #         assert not isinstance(value, Population)
+    #         self._items[index] = value
+    #     else:
+    #         assert isinstance(value, Population)
+    #         self._items[index] = value
+
+    # def __delitem__
+    # def __lenitem__
+    # def insert
 
     # def append(self, value: R) -> None:
     #     """Append an item to this collection.

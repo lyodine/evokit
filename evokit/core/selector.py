@@ -76,7 +76,7 @@ class Selector(ABC, Generic[D]):
                 budget_used += len(selected_results)
                 yield from selected_results
 
-        return Population(*_generate_results())
+        return Population(list(_generate_results()))
 
     def select(self: Self, from_pool: Sequence[D]) -> tuple[D, ...]:
         """Select individuals from a sequence of individuals.

@@ -31,7 +31,7 @@ class NullSelector(Selector[D]):
                           from_population: Population[D]) -> Population[D]:
         """Return all items in :arg:`from_population` in  new population.
         """
-        return Population(*from_population)
+        return Population(from_population)
 
 
 class TruncationSelector(Selector[D]):
@@ -44,8 +44,8 @@ class TruncationSelector(Selector[D]):
     @override
     def select_population(self: Self,
                           from_population: Population[D]) -> Population[D]:
-        return Population[D](*sorted(list(from_population),
-                                     key=attrgetter("fitness"))[-self.budget:])
+        return Population[D](sorted(list(from_population),
+                                    key=attrgetter("fitness"))[-self.budget:])
 
 
 class TournamentSelector(Selector[D]):
@@ -150,7 +150,9 @@ def Elitist(sel: Selector[D]) -> Selector[D]:
                 original_select_population(self, population, *args, **kwargs)
 
             # Append the best individual to results
-            return Population(*results, hof_individual.copy())
+            temp_pop = Population(results)
+            temp_pop.append(hof_individual.copy())
+            return temp_pop
         return wrapper
 
     setattr(sel, 'select_population',
