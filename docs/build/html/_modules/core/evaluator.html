@@ -89,7 +89,7 @@
     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
     <span class="kn">from</span> <span class="nn">.population</span> <span class="kn">import</span> <span class="n">Population</span>
 
-<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Individual</span><span class="p">)</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Individual</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">MetaEvaluator</span><span class="p">(</span><span class="n">ABCMeta</span><span class="p">):</span>
@@ -106,7 +106,8 @@
 
         <span class="k">def</span> <span class="nf">wrap_function</span><span class="p">(</span><span class="n">custom_evaluate</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
             <span class="nd">@wraps</span><span class="p">(</span><span class="n">custom_evaluate</span><span class="p">)</span>
-            <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Evaluator</span><span class="p">,</span> <span class="n">individual</span><span class="p">:</span> <span class="n">Individual</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Evaluator</span><span class="p">,</span> <span class="n">individual</span><span class="p">:</span> <span class="n">Individual</span><span class="p">,</span>
+                        <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">individual</span><span class="p">,</span> <span class="n">Individual</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Evaluator is not an individual&quot;</span><span class="p">)</span>
                 <span class="c1"># If :attr:`retain_fitness` and the individual is scored, then</span>
@@ -125,7 +126,7 @@
 
 <div class="viewcode-block" id="Evaluator">
 <a class="viewcode-back" href="../../core.html#core.evaluator.Evaluator">[docs]</a>
-<span class="k">class</span> <span class="nc">Evaluator</span><span class="p">(</span><span class="n">ABC</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MetaEvaluator</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Evaluator</span><span class="p">(</span><span class="n">ABC</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">D</span><span class="p">],</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MetaEvaluator</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all evaluators.</span>
 
 <span class="sd">    Derive this class to create custom evaluators.</span>
@@ -151,7 +152,7 @@
 <div class="viewcode-block" id="Evaluator.evaluate">
 <a class="viewcode-back" href="../../core.html#core.evaluator.Evaluator.evaluate">[docs]</a>
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">individual</span><span class="p">:</span> <span class="n">Individual</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">individual</span><span class="p">:</span> <span class="n">D</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluation strategy.</span>
 
 <span class="sd">        Subclasses should override this method.</span>
@@ -170,7 +171,7 @@
 <div class="viewcode-block" id="Evaluator.evaluate_population">
 <a class="viewcode-back" href="../../core.html#core.evaluator.Evaluator.evaluate_population">[docs]</a>
     <span class="k">def</span> <span class="nf">evaluate_population</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span>
-                            <span class="n">pop</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">pop</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">D</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Context of :meth:`evaluate`.</span>
 
 <span class="sd">        Iterate individuals in a population. For each individual, compute a</span>
@@ -181,10 +182,13 @@
 
 <span class="sd">        Note:</span>
 <span class="sd">            This method must **never** return a value. It must assign to</span>
-<span class="sd">            :attr:`.fitness` for each :class:`.Individual` in the :class:`.Population`.</span>
+<span class="sd">            :attr:`.fitness` for each :class:`.Individual` in the</span>
+<span class="sd">            :class:`.Population`. The result must be sorted, so that the earliest</span>
+<span class="sd">            item has the highest fitness.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pop</span><span class="p">:</span>
-            <span class="n">x</span><span class="o">.</span><span class="n">fitness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+            <span class="n">x</span><span class="o">.</span><span class="n">fitness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">pop</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span></div>
 </div>
 
 </pre></div>

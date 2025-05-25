@@ -144,7 +144,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO: Consider letting fitness return None if it is not assigned,</span>
         <span class="c1">#   instead of raising an exception.</span>
-        <span class="c1"># There should be a limit to hand-holding the developer, and this might be it.</span>
+        <span class="c1"># There should be a limit to hand-holding the developer,</span>
+        <span class="c1">#   and this might be it.</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fitness</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Score is accessed but null&quot;</span><span class="p">)</span>
@@ -202,12 +203,9 @@
         <span class="c1">#   to make this function more usable.</span>
 
 
-<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Individual</span><span class="p">)</span>
-
-
 <div class="viewcode-block" id="AbstractCollection">
 <a class="viewcode-back" href="../../core.html#core.population.AbstractCollection">[docs]</a>
-<span class="k">class</span> <span class="nc">AbstractCollection</span><span class="p">(</span><span class="n">ABC</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">R</span><span class="p">],</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">R</span><span class="p">]):</span>
+<span class="k">class</span> <span class="nc">AbstractCollection</span><span class="p">(</span><span class="n">ABC</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">R</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">R</span><span class="p">],</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">R</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Machinery.</span>
 
 <span class="sd">    Data structure for collections that may be performance bottlecaps.</span>
@@ -341,14 +339,19 @@
 
 
 
+<span class="n">D</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Individual</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="Population">
 <a class="viewcode-back" href="../../core.html#core.population.Population">[docs]</a>
-<span class="k">class</span> <span class="nc">Population</span><span class="p">(</span><span class="n">AbstractCollection</span><span class="p">[</span><span class="n">Individual</span><span class="p">[</span><span class="n">R</span><span class="p">]],</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Individual</span><span class="p">[</span><span class="n">R</span><span class="p">]],</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Individual</span><span class="p">[</span><span class="n">R</span><span class="p">]]):</span>
+<span class="k">class</span> <span class="nc">Population</span><span class="p">(</span><span class="n">AbstractCollection</span><span class="p">[</span><span class="n">D</span><span class="p">],</span>
+                 <span class="n">Sequence</span><span class="p">[</span><span class="n">D</span><span class="p">],</span>
+                 <span class="n">Iterable</span><span class="p">[</span><span class="n">D</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A flat collection of individuals.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Population.__init__">
 <a class="viewcode-back" href="../../core.html#core.population.Population.__init__">[docs]</a>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Individual</span><span class="p">[</span><span class="n">R</span><span class="p">]):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">D</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
 
 
@@ -374,7 +377,7 @@
 <div class="viewcode-block" id="Population.sort">
 <a class="viewcode-back" href="../../core.html#core.population.Population.sort">[docs]</a>
     <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span>
-             <span class="n">ranker</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Individual</span><span class="p">[</span><span class="n">R</span><span class="p">]],</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">fitness</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+             <span class="n">ranker</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">D</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">fitness</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Rearrange items by fitness, highest-first.</span>
 
 <span class="sd">        The item at index 0 has the highest index.</span>
@@ -401,14 +404,14 @@
 
 <div class="viewcode-block" id="Population.best">
 <a class="viewcode-back" href="../../core.html#core.population.Population.best">[docs]</a>
-    <span class="k">def</span> <span class="nf">best</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Individual</span><span class="p">[</span><span class="n">R</span><span class="p">]:</span>
-        <span class="n">best_individual</span><span class="p">:</span> <span class="n">Individual</span><span class="p">[</span><span class="n">R</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">best</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">D</span><span class="p">:</span>
+        <span class="n">best_individual</span><span class="p">:</span> <span class="n">D</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">fitness</span> <span class="o">&gt;</span> <span class="n">best_individual</span><span class="o">.</span><span class="n">fitness</span><span class="p">:</span>
                 <span class="n">best_individual</span> <span class="o">=</span> <span class="n">x</span>
 
-        <span class="k">return</span> <span class="n">x</span></div>
+        <span class="k">return</span> <span class="n">best_individual</span></div>
 </div>
 
 </pre></div>
