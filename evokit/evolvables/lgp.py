@@ -1,3 +1,6 @@
+# flake8: noqa 
+# type: ignore
+
 from __future__ import annotations
 
 # It's just so appropriate here.
@@ -9,13 +12,14 @@ import numpy as np
 from abc import abstractmethod
 from dataclasses import dataclass
 from typing import Self, TypeVar, override
-
-from typing import List
+from typing import Iterable
+from typing import Callable
 
 from numpy import float64
 from numpy.typing import NDArray
 
-from typing import Callable, Tuple
+from typing import TypeAlias
+from enum import Enum, auto
 
 T = TypeVar("T")
 
@@ -133,9 +137,6 @@ class For(StructureType):
             lgp.run(instructions)
 
 
-WHILE_LOOP_CAP = 20
-
-
 class While(StructureType):
     """While loop.
 
@@ -144,9 +145,13 @@ class While(StructureType):
 
     Warning:
         This control structure may execute indefinitely. To prevent
-        this, the module constant ``.WHILE_LOOP_CAP`` imposes a bound
+        this, the class variable :attr:`.loop_cap` imposes a bound
         to how many times a while loop may be repeated for.
     """
+
+    #! Maximum number of iterations a :class:`While` loop can run for.
+    loop_cap = 20
+
     def __init__(self: Self, conditional: Condition):
         """
         Arg:
@@ -158,8 +163,8 @@ class While(StructureType):
     def __call__(self: Self,
                  lgp: LinearProgram,
                  instructions: Sequence[Instruction]) -> None:
-        for _ in range(WHILE_LOOP_CAP):
-            if (lgp.check(self.conditional)):
+        for _ in range(While.loop_cap):
+            if (lgp.check_condition(self.conditional)):
                 lgp.run(instructions)
             else:
                 break
@@ -178,14 +183,35 @@ class If(StructureType):
     def __call__(self: Self,
                  lgp: LinearProgram,
                  instructions: Sequence[Instruction]) -> None:
-        if (lgp.check(self.conditional)):
+        if (lgp.check_condition(self.conditional)):
             lgp.run(instructions)
 
 
+# TODO fix doc
 @dataclass
 class ValueRange:
     min: float
     max: float
+
+
+class StateVectorType(Enum):
+    """Type of a state vector.
+
+    A linear program stores three state vectors:
+    the input vector :attr:`.LinearProgram.inputs`,
+    the mutable register :attr:`.LinearProgram.registers`, and
+    the constant register :attr:`.LinearProgram.constants`,
+    """
+    input = auto()
+    register = auto()
+    constant = auto()
+
+
+#: Tuple that locates an item in a state vector.
+#: The first item (:class:`StateVectorType`) specifies the state vector, then
+#:      the second item (:class:`int`) gives the index.
+CellSpecifier: TypeAlias = tuple[StateVectorType,
+                                 Annotated[int, ValueRange(0, float('inf'))]]
 
 
 @dataclass
@@ -202,8 +228,8 @@ class Operation(Instruction):
     """
     def __init__(self: Self,
                  function: Callable[..., float],
-                 target: Annotated[int, ValueRange(0, float('inf'))],
-                 operands: Tuple[int, ...]):
+                 target: int,
+                 operands: tuple[CellSpecifier, ...]):
         """
         Args:
             function: Function to apply to :arg:`operands`.
@@ -212,22 +238,22 @@ class Operation(Instruction):
         """
         self.function: Callable[..., float] = function
         self.target: int = target
-        self.operands: Tuple[int, ...] = operands
+        self.operands: tuple[CellSpecifier, ...] = operands
 
-        # If true, then operands are all constants. Apparently a bad thing
-        #   according to the Banzhaf LGP book.
-        # If this is the case, raise an warning.
-        has_no_register_operand: bool = True
+        # Check if all operands are constants. A bad thing
+        #   according to the B&B LGP book.
+        # Do not, however, check if the target is a register, because
+        #   :attr:`.inputs` and :attr:`.constants` are already immutable.
+        has_register_operand: bool
+        has_register_operand = any(opr[0] == StateVectorType.register
+                                   for opr in operands)
 
-        for reg in operands:
-            if reg >= 0:
-                has_no_register_operand = False
-
-        if (has_no_register_operand):
+        if not has_register_operand:
             raise ValueError("Operand registers are all constants")
 
     def __str__(self: Self) -> str:
         # Super Pythonic Code (R) (not really)
+
         args: str = ', '.join((f"r[{x}]" if x >= 0
                                else f"c[{-x - 1}]" for x in self.operands))
         function_name: str = getattr(self.function,
@@ -247,11 +273,11 @@ class Condition():
     """
     def __init__(self: Self,
                  function: Callable[..., bool],
-                 args: Tuple[int, ...]):
+                 args: tuple[int, ...]):
         """
         Args:
-            function: todo
-            args: todo
+            function: TODO
+            args: TODO
         """
         self.function = function
         self.args = args
@@ -264,9 +290,9 @@ class LinearProgram():
     the program.
     """
     def __init__(self: Self,
-                 registers: Sequence[float],
-                 constants: Sequence[float],
-                 ):
+                 registers: Iterable[float],
+                 constants: Iterable[float],
+                 inputs: Iterable[float],):
         """
         Args:
             coarity: Size of the output vector, taken from the end of the register vector.
@@ -288,20 +314,56 @@ class LinearProgram():
 
             * Indices for constants begin at -1. Examples: -1, -2, -3, ...
         """
-
+        #: The register vector stores mutable state variables.
+        #: Set with :meth:`.set_register`.
         self.registers: NDArray[np.float64]
+        self.set_registers(registers)
+
+        #: The constant vector stores immutable state variables.
+        #: Set with :meth:`.set_constants`.
+        self.constants: NDArray[np.float64]
+        self.set_constants(constants)
+
+        #: The input vector stores immutable input variables.
+        #: Unlike constants, inputs may change each time the program is called.
+        #: Set with :meth:`.set_inputs`.
+        self.set_inputs(inputs)
+
+        # Where is the mutable state variable? (xiao
+
+    def set_registers(self: Self, registers: Iterable[float]) -> None:
+        """Update the register vector with :arg:`registers`.
+        """
         self.registers = np.fromiter(registers, dtype=float64)
 
-        # Initialise constants
-        self.constants: NDArray[np.float64]
+    def set_constants(self: Self, constants: Iterable[float]) -> None:
+        """Update the constant vector with :arg:`constants`.
+        """
         self.constants = np.fromiter(constants, dtype=float64)
         self.constants.flags.writeable = False
 
+    def set_inputs(self: Self, inputs: Iterable[float]) -> None:
+        """Update the input vector with :arg:`inputs`.
+        """
+        self.inputs = np.fromiter(inputs, dtype=float64)
+        self.inputs.flags.writeable = False
+
+    def get_state_vector(self: Self, celltype: StateVectorType) -> NDArray[np.float64]:
+        """Return the state vector specified by :arg:`cellspec`.
+        """
+        match celltype:
+            case StateVectorType.input:
+                return self.inputs
+            case StateVectorType.register:
+                return self.registers
+            case StateVectorType.constant:
+                return self.constants
+            case _:
+                raise ValueError("Cell specifier fails to locate a vector."
+                                 f"Expected: a `CellType`; got: {celltype}")
+
     def run(self: Self, instructions: Sequence[Instruction]) -> None:
         """Execute :arg:`instructions` in this context.
-
-        Args:
-            instructions: Instructions to execute.
 
         Effect:
             Instructions, for example :class:`Operation` s, may alter
@@ -314,16 +376,19 @@ class LinearProgram():
                                                  instructions,
                                                  current_line)
 
-    def check(self: Self, cond: Condition) -> bool:
-        """Check if a condition is satisfied in the current context.
+    def check_condition(self: Self, cond: Condition) -> bool:
+        """Check if :arg:`cond` is satisfied in the current context.
         """
         # Behold, Pythonic code!
+        # TODO rewrite logic
         return cond.function(*(self.constants[-i - 1] if i < 0 else self.registers[i]
                              for i in cond.args))
 
     def run_instruction(self: Self, instruction: Instruction,
                         instructions: Sequence[Instruction],
                         pos: int) -> int:
+
+        # Let's check - is it always the case that instructions[pos] is instruction?
         """Execute an instruction.
 
         Execute the instruction :arg:`instruction` in sequence
@@ -358,6 +423,8 @@ class LinearProgram():
         return 1
 
     def _run_operation(self: Self, instruction: Operation) -> int:
+
+        # TODO rewrite logic
         if instruction.target < 0:
             raise ValueError("Malformed instruction: assignment to:"
                              f"c[{-instruction.target - 1}]")
@@ -372,7 +439,7 @@ class LinearProgram():
     def _run_struct_over_lines(self: Self, instruction: StructOverLines,
                                instructions: Sequence[Instruction],
                                pos: int) -> int:
-        collected_lines: List[Instruction] = []
+        collected_lines: list[Instruction] = []
         current_pos: int = pos + 1
 
         num_of_steps: int = min([len(instructions) - current_pos, instruction.line_count])
@@ -390,7 +457,7 @@ class LinearProgram():
                               instructions: Sequence[Instruction],
                               pos: int) -> int:
 
-        collected_lines: List[Instruction] = []
+        collected_lines: list[Instruction] = []
         current_pos: int = pos + 1
 
         num_of_steps: int = min([len(instructions) - current_pos, 1])
@@ -406,7 +473,7 @@ class LinearProgram():
                                 instructions: Sequence[Instruction],
                                 pos: int) -> int:
 
-        collected_lines: List[Instruction] = []
+        collected_lines: list[Instruction] = []
         current_pos: int = pos + 1
 
         num_of_steps: int = len(instructions) - current_pos
