@@ -180,8 +180,8 @@ class Expression(Generic[T]):
         a new :class:`Expression`
         """
         new_value: T | Callable[..., T] | Symbol
-        if (hasattr(self.value, "copy") and callable(getattr(self.value,'m'))):
-            new_value = getattr(self.value,'m')('copy')
+        if (hasattr(self.value, "copy") and callable(getattr(self.value,'copy'))):
+            new_value = getattr(self.value,'copy')()
         else:
             new_value = self.value
 
@@ -230,7 +230,7 @@ class ExpressionFactory(Generic[T]):
     Receive a collection of primitives, then build :class:`Expression`
     instances whose :attr:`Expression.value` draw from this collection.
     """
-    def __init__(self: Self, primitives: Tuple[Callable[..., T], ...], arity: int):
+    def __init__(self: Self, primitives: Tuple[T | Callable[..., T], ...], arity: int):
         """Mappings from arity to a list of primitives of that arity.
 
         Note that both terminals and nullary callables have arity 0.
@@ -361,7 +361,7 @@ class Program(Individual[Expression[T]]):
 
 
 class ProgramFactory(Generic[T]):
-    def __init__(self: Self, primitives: Tuple[Callable[..., T], ...], arity: int):
+    def __init__(self: Self, primitives: Tuple[T | Callable[..., T], ...], arity: int):
         self.exprfactory = ExpressionFactory[T](primitives = primitives,
                                                 arity = arity)
 
@@ -385,6 +385,8 @@ class CrossoverSubtree(Variator[Program[float]]):
 
         root1: Program = parents[0].copy()
         root2: Program = parents[1].copy()
+        root1_pass: Program = parents[0].copy()
+        root2_pass: Program = parents[1].copy()
         # print(f"root 1: {str(root1)}")
         # print(f"root 2: {str(root2)}")
         internal_nodes_from_root_1 =\
@@ -410,7 +412,7 @@ class CrossoverSubtree(Variator[Program[float]]):
             #     random.choice(internal_nodes_from_root_1)
             # expression_node_from_root_2_to_swap =\
             #     random.choice(internal_nodes_from_root_2)
-        return (root1, root2)
+        return (root1, root2, root1_pass, root2_pass)
             
     @staticmethod
     def _swap_children(expr1: Expression[float], expr2: Expression[float]) -> None:
@@ -459,6 +461,7 @@ class MutateNode(Variator[Program]):
              parents: Sequence[Program]) -> Tuple[Program, ...]:
 
         root1: Program = parents[0].copy()
+        root_pass: Program = parents[0].copy()
         random_node = random.choice(root1.genome.nodes())
         random_node.value = root1.genome.factory.primitive_by_arity(
                                 _get_arity(random_node.value))
@@ -466,20 +469,21 @@ class MutateNode(Variator[Program]):
         random_node.value = root1.genome.factory.primitive_by_arity(
                                 _get_arity(random_node.value))
         
-        return (root1,)
+        return (root1, root_pass)
     
 class MutateSubtree(Variator[Program]):
     def __init__(self: Self, node_budget: int, layer_budget: int, nullary_ratio: Optional[float] = None) -> None:
         self.arity = 1
-        self.coarity = 1
+        self.coarity = 2
         self.node_budget = node_budget
         self.layer_budget = layer_budget
         self.nullary_ratio = nullary_ratio
 
     def vary(self: Self,
              parents: Sequence[Program]) -> Tuple[Program, ...]:
-
+        
         root1: Program = parents[0].copy()
+        root_pass: Program = parents[0].copy()
         internal_nodes: Tuple[Expression, ...] =\
                 tuple(x for x in root1.genome.nodes() if len(x.children) > 0)
 
@@ -491,35 +495,7 @@ class MutateSubtree(Variator[Program]):
                                                 self.layer_budget,
                                                 self.nullary_ratio)
 
-        return (root1,)
-
-
-
-
-NODE_BUDGET = 10
-LAYER_BUDGET = 2
-POPULATION_SIZE = 10
-
-from .funcs import *
-
-a = ProgramFactory[float]((add, sub, mul, div, sin, cos), 5)
-
-args = (1,23,3,34,4)
-from ..core.population import Population
-
-mutate_subtree = MutateSubtree(NODE_BUDGET,
-                               LAYER_BUDGET)
-
-mutate_node = MutateNode()
-sbufflet = CrossoverSubtree(shuffle=True)
-
-pop = Population[Program[float]]()
-pop.append(a.build(NODE_BUDGET, LAYER_BUDGET, nullary_ratio=0.1))
-pop.append(a.build(NODE_BUDGET, LAYER_BUDGET, nullary_ratio=0.1))
-print(pop)
-new_pop = sbufflet.vary_population(pop)
-print(new_pop)
-    
+        return (root1, root_pass)
 
 
 class SymbolicEvaluator(Evaluator[Program[float]]):
@@ -537,6 +513,7 @@ class SymbolicEvaluator(Evaluator[Program[float]]):
 
     def evaluate(self, program: Program[float]) -> float:
         return -sum([abs(self.objective(*sup) - program.genome(*sup)) for sup in self.support])
+    #len(program.genome.nodes())
 
 class PenaliseNodeCount(Evaluator[Program[float]]):
     def __init__(self, coefficient: float):
@@ -544,59 +521,3 @@ class PenaliseNodeCount(Evaluator[Program[float]]):
 
     def evaluate(self, program: Program[float]) -> float:
         return -(self.coefficient * len(program.genome.nodes()))
-
-
-
-# from ..core.population import Population
-
-# progf = ProgramFactory((1, 2, 0, add, sub, mul, div, sin, cos, mul, div, lim, avg), 1)
-
-# # Declare and populate the population
-# pops: Population[Program[float]] = Population()
-
-# POP_SIZE = 20
-# TREE_DEPTH = 2
-# NODE_BUDGET = 5
-# STEP_COUNT = 5
-
-# for i in range(0, POP_SIZE):
-#     pops.append(progf.build(NODE_BUDGET, TREE_DEPTH))
-
-# from ..core import LinearController
-# from ..core import Evaluator
-# from ..core import Individual, Population
-# from ..core import Elitist, SimpleSelector, NullSelector, TournamentSelector, NullEvaluator, NullVariator
-# from ..core import Variator
-
-# def weird_function(x):
-#     return x * 2 + cos(x)
-
-# support = tuple((x/50,) for x in range(-100, 100))
-
-# eval = SymbolicEvaluator(objective=weird_function, support = support)
-
-# pe = eval
-# ps = Elitist(SimpleSelector(POP_SIZE))
-
-
-# ts = TournamentSelector(POP_SIZE)
-
-# var = ProgramCrossoverVariator()
-# coer = SmallerIsBetter()
-
-# ctrl = LinearController(parent_evaluator=NullEvaluator(),
-#                         parent_selector=NullSelector(),
-#                         population=pops,
-#                         survivor_evaluator=pe,
-#                         survivor_selector=ps,
-#                         variator=var)
-
-# print(f"{ctrl.population}")
-
-# fitnesses = []
-# for _ in range(STEP_COUNT):
-#     ctrl.step()
-#     # print(f"{ctrl.population}")
-#     fitnesses.append(ctrl.population.best().fitness)
-# print(f"{fitnesses}")
-
