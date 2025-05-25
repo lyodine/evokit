@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import typing
+
 from dataclasses import dataclass
 from typing import Optional, Tuple, TypeVar, Literal
 
@@ -148,8 +148,8 @@ class CountBits(Evaluator[BinaryString]):
     Evaluator for :class:`BinaryString`. For each ``1`` in the binary string,
     incur a reward of 1.
     """
-    def evaluate(self, s1: BinaryString) -> float:
-        return s1.genome.bit_count()
+    def evaluate(self, s1: BinaryString) -> tuple[float]:
+        return (s1.genome.bit_count(),)
 
 
 class MutateBits(Variator[BinaryString]):
@@ -203,7 +203,7 @@ if __name__ == "__main__":
         selector=selector,
     )
 
-    dicts: typing.Dict[int, Optional[float]] = {}
+    dicts: dict[int, Optional[tuple[float, ...]]] = {}
 
     for i in range(GENERATION_COUNT):
         ctrl.step()

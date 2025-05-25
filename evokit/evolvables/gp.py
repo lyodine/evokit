@@ -560,9 +560,9 @@ class SymbolicEvaluator(Evaluator[Program[float]]):
                             f"{self.arity}, the first item in support has arity "
                             f"{support[0]}; they are not the same.")
 
-    def evaluate(self, program: Program[float]) -> float:
-        return -sum([abs(self.objective(*sup) - program.genome(*sup))
-                     for sup in self.support])
+    def evaluate(self, program: Program[float]) -> tuple[float]:
+        return (-sum([abs(self.objective(*sup) - program.genome(*sup))
+                     for sup in self.support]),)
 
 
 class PenaliseNodeCount(Evaluator[Program[float]]):
@@ -579,5 +579,5 @@ class PenaliseNodeCount(Evaluator[Program[float]]):
         """
         self.coefficient = coefficient
 
-    def evaluate(self, program: Program[float]) -> float:
-        return -(self.coefficient * len(program.genome.nodes()))
+    def evaluate(self, program: Program[float]) -> tuple[float]:
+        return (-(self.coefficient * len(program.genome.nodes())),)
