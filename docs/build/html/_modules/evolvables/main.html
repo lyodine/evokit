@@ -1,76 +1,113 @@
 <!DOCTYPE html>
+<html class="writer-html5" lang="en-uk" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>evolvables.main &mdash; Evoframe  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/styles.css?v=91cde0b6" />
 
-<html lang="en-uk" data-content_root="../../">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>evolvables.main &#8212; Evoframe  documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../../_static/classic.css?v=def86cc0" />
-    
-    <script src="../../_static/documentation_options.js?v=92c5c9a7"></script>
-    <script src="../../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=92c5c9a7"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
-  </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Evoframe  documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">evolvables.main</a></li> 
-      </ul>
-    </div>  
+</head>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Evoframe
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Evoframe</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">evolvables.main</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
   <h1>Source code for evolvables.main</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">typing</span>
-<span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
-<span class="kn">from</span> <span class="nn">core.controller</span> <span class="kn">import</span> <span class="n">Controller</span>
+<span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">typing</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">TypeVar</span>
+
+<span class="kn">from</span> <span class="nn">core.controller</span> <span class="kn">import</span> <span class="n">LinearController</span>
 <span class="kn">from</span> <span class="nn">core.evaluator</span> <span class="kn">import</span> <span class="n">Evaluator</span>
-<span class="kn">from</span> <span class="nn">core.population</span> <span class="kn">import</span> <span class="n">Population</span>
-<span class="kn">from</span> <span class="nn">core.population</span> <span class="kn">import</span> <span class="n">Genome</span>
+<span class="kn">from</span> <span class="nn">core.population</span> <span class="kn">import</span> <span class="n">Individual</span><span class="p">,</span> <span class="n">Population</span>
+<span class="kn">from</span> <span class="nn">core.selector</span> <span class="kn">import</span> <span class="n">Elitist</span><span class="p">,</span> <span class="n">SimpleSelector</span><span class="p">,</span> <span class="n">TournamentSelector</span>
 <span class="kn">from</span> <span class="nn">core.variator</span> <span class="kn">import</span> <span class="n">Variator</span>
-<span class="kn">from</span> <span class="nn">core.controller</span> <span class="kn">import</span> <span class="n">Controller</span>
-<span class="kn">from</span> <span class="nn">core.selector</span> <span class="kn">import</span> <span class="n">Elitist</span>
-<span class="kn">from</span> <span class="nn">core.selector</span> <span class="kn">import</span> <span class="n">SimpleSelector</span>
-<span class="kn">from</span> <span class="nn">core.selector</span> <span class="kn">import</span> <span class="n">TournamentSelector</span>
 
 
 <div class="viewcode-block" id="IllegalVariation">
 <a class="viewcode-back" href="../../evolvables.html#evolvables.main.IllegalVariation">[docs]</a>
 <span class="k">class</span> <span class="nc">IllegalVariation</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="IllegalVariation.__init__">
+<a class="viewcode-back" href="../../evolvables.html#evolvables.main.IllegalVariation.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Given index out of bound!&quot;</span><span class="p">)</span></div>
+</div>
 
 
-<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Genome</span><span class="p">)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Individual</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Binary">
 <a class="viewcode-back" href="../../evolvables.html#evolvables.main.Binary">[docs]</a>
-<span class="k">class</span> <span class="nc">Binary</span><span class="p">(</span><span class="n">Genome</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+<span class="k">class</span> <span class="nc">Binary</span><span class="p">(</span><span class="n">Individual</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+<div class="viewcode-block" id="Binary.__init__">
+<a class="viewcode-back" href="../../evolvables.html#evolvables.main.Binary.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">len</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="nb">len</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">value</span></div>
+
     
     <span class="k">def</span> <span class="nf">_assert_index_is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">pos</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">:</span>
@@ -142,8 +179,11 @@
 <div class="viewcode-block" id="RandomBitMutator">
 <a class="viewcode-back" href="../../evolvables.html#evolvables.main.RandomBitMutator">[docs]</a>
 <span class="k">class</span> <span class="nc">RandomBitMutator</span><span class="p">(</span><span class="n">Variator</span><span class="p">[</span><span class="n">Binary</span><span class="p">]):</span>
+<div class="viewcode-block" id="RandomBitMutator.__init__">
+<a class="viewcode-back" href="../../evolvables.html#evolvables.main.RandomBitMutator.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span> <span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="RandomBitMutator.vary">
 <a class="viewcode-back" href="../../evolvables.html#evolvables.main.RandomBitMutator.vary">[docs]</a>
@@ -159,80 +199,76 @@
 </div>
 
 
-<span class="n">init_pop</span> <span class="o">=</span> <span class="n">Population</span><span class="p">[</span><span class="n">Binary</span><span class="p">]()</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">init_pop</span> <span class="o">=</span> <span class="n">Population</span><span class="p">[</span><span class="n">Binary</span><span class="p">]()</span>
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
-    <span class="n">init_pop</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Binary</span><span class="o">.</span><span class="n">create_random</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">init_pop</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Binary</span><span class="o">.</span><span class="n">create_random</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 
-<span class="n">evaluator</span> <span class="o">=</span> <span class="n">BitDistanceEvaluator</span><span class="p">()</span>
-<span class="n">pselector</span> <span class="o">=</span> <span class="n">Elitist</span><span class="p">(</span><span class="n">SimpleSelector</span><span class="p">[</span><span class="n">Binary</span><span class="p">](</span><span class="mi">10</span><span class="p">))</span>
-<span class="n">cselector</span> <span class="o">=</span> <span class="n">Elitist</span><span class="p">(</span><span class="n">SimpleSelector</span><span class="p">[</span><span class="n">Binary</span><span class="p">](</span><span class="mi">10</span><span class="p">))</span>
-<span class="n">variator</span> <span class="o">=</span> <span class="n">RandomBitMutator</span><span class="p">()</span>
+    <span class="n">evaluator</span> <span class="o">=</span> <span class="n">BitDistanceEvaluator</span><span class="p">()</span>
+    <span class="n">pselector</span> <span class="o">=</span> <span class="n">Elitist</span><span class="p">(</span><span class="n">SimpleSelector</span><span class="p">[</span><span class="n">Binary</span><span class="p">](</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">cselector</span> <span class="o">=</span> <span class="n">Elitist</span><span class="p">(</span><span class="n">SimpleSelector</span><span class="p">[</span><span class="n">Binary</span><span class="p">](</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">variator</span> <span class="o">=</span> <span class="n">RandomBitMutator</span><span class="p">()</span>
 
-<span class="n">ctrl</span> <span class="o">=</span> <span class="n">Controller</span><span class="p">[</span><span class="n">Binary</span><span class="p">]</span> <span class="p">(</span>
-    <span class="n">population</span> <span class="o">=</span> <span class="n">init_pop</span><span class="p">,</span>
-    <span class="n">evaluator</span> <span class="o">=</span> <span class="n">evaluator</span><span class="p">,</span>
-    <span class="n">variator</span> <span class="o">=</span> <span class="n">variator</span><span class="p">,</span>
-    <span class="n">offspring_selector</span> <span class="o">=</span> <span class="n">pselector</span><span class="p">,</span>
-    <span class="n">parent_selector</span> <span class="o">=</span> <span class="n">cselector</span>
-<span class="p">)</span>
+    <span class="n">ctrl</span> <span class="o">=</span> <span class="n">LinearController</span><span class="p">[</span><span class="n">Binary</span><span class="p">]</span> <span class="p">(</span>
+        <span class="n">population</span> <span class="o">=</span> <span class="n">init_pop</span><span class="p">,</span>
+        <span class="n">parent_evaluator</span> <span class="o">=</span> <span class="n">evaluator</span><span class="p">,</span>
+        <span class="n">parent_selector</span> <span class="o">=</span> <span class="n">pselector</span><span class="p">,</span>
+        <span class="n">variator</span> <span class="o">=</span> <span class="n">variator</span><span class="p">,</span>
+        <span class="n">survivor_evaluator</span> <span class="o">=</span> <span class="n">evaluator</span><span class="p">,</span>
+        <span class="n">survivor_selector</span> <span class="o">=</span> <span class="n">cselector</span><span class="p">,</span>
+    <span class="p">)</span>
 
-<span class="n">dicts</span> <span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span><span class="o">=</span> <span class="p">{}</span>
+    <span class="n">dicts</span> <span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span><span class="o">=</span> <span class="p">{}</span>
 
-<span class="kn">from</span> <span class="nn">core.accountant</span> <span class="kn">import</span> <span class="n">Accountant</span>
-<span class="kn">from</span> <span class="nn">core.controller</span> <span class="kn">import</span> <span class="n">ControllerEvent</span>
-
-<span class="n">acc</span> <span class="o">=</span> <span class="n">Accountant</span><span class="p">({</span><span class="n">ControllerEvent</span><span class="o">.</span><span class="n">GENERATION_BEGIN</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">population</span><span class="p">)})</span>
-
-<span class="n">ctrl</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">acc</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">core.accountant</span> <span class="kn">import</span> <span class="n">Accountant</span>
 
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
-    <span class="n">ctrl</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-    <span class="n">dicts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">population</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">score</span>
+    <span class="c1"># Ignore type checking. Because `Accountant` is defined for the</span>
+    <span class="c1">#       `Controller` class, which does not necessarily have one</span>
+    <span class="c1">#       `population`, type checkers report error on this line.\</span>
+    <span class="c1"># Because an LinearController is registered with this `Accountant`,</span>
+    <span class="c1">#       we can be _somewhat_ sure that the accountant&#39;s suject has</span>
+    <span class="c1">#       a `.population`.</span>
+    <span class="c1">#       </span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">Accountant</span><span class="p">({</span><span class="s2">&quot;GENERATION_BEGIN&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">population</span><span class="p">)})</span> <span class="c1"># type:ignore</span>
 
-<span class="nb">print</span> <span class="p">(</span><span class="n">dicts</span><span class="p">)</span>
+    <span class="n">ctrl</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">acc</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">acc</span><span class="o">.</span><span class="n">publish</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
+        <span class="n">ctrl</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">dicts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">population</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">score</span>
+
+    <span class="nb">print</span> <span class="p">(</span><span class="n">dicts</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">acc</span><span class="o">.</span><span class="n">publish</span><span class="p">())</span>
 </pre></div>
 
-            <div class="clearer"></div>
+           </div>
           </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Yiding Li.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<search id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</search>
-<script>document.getElementById('searchbox').style.display = "block"</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Evoframe  documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">evolvables.main</a></li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
-    &#169; Copyright 2024, Yiding Li.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
-    </div>
-  </body>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
 </html>
