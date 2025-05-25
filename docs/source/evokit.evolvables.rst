@@ -12,10 +12,26 @@ evokit.evolvables.binstring module
    :undoc-members:
    :show-inheritance:
 
+evokit.evolvables.funcs module
+------------------------------
+
+.. automodule:: evokit.evolvables.funcs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 evokit.evolvables.gp module
 ---------------------------
 
 .. automodule:: evokit.evolvables.gp
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+evokit.evolvables.gp\_visualiser module
+---------------------------------------
+
+.. automodule:: evokit.evolvables.gp_visualiser
    :members:
    :undoc-members:
    :show-inheritance:

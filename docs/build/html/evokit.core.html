@@ -266,6 +266,35 @@ collects data from this Controller.</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="evokit.core.controller.SimpleLinearController">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.core.controller.</span></span><span class="sig-name descname"><span class="pre">SimpleLinearController</span></span><a class="reference internal" href="_modules/evokit/core/controller.html#SimpleLinearController"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.controller.SimpleLinearController" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#evokit.core.controller.Controller" title="evokit.core.controller.Controller"><code class="xref py py-class docutils literal notranslate"><span class="pre">Controller</span></code></a></p>
+<p>A very simple evolutionary algorithm.</p>
+<p>An evolutionary algorithm that maintains one population and does not
+take advantage of parallelism. The algorithm applies its operators
+in the following order:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p><strong>evaluate</strong> for selection</p></li>
+<li><p><strong>selection</strong></p></li>
+<li><p><em>update population</em></p></li>
+<li><p><strong>vary</strong> parents</p></li>
+<li><p><em>update population</em></p></li>
+</ol>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="evokit.core.controller.SimpleLinearController.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evokit.core.population.Population" title="evokit.core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evokit.core.evaluator.Evaluator" title="evokit.core.evaluator.Evaluator"><span class="pre">Evaluator</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evokit.core.selector.Selector" title="evokit.core.selector.Selector"><span class="pre">Selector</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evokit.core.variator.Variator" title="evokit.core.variator.Variator"><span class="pre">Variator</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/evokit/core/controller.html#SimpleLinearController.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.controller.SimpleLinearController.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evokit.core.controller.SimpleLinearController.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/evokit/core/controller.html#SimpleLinearController.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.controller.SimpleLinearController.step" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="evokit.core.controller.LinearController">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.core.controller.</span></span><span class="sig-name descname"><span class="pre">LinearController</span></span><a class="reference internal" href="_modules/evokit/core/controller.html#LinearController"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.controller.LinearController" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#evokit.core.controller.Controller" title="evokit.core.controller.Controller"><code class="xref py py-class docutils literal notranslate"><span class="pre">Controller</span></code></a></p>
@@ -360,6 +389,17 @@ require access to the entire population.</p>
 item has the highest fitness.</p>
 </div>
 </dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evokit.core.evaluator.NullEvaluator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.core.evaluator.</span></span><span class="sig-name descname"><span class="pre">NullEvaluator</span></span><a class="reference internal" href="_modules/evokit/core/evaluator.html#NullEvaluator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.evaluator.NullEvaluator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#evokit.core.evaluator.Evaluator" title="evokit.core.evaluator.Evaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Evaluator</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="evokit.core.evaluator.NullEvaluator.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/evokit/core/evaluator.html#NullEvaluator.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.evaluator.NullEvaluator.evaluate" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -746,14 +786,22 @@ the current elite to the results.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.core.variator.</span></span><span class="sig-name descname"><span class="pre">Variator</span></span><a class="reference internal" href="_modules/evokit/core/variator.html#Variator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.variator.Variator" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">D</span></code>]</p>
 <dl class="py method">
+<dt class="sig sig-object py" id="evokit.core.variator.Variator.__new__">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Self</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="_modules/evokit/core/variator.html#Variator.__new__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.variator.Variator.__new__" title="Link to this definition"></a></dt>
+<dd><p>Machinery. Implement managed attributes.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="evokit.core.variator.Variator.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coarity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/evokit/core/variator.html#Variator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.variator.Variator.__init__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/evokit/core/variator.html#Variator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.variator.Variator.__init__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="evokit.core.variator.Variator.vary">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/evokit/core/variator.html#Variator.vary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.variator.Variator.vary" title="Link to this definition"></a></dt>
-<dd><p>Appy the variator to a tuple of parents</p>
+<dd><p>Apply the variator to a tuple of parents</p>
 <p>Produce a tuple of individuals from a tuple of individuals.
 The input and output tuple sizes should match the arity and coarity of
 this selector, respectively.
@@ -768,18 +816,18 @@ Implementation note: clear the score first.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="evokit.core.variator.DefaultVariator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.core.variator.</span></span><span class="sig-name descname"><span class="pre">DefaultVariator</span></span><a class="reference internal" href="_modules/evokit/core/variator.html#DefaultVariator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.variator.DefaultVariator" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="evokit.core.variator.NullVariator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evokit.core.variator.</span></span><span class="sig-name descname"><span class="pre">NullVariator</span></span><a class="reference internal" href="_modules/evokit/core/variator.html#NullVariator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.variator.NullVariator" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#evokit.core.variator.Variator" title="evokit.core.variator.Variator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variator</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">D</span></code>]</p>
 <p>Variator that does not change anything</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="evokit.core.variator.DefaultVariator.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/evokit/core/variator.html#DefaultVariator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.variator.DefaultVariator.__init__" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="evokit.core.variator.NullVariator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/evokit/core/variator.html#NullVariator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.variator.NullVariator.__init__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="evokit.core.variator.DefaultVariator.vary">
-<span class="sig-name descname"><span class="pre">vary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/evokit/core/variator.html#DefaultVariator.vary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.variator.DefaultVariator.vary" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="evokit.core.variator.NullVariator.vary">
+<span class="sig-name descname"><span class="pre">vary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/evokit/core/variator.html#NullVariator.vary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.variator.NullVariator.vary" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>

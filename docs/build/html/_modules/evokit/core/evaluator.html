@@ -18,6 +18,7 @@
         <script src="../../../_static/documentation_options.js?v=92c5c9a7"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -45,6 +46,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">evokit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/introduction.html">Introduction</a></li>
 </ul>
 
         </div>
@@ -77,6 +79,8 @@
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">TypeVar</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">override</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 
 <span class="kn">from</span> <span class="nn">.population</span> <span class="kn">import</span> <span class="n">Individual</span>
 
@@ -109,7 +113,7 @@
             <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Evaluator</span><span class="p">,</span> <span class="n">individual</span><span class="p">:</span> <span class="n">Individual</span><span class="p">,</span>
                         <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">individual</span><span class="p">,</span> <span class="n">Individual</span><span class="p">):</span>
-                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Evaluator is not an individual&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The input is not an individual&quot;</span><span class="p">)</span>
                 <span class="c1"># If :attr:`retain_fitness` and the individual is scored, then</span>
                 <span class="c1">#   return that score. Otherwise, evaluate the individual.</span>
                 <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">retain_fitness</span> <span class="ow">and</span> <span class="n">individual</span><span class="o">.</span><span class="n">has_fitness</span><span class="p">()):</span>
@@ -131,6 +135,8 @@
 
 <span class="sd">    Derive this class to create custom evaluators.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Evaluator.__new__">
+<a class="viewcode-back" href="../../../evokit.core.html#evokit.core.evaluator.Evaluator.__new__">[docs]</a>
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Machinery. Implement managed attributes.</span>
 
@@ -138,7 +144,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
         <span class="n">instance</span><span class="o">.</span><span class="n">retain_fitness</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="n">instance</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
 
 <div class="viewcode-block" id="Evaluator.__init__">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.evaluator.Evaluator.__init__">[docs]</a>
@@ -189,6 +196,17 @@
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pop</span><span class="p">:</span>
             <span class="n">x</span><span class="o">.</span><span class="n">fitness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">pop</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span></div>
+</div>
+
+
+<div class="viewcode-block" id="NullEvaluator">
+<a class="viewcode-back" href="../../../evokit.core.html#evokit.core.evaluator.NullEvaluator">[docs]</a>
+<span class="k">class</span> <span class="nc">NullEvaluator</span><span class="p">(</span><span class="n">Evaluator</span><span class="p">[</span><span class="n">Any</span><span class="p">]):</span>
+<div class="viewcode-block" id="NullEvaluator.evaluate">
+<a class="viewcode-back" href="../../../evokit.core.html#evokit.core.evaluator.NullEvaluator.evaluate">[docs]</a>
+    <span class="nd">@override</span>
+    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span></div>
 </div>
 
 </pre></div>

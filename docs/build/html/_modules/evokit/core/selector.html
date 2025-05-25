@@ -18,6 +18,7 @@
         <script src="../../../_static/documentation_options.js?v=92c5c9a7"></script>
         <script src="../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -45,6 +46,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">evokit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/introduction.html">Introduction</a></li>
 </ul>
 
         </div>
@@ -382,22 +384,37 @@
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="c1"># Define an attribute that retains the best individual.</span>
             <span class="c1">#   Avoid name collision.</span>
-            <span class="n">UBER_SECRET_BEST_INDIVIDIAUL_NAME</span> <span class="o">=</span> <span class="s2">&quot;__best_individual&quot;</span>
+            
 
-            <span class="c1"># If the ``UBER_SECRET_BEST_INDIVIDIAUL_NAME`` has not been set, set it.</span>
-            <span class="c1"># Then, collect the best individual from the population, make a copy of</span>
-            <span class="c1">#   it.</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">UBER_SECRET_BEST_INDIVIDIAUL_NAME</span><span class="p">):</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">UBER_SECRET_BEST_INDIVIDIAUL_NAME</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            
+            <span class="n">population_best</span><span class="p">:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">population</span><span class="o">.</span><span class="n">best</span><span class="p">()</span>
+            <span class="n">my_best</span><span class="p">:</span> <span class="n">D</span>
+            
+            <span class="c1"># Monkey-patch an attribute onto the selector. If the </span>
+            <span class="c1"># Current name is taken from a randomly generated SSH pubkey.</span>
+            <span class="c1">#   Nobody else will use a name *this* absurd.</span>
+            <span class="n">UBER_SECRET_BEST_INDIVIDUAL_NAME</span> <span class="o">=</span> <span class="s2">&quot;___g1AfoA2NMh8ZZCmRJbwFcne4jS1f3Y2TRPIvBmVXQP&quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">UBER_SECRET_BEST_INDIVIDUAL_NAME</span><span class="p">):</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">UBER_SECRET_BEST_INDIVIDUAL_NAME</span><span class="p">,</span> <span class="n">population_best</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
 
-            <span class="n">best_individual</span><span class="p">:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">population</span><span class="o">.</span><span class="n">best</span><span class="p">()</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">hof_individual</span><span class="p">:</span> <span class="n">D</span>
+            <span class="n">my_best</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">UBER_SECRET_BEST_INDIVIDUAL_NAME</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">my_best</span><span class="o">.</span><span class="n">fitness</span> <span class="o">&gt;</span> <span class="n">population_best</span><span class="o">.</span><span class="n">fitness</span><span class="p">:</span>
+                <span class="n">hof_individual</span> <span class="o">=</span> <span class="n">my_best</span>
+                <span class="c1">#print(&quot;use my best&quot;, end=&quot;&quot;)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">hof_individual</span> <span class="o">=</span> <span class="n">population_best</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">UBER_SECRET_BEST_INDIVIDUAL_NAME</span><span class="p">,</span> <span class="n">population_best</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+                <span class="c1">#print(&quot;use population best&quot;, end=&quot;&quot;)</span>
+            <span class="c1">#print(f&quot;, {str(hof_individual)}score is m{my_best.fitness} &gt; p{population_best.fitness}&quot;)</span>
 
             <span class="c1"># Acquire results of the original selector</span>
             <span class="n">results</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">D</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> \
                 <span class="n">original_select_to_many</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">population</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
             <span class="c1"># Append the best individual to results</span>
-            <span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="n">results</span><span class="p">,</span> <span class="n">best_individual</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="n">results</span><span class="p">,</span> <span class="n">hof_individual</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
         <span class="k">return</span> <span class="n">wrapper</span>
 
     <span class="nb">setattr</span><span class="p">(</span><span class="n">sel</span><span class="p">,</span> <span class="s1">&#39;select_to_many&#39;</span><span class="p">,</span>

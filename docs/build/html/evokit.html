@@ -124,6 +124,11 @@
 <li class="toctree-l4"><a class="reference internal" href="evokit.core.html#evokit.core.controller.Controller.update"><code class="docutils literal notranslate"><span class="pre">Controller.update()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="evokit.core.html#evokit.core.controller.SimpleLinearController"><code class="docutils literal notranslate"><span class="pre">SimpleLinearController</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="evokit.core.html#evokit.core.controller.SimpleLinearController.__init__"><code class="docutils literal notranslate"><span class="pre">SimpleLinearController.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="evokit.core.html#evokit.core.controller.SimpleLinearController.step"><code class="docutils literal notranslate"><span class="pre">SimpleLinearController.step()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="evokit.core.html#evokit.core.controller.LinearController"><code class="docutils literal notranslate"><span class="pre">LinearController</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="evokit.core.html#evokit.core.controller.LinearController.__init__"><code class="docutils literal notranslate"><span class="pre">LinearController.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="evokit.core.html#evokit.core.controller.LinearController.step"><code class="docutils literal notranslate"><span class="pre">LinearController.step()</span></code></a></li>
@@ -138,6 +143,10 @@
 <li class="toctree-l4"><a class="reference internal" href="evokit.core.html#evokit.core.evaluator.Evaluator.retain_fitness"><code class="docutils literal notranslate"><span class="pre">Evaluator.retain_fitness</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="evokit.core.html#evokit.core.evaluator.Evaluator.evaluate"><code class="docutils literal notranslate"><span class="pre">Evaluator.evaluate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="evokit.core.html#evokit.core.evaluator.Evaluator.evaluate_population"><code class="docutils literal notranslate"><span class="pre">Evaluator.evaluate_population()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="evokit.core.html#evokit.core.evaluator.NullEvaluator"><code class="docutils literal notranslate"><span class="pre">NullEvaluator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="evokit.core.html#evokit.core.evaluator.NullEvaluator.evaluate"><code class="docutils literal notranslate"><span class="pre">NullEvaluator.evaluate()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -204,14 +213,15 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="evokit.core.html#module-evokit.core.variator">evokit.core.variator module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="evokit.core.html#evokit.core.variator.Variator"><code class="docutils literal notranslate"><span class="pre">Variator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="evokit.core.html#evokit.core.variator.Variator.__new__"><code class="docutils literal notranslate"><span class="pre">Variator.__new__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="evokit.core.html#evokit.core.variator.Variator.__init__"><code class="docutils literal notranslate"><span class="pre">Variator.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="evokit.core.html#evokit.core.variator.Variator.vary"><code class="docutils literal notranslate"><span class="pre">Variator.vary()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="evokit.core.html#evokit.core.variator.Variator.vary_population"><code class="docutils literal notranslate"><span class="pre">Variator.vary_population()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="evokit.core.html#evokit.core.variator.DefaultVariator"><code class="docutils literal notranslate"><span class="pre">DefaultVariator</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="evokit.core.html#evokit.core.variator.DefaultVariator.__init__"><code class="docutils literal notranslate"><span class="pre">DefaultVariator.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="evokit.core.html#evokit.core.variator.DefaultVariator.vary"><code class="docutils literal notranslate"><span class="pre">DefaultVariator.vary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="evokit.core.html#evokit.core.variator.NullVariator"><code class="docutils literal notranslate"><span class="pre">NullVariator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="evokit.core.html#evokit.core.variator.NullVariator.__init__"><code class="docutils literal notranslate"><span class="pre">NullVariator.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="evokit.core.html#evokit.core.variator.NullVariator.vary"><code class="docutils literal notranslate"><span class="pre">NullVariator.vary()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -245,69 +255,62 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="evokit.evolvables.html#module-evokit.evolvables.gp">evokit.evolvables.gp module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ArityMismatch"><code class="docutils literal notranslate"><span class="pre">ArityMismatch</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ArityMismatch.__init__"><code class="docutils literal notranslate"><span class="pre">ArityMismatch.__init__()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="evokit.evolvables.html#module-evokit.evolvables.funcs">evokit.evolvables.funcs module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.funcs.sin"><code class="docutils literal notranslate"><span class="pre">sin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.funcs.cos"><code class="docutils literal notranslate"><span class="pre">cos()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.funcs.tan"><code class="docutils literal notranslate"><span class="pre">tan()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.funcs.add"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.funcs.sub"><code class="docutils literal notranslate"><span class="pre">sub()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.funcs.mul"><code class="docutils literal notranslate"><span class="pre">mul()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.funcs.div"><code class="docutils literal notranslate"><span class="pre">div()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.funcs.avg"><code class="docutils literal notranslate"><span class="pre">avg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.funcs.lim"><code class="docutils literal notranslate"><span class="pre">lim()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="evokit.evolvables.html#module-evokit.evolvables.gp">evokit.evolvables.gp module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.Expression"><code class="docutils literal notranslate"><span class="pre">Expression</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.Expression.__init__"><code class="docutils literal notranslate"><span class="pre">Expression.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.Expression.evaluate"><code class="docutils literal notranslate"><span class="pre">Expression.evaluate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.Expression.factory"><code class="docutils literal notranslate"><span class="pre">Expression.factory</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.Expression.__call__"><code class="docutils literal notranslate"><span class="pre">Expression.__call__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.Expression.copy"><code class="docutils literal notranslate"><span class="pre">Expression.copy()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.Expression.nodes"><code class="docutils literal notranslate"><span class="pre">Expression.nodes()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.Symbol"><code class="docutils literal notranslate"><span class="pre">Symbol</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.Symbol.__init__"><code class="docutils literal notranslate"><span class="pre">Symbol.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.Symbol.pos"><code class="docutils literal notranslate"><span class="pre">Symbol.pos</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ExpressionFactory"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ExpressionFactory.__init__"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ExpressionFactory.build"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory.build()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ExpressionFactory.over_budget"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory.over_budget()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ExpressionFactory.cost_budget"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory.cost_budget()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ExpressionFactory.poll_function"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory.poll_function()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ExpressionFactory.poll_arity"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory.poll_arity()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.BadSymbolError"><code class="docutils literal notranslate"><span class="pre">BadSymbolError</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.BadSymbolError.__init__"><code class="docutils literal notranslate"><span class="pre">BadSymbolError.__init__()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.Symbol"><code class="docutils literal notranslate"><span class="pre">Symbol</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.Symbol.__init__"><code class="docutils literal notranslate"><span class="pre">Symbol.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.Symbol.assign"><code class="docutils literal notranslate"><span class="pre">Symbol.assign()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ProgramFactory"><code class="docutils literal notranslate"><span class="pre">ProgramFactory</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ProgramFactory.__init__"><code class="docutils literal notranslate"><span class="pre">ProgramFactory.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ProgramFactory.next_symbol_name"><code class="docutils literal notranslate"><span class="pre">ProgramFactory.next_symbol_name()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ProgramFactory.deposit_symbol"><code class="docutils literal notranslate"><span class="pre">ProgramFactory.deposit_symbol()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ProgramFactory.next_symbol"><code class="docutils literal notranslate"><span class="pre">ProgramFactory.next_symbol()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ProgramFactory.build"><code class="docutils literal notranslate"><span class="pre">ProgramFactory.build()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ProgramArityMismatchError"><code class="docutils literal notranslate"><span class="pre">ProgramArityMismatchError</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ProgramArityMismatchError.__init__"><code class="docutils literal notranslate"><span class="pre">ProgramArityMismatchError.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ExpressionFactory.draw_primitive"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory.draw_primitive()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ExpressionFactory.primitive_by_arity"><code class="docutils literal notranslate"><span class="pre">ExpressionFactory.primitive_by_arity()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.Program"><code class="docutils literal notranslate"><span class="pre">Program</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.Program.__init__"><code class="docutils literal notranslate"><span class="pre">Program.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.Program.evaluate"><code class="docutils literal notranslate"><span class="pre">Program.evaluate()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.Program.nodes"><code class="docutils literal notranslate"><span class="pre">Program.nodes()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.Program.copy"><code class="docutils literal notranslate"><span class="pre">Program.copy()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.sin"><code class="docutils literal notranslate"><span class="pre">sin()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.cos"><code class="docutils literal notranslate"><span class="pre">cos()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.tan"><code class="docutils literal notranslate"><span class="pre">tan()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.add"><code class="docutils literal notranslate"><span class="pre">add()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.sub"><code class="docutils literal notranslate"><span class="pre">sub()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.mul"><code class="docutils literal notranslate"><span class="pre">mul()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.div"><code class="docutils literal notranslate"><span class="pre">div()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.avg"><code class="docutils literal notranslate"><span class="pre">avg()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.lim"><code class="docutils literal notranslate"><span class="pre">lim()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ProgramCrossoverVariator"><code class="docutils literal notranslate"><span class="pre">ProgramCrossoverVariator</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ProgramCrossoverVariator.vary"><code class="docutils literal notranslate"><span class="pre">ProgramCrossoverVariator.vary()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ProgramCrossoverVariator.crossover"><code class="docutils literal notranslate"><span class="pre">ProgramCrossoverVariator.crossover()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ProgramCrossoverVariator.mutate"><code class="docutils literal notranslate"><span class="pre">ProgramCrossoverVariator.mutate()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ProgramCrossoverVariator.swap_children"><code class="docutils literal notranslate"><span class="pre">ProgramCrossoverVariator.swap_children()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ProgramFactory"><code class="docutils literal notranslate"><span class="pre">ProgramFactory</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ProgramFactory.__init__"><code class="docutils literal notranslate"><span class="pre">ProgramFactory.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.ProgramFactory.build"><code class="docutils literal notranslate"><span class="pre">ProgramFactory.build()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.CrossoverSubtree"><code class="docutils literal notranslate"><span class="pre">CrossoverSubtree</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.CrossoverSubtree.__init__"><code class="docutils literal notranslate"><span class="pre">CrossoverSubtree.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.CrossoverSubtree.vary"><code class="docutils literal notranslate"><span class="pre">CrossoverSubtree.vary()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.MutateNode"><code class="docutils literal notranslate"><span class="pre">MutateNode</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.MutateNode.__init__"><code class="docutils literal notranslate"><span class="pre">MutateNode.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.MutateNode.vary"><code class="docutils literal notranslate"><span class="pre">MutateNode.vary()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.MutateSubtree"><code class="docutils literal notranslate"><span class="pre">MutateSubtree</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.MutateSubtree.__init__"><code class="docutils literal notranslate"><span class="pre">MutateSubtree.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.MutateSubtree.vary"><code class="docutils literal notranslate"><span class="pre">MutateSubtree.vary()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.SymbolicEvaluator"><code class="docutils literal notranslate"><span class="pre">SymbolicEvaluator</span></code></a><ul>
@@ -315,13 +318,17 @@
 <li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.SymbolicEvaluator.evaluate"><code class="docutils literal notranslate"><span class="pre">SymbolicEvaluator.evaluate()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.GymEvaluator"><code class="docutils literal notranslate"><span class="pre">GymEvaluator</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.GymEvaluator.__init__"><code class="docutils literal notranslate"><span class="pre">GymEvaluator.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.GymEvaluator.evaluate"><code class="docutils literal notranslate"><span class="pre">GymEvaluator.evaluate()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.GymEvaluator.evaluate_episode"><code class="docutils literal notranslate"><span class="pre">GymEvaluator.evaluate_episode()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.GymEvaluator.evaluate_step"><code class="docutils literal notranslate"><span class="pre">GymEvaluator.evaluate_step()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.PenaliseNodeCount"><code class="docutils literal notranslate"><span class="pre">PenaliseNodeCount</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.PenaliseNodeCount.__init__"><code class="docutils literal notranslate"><span class="pre">PenaliseNodeCount.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp.PenaliseNodeCount.evaluate"><code class="docutils literal notranslate"><span class="pre">PenaliseNodeCount.evaluate()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="evokit.evolvables.html#module-evokit.evolvables.gp_visualiser">evokit.evolvables.gp_visualiser module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp_visualiser.dispatch_ident"><code class="docutils literal notranslate"><span class="pre">dispatch_ident()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp_visualiser.p2dot"><code class="docutils literal notranslate"><span class="pre">p2dot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="evokit.evolvables.html#evokit.evolvables.gp_visualiser.p2dot_recurse"><code class="docutils literal notranslate"><span class="pre">p2dot_recurse()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="evokit.evolvables.html#module-evokit.evolvables">Module contents</a></li>
