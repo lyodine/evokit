@@ -24,14 +24,14 @@ class MetaEvaluator(ABCMeta):
     :meta private:
     """
     def __new__(mcls: Type, name: str, bases: Tuple[type],
-                namespace: Dict[str, Any]) -> Type:
+                namespace: Dict[str, Any]) -> Any: # BAD
         ABCMeta.__init__(mcls, name, bases, namespace)
         # TODO This classifies as metaclass abuse. Though, I find it reasonable to
         #   leave the machinery to the background, so that the user can have 
         #   an easier time extending the framework.
-        def wrap_function(custom_evaluate: Callable) -> Callable:
+        def wrap_function(custom_evaluate: Callable[[Any, Any], float]) -> Callable:
             @wraps(custom_evaluate)
-            def wrapper(self: Evaluator, individual: Individual, *args, **kwargs) -> float:
+            def wrapper(self: Evaluator, individual: Individual, *args: Any, **kwargs: Any) -> float:
                 if not isinstance(individual, Individual):
                     raise TypeError("Evaluator is not an individual")
                 # If :attr:`retain_fitness` and the individual is scored, then
@@ -53,7 +53,7 @@ class Evaluator(ABC, Generic[T], metaclass=MetaEvaluator):
 
     Derive this class to create custom evaluators.
     """
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args: Any, **kwargs: Any)-> Self:
         """Machinery. Implement managed attributes.
 
         :meta private:
@@ -69,7 +69,7 @@ class Evaluator(ABC, Generic[T], metaclass=MetaEvaluator):
         """
 
     @abstractmethod
-    def evaluate(self: Self, individual: T) -> float:
+    def evaluate(self: Self, individual: Individual[T]) -> float:
         """Evaluation strategy.
 
         Subclasses should override this method.

@@ -7,7 +7,12 @@ if TYPE_CHECKING:
     from typing import List
     from typing import Optional
     from typing import Self
+    from typing import Any
+    from typing import Protocol
+    from collections.abc import Callable
+
 from typing import override
+from functools import wraps
 
 from abc import ABC, abstractmethod
 from types import MethodType
@@ -54,7 +59,7 @@ class Selector(ABC, Generic[T]):
             new_population.append(x)
         return new_population
 
-    def select_to_many(self, population: Population[T]) -> Tuple[T, ...]:
+    def select_to_many(self, population: Population[T]) -> Tuple[Individual[T], ...]:
         """Context of :attr:`select`.
 
         Repeatedly apply select() to create a collection of solutions. Each
@@ -76,7 +81,7 @@ class Selector(ABC, Generic[T]):
         # TODO This method destroys the original population (by calling .draw).
         #   Should I let it retain the original population?
 
-        return_list: List[T] = []
+        return_list: List[Individual[T]] = []
         old_population: Population[T] = population
 
         # Determine the appropriate budget.
@@ -97,7 +102,7 @@ class Selector(ABC, Generic[T]):
 
     @abstractmethod
     def select(self,
-               population: Population[T]) -> Tuple[T, ...]:
+               population: Population[T]) -> Tuple[Individual[T], ...]:
         """Selection strategy.
 
         All subclasses should override this method. The implementation should
@@ -118,7 +123,7 @@ class NullSelector(Selector[T]):
 
     """
     @override
-    def select_to_many(self, population: Population[T]) -> Tuple[T, ...]:
+    def select_to_many(self, population: Population[T]) -> Tuple[Individual[T], ...]:
         """Select every item in the population.
         """
         return tuple(x for x in population)
@@ -134,7 +139,7 @@ class SimpleSelector(Selector[T]):
         super().__init__(budget)
 
     def select(self,
-               population: Population[T]) -> Tuple[T]:
+               population: Population[T]) -> Tuple[Individual[T]]:
         """Greedy selection.
 
         Select the item in the population with highest fitness.
@@ -154,17 +159,17 @@ class ElitistSimpleSelector(SimpleSelector[T]):
     @override
     def __init__(self: Self, budget: int):
         super().__init__(budget-1)
-        self.best_individual: Optional[T] = None
+        self.best_individual: Optional[Individual[T]] = None
 
     @override
-    def select_to_many(self, population: Population[T]) -> Tuple[T, ...]:
+    def select_to_many(self, population: Population[T]) -> Tuple[Individual[T], ...]:
         """Context that implements elitism.
 
         Preserve and update an elite. Each time the selector is used, insert
         the current elite to the results.
         """
-        results: Tuple[T, ...] = super().select_to_many(population)
-        best_individual: Optional[T] = self.best_individual
+        results: Tuple[Individual[T], ...] = super().select_to_many(population)
+        best_individual: Optional[Individual[T]] = self.best_individual
         if best_individual is None:
             best_individual = results[0]
         for x in results:
@@ -186,7 +191,7 @@ class TournamentSelector(Selector[T]):
     
     @override
     def select(self,
-               population: Population[T]) -> Tuple[T]:
+               population: Population[T]) -> Tuple[Individual[T]]:
         """Tournament selection.
 
         Select a uniform sample, then select the best member in that sample.
@@ -194,7 +199,7 @@ class TournamentSelector(Selector[T]):
         # Do not select if
         #   (a) the sample is less than bracket_size, or
         #   (b) the budget is less than bracket_size
-        sample: List[T]
+        sample: List[Individual[T]]
         if min(len(population), self.budget) < self.bracket_size:
             sample = list(population)
         else:
@@ -202,7 +207,7 @@ class TournamentSelector(Selector[T]):
         sample.sort(key=lambda x: x.fitness, reverse=True)
 
         # If nothing is selected stochastically, select the last element
-        selected_solution: T = sample[-1]
+        selected_solution: Individual[T] = sample[-1]
 
         # Select the ith element with probability p * (1-p)**i
         probability = self.probability
@@ -213,8 +218,7 @@ class TournamentSelector(Selector[T]):
 
         return (selected_solution,)
 
-
-def Elitist(sel: Selector[T]) -> Selector:  # type:ignore
+def Elitist(sel: Selector[T]) -> Selector:
     """Decorator that adds elitism to a selector.
 
     Modify `select_to_many` of `sel` to use elitism. If `sel` already
@@ -227,32 +231,34 @@ def Elitist(sel: Selector[T]) -> Selector:  # type:ignore
         A selector
     """
 
-    def select_to_many(self,
-                       population: Population[T]) -> Tuple[Individual[T], ...]:
-        """Context that implements elitism.
-        """
-        # Python magic. Since super() cannot be used in this context,
-        #   directly call select_to_many in the parent.
-        results: Tuple[Individual[T]] = self.__class__.__mro__[1].\
-            select_to_many(self, population)  # type: ignore
-        best_individual: Optional[Individual[T]] = self.best_individual
-        if best_individual is None:
-            best_individual = results[0]
-        for x in results:
-            if x.fitness > best_individual.fitness:
-                best_individual = x
-        self.best_individual = best_individual
+    def wrap_function(original_select_to_many: \
+                      Callable[[Selector[T], Population[T]],\
+                               Tuple[Individual[T], ...]]) -> Callable:
+        @wraps(original_select_to_many)
+        def wrapper(self:Selector[T], population: Population[T], *args:Any, **kwargs:Any) -> Tuple[Individual[T], ...]:
+            """Context that implements elitism.
+            """
+            # Define an attribute that retains the best individual. 
+            #   Avoid name collision.
+            UBER_SECRET_BEST_INDIVIDIAUL_NAME = "__best_individual"
+            
+            # If the ``UBER_SECRET_BEST_INDIVIDIAUL_NAME`` has not been set, set it.
+            # Then, collect the best individual from the population, make a copy of it.
+            if not hasattr(self, UBER_SECRET_BEST_INDIVIDIAUL_NAME):
+                setattr(self, UBER_SECRET_BEST_INDIVIDIAUL_NAME, None)
 
-        if self.best_individual is None:
-            return (*results,)
-        else:
+            best_individual: Individual[T] = population.best().copy()
+
+            # Acquire results of the original selector
+            results: Tuple[Individual[T], ...] = \
+                original_select_to_many(self, population, *args, **kwargs)
+
+            # Append the best individual to results
             return (*results, best_individual)
-
-    # Some say monkey patching is evil.
-    # For others, _there is no good and evil, there is only power and those
-    #   too weak to seek it.
-    #       --  J.K. Rowling, Harry Potter and the Sorcerer's Stone_
-    # This bad boy fails so many type checks.
-    setattr(sel, 'best_individual', None)
-    setattr(sel, 'select_to_many', MethodType(select_to_many, sel))
+        return wrapper
+    
+    setattr(sel, 'select_to_many', 
+            MethodType(
+                wrap_function(sel.select_to_many.__func__), #type:ignore
+                sel))
     return sel

@@ -90,7 +90,7 @@ class Accountant:
 
         :meta private:
         """
-        if self.subject == None:
+        if self.subject is None:
             raise RuntimeError("Accountant updated without a subject.")
         else:
             for trigger, action in self.handlers.items():

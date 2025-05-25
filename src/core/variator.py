@@ -26,7 +26,7 @@ class Variator(ABC, Generic[T]):
         self.coarity: Optional[int] = coarity
 
     @abstractmethod
-    def vary(self, parents: Tuple[T, ...]) -> Tuple[T, ...]:
+    def vary(self, parents: Sequence[Individual[T]]) -> Tuple[Individual[T], ...]:
         """Appy the variator to a tuple of parents
 
         Produce a tuple of individuals from a tuple of individuals.
@@ -38,12 +38,12 @@ class Variator(ABC, Generic[T]):
 
     def _group_to_parents(self,
                           population: Population[T])\
-            -> Sequence[Individual[T]]:
+            -> Sequence[Sequence[Individual[T]]]:
         """Machinery.
         """
         # Tuple magic. Zipping an iterable with itself extracts a tuple of
         #   that size. The "discarding" behaviour is implemented this way.
-        parent_groups: Sequence[int]
+        parent_groups: Sequence[Sequence[Individual[T]]]
         if self.arity is None:
             raise TypeError("Variator does not specify arity,"
                              "cannot create parent groups")
@@ -51,9 +51,9 @@ class Variator(ABC, Generic[T]):
             parent_groups = tuple(zip(*(iter(population),) * self.arity))
         return parent_groups
 
-    def vary_population(self, population: Population[T]) -> Population[T]:
+    def vary_population(self: Self, population: Population[T]) -> Population[T]:
         next_population = Population[T]()
-        parent_groups: ... = self._group_to_parents(population)
+        parent_groups: Sequence[Sequence[Individual[T]]] = self._group_to_parents(population)
         for group in parent_groups:
             results = self.vary(group)
             for individual in results:
@@ -64,12 +64,9 @@ class Variator(ABC, Generic[T]):
 class DefaultVariator(Variator[T]):
     """Variator that does not change anything
     """
-    def __init__(self):
+    def __init__(self)-> None:
         super().__init__(1, 1)
 
     @override
-    def vary(self, parents: Tuple[T, ...]) -> Tuple[T, ...]:
-        e = []
-        for x in parents:
-            e.append(x)
-        return tuple(e)
+    def vary(self, parents: Sequence[Individual[T]]) -> Tuple[Individual[T], ...]:
+        return tuple(parents)
