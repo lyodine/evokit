@@ -4,11 +4,8 @@ from typing import Optional, Tuple, TypeVar
 
 from core.controller import LinearController
 from core.evaluator import Evaluator
-from core.population import Individual
-from core.population import Population
-from core.selector import Elitist
-from core.selector import SimpleSelector
-
+from core.population import Individual, Population
+from core.selector import Elitist, SimpleSelector
 from core.variator import Variator
 
 
@@ -90,7 +87,7 @@ class RandomBitMutator(Variator[Binary]):
         newbits = parents[0].copy()
 
         for i in range(0, len(binary)):  # Somehow cannot properly implement __len__
-            if (random.random()<0.001):
+            if (random.random() < 0.001):
                 binary.toggle(i)
                 newbits.toggle(i)
         return (binary, newbits)
