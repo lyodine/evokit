@@ -27,6 +27,8 @@ class Selector(ABC, Generic[D]):
     """Base class for all selectors.
 
     Derive this class to create custom selectors.
+
+    See :doc:`../guides/examples/selector`.
     """
 
     def __init__(self: Self, budget: int):
@@ -75,12 +77,8 @@ class Selector(ABC, Generic[D]):
             A tuple of selected individuals.
 
         Effect:
-            Remove all items from the original ``population``.
+            Remove all items from ``population``.
         """
-
-        # TODO This method destroys the original population (by calling .draw).
-        #   Should I let it retain the original population?
-
         return_list: List[D] = []
         old_population: Population[D] = population
 
@@ -107,7 +105,7 @@ class Selector(ABC, Generic[D]):
 
         All subclasses should override this method. The implementation should
         return a tuple of individuals. Each item in the tuple should also
-        be a member of `population`.
+        be a member of ``population``.
 
         Args:
             population: population to select from.
@@ -120,7 +118,6 @@ class Selector(ABC, Generic[D]):
 
 class NullSelector(Selector[D]):
     """Selector that does nothing.
-
     """
     @override
     def __init__(self: Self):
@@ -139,8 +136,6 @@ class NullSelector(Selector[D]):
 
 class SimpleSelector(Selector[D]):
     """Simple selector that select the highest-fitness individual.
-
-    Example for overriding `select`.
     """
     @override
     def __init__(self: Self, budget: int):
@@ -254,15 +249,11 @@ def Elitist(sel: Selector[D]) -> Selector:
                     *args: Any, **kwargs: Any) -> Tuple[D, ...]:
             """Context that implements elitism.
             """
-            # Define an attribute that retains the best individual.
-            #   Avoid name collision.
-            
-
-            
             population_best: D = population.best()
             my_best: D
             
-            # Monkey-patch an attribute onto the selector. If the 
+            # Monkey-patch an attribute onto the selector.
+            # This attribute retains the HOF individual.
             # Current name is taken from a randomly generated SSH pubkey.
             #   Nobody else will use a name *this* absurd.
             UBER_SECRET_BEST_INDIVIDUAL_NAME = "___g1AfoA2NMh8ZZCmRJbwFcne4jS1f3Y2TRPIvBmVXQP"
@@ -274,12 +265,9 @@ def Elitist(sel: Selector[D]) -> Selector:
 
             if my_best.fitness > population_best.fitness:
                 hof_individual = my_best
-                #print("use my best", end="")
             else:
                 hof_individual = population_best
                 setattr(self, UBER_SECRET_BEST_INDIVIDUAL_NAME, population_best.copy())
-                #print("use population best", end="")
-            #print(f", {str(hof_individual)}score is m{my_best.fitness} > p{population_best.fitness}")
 
             # Acquire results of the original selector
             results: Tuple[D, ...] = \
