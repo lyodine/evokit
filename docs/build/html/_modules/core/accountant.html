@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>core.accountant &mdash; Evoframe  documentation</title>
+  <title>core.accountant &mdash; evokit  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/styles.css?v=dd041f00" />
@@ -32,7 +32,7 @@
           
           
           <a href="../../index.html" class="icon icon-home">
-            Evoframe
+            evokit
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -44,7 +44,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">src</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">evokit</a></li>
 </ul>
 
         </div>
@@ -53,7 +53,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">Evoframe</a>
+          <a href="../../index.html">evokit</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -136,8 +136,9 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">records</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AccountantRecord</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="c1"># TODO I will skip on commenting it - the handler should not be directly accessed</span>
-        <span class="c1">#   though ... should I make it possible to change the handlers once they are declared?</span>
+        <span class="c1"># TODO I will skip on commenting it - the handler should not be</span>
+        <span class="c1">#   directly accessed though ... should I make it possible to</span>
+        <span class="c1">#   change the handlers once they are declared?</span>
         <span class="c1"># Meditating on how to do it.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">handlers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Controller</span><span class="p">],</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="n">handlers</span>
 

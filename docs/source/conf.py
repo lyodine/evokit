@@ -5,7 +5,7 @@ import os
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Evoframe'
+project = 'evokit'
 copyright = '2024, Yiding Li'
 author = 'Yiding Li'
 
@@ -13,7 +13,11 @@ author = 'Yiding Li'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 # Add path to source directory
-sys.path.append(os.path.abspath(os.path.join('..', '..', 'evokit')))
+print(f"--------------------------------------------------{os.path.abspath(os.path.join('..', '..'))}---------------")
+
+sys.path.append(os.path.abspath(os.path.join('..', '..')))
+
+
 
 extensions = ['sphinx.ext.todo',
               'sphinx.ext.viewcode',
