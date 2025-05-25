@@ -58,7 +58,7 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
     :class:`AccountantRecord` s.
 
     For type checking, the :class:`Accountant` has two
-    type parameter ``C`` and `T`.
+    type parameter ``C`` and ``T``.
 
     Tutorial: :doc:`../guides/examples/accountant`.
 
