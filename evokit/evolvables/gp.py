@@ -65,7 +65,9 @@ def _get_arity(fun: Any) -> int:
 class Expression(abc.ABC, Generic[T]):
     def __init__(self: Self, arity: int)-> None:
         self.arity: int = arity
-        self.children: List[Expression[T]]
+
+        self.factory: Optional[ExpressionFactory[T]] = None
+        self._children: Optional[List[Expression[T]]] = None
 
     @abstractmethod
     def __call__(self: Self, *params: T) -> T: ...
@@ -82,46 +84,58 @@ class Expression(abc.ABC, Generic[T]):
     @abstractmethod
     def __repr__(self: Self) -> str: ...
 
+    @property
+    def children(self: Self) -> List[Expression[T]]:
+        if self._children is not None:
+            return self._children
+        else:
+            raise ValueError("Children of this expression have not been set.")
+
+    @children.setter
+    def children(self: Self, children: List[Expression[T]]) -> None:
+        self._children = children
 
 
-class ExpressionSymbol(Expression[T]):
-    def __init__(self: Self, arity: int, pos: int) -> None:
-        super().__init__(arity)
-        global _EXPR_PARAM_PREFIX
-        self.pos: int = pos
-        self.__name__: str = _EXPR_PARAM_PREFIX + str(self.pos)
+# class ExpressionSymbol(Expression[T]):
+#     def __init__(self: Self, arity: int, pos: int) -> None:
+#         super().__init__(arity)
+#         global _EXPR_PARAM_PREFIX
+#         self.pos: int = pos
+#         self.__name__: str = _EXPR_PARAM_PREFIX + str(self.pos)
 
-        #! Children of the expression node
-        self.children: List[Expression[T]] = []
+#         #! Children of the expression node
+#         self.children: List[Expression[T]] = []
 
-    @override
-    def __call__(self: Self, *args: T) -> T:
-        self_arity: int = self.arity
-        params_arity: int = len(args)
-        if (self_arity != params_arity):
-            raise ValueError(f"The expression expects "
-                             f"{self_arity} parameters, "
-                             f"{params_arity} given.")
-        return args[self.pos]
+#     @override
+#     def __call__(self: Self, *args: T) -> T:
+#         self_arity: int = self.arity
+#         params_arity: int = len(args)
+#         if (self_arity != params_arity):
+#             raise ValueError(f"The expression expects "
+#                              f"{self_arity} parameters, "
+#                              f"{params_arity} given.")
+#         return args[self.pos]
 
-    @override
-    def copy(self: Self) -> Self:
-        return self.__class__(self.pos, self.arity)
+#     @override
+#     def copy(self: Self) -> Self:
+#         new_self: Self = self.__class__(self.pos, self.arity)
+#         new_self.factory = self.factory
+#         return new_self
 
-    @override
-    def nodes(self) -> Tuple[Expression[T], ...]:
-        return ()
+#     @override
+#     def nodes(self) -> Tuple[Expression[T], ...]:
+#         return ()
 
-    @override
-    def __str__(self: Self) -> str:
-        return self.__name__
+#     @override
+#     def __str__(self: Self) -> str:
+#         return self.__name__
 
-    @override
-    def __repr__(self: Self) -> str:
-        return f"ExpressionSymbol({self.__name__})"
+#     @override
+#     def __repr__(self: Self) -> str:
+#         return f"ExpressionSymbol({self.__name__})"
 
 
-class ExpressionBranch(Expression[T]):
+class Expression(Expression[T]):
     """Recursive data structure of a program tree.
 
     An instance of this class represents an expression node. A expression node
@@ -134,16 +148,20 @@ class ExpressionBranch(Expression[T]):
         super().__init__(arity)
         #! Value of the expression node.
         self.value: T | typing.Callable[..., T] = value
-        #! Children of the expression node
-        self.children: List[Expression[T]]
         
         if children is not None:
             self.children = children
         #! Arity of the expression as a ``Callable``
         # self.arity = _get_arity(self.value)
         
-
-    def set_children(self, *children: Expression[T]) -> None:
+    @property
+    @override
+    def children(self: Self) -> List[Expression[T]]:
+        return super().children
+    
+    @children.setter
+    @override
+    def children(self: Self, children: List[Expression[T]]) -> None:
         value_arity: int = _get_arity(self.value)
         children_arity: int = len(children)
 
@@ -152,7 +170,7 @@ class ExpressionBranch(Expression[T]):
                              f"{value_arity} arguments, "
                              f"{value_arity} children defined.")
 
-        self.children = list(children)
+        self._children = children
 
     def __call__(self: Self, *args: T) -> T:
         """Evaluate the expression tree.
@@ -200,15 +218,16 @@ class ExpressionBranch(Expression[T]):
 
         new_children: List[Expression[T]] = [x.copy() for x in self.children]
 
-        return self.__class__(self.arity, new_value, new_children)
+        new_self: Self = self.__class__(self.arity, new_value, new_children)
+        return new_self
 
-    def nodes(self) -> Tuple[Expression[T], ...]:
+    def nodes(self: Self) -> Tuple[Expression[T], ...]:
         """
         TODO What? Be wary of misuse.
         """
         return (self, *(chain.from_iterable((x.nodes() for x in self.children))))
 
-    def __str__(self) -> str:
+    def __str__(self: Self) -> str:
         delimiter = ", "
 
         my_name: str = self.value.__name__\
@@ -230,7 +249,7 @@ class ExpressionBranch(Expression[T]):
     
 class Symbol():
     __slots__ = ['pos']
-    def __init__(self, pos: int):
+    def __init__(self: Self, pos: int):
         self.pos: int = pos
 
 class ExpressionFactory(Generic[T]):
@@ -239,7 +258,7 @@ class ExpressionFactory(Generic[T]):
     Receive a collection of primitives, then build :class:`Expression`
     instances whose :attr:`Expression.value` draw from this collection.
     """
-    def __init__(self, primitives: Tuple[Callable[..., T], ...], arity: int):
+    def __init__(self: Self, primitives: Tuple[Callable[..., T], ...], arity: int):
         """Mappings from arity to a list of primitives of that arity.
 
         Note that both terminals and nullary callables have arity 0.
@@ -264,17 +283,17 @@ class ExpressionFactory(Generic[T]):
             # Remember to test it
             raise ValueError("Factory is initialised with no terminal node.")
 
-    def _build_is_node_overbudget(self) -> bool:
+    def _build_is_node_overbudget(self: Self) -> bool:
         return self._temp_node_budget_used > self._temp_node_budget_cap
 
-    def _build_cost_node_budget(self, cost: int) -> None:
+    def _build_cost_node_budget(self: Self, cost: int) -> None:
         self._temp_node_budget_used += cost
 
     def _build_initialise_node_budget(self, node_budget: int) -> None:
         self._temp_node_budget_cap: int = node_budget
         self._temp_node_budget_used: int = 0
 
-    def build(self,
+    def build(self: Self,
               node_budget: int,
               layer_budget: int,
               nullary_ratio: Optional[float] = None) -> Expression:
@@ -302,7 +321,7 @@ class ExpressionFactory(Generic[T]):
 
         return self._build_recurse(layer_budget, nullary_ratio)
 
-    def _build_recurse(self,
+    def _build_recurse(self: Self,
                        layer_budget: int,
                        nullary_ratio: Optional[float] = None) -> Expression[T]:
 
@@ -315,26 +334,36 @@ class ExpressionFactory(Generic[T]):
             new_node = self.draw_node(nullary_ratio)
             if isinstance(new_node, ExpressionBranch):
                 inferred_value_arity: int = _get_arity(new_node.value)
-                new_node.set_children(
-                    *(self._build_recurse(layer_budget,nullary_ratio)
-                      for _ in range(inferred_value_arity)))
-            
+                new_node.children = [*(self._build_recurse(layer_budget-1,nullary_ratio)
+                      for _ in range(inferred_value_arity))]
             return new_node
                 
         
-    def draw_node(self,
+    def draw_node(self: Self,
                   nullary_ratio: Optional[float] = None,
                   free_draw: bool = False) -> Expression[T]:
         """
         """
         target_primitive = self.draw_primitive(nullary_ratio, free_draw)
+        return self.primitive_to_expression(target_primitive)
 
-        if isinstance(target_primitive, Symbol):
-            return ExpressionSymbol(self.arity, target_primitive.pos)
+    def draw_node_by_arity(self: Self,
+                           arity: int) -> Expression[T]:
+        """
+        """
+        target_primitive = random.choice(self.primitive_pool[arity])
+        return self.primitive_to_expression(target_primitive)
+
+    def primitive_to_expression(self: Self, primitive: T | Callable[..., T] | Symbol) -> Expression[T]:
+        expr: Expression[T]
+        if isinstance(primitive, Symbol):
+            expr = ExpressionSymbol(self.arity, primitive.pos)
         else:
-            return ExpressionBranch(self.arity, target_primitive)
+            expr = ExpressionBranch(self.arity, primitive)
+        expr.factory = self
+        return expr        
 
-    def draw_primitive(self,
+    def draw_primitive(self: Self,
                        nullary_ratio: Optional[float] = None,
                        free_draw: bool = False) -> T | Callable[..., T] | Symbol :
         
@@ -360,89 +389,140 @@ class ExpressionFactory(Generic[T]):
         return random.choice(value_pool)
 
 
-a = ExpressionSymbol(4, 0)
 
-print(a(1,2,3,4))
+
+
+class Program(Individual[Expression[T]]):
+    """
+
+    """
+    def __init__(self, expr: Expression[T]):
+        self.genome: Expression[T] = expr
+
+    def __str__(self) -> str:
+        return f"Program:{str(self.genome)}"
+
+    def copy(self) -> Self:
+        return self.__class__(self.genome.copy())
+
+
+class ProgramFactory(Generic[T]):
+    def __init__(self: Self, primitives: Tuple[Callable[..., T], ...], arity: int):
+        self.exprfactory = ExpressionFactory[T](primitives = primitives,
+                                                arity = arity)
+
+    def build(self: Self,
+              node_budget: int,
+              layer_budget: int,
+              nullary_ratio: Optional[float] = None) -> Program:
+        # new_deposit = [x.copy() for x in self.symbol_deposit]
+        return Program(self.exprfactory.build(node_budget, layer_budget, nullary_ratio))
+
+
+
+class CrossoverSubtree(Variator[Program[float]]):
+    def __init__(self, shuffle: bool = False):
+        self.arity = 1
+        self.coarity = 1
+        self.shuffle = shuffle
+
+    def vary(self,
+             parents: Sequence[Program[float]]) -> Tuple[Program[float], ...]:
+
+        root1: Program = parents[0].copy()
+        root2: Program = parents[1].copy()
+        # print(f"root 1: {str(root1)}")
+        # print(f"root 2: {str(root2)}")
+        internal_nodes_from_root_1 =\
+            tuple(x for x in root1.genome.nodes() if len(x.children) > 0)
+        internal_nodes_from_root_2 =\
+            tuple(x for x in root2.genome.nodes() if len(x.children) > 0)
+        # print(f"root 1 i.nodes: {str([str(x) for x in internal_nodes_from_root_1])}")
+        # print(f"root 2 i.nodes: {str([str(x) for x in internal_nodes_from_root_2])}")
+
+        # If both expression trees have valid internal nodes, their
+        #   children can be exchanged.
+        if (internal_nodes_from_root_1 and internal_nodes_from_root_2):
+            if (not self.shuffle):
+                self.__class__._swap_children(
+                    random.choice(internal_nodes_from_root_1),
+                    random.choice(internal_nodes_from_root_1))
+            else:
+                self.__class__._shuffle_children(
+                    random.choice(internal_nodes_from_root_1),
+                    random.choice(internal_nodes_from_root_1))
+            
+            # expression_node_from_root_1_to_swap =\
+            #     random.choice(internal_nodes_from_root_1)
+            # expression_node_from_root_2_to_swap =\
+            #     random.choice(internal_nodes_from_root_2)
+        return (root1, root2)
+            
+    @staticmethod
+    def _swap_children(expr1: Expression[float], expr2: Expression[float]) -> None:
+        """... or, shuffle_children would be a more appropriate name.
+        Randomly exchange children of two members.
+        """
+        r1_children = expr1.children
+        r2_children = expr2.children
+
+        r1_index_to_swap = random.randint(0, len(expr1.children) - 1)
+
+        r2_index_to_swap = random.randint(0, len(expr2.children) - 1)
+
+        r2_index_hold = r2_children[r2_index_to_swap].copy()
+        r2_children[r2_index_to_swap] = r1_children[r1_index_to_swap].copy()
+        r1_children[r1_index_to_swap] = r2_index_hold.copy()
+
+    @staticmethod
+    def _shuffle_children(expr1: Expression[float], expr2: Expression[float]) -> None:
+        child_nodes = list(expr1.children + expr2.children)
+        random.shuffle(child_nodes)
+
+        for i in range(0, len(expr1.children)):
+            expr1.children[i] = child_nodes[i].copy()
+
+        for i in range(-1, -(len(expr2.children) + 1), -1):
+            expr2.children[i] = child_nodes[i].copy()
+
+
+
+
 # NODE_BUDGET = 10
 # LAYER_BUDGET = 2
+# POPULATION_SIZE = 10
 
 # from .funcs import *
 
+# a = ProgramFactory[float]((add, sub, mul, div, sin, cos), 5)
 
-# a = ExpressionFactory((add, sub, mul, div, sin, cos), 5)
+# from ..core.population import Population
 
-# expr = a.build(NODE_BUDGET, LAYER_BUDGET)
-# print(expr)
-# print(expr())
-
-
-# class ProgramFactory(Generic[T]):
-#     def __init__(self, functions: Tuple[T | Callable[..., T], ...], arity):
-#         self.arity = arity
-#         self.symbol_deposit: List[Symbol] = []
-#         self._next_symbol_name_to_dispatch = 0
-
-#         for _ in range(0, arity):
-#             self.symbol_deposit.append(self._new_symbol())
-
-#         self.exprfactory = ExpressionFactory[T](functions + tuple(self.symbol_deposit))
-
-#     def _new_symbol(self) -> Symbol[T]:
-#         return Symbol(self._dispatch_symbol_name())
-
-#     def _dispatch_symbol_name(self) -> str:
-#         self._next_symbol_name_to_dispatch += 1
-#         return "s_" + str(self._next_symbol_name_to_dispatch)
-
-#     def build(self,
-#               node_budget: int,
-#               layer_budget: int,
-#               nullary_ratio: Optional[float] = None) -> Program:
-#         # new_deposit = [x.copy() for x in self.symbol_deposit]
-#         return Program(self.exprfactory.build(node_budget, layer_budget, nullary_ratio),
-#                        self.symbol_deposit,
-#                        factory = self)
-
-# # Note that programs from the same factory share the same set of argument values.
-# # This should be desirable - and well hidden - if the object is only shared by one thread.
-# # I'm not prepared to deal with concurrency.
-
-# class Program(Individual[T]):
-#     """
-
-#     """
-#     def __init__(self, expr: Expression[T], symbols: List[Symbol],
-#                  factory: ProgramFactory[T]):
-#         self.genome: Expression[T] = expr
-#         self.symbols: List[Symbol] = symbols
-#         self.factory = factory
-
-#     def evaluate_with_args(self, *args: T) -> T:
-#         expected_arity: int = len(self.symbols)
-#         parameter_arity:int = len(args)
-
-#         if (expected_arity != parameter_arity):
-#             raise TypeError(
-#                 f"The program is expecting {expected_arity} arguments,"
-#                 f"got {parameter_arity}.")
-
-#         for i in range(len(self.symbols)):
-#             self.symbols[i].assign(args[i])
-#         return self.genome.evaluate()
-
-#     def __call__(self, *args: T) -> T:
-#         return self.evaluate_with_args(*args)
-
-#     def __str__(self) -> str:
-#         return str(self.genome)
-
-#     def copy(self) -> Self:
-#         return self.__class__(self.genome.copy(),
-#                               self.symbols, ## warning!!!
-#                               factory = self.factory)
+# pop = Population[Program[float]]()
 
 
-# class ProgramCrossoverVariator(Variator[Program[float]]):
+# for x in range(POPULATION_SIZE):
+#     pop.append(a.build(NODE_BUDGET, LAYER_BUDGET,nullary_ratio=0.1))
+
+# new_pop = 
+
+
+
+
+# class CrossoverSubtree(Variator[Program[float]]):
+#     def __init__(self):
+#         self.arity = 1
+#         self.coarity = 1
+
+#     def vary(self,
+#              parents: Sequence[Program[float]]) -> Tuple[Program[float], ...]:
+
+#         root1: Program = parents[0].copy()
+#         random_node = random.choice(root1.genome.nodes())
+        
+        
+            
+# class MutateSubtree(Variator[Program[float]]):
 #     def __init__(self):
 #         self.arity = 2
 #         self.coarity = 2
@@ -484,32 +564,7 @@ print(a(1,2,3,4))
 
 #         return (root1, root2)
 
-#     @staticmethod
-#     def _swap_children(expr1: Expression[float], expr2: Expression[float]) -> None:
-#         """... or, shuffle_children would be a more appropriate name.
-#         Randomly exchange children of two members.
-#         """
-#         r1_children = expr1.children
-#         r2_children = expr2.children
 
-#         r1_index_to_swap = random.randint(0, len(expr1.children) - 1)
-
-#         r2_index_to_swap = random.randint(0, len(expr2.children) - 1)
-
-#         r2_index_hold = r2_children[r2_index_to_swap].copy()
-#         r2_children[r2_index_to_swap] = r1_children[r1_index_to_swap].copy()
-#         r1_children[r1_index_to_swap] = r2_index_hold.copy()
-
-#     @staticmethod
-#     def _shuffle_children(expr1: Expression[float], expr2: Expression[float]) -> None:
-#         child_nodes = list(expr1.children + expr2.children)
-#         random.shuffle(child_nodes)
-
-#         for i in range(0, len(expr1.children)):
-#             expr1.children[i] = child_nodes[i].copy()
-
-#         for i in range(-1, -(len(expr2.children) + 1), -1):
-#             expr2.children[i] = child_nodes[i].copy()
 
 # class ProgramNodeMutationVariator(Variator[Program[float]]):
 #     def __init__(self, mutation_rate: float, nullary_ratio = 0):
