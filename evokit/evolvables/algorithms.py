@@ -60,8 +60,7 @@ class SimpleLinearAlgorithm(Algorithm[T]):
         self.evaluator.evaluate_population(self.population)
         self.update("POST_EVALUATION")
 
-        self.population = \
-            self.selector.select_population(self.population)
+        self.population = self.selector.select_population(self.population)
         self.update("POST_SELECTION")
 
 
