@@ -22,73 +22,100 @@ R = TypeVar('R')
 class Individual(ABC, Generic[R]):
     """Base class for all individuals.
 
-    Representation of a solution.
-
-        Todo: find the right name, is it a representation, an individual,
-        a solution, a individual, or just the genotype (since it does not
-        implement a behaviour)?
+    Derive this class to create custom representations.
     """
+    def __new__(cls, *args, **kwargs):
+        """Machinery. Implement managed attributes.
+
+        :meta private:
+        """
+        instance = super().__new__(cls)
+        instance._fitness = None
+        return instance
+    
+    @abstractmethod
     def __init__(self) -> None:
-        # The individual has a score
-        self._score: Optional[float] = None
+        #: Fitness of the individual
+        self._fitness: Optional[float]
+        #: Genotype of the individual. Subclasses should store
+        #  the representation in this attribute.
+        # TODO Think about a better way to put it, "contained value"?
+        #   surely "value" is too general.
+        self.genome: Optional[R] = None
 
     @property
-    def score(self) -> float:
-        """Return the fitness that has been assigned to this individual.
+    def fitness(self) -> float:
+        """Fitness of an individual.
 
-        Raise an NullScoreException if the score has not been assigned.
+        Writing to this property changes the fitness of the individual.
+        Reading this property may raise an exception, if a fitness has
+        not been assigned.
 
         Return:
             Fitness of the individual
 
         Raise:
-            ValueError if the score is accessed when it is `None`
-
-        Todo: rename to fitness
-
+            ValueError if the current fitness is `None`
         """
-        if (self._score is None):
+        # TODO: Consider letting fitness return None if it is not assigned,
+        #   instead of raising an exception.
+        # There should be a limit to hand-holding the developer, and this might be it.
+
+        if (self._fitness is None):
             raise ValueError("Score is accessed but null")
         else:
-            return self._score
+            return self._fitness
 
-    @score.setter
-    def score(self, value: float) -> None:
-        """Set the fitness of the individual.
-        Args:
-            value: new fitness.
+    @fitness.setter
+    def fitness(self, value: float) -> None:
+        """Sphinx does not register docstrings on setters.
         """
-        self._score = value
+        self._fitness = value
 
-    def descore(self) -> None:
+    def reset_fitness(self) -> None:
         """Reset the fitness of the individual.
 
         Set the fitness of the individual to None, as if it has not been
         evaluated.
         """
-        self._score = None
+        self._fitness = None
 
-    def is_scored(self) -> bool:
-        return self._score is not None
+    def has_fitness(self) -> bool:
+        """Return if the genome has a fitness value.
+
+        Return:
+            False if the fitness of the genome is None, otherwise return True
+        """
+        return self._fitness is not None
 
     @abstractmethod
     def copy(self) -> Self:
         """Copy the solution.
 
-        All subclasses should override this method. The implementation should
-            prevent changes made on the result from affecting the original
-            individual.
-        """
+        All subclasses should override this method. In addition to duplicating
+        :attr:`genome`, the implementation should decide if other fields
+        such as :attr:`fitness` should be retained.
 
+        Todo:
+            Rephrase.
+
+        Returns:
+            A new individual.
+
+        Note:
+            The implementationn should ensure that changes made to the
+            return value do not affect the original value.
+        """
+        # TODO Some people do not how to do this -- link to an example
+        #   to make this function more usable.
 
 T = TypeVar('T', bound=Individual)
 
-
 class AbstractCollection(ABC, Generic[R]):
-    """An abstract collection of things.
-    Provides the behaviour of other collections.
-    Improving it will surely lead to improvement in overall performance of the
-    framework.
+    """Machinery. Data structure for collections that may be
+    performance bottlecaps.
+    
+    :meta private:
     """
     def __init__(self, *args: R):
         self._solutions = list(args)
@@ -185,27 +212,26 @@ class Population(AbstractCollection[T]):
     def copy(self) -> Self:
         """Returns an independent population.
         TODO Following the issue raised in Individual: be sure to
-            make explicit behaviours of this copy, and its guarantees.
+        make explicit behaviours of this copy, and its guarantees.
         """
         return self.__class__(*[x.copy() for x in self._solutions])
 
     def sort(self: Self,
-             ranker: Callable[[T], float] = lambda x: x.score) -> None:
+             ranker: Callable[[T], float] = lambda x: x.fitness) -> None:
         """Sort items in this report
             TODO The process accesses _score_ in individuals, which may
             cause an error, according to the "current" implementation
             as of 2024-04-01.
             If the reporter is in _score_, then leave a try catch clause to
-                make this explicit.
-            Otherwise, don't care.
+            make this explicit. Otherwise, don't care.
         """
         self._solutions.sort(reverse=True, key=ranker)
 
     def descore(self: Self) -> None:
         """Clean the score of all Individuals in the population.
             TODO This behaviour exists in two places: in evaluators
-                (which is responsible for cleaning offspring)
-                and here. Discuss it.
+            (which is responsible for cleaning offspring)
+            and here. Discuss it.
         """
         for x in self._solutions:
-            x.descore()
+            x.reset_fitness()
