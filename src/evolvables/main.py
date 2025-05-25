@@ -110,7 +110,7 @@ ctrl = Controller[Binary] (
     population = init_pop,
     evaluator = evaluator,
     variator = variator,
-    survivor_selector = pselector,
+    offspring_selector = pselector,
     parent_selector = cselector
 )
 
