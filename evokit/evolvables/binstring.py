@@ -49,7 +49,6 @@ class NullEvaluator(Evaluator):
 
 class RandomBitMutator(Variator[BinaryString]):
     def __init__(self, mutation_rate: float):
-        super().__init__(1)
         if (mutation_rate < 0 or mutation_rate > 1):
             raise ValueError(f"Mutation rate must be within {0} and {1}."
                              f"Got: {mutation_rate}")
