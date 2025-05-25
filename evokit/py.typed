@@ -1,0 +1,7 @@
+Per PEP 561 (https://peps.python.org/pep-0561/),
+
+> Package maintainers who wish to support type checking
+> of their code MUST add a marker file named py.typed
+> to their package supporting typing.
+
+Might as well.
