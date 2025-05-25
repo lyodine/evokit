@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import typing
 from dataclasses import dataclass
-from typing import Optional, Tuple, TypeVar, Literal, Annotated
+from typing import Optional, Tuple, TypeVar, Literal
 
 from ..core import SimpleLinearController
 from ..core import Evaluator
@@ -142,7 +142,7 @@ class MutateBits(Variator[BinaryString]):
     1-to-1 variator for :class:`BinaryString`. At each bit in the parent,
     flip it with probability :arg:`mutation_rate``.
     """
-    def __init__(self, mutation_rate: Annotated[float, ValueRange(0, 1)]):
+    def __init__(self, mutation_rate: float):
         """
         Args:
             mutation_rate: Probability to flip each bit in the parent.
