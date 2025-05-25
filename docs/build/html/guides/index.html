@@ -25,7 +25,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Example: Symbolic Regression" href="examples/e_gp.html" />
+    <link rel="next" title="Accountant" href="examples/accountant.html" />
     <link rel="prev" title="evokit.evolvables package" href="../evokit.evolvables.html" /> 
 </head>
 
@@ -52,9 +52,16 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">evokit</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#stock-selectors">Stock Selectors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#the-genome-suite">The Genome Suite</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="examples/e_gp.html">Example: Symbolic Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-tutorials">Advanced Tutorials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/accountant.html">Accountant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/controller.html">Controller Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/gp.html">Example: Symbolic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/interceptor.html">Example: Implementing a Interceptor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/onemax.html">OneMax Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/onemax.html#Evaluator">Evaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/selector.html">Selector Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/selector.html#Selector">Selector</a></li>
 </ul>
 </li>
 </ul>
@@ -87,6 +94,7 @@
              
   <section id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h1>
+<p>All algorithms in EvoKit derive from the following base classes:</p>
 <p><cite>This is the hard part: How do I write it?</cite></p>
 <p>EvoKit represents evolutionary operators with classes <cite>Individual</cite>, <cite>Evaluator</cite>, <cite>Selector</cite>, <cite>Variator</cite>, and <cite>Controller</cite>. Components of a concrete algorithm derive from these classes.</p>
 <ul class="simple">
@@ -97,17 +105,36 @@
 <li><p><cite>Controller</cite> represents an algorithm that incorporates operators.</p></li>
 </ul>
 <p>The user can define custom operators, or use existing ones.</p>
-<section id="stock-selectors">
-<h2>Stock Selectors<a class="headerlink" href="#stock-selectors" title="Link to this heading"></a></h2>
-<p>The evolutionary algorithm (is that the right term?) is generic, and so is the selector. Moduels <cite>core.controller</cite> and <cite>core.selector</cite> include instances of these things.</p>
+<p>Designing novel algorithms: <a class="reference internal" href="examples/controller.html"><span class="doc">Controller Example</span></a></p>
+<section id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h2>
+<p>Genetic programming: <a class="reference internal" href="examples/gp.html"><span class="doc">Example: Symbolic Regression</span></a></p>
+<p>Begin with the OneMax Problem: <a class="reference internal" href="examples/onemax.html"><span class="doc">OneMax Example</span></a></p>
+<p>Implementing custom selectors: <a class="reference internal" href="examples/selector.html"><span class="doc">Selector Example</span></a></p>
 </section>
-<section id="the-genome-suite">
-<h2>The Genome Suite<a class="headerlink" href="#the-genome-suite" title="Link to this heading"></a></h2>
-<p>As the variator and the evaluator depend on the individual, the variator, the evaluator, and the individual consist of the <cite>genome suite</cite>. Each module in <cite>evolvables</cite> includes one representation and related variators and evaluators.</p>
+<section id="advanced-tutorials">
+<h2>Advanced Tutorials<a class="headerlink" href="#advanced-tutorials" title="Link to this heading"></a></h2>
+<p>Modifying the behaviour of existing operators: <a class="reference internal" href="examples/interceptor.html"><span class="doc">Example: Implementing a Interceptor</span></a></p>
+<p>Collecting runtime statistics using the <span class="xref std std-doc">Accountant examples/accountant</span></p>
+<p><a class="reference internal" href="examples/accountant.html"><span class="doc">Accountant</span></a></p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="examples/e_gp.html">Example: Symbolic Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/accountant.html">Accountant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/controller.html">Controller Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/gp.html">Example: Symbolic Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/interceptor.html">Example: Implementing a Interceptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/onemax.html">OneMax Example</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/onemax.html#Representation">Representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/onemax.html#Variator">Variator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/onemax.html#Evaluator">Evaluator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/onemax.html#Put-Everything-Together">Put Everything Together</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/selector.html">Selector Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/selector.html#Selector">Selector</a></li>
 </ul>
 </div>
 </section>
@@ -118,7 +145,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../evokit.evolvables.html" class="btn btn-neutral float-left" title="evokit.evolvables package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="examples/e_gp.html" class="btn btn-neutral float-right" title="Example: Symbolic Regression" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="examples/accountant.html" class="btn btn-neutral float-right" title="Accountant" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
