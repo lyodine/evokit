@@ -28,7 +28,7 @@ class ValueRange:
 T = TypeVar('T', bound=Individual)
 
 
-class BinaryString(Individual[List[int]]):
+class BinaryString(Individual[int]):
     """A string of bits.
     """
     def __init__(self, value: int, size: int) -> None:
@@ -72,9 +72,7 @@ class BinaryString(Individual[List[int]]):
         """
         self._assert_pos_out_of_bound(pos)
         result = (self.genome >> pos) & 1
-        if (result != 1 or result != 0):
-            raise ValueError("Anything to make MyPy happy")
-        return result
+        return 1 if result == 1 else 0 # To make mypy happy
 
     def set(self: Self, pos: int) -> None:
         """Set the bit at position :arg:`pos` to 0.
