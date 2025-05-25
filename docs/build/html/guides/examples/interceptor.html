@@ -103,7 +103,7 @@
   <section id="Modifying-Operators-with-the-Interceptor-Pattern">
 <h1>Modifying Operators with the Interceptor Pattern<a class="headerlink" href="#Modifying-Operators-with-the-Interceptor-Pattern" title="Link to this heading"></a></h1>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -118,7 +118,7 @@
 <p>In this framework, an interceptor adds to the behaviour of an operator. This example implements an interceptor that changes any selector to an elitist selector.</p>
 <p>To begin, consider a simple example. Declare a class NumberBox with attribute <code class="docutils literal notranslate"><span class="pre">.value</span></code> and method <code class="docutils literal notranslate"><span class="pre">.increment</span></code>. For now, calling <code class="docutils literal notranslate"><span class="pre">.increment</span></code> increments <code class="docutils literal notranslate"><span class="pre">.value</span></code> by 1.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Self</span>
@@ -127,7 +127,7 @@
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">NumberBox</span><span class="p">:</span>
@@ -147,7 +147,7 @@
 </div>
 <p>Check that <code class="docutils literal notranslate"><span class="pre">NumberBox</span></code> behaves as expected:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nb</span> <span class="o">=</span> <span class="n">NumberBox</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -166,7 +166,7 @@ Increased by 1
 </div>
 <p>There are many ways to change the number <code class="docutils literal notranslate"><span class="pre">.increment</span></code> increases <code class="docutils literal notranslate"><span class="pre">.value</span></code> by. For example, one can define a new class, NumberBoxBy2, which extends NumberBox and overrides <code class="docutils literal notranslate"><span class="pre">.increment</span></code>.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">NumberBoxBy2</span><span class="p">(</span><span class="n">NumberBox</span><span class="p">):</span>
@@ -177,7 +177,7 @@ Increased by 1
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nb_new</span> <span class="o">=</span> <span class="n">NumberBoxBy2</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -197,7 +197,7 @@ Increased by 2
 <p>This approach is inflexible, however. For each class with <code class="docutils literal notranslate"><span class="pre">.increment</span></code> that increases its <code class="docutils literal notranslate"><span class="pre">.value</span></code>, one must extend it separately. [STRIKEOUT:It would be helpful] to have a way to change the behaviour of <code class="docutils literal notranslate"><span class="pre">.increment</span></code> for <em>any</em> class that has that method.</p>
 <p>Suppose there is a function that takes a <code class="docutils literal notranslate"><span class="pre">NumberBox</span></code> and changes its behaviour, so that its <code class="docutils literal notranslate"><span class="pre">.increment</span></code> now increases <code class="docutils literal notranslate"><span class="pre">.value</span></code> by 2. The signature of that function is as follows:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">by2</span><span class="p">(</span><span class="n">sel</span><span class="p">:</span> <span class="n">NumberBox</span><span class="p">):</span>
@@ -206,7 +206,7 @@ Increased by 2
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span>
@@ -216,7 +216,7 @@ Increased by 2
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">by2</span><span class="p">(</span><span class="n">numbox</span><span class="p">:</span> <span class="n">NumberBox</span><span class="p">):</span>
@@ -226,7 +226,7 @@ Increased by 2
 </div>
 <p>In this example, <code class="docutils literal notranslate"><span class="pre">by2</span></code> creates a wrapper of the <code class="docutils literal notranslate"><span class="pre">.increment</span></code> method of its argument <code class="docutils literal notranslate"><span class="pre">numbox</span></code>, then replaces the original <code class="docutils literal notranslate"><span class="pre">.increment</span></code> with that wrapper.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">by2</span><span class="p">(</span><span class="n">numbox</span><span class="p">:</span> <span class="n">NumberBox</span><span class="p">):</span>
@@ -247,7 +247,7 @@ Increased by 2
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_nb</span> <span class="o">=</span> <span class="n">NumberBox</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -265,7 +265,7 @@ Increased by 1
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modified_nb</span> <span class="o">=</span> <span class="n">NumberBox</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -280,14 +280,13 @@ Increased by 1
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Initial value is 1
-what
 Increased by 2
 </pre></div></div>
 </div>
 <p>This use case is common in the framework. For example, all selectors share methods named <code class="docutils literal notranslate"><span class="pre">.select</span></code> and <code class="docutils literal notranslate"><span class="pre">.select_to_many</span></code>. It would be good to be able to change the behaviour of an instance of a selector without modifying or extending its class.</p>
 <p>[STRIKEOUT:This is bad]</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">evokit.core</span> <span class="kn">import</span> <span class="n">Selector</span><span class="p">,</span> <span class="n">Population</span><span class="p">,</span> <span class="n">Individual</span>
@@ -344,21 +343,6 @@ Increased by 2
     <span class="k">return</span> <span class="n">sel</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">ModuleNotFoundError</span>                       Traceback (most recent call last)
-Cell <span class="ansi-green-intense-fg ansi-bold">In[61], line 1</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> <span class="ansi-bold" style="color: rgb(0,0,255)">evokit</span><span class="ansi-bold" style="color: rgb(0,0,255)">.</span><span class="ansi-bold" style="color: rgb(0,0,255)">core</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> Selector, Population, Individual
-<span class="ansi-green-fg">      3</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> <span class="ansi-bold" style="color: rgb(0,0,255)">typing</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> Callable, Tuple, TypeVar, Any
-<span class="ansi-green-fg">      5</span> D <span style="color: rgb(98,98,98)">=</span> TypeVar(<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">D</span><span style="color: rgb(175,0,0)">&#34;</span>, bound<span style="color: rgb(98,98,98)">=</span>Individual)
-
-<span class="ansi-red-intense-fg ansi-bold">ModuleNotFoundError</span>: No module named &#39;evokit&#39;
-</pre></div></div>
 </div>
 </section>
 

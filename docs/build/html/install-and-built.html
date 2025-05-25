@@ -99,35 +99,33 @@
 </section>
 <section id="installing-and-building">
 <h2>Installing and Building<a class="headerlink" href="#installing-and-building" title="Link to this heading"></a></h2>
-<p>EvoKit is built with <a class="reference external" href="https://pypi.org/project/build/">build</a>. Please ensure that your <code class="docutils literal notranslate"><span class="pre">build</span></code> is up to date. Run</p>
+<p>EvoKit is built with <a class="reference external" href="https://pypi.org/project/build/">build</a>. To ensure that <code class="docutils literal notranslate"><span class="pre">build</span></code> is up to date, run</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">build</span> <span class="o">--</span><span class="n">upgrade</span>
 </pre></div>
 </div>
 </section>
 <section id="build-a-source-distribution">
 <h2>Build a source distribution<a class="headerlink" href="#build-a-source-distribution" title="Link to this heading"></a></h2>
-<p>Navigate to <code class="docutils literal notranslate"><span class="pre">evoframe</span></code>, then run</p>
+<p>Navigate to <code class="docutils literal notranslate"><span class="pre">evoframe/</span></code>, then run</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>build<span class="w"> </span>--sdist
 </pre></div>
 </div>
 </section>
 <section id="build-a-built-distribution-wheel">
 <h2>Build a built distribution (wheel)<a class="headerlink" href="#build-a-built-distribution-wheel" title="Link to this heading"></a></h2>
-<p>Navigate to <code class="docutils literal notranslate"><span class="pre">evoframe</span></code>, then run</p>
+<p>Navigate to <code class="docutils literal notranslate"><span class="pre">evoframe/</span></code>, then run</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>build<span class="w"> </span>--wheel
 </pre></div>
 </div>
 </section>
 <section id="build-documentation">
 <h2>Build Documentation<a class="headerlink" href="#build-documentation" title="Link to this heading"></a></h2>
-<p>The directory <code class="docutils literal notranslate"><span class="pre">evoframe/docs</span></code> contains everything related to building documentations.</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">make.bat</span></code> rebuilds the documentation.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">source/</span></code> contains the configuration files.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">update.bat</span></code> updates <code class="docutils literal notranslate"><span class="pre">source/</span></code> to capture the current source code, then runs <code class="docutils literal notranslate"><span class="pre">make.bat</span></code></p></li>
+<p>The directory <code class="docutils literal notranslate"><span class="pre">evoframe/docs/</span></code> contains everything related to building documentations.</p>
+<ul class="simple">
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">make.bat</span></code> to rebuild the documentation.</p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">update.bat</span></code> to update API references in <code class="docutils literal notranslate"><span class="pre">source/</span></code> then rebuild the documentation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">source/</span></code> contains all configuration files, including <code class="docutils literal notranslate"><span class="pre">conf.py</span></code>.</p></li>
 </ul>
-</div></blockquote>
 </section>
 </section>
 

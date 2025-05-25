@@ -49,9 +49,10 @@
               <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Why EvoKit?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#operators-are-easy-to-make">Operators are Easy to Make</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#operators-are-interchangeable">Operators are Interchangeable</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#completely-documented">Completely Documented</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#completely-typed">Completely Typed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#well-described">Well Described</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#transparent">Transparent</a></li>
 </ul>
 </li>
@@ -89,22 +90,31 @@
              
   <section id="why-evokit">
 <h1>Why EvoKit?<a class="headerlink" href="#why-evokit" title="Link to this heading"></a></h1>
+<section id="operators-are-easy-to-make">
+<h2>Operators are Easy to Make<a class="headerlink" href="#operators-are-easy-to-make" title="Link to this heading"></a></h2>
+<p>When extending a framework, you can just define what matters. The framework takes care of the rest.</p>
+<p>Define the OneMax evaluator in 3 lines!</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CountBits</span><span class="p">(</span><span class="n">Evaluator</span><span class="p">[</span><span class="n">BinaryString</span><span class="p">]):</span>
+    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s1</span><span class="p">:</span> <span class="n">BinaryString</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">s1</span><span class="o">.</span><span class="n">genome</span><span class="o">.</span><span class="n">bit_count</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
 <section id="operators-are-interchangeable">
 <h2>Operators are Interchangeable<a class="headerlink" href="#operators-are-interchangeable" title="Link to this heading"></a></h2>
 <p>Operators of the same type are interchangeable. That is:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><strong>All</strong> evaluators of the same representation are interchangeable.</p></li>
-<li><p><strong>All</strong> variators of the same representation are interchangeable.</p></li>
+<li><p><strong>All</strong> evaluators and variators of the same representation are interchangeable.</p></li>
 <li><p><strong>All</strong> selectors are interchangeable.</p></li>
-<li><p><strong>All</strong> algorithms work with <strong>all</strong> combinations of operators, as long as the operators are compatible.</p></li>
+<li><p><strong>All</strong> algorithms work with <strong>all</strong> configurations of compatible operators.</p></li>
 </ul>
 </div></blockquote>
 </section>
 <section id="completely-documented">
 <h2>Completely Documented<a class="headerlink" href="#completely-documented" title="Link to this heading"></a></h2>
-<p>Every single public member is documented at [<a class="reference internal" href="modules.html"><span class="doc">evokit</span></a>]. All private members are richly commented.</p>
-<p>All private members, except for well-known dunders, are also documented:</p>
+<p><strong>All</strong> public members are documented (see [<a class="reference internal" href="modules.html"><span class="doc">evokit</span></a>]).</p>
+<p><strong>All</strong> private member (except for well-known dunders) are thoroughly described. You can find examples like this in the source code:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_get_arity</span><span class="p">(</span><span class="n">fun</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">|</span> <span class="n">Expression</span> <span class="o">|</span> <span class="n">Symbol</span> <span class="o">|</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the arity of an object.</span>
 
@@ -120,9 +130,12 @@
 </pre></div>
 </div>
 </section>
-<section id="completely-typed">
-<h2>Completely Typed<a class="headerlink" href="#completely-typed" title="Link to this heading"></a></h2>
-<p>Every single method is type hinted; every return value is explained; every effect is mentioned.</p>
+<section id="well-described">
+<h2>Well Described<a class="headerlink" href="#well-described" title="Link to this heading"></a></h2>
+<p><strong>EvoKit</strong> describes exactly what it does.</p>
+<ul class="simple">
+<li><p>All methods (public or private) have type hints:</p></li>
+</ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">population</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
                  <span class="n">evaluator</span><span class="p">:</span> <span class="n">Evaluator</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
@@ -130,11 +143,46 @@
                  <span class="n">variator</span><span class="p">:</span> <span class="n">Variator</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </pre></div>
 </div>
+<ul class="simple">
+<li><p>All return values are explained:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">has_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return if the individual has a fitness value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fitness</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>All effects are documented:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">reset_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset the fitness of the individual.</span>
+
+<span class="sd">        Set the :attr:`.fitness` of the individual to ``None``.</span>
+
+<span class="sd">        Effect:</span>
+<span class="sd">            The `.fitness` of this individual becomes ``None``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fitness</span> <span class="o">=</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>All managed attributes are explained:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Advance the population by one generation.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            Do not manually increment :attr:`generation`. This property</span>
+<span class="sd">            is automatically managed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+</pre></div>
+</div>
 </section>
 <section id="transparent">
 <h2>Transparent<a class="headerlink" href="#transparent" title="Link to this heading"></a></h2>
-<p>Core modules (<code class="xref py py-mod docutils literal notranslate"><span class="pre">core</span></code>) do not depend on external modules.</p>
-<p>All randomness come from <code class="xref py py-mod docutils literal notranslate"><span class="pre">random</span></code> and can be changed by setting <code class="xref py py-meth docutils literal notranslate"><span class="pre">random.seed()</span></code>.</p>
+<p>Core modules (in <a class="reference internal" href="evokit.core.html#module-evokit.core" title="evokit.core"><code class="xref py py-mod docutils literal notranslate"><span class="pre">core</span></code></a>) do not depend on any external module.</p>
+<p>All randomness come from <code class="xref py py-mod docutils literal notranslate"><span class="pre">random</span></code> and can be reproduced by setting the right <code class="xref py py-meth docutils literal notranslate"><span class="pre">random.seed()</span></code>.</p>
 </section>
 </section>
 

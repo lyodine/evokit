@@ -9,7 +9,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
+   "execution_count": 1,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -22,7 +22,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
+   "execution_count": 2,
    "metadata": {},
    "outputs": [],
    "source": [
