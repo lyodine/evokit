@@ -45,8 +45,12 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../why.html">Why EvoKit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">evokit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Introduction</a></li>
 </ul>
 
         </div>
@@ -105,6 +109,8 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all selectors.</span>
 
 <span class="sd">    Derive this class to create custom selectors.</span>
+
+<span class="sd">    Tutorial: :doc:`../guides/examples/selector`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Selector.__init__">
@@ -161,12 +167,8 @@
 <span class="sd">            A tuple of selected individuals.</span>
 
 <span class="sd">        Effect:</span>
-<span class="sd">            Remove all items from the original ``population``.</span>
+<span class="sd">            Remove all items from ``population``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="c1"># TODO This method destroys the original population (by calling .draw).</span>
-        <span class="c1">#   Should I let it retain the original population?</span>
-
         <span class="n">return_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">D</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">old_population</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">D</span><span class="p">]</span> <span class="o">=</span> <span class="n">population</span>
 
@@ -196,7 +198,7 @@
 
 <span class="sd">        All subclasses should override this method. The implementation should</span>
 <span class="sd">        return a tuple of individuals. Each item in the tuple should also</span>
-<span class="sd">        be a member of `population`.</span>
+<span class="sd">        be a member of ``population``.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            population: population to select from.</span>
@@ -213,7 +215,6 @@
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.selector.NullSelector">[docs]</a>
 <span class="k">class</span> <span class="nc">NullSelector</span><span class="p">(</span><span class="n">Selector</span><span class="p">[</span><span class="n">D</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Selector that does nothing.</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="NullSelector.__init__">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.selector.NullSelector.__init__">[docs]</a>
@@ -244,8 +245,6 @@
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.selector.SimpleSelector">[docs]</a>
 <span class="k">class</span> <span class="nc">SimpleSelector</span><span class="p">(</span><span class="n">Selector</span><span class="p">[</span><span class="n">D</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple selector that select the highest-fitness individual.</span>
-
-<span class="sd">    Example for overriding `select`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="SimpleSelector.__init__">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.selector.SimpleSelector.__init__">[docs]</a>
@@ -386,15 +385,11 @@
                     <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">D</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;Context that implements elitism.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
-            <span class="c1"># Define an attribute that retains the best individual.</span>
-            <span class="c1">#   Avoid name collision.</span>
-            
-
-            
             <span class="n">population_best</span><span class="p">:</span> <span class="n">D</span> <span class="o">=</span> <span class="n">population</span><span class="o">.</span><span class="n">best</span><span class="p">()</span>
             <span class="n">my_best</span><span class="p">:</span> <span class="n">D</span>
             
-            <span class="c1"># Monkey-patch an attribute onto the selector. If the </span>
+            <span class="c1"># Monkey-patch an attribute onto the selector.</span>
+            <span class="c1"># This attribute retains the HOF individual.</span>
             <span class="c1"># Current name is taken from a randomly generated SSH pubkey.</span>
             <span class="c1">#   Nobody else will use a name *this* absurd.</span>
             <span class="n">UBER_SECRET_BEST_INDIVIDUAL_NAME</span> <span class="o">=</span> <span class="s2">&quot;___g1AfoA2NMh8ZZCmRJbwFcne4jS1f3Y2TRPIvBmVXQP&quot;</span>
@@ -406,12 +401,9 @@
 
             <span class="k">if</span> <span class="n">my_best</span><span class="o">.</span><span class="n">fitness</span> <span class="o">&gt;</span> <span class="n">population_best</span><span class="o">.</span><span class="n">fitness</span><span class="p">:</span>
                 <span class="n">hof_individual</span> <span class="o">=</span> <span class="n">my_best</span>
-                <span class="c1">#print(&quot;use my best&quot;, end=&quot;&quot;)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">hof_individual</span> <span class="o">=</span> <span class="n">population_best</span>
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">UBER_SECRET_BEST_INDIVIDUAL_NAME</span><span class="p">,</span> <span class="n">population_best</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
-                <span class="c1">#print(&quot;use population best&quot;, end=&quot;&quot;)</span>
-            <span class="c1">#print(f&quot;, {str(hof_individual)}score is m{my_best.fitness} &gt; p{population_best.fitness}&quot;)</span>
 
             <span class="c1"># Acquire results of the original selector</span>
             <span class="n">results</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">D</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> \

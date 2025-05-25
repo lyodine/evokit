@@ -45,8 +45,12 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../why.html">Why EvoKit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">evokit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Introduction</a></li>
 </ul>
 
         </div>
@@ -131,7 +135,7 @@
             <span class="n">namespace</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;copy&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="nb">type</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">mcls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">namespace</span><span class="p">)</span>
-    
+
 <div class="viewcode-block" id="Individual">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.population.Individual">[docs]</a>
 <span class="k">class</span> <span class="nc">Individual</span><span class="p">(</span><span class="n">ABC</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">R</span><span class="p">],</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MetaGenome</span><span class="p">):</span>
@@ -139,7 +143,13 @@
 
 <span class="sd">    Derive this class to create custom representations.</span>
 
-<span class="sd">    See :doc:`../guides/examples/onemax`.</span>
+<span class="sd">    Note:</span>
+<span class="sd">        An implementation should store the genotype in :attr:`.genome`.</span>
+
+<span class="sd">        The individual can information outside of the genotype, such as a</span>
+<span class="sd">        `.fitness`, a reference to the parent, and strategy parameter(s).</span>
+
+<span class="sd">    Tutorial: :doc:`../guides/examples/onemax`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Individual.__new__">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.population.Individual.__new__">[docs]</a>
@@ -157,10 +167,10 @@
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.population.Individual.__init__">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="c1">#: Fitness of the individual</span>
+        <span class="c1">#: Fitness of the individual.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_fitness</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
-        <span class="c1">#: Genotype of the individual. Subclasses should store</span>
-        <span class="c1">#  the genotype in this attribute.</span>
+
+        <span class="c1">#: Genotype of the individual.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">genome</span><span class="p">:</span> <span class="n">R</span></div>
 
 
@@ -169,7 +179,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Fitness of an individual.</span>
 
 <span class="sd">        Writing to this property changes the fitness of the individual.</span>
-<span class="sd">        If this individual has yet to be assigned a fitness, reading </span>
+<span class="sd">        If this individual has yet to be assigned a fitness, reading</span>
 <span class="sd">        from this property raises an exception.</span>
 
 <span class="sd">        To determine if the individual has a fitness, call</span>
@@ -179,7 +189,7 @@
 <span class="sd">            Fitness of the individual</span>
 
 <span class="sd">        Raise:</span>
-<span class="sd">            :class:`ValueError`: if the current fitness is ``None``</span>
+<span class="sd">            :class:`ValueError`: if the current fitness is ``None``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fitness</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
@@ -190,8 +200,11 @@
     <span class="nd">@fitness</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sphinx does not pick up docstrings on setters.</span>
-<span class="sd">        </span>
+
 <span class="sd">        This docstring should never be seen.</span>
+
+<span class="sd">        Arg:</span>
+<span class="sd">            Whatever.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_fitness</span> <span class="o">=</span> <span class="n">value</span>
 
@@ -200,7 +213,10 @@
     <span class="k">def</span> <span class="nf">reset_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset the fitness of the individual.</span>
 
-<span class="sd">        Set the fitness of the individual to ``None``.</span>
+<span class="sd">        Set the :attr:`.fitness` of the individual to ``None``.</span>
+
+<span class="sd">        Effect:</span>
+<span class="sd">            The `.fitness` of this individual becomes ``None``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_fitness</span> <span class="o">=</span> <span class="kc">None</span></div>
 
@@ -209,9 +225,6 @@
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.population.Individual.has_fitness">[docs]</a>
     <span class="k">def</span> <span class="nf">has_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return if the individual has a fitness value.</span>
-
-<span class="sd">        Return:</span>
-<span class="sd">            ``False`` if the current :attr:`.fitness` is ``None``, otherwise ``True``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fitness</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
 
@@ -220,15 +233,13 @@
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.population.Individual.copy">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Copy the solution.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return an identical copy of the individual.</span>
 
 <span class="sd">        Subclasses should override this method.</span>
 
-<span class="sd">        In addition to duplicating :attr:`genome`, the implementation</span>
-<span class="sd">        should decide whether to retain other fields such as :attr:`fitness`.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            A new individual.</span>
+<span class="sd">        Operations on in this individual should not affect the new individual.</span>
+<span class="sd">        In addition to duplicating :attr:`.genome`, the implementation should</span>
+<span class="sd">        decide whether to retain other fields such as :attr:`.fitness`.</span>
 
 <span class="sd">        Note:</span>
 <span class="sd">            Ensure that changes made to the returned value do not affect</span>
@@ -236,17 +247,12 @@
 <span class="sd">        &quot;&quot;&quot;</span></div>
 </div>
 
-        <span class="c1"># TODO Some people do not how to do this -- link to an example</span>
-        <span class="c1">#   to make this function more usable.</span>
 
 
 <div class="viewcode-block" id="AbstractCollection">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.population.AbstractCollection">[docs]</a>
 <span class="k">class</span> <span class="nc">AbstractCollection</span><span class="p">(</span><span class="n">ABC</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">R</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">R</span><span class="p">],</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">R</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Machinery.</span>
-
-<span class="sd">    Data structure for collections that may be performance bottlecaps.</span>
-<span class="sd">    TODO: I cannot find a way to document methods inherited from this class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="AbstractCollection.__init__">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.population.AbstractCollection.__init__">[docs]</a>
@@ -293,10 +299,10 @@
 <div class="viewcode-block" id="AbstractCollection.append">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.population.AbstractCollection.append">[docs]</a>
     <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">R</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append an item to this collection</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append an item to this collection.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            value: the item to add to this item</span>
+<span class="sd">            value: The item to add to this item</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO value is a really bad name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
@@ -308,44 +314,45 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Append all items from another collection to this collection</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            values: collection whose values are appended to this collection</span>
+<span class="sd">            values: Collection whose values are appended to this collection.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># TODO WOW list comprehension magic. Might be totally inefficient</span>
-        <span class="c1"># though.</span>
-        <span class="c1"># Remember that this class is a performance bottleneck.</span>
+        <span class="c1"># TODO Inefficient list comprehension. Looks awesome though.</span>
+        <span class="c1"># Improve at my own convenience.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">,</span> <span class="n">values</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="AbstractCollection.populate">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.population.AbstractCollection.populate">[docs]</a>
     <span class="k">def</span> <span class="nf">populate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_data</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">R</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove items in this collection with all items from another</span>
-<span class="sd">        collection.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Replace items in this population with items in :arg:`new_data`.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            values: collection whose values are appended to this collection</span>
+<span class="sd">            new_data: Collection whose items replace items in this</span>
+<span class="sd">                population.</span>
+
+<span class="sd">        Effect:</span>
+<span class="sd">            Replace all items in this population with those in :arg:`new_data`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># TODO This method is defined but not used, as of 2024-04-02.</span>
-        <span class="c1">#   It was added for &quot;completeness&quot;. Completeness does not warrant</span>
-        <span class="c1">#   redundancy.</span>
+        <span class="c1"># Redundant.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">new_data</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="AbstractCollection.draw">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.population.AbstractCollection.draw">[docs]</a>
     <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">R</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">R</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove an item.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove an item from the population.</span>
 
-<span class="sd">        Identify an item either by value (in key) or by position (in pos).</span>
-<span class="sd">        Remove that item from the collection, then return that value.</span>
+<span class="sd">        Identify an item either by value (in :arg:`key`) or by position</span>
+<span class="sd">        (in :arg:`pos`). Remove that item from the collection, then return that item.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The :class:`Individual` that is removed from the population</span>
+
 <span class="sd">        Raises:</span>
-<span class="sd">            TypeError: If neither ``key`` nor ``pos`` is given.</span>
+<span class="sd">            :class:`TypeError`: If neither :arg:`key` nor :arg:`pos` is given.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">pos</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;An item must be speccified, either by&quot;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;An item must be specified, either by&quot;</span>
                             <span class="s2">&quot; value or by position. Neither is given.&quot;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="p">(</span><span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">pos</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The item can only be specified by value&quot;</span>
@@ -358,7 +365,7 @@
             <span class="n">has_removed</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="c1"># TODO refactor with enumerate and filter.</span>
             <span class="c1">#   Still up for debate. Loops are easy to understand.</span>
-            <span class="c1">#   One must consider the trade-off.</span>
+            <span class="c1">#   Consider the trade-off.</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
                 <span class="c1"># Development mark: delete the exception when I finish this</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span>
@@ -381,14 +388,16 @@
 
 <div class="viewcode-block" id="Population">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.population.Population">[docs]</a>
-<span class="k">class</span> <span class="nc">Population</span><span class="p">(</span><span class="n">AbstractCollection</span><span class="p">[</span><span class="n">D</span><span class="p">],</span>
-                 <span class="n">Sequence</span><span class="p">[</span><span class="n">D</span><span class="p">],</span>
-                 <span class="n">Iterable</span><span class="p">[</span><span class="n">D</span><span class="p">]):</span>
+<span class="k">class</span> <span class="nc">Population</span><span class="p">(</span><span class="n">AbstractCollection</span><span class="p">[</span><span class="n">D</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A flat collection of individuals.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Population.__init__">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.population.Population.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">D</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            *args: Initial items in the population</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
 
 
@@ -399,14 +408,11 @@
 
 <span class="sd">        Changes made to items in the new population should not affect</span>
 <span class="sd">        items in this population. This behaviour depends on correct implementation</span>
-<span class="sd">        of `~.Individual.copy` in each item.</span>
+<span class="sd">        of :meth:`.Individual.copy` in each item.</span>
 
-<span class="sd">        Call `~.Individual.copy` for each :class:`Individual` in this</span>
+<span class="sd">        Call :meth:`.Individual.copy` for each :class:`.Individual` in this</span>
 <span class="sd">        population. Collect the results, then create a new population with</span>
 <span class="sd">        these values.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            A new population.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">])</span></div>
 
@@ -417,10 +423,12 @@
              <span class="n">ranker</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">D</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">fitness</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Rearrange items by fitness, highest-first.</span>
 
-<span class="sd">        The item at index 0 has the highest index.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            ranker: Sort key, called on each item prior to sorting.</span>
+
+<span class="sd">        Effect:</span>
+<span class="sd">            Rearrange items in this population.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># TODO Should I try-catch? Because accessing an individual</span>
-        <span class="c1">#   without fitness throws an exception.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">ranker</span><span class="p">)</span></div>
 
 
@@ -429,12 +437,10 @@
     <span class="k">def</span> <span class="nf">reset_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove fitness values of all Individuals in the population.</span>
 
+<span class="sd">        Effect:</span>
+<span class="sd">            For each item in this population, set</span>
+<span class="sd">            its :attr:`.fitness Individual.fitness` to ``None``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="c1"># TODO This behaviour exists in two places: in evaluators</span>
-        <span class="c1">#   (which is responsible for cleaning offspring)</span>
-        <span class="c1">#   and here. Discuss it.</span>
-        <span class="c1">#   This is an old comment.</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">:</span>
             <span class="n">x</span><span class="o">.</span><span class="n">reset_fitness</span><span class="p">()</span></div>
 
@@ -442,6 +448,8 @@
 <div class="viewcode-block" id="Population.best">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.population.Population.best">[docs]</a>
     <span class="k">def</span> <span class="nf">best</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">D</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the highest-fitness individual in this population.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">best_individual</span><span class="p">:</span> <span class="n">D</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>

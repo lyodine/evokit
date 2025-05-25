@@ -1,43 +1,49 @@
+|
+
+.. image:: media/gearpath.svg
+  :width: 400
+  :align: center
+  :alt: Image of a sequence of gears, each bigger than the last.
+
+|
 
 EvoKit Documentation
 ====================
-EvoKit is an extensible evolutionary computation framework for implementing and benchmarking algorithms.
 
-Installation
+EvoKit is an evolutionary computation framework written in Python. The framework is highly extensible and capable of implementing various algorithms and representations.
+
+Using EvoKit is easy! With all operators defined, you can run an evolutionary algorithm in just 7 lines! [#]_ [#]_
+
+.. code-block:: ruby
+   :linenos:
+
+   ctrl: SimpleLinearController = SimpleLinearController(
+      population=init_pop,
+      variator=RandomBitMutator(0.1),
+      selector=Elitist(SimpleSelector[BinaryString](POPULATION_SIZE)),
+      evaluator = BitDistanceEvaluator()
+   )
+   for _ in range(GENERATION_COUNT):
+      ctrl.step()
+
+
 ---------------
-Installation
-
-- Pip
-- Building from Source
-
-Overview
-- Operators
-- Using the interceptor (is this a good name?)
-
-Developer tutorials
-
-- Building a selector
-- Building a genome suite
-- Extending a genome suite
-- Building the linear controller
-- Using the accountant
-
-Advanced tutorials
-
-- Building a two-population controller
-- Evolving subpopulations
-
-Developer tutorials
-
-- The machinery
-- Building interceptors
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Getting Started:
+
+   why
+   install-and-built
+   guides/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API Reference:
 
    modules
-   guides/index
+
+
 
 Indices and tables
 ==================
@@ -45,3 +51,6 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+.. [#] Example Derived from :doc:`guides/examples/onemax`
+.. [#] Techincally 10 including the parenthesis and an empty line

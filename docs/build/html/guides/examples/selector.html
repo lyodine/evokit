@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Selector Example &mdash; evokit  documentation</title>
+  <title>Creating a Custom Selector &mdash; evokit  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css?v=2aa19091" />
@@ -25,7 +25,9 @@
         <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="evokit" href="../../modules.html" />
+    <link rel="prev" title="Getting Started with OneMax" href="onemax.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,10 +49,30 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../why.html">Why EvoKit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install-and-built.html">Installing</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#base-classes">Base Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#getting-started">Getting Started</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#advanced-tutorials">Advanced Tutorials</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="accountant.html">Collect Runtime Statistics with <code class="docutils literal notranslate"><span class="pre">Accountant</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="controller.html">Creating a Custom <code class="docutils literal notranslate"><span class="pre">Controller</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="gp.html">Symbolic Regression with Genetic Programming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="interceptor.html">Modifying Operators with the Interceptor Pattern</a></li>
+<li class="toctree-l3"><a class="reference internal" href="onemax.html">Getting Started with OneMax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="onemax.html#Evaluator">Evaluator</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Creating a Custom <code class="docutils literal notranslate"><span class="pre">Selector</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Selector">Selector</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">evokit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../index.html">Introduction</a></li>
 </ul>
 
         </div>
@@ -67,7 +89,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Selector Example</li>
+          <li class="breadcrumb-item"><a href="../index.html">Guides</a></li>
+      <li class="breadcrumb-item active">Creating a Custom <code class="docutils literal notranslate"><span class="pre">Selector</span></code></li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/guides/examples/selector.ipynb.txt" rel="nofollow"> View page source</a>
       </li>
@@ -77,8 +100,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="Selector-Example">
-<h1>Selector Example<a class="headerlink" href="#Selector-Example" title="Link to this heading"></a></h1>
+  <section id="Creating-a-Custom-Selector">
+<h1>Creating a Custom <code class="docutils literal notranslate"><span class="pre">Selector</span></code><a class="headerlink" href="#Creating-a-Custom-Selector" title="Link to this heading"></a></h1>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -244,7 +267,8 @@ Selected items are [&#39;[1, 1, 1, 1, 1]&#39;]
 After selection, the old population is [&#39;[1, 1, 1, 1, 1]&#39;, &#39;[1, 1, 1, 1, 0]&#39;, &#39;[1, 1, 1, 0, 0]&#39;, &#39;[1, 1, 0, 0, 0]&#39;, &#39;[1, 0, 0, 0, 0]&#39;, &#39;[0, 0, 0, 0, 0]&#39;]
 </pre></div></div>
 </div>
-<p>Observe the effect of select_to_many. With <code class="docutils literal notranslate"><span class="pre">.budget=3</span></code>, <code class="docutils literal notranslate"><span class="pre">.select_to_many</span></code> returns a 3-tuple.</p>
+<p>Observe the effect of select_to_many. With <code class="docutils literal notranslate"><span class="pre">.budget=3</span></code>, <code class="docutils literal notranslate"><span class="pre">.select_to_many</span></code> returns a 3-tuple. Note that items in the returned tuple are removed from the original population.</p>
+<p>Calling <code class="docutils literal notranslate"><span class="pre">.select_to_population</span></code> produces the same result, except that it returns a population with 3 items.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
@@ -274,7 +298,10 @@ After selection, the old population is [&#39;[1, 1, 0, 0, 0]&#39;, &#39;[1, 0, 0
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="onemax.html" class="btn btn-neutral float-left" title="Getting Started with OneMax" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../modules.html" class="btn btn-neutral float-right" title="evokit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

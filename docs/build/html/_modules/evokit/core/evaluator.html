@@ -45,8 +45,12 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../why.html">Why EvoKit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">evokit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Introduction</a></li>
 </ul>
 
         </div>
@@ -136,7 +140,7 @@
 
 <span class="sd">    Derive this class to create custom evaluators.</span>
 
-<span class="sd">    See :doc:`../guides/examples/onemax`.</span>
+<span class="sd">    Tutorial: :doc:`../guides/examples/onemax`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Evaluator.__new__">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.evaluator.Evaluator.__new__">[docs]</a>
@@ -186,6 +190,9 @@
 
 <span class="sd">        A subclass may override this method to implement behaviours that</span>
 <span class="sd">        require access to the entire population.</span>
+
+<span class="sd">        Effect:</span>
+<span class="sd">            For each item in :arg:`pop`, set its :attr:`.fitness .Individual.fitness`.</span>
 
 <span class="sd">        Note:</span>
 <span class="sd">            This method must **never** return a value. It must assign to</span>
