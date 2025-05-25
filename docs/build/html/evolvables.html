@@ -50,6 +50,13 @@
 <li class="toctree-l2"><a class="reference internal" href="core.html">core package</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">evolvables package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-evolvables.binstring">evolvables.binstring module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.binstring.IllegalVariation"><code class="docutils literal notranslate"><span class="pre">IllegalVariation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.binstring.Binary"><code class="docutils literal notranslate"><span class="pre">Binary</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.binstring.BitDistanceEvaluator"><code class="docutils literal notranslate"><span class="pre">BitDistanceEvaluator</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#evolvables.binstring.RandomBitMutator"><code class="docutils literal notranslate"><span class="pre">RandomBitMutator</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#module-evolvables.gp">evolvables.gp module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ArityMismatch"><code class="docutils literal notranslate"><span class="pre">ArityMismatch</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.Expression"><code class="docutils literal notranslate"><span class="pre">Expression</span></code></a></li>
@@ -71,13 +78,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.ProgramCrossoverVariator"><code class="docutils literal notranslate"><span class="pre">ProgramCrossoverVariator</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.SymbolicEvaluator"><code class="docutils literal notranslate"><span class="pre">SymbolicEvaluator</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#evolvables.gp.GymEvaluator"><code class="docutils literal notranslate"><span class="pre">GymEvaluator</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#module-evolvables.main">evolvables.main module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.main.IllegalVariation"><code class="docutils literal notranslate"><span class="pre">IllegalVariation</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.main.Binary"><code class="docutils literal notranslate"><span class="pre">Binary</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.main.BitDistanceEvaluator"><code class="docutils literal notranslate"><span class="pre">BitDistanceEvaluator</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#evolvables.main.RandomBitMutator"><code class="docutils literal notranslate"><span class="pre">RandomBitMutator</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-evolvables">Module contents</a></li>
@@ -116,6 +116,78 @@
 <h1>evolvables package<a class="headerlink" href="#evolvables-package" title="Link to this heading"></a></h1>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-evolvables.binstring">
+<span id="evolvables-binstring-module"></span><h2>evolvables.binstring module<a class="headerlink" href="#module-evolvables.binstring" title="Link to this heading"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="evolvables.binstring.IllegalVariation">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.binstring.</span></span><span class="sig-name descname"><span class="pre">IllegalVariation</span></span><a class="reference internal" href="_modules/evolvables/binstring.html#IllegalVariation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.binstring.IllegalVariation" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.binstring.IllegalVariation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/binstring.html#IllegalVariation.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.binstring.IllegalVariation.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evolvables.binstring.Binary">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.binstring.</span></span><span class="sig-name descname"><span class="pre">Binary</span></span><a class="reference internal" href="_modules/evolvables/binstring.html#Binary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.binstring.Binary" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="core.html#core.population.Individual" title="core.population.Individual"><code class="xref py py-class docutils literal notranslate"><span class="pre">Individual</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.binstring.Binary.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">len</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/evolvables/binstring.html#Binary.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.binstring.Binary.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.binstring.Binary.toggle">
+<span class="sig-name descname"><span class="pre">toggle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/binstring.html#Binary.toggle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.binstring.Binary.toggle" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.binstring.Binary.create_random">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">len</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="_modules/evolvables/binstring.html#Binary.create_random"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.binstring.Binary.create_random" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="evolvables.binstring.Binary.value">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#evolvables.binstring.Binary.value" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.binstring.Binary.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="_modules/evolvables/binstring.html#Binary.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.binstring.Binary.copy" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evolvables.binstring.BitDistanceEvaluator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.binstring.</span></span><span class="sig-name descname"><span class="pre">BitDistanceEvaluator</span></span><a class="reference internal" href="_modules/evolvables/binstring.html#BitDistanceEvaluator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.binstring.BitDistanceEvaluator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="core.html#core.evaluator.Evaluator" title="core.evaluator.Evaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Evaluator</span></code></a>[<a class="reference internal" href="#evolvables.binstring.Binary" title="evolvables.binstring.Binary"><code class="xref py py-class docutils literal notranslate"><span class="pre">Binary</span></code></a>]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.binstring.BitDistanceEvaluator.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evolvables.binstring.Binary" title="evolvables.binstring.Binary"><span class="pre">Binary</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/evolvables/binstring.html#BitDistanceEvaluator.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.binstring.BitDistanceEvaluator.evaluate" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="evolvables.binstring.RandomBitMutator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.binstring.</span></span><span class="sig-name descname"><span class="pre">RandomBitMutator</span></span><a class="reference internal" href="_modules/evolvables/binstring.html#RandomBitMutator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.binstring.RandomBitMutator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="core.html#core.variator.Variator" title="core.variator.Variator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variator</span></code></a>[<a class="reference internal" href="#evolvables.binstring.Binary" title="evolvables.binstring.Binary"><code class="xref py py-class docutils literal notranslate"><span class="pre">Binary</span></code></a>]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.binstring.RandomBitMutator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/binstring.html#RandomBitMutator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.binstring.RandomBitMutator.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="evolvables.binstring.RandomBitMutator.vary">
+<span class="sig-name descname"><span class="pre">vary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#evolvables.binstring.Binary" title="evolvables.binstring.Binary"><span class="pre">Binary</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#evolvables.binstring.Binary" title="evolvables.binstring.Binary"><span class="pre">Binary</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/evolvables/binstring.html#RandomBitMutator.vary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.binstring.RandomBitMutator.vary" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-evolvables.gp">
 <span id="evolvables-gp-module"></span><h2>evolvables.gp module<a class="headerlink" href="#module-evolvables.gp" title="Link to this heading"></a></h2>
@@ -397,78 +469,6 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="evolvables.gp.GymEvaluator.evaluate_step">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate_step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evolvables.gp.Program" title="evolvables.gp.Program"><span class="pre">Program</span></a><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrapper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/evolvables/gp.html#GymEvaluator.evaluate_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.gp.GymEvaluator.evaluate_step" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-evolvables.main">
-<span id="evolvables-main-module"></span><h2>evolvables.main module<a class="headerlink" href="#module-evolvables.main" title="Link to this heading"></a></h2>
-<dl class="py exception">
-<dt class="sig sig-object py" id="evolvables.main.IllegalVariation">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.main.</span></span><span class="sig-name descname"><span class="pre">IllegalVariation</span></span><a class="reference internal" href="_modules/evolvables/main.html#IllegalVariation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.IllegalVariation" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="evolvables.main.IllegalVariation.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/main.html#IllegalVariation.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.IllegalVariation.__init__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="evolvables.main.Binary">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.main.</span></span><span class="sig-name descname"><span class="pre">Binary</span></span><a class="reference internal" href="_modules/evolvables/main.html#Binary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.Binary" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="core.html#core.population.Individual" title="core.population.Individual"><code class="xref py py-class docutils literal notranslate"><span class="pre">Individual</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="evolvables.main.Binary.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">len</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/evolvables/main.html#Binary.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.Binary.__init__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="evolvables.main.Binary.toggle">
-<span class="sig-name descname"><span class="pre">toggle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/main.html#Binary.toggle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.Binary.toggle" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="evolvables.main.Binary.create_random">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">len</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="_modules/evolvables/main.html#Binary.create_random"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.Binary.create_random" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="evolvables.main.Binary.value">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#evolvables.main.Binary.value" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="evolvables.main.Binary.copy">
-<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="_modules/evolvables/main.html#Binary.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.Binary.copy" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="evolvables.main.BitDistanceEvaluator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.main.</span></span><span class="sig-name descname"><span class="pre">BitDistanceEvaluator</span></span><a class="reference internal" href="_modules/evolvables/main.html#BitDistanceEvaluator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.BitDistanceEvaluator" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="core.html#core.evaluator.Evaluator" title="core.evaluator.Evaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Evaluator</span></code></a>[<a class="reference internal" href="#evolvables.main.Binary" title="evolvables.main.Binary"><code class="xref py py-class docutils literal notranslate"><span class="pre">Binary</span></code></a>]</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="evolvables.main.BitDistanceEvaluator.evaluate">
-<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evolvables.main.Binary" title="evolvables.main.Binary"><span class="pre">Binary</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/evolvables/main.html#BitDistanceEvaluator.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.BitDistanceEvaluator.evaluate" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="evolvables.main.RandomBitMutator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evolvables.main.</span></span><span class="sig-name descname"><span class="pre">RandomBitMutator</span></span><a class="reference internal" href="_modules/evolvables/main.html#RandomBitMutator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.RandomBitMutator" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="core.html#core.variator.Variator" title="core.variator.Variator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variator</span></code></a>[<a class="reference internal" href="#evolvables.main.Binary" title="evolvables.main.Binary"><code class="xref py py-class docutils literal notranslate"><span class="pre">Binary</span></code></a>]</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="evolvables.main.RandomBitMutator.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/evolvables/main.html#RandomBitMutator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.RandomBitMutator.__init__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="evolvables.main.RandomBitMutator.vary">
-<span class="sig-name descname"><span class="pre">vary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#evolvables.main.Binary" title="evolvables.main.Binary"><span class="pre">Binary</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#evolvables.main.Binary" title="evolvables.main.Binary"><span class="pre">Binary</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/evolvables/main.html#RandomBitMutator.vary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evolvables.main.RandomBitMutator.vary" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>

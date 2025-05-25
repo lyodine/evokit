@@ -84,7 +84,16 @@
 <li class="toctree-l4"><a class="reference internal" href="#core.variator.DefaultVariator"><code class="docutils literal notranslate"><span class="pre">DefaultVariator</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-core">Module contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-core">Module contents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#core.Controller"><code class="docutils literal notranslate"><span class="pre">Controller</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.Evaluator"><code class="docutils literal notranslate"><span class="pre">Evaluator</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.Individual"><code class="docutils literal notranslate"><span class="pre">Individual</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.Population"><code class="docutils literal notranslate"><span class="pre">Population</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.Elitist"><code class="docutils literal notranslate"><span class="pre">Elitist()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.SimpleSelector"><code class="docutils literal notranslate"><span class="pre">SimpleSelector</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core.Variator"><code class="docutils literal notranslate"><span class="pre">Variator</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="evolvables.html">evolvables package</a></li>
@@ -215,7 +224,7 @@ each item.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="core.controller.Controller">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">core.controller.</span></span><span class="sig-name descname"><span class="pre">Controller</span></span><a class="reference internal" href="_modules/core/controller.html#Controller"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.controller.Controller" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
 <p>Base class for all evolutionary algorothms.</p>
 <p>Derive this class to create custom algorithms.</p>
 <dl class="py method">
@@ -247,7 +256,7 @@ in the initialiser.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="core.controller.Controller.step">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="_modules/core/controller.html#Controller.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.controller.Controller.step" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/controller.html#Controller.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.controller.Controller.step" title="Link to this definition"></a></dt>
 <dd><p>Advance the population by one generation.</p>
 <p>Subclasses should override this method.</p>
 <div class="admonition note">
@@ -289,7 +298,7 @@ collects data from this Controller.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="core.controller.LinearController">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">core.controller.</span></span><span class="sig-name descname"><span class="pre">LinearController</span></span><a class="reference internal" href="_modules/core/controller.html#LinearController"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.controller.LinearController" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#core.controller.Controller" title="core.controller.Controller"><code class="xref py py-class docutils literal notranslate"><span class="pre">Controller</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<dd><p>Bases: <a class="reference internal" href="#core.controller.Controller" title="core.controller.Controller"><code class="xref py py-class docutils literal notranslate"><span class="pre">Controller</span></code></a></p>
 <p>A simple evolutionary algorithm.</p>
 <p>An evolutionary algorithm that maintains one population and does not
 take advantage of parallelism. The algorithm applies its operators
@@ -340,7 +349,7 @@ in the following order:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="core.evaluator.Evaluator.evaluate">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">individual</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/core/evaluator.html#Evaluator.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.evaluator.Evaluator.evaluate" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">individual</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/core/evaluator.html#Evaluator.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.evaluator.Evaluator.evaluate" title="Link to this definition"></a></dt>
 <dd><p>Evaluation strategy.</p>
 <p>Subclasses should override this method.</p>
 <div class="admonition note">
@@ -447,7 +456,7 @@ the original value.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="core.population.AbstractCollection">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">core.population.</span></span><span class="sig-name descname"><span class="pre">AbstractCollection</span></span><a class="reference internal" href="_modules/core/population.html#AbstractCollection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.population.AbstractCollection" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">R</span></code>]</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">R</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">R</span></code>]</p>
 <p>Machinery.</p>
 <p>Data structure for collections that may be performance bottlecaps.
 TODO: I cannot find a way to document methods inherited from this class.</p>
@@ -511,11 +520,11 @@ Remove that item from the collection, then return that value.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="core.population.Population">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">core.population.</span></span><span class="sig-name descname"><span class="pre">Population</span></span><a class="reference internal" href="_modules/core/population.html#Population"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.population.Population" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#core.population.AbstractCollection" title="core.population.AbstractCollection"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractCollection</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<dd><p>Bases: <a class="reference internal" href="#core.population.AbstractCollection" title="core.population.AbstractCollection"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractCollection</span></code></a>[<a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><code class="xref py py-class docutils literal notranslate"><span class="pre">Individual</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">R</span></code>]], <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><code class="xref py py-class docutils literal notranslate"><span class="pre">Individual</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">R</span></code>]], <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>[<a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><code class="xref py py-class docutils literal notranslate"><span class="pre">Individual</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">R</span></code>]]</p>
 <p>A flat collection of individuals.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="core.population.Population.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/population.html#Population.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.population.Population.__init__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">[</span></span><span class="pre">R</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/population.html#Population.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.population.Population.__init__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -537,7 +546,7 @@ these values.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="core.population.Population.sort">
-<span class="sig-name descname"><span class="pre">sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">ranker:</span> <span class="pre">Callable[[T],</span> <span class="pre">float]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">Population.&lt;lambda&gt;&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/population.html#Population.sort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.population.Population.sort" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">ranker:</span> <span class="pre">Callable[[Individual[R]],</span> <span class="pre">float]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">Population.&lt;lambda&gt;&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/population.html#Population.sort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.population.Population.sort" title="Link to this definition"></a></dt>
 <dd><p>Rearrange items by fitness, highest-first.</p>
 <p>The item at index 0 has the highest index.</p>
 </dd></dl>
@@ -547,6 +556,11 @@ these values.</p>
 <span class="sig-name descname"><span class="pre">reset_fitness</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/population.html#Population.reset_fitness"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.population.Population.reset_fitness" title="Link to this definition"></a></dt>
 <dd><p>Remove fitness values of all Individuals in the population.</p>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="core.population.Population.best">
+<span class="sig-name descname"><span class="pre">best</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">[</span></span><span class="pre">R</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/population.html#Population.best"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.population.Population.best" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -591,7 +605,7 @@ these values.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="core.selector.Selector.select_to_many">
-<span class="sig-name descname"><span class="pre">select_to_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#Selector.select_to_many"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.Selector.select_to_many" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">select_to_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#Selector.select_to_many"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.Selector.select_to_many" title="Link to this definition"></a></dt>
 <dd><p>Context of <a class="reference internal" href="#core.selector.Selector.select" title="core.selector.Selector.select"><code class="xref py py-attr docutils literal notranslate"><span class="pre">select</span></code></a>.</p>
 <p>Repeatedly apply select() to create a collection of solutions. Each
 application removes an item in the original population.</p>
@@ -613,7 +627,7 @@ require access to the entire selection process.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="core.selector.Selector.select">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#Selector.select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.Selector.select" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#Selector.select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.Selector.select" title="Link to this definition"></a></dt>
 <dd><p>Selection strategy.</p>
 <p>All subclasses should override this method. The implementation should
 return a tuple of individuals. Each item in the tuple should also
@@ -637,7 +651,7 @@ be a member of <cite>population</cite>.</p>
 <p>Selector that does nothing.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="core.selector.NullSelector.select_to_many">
-<span class="sig-name descname"><span class="pre">select_to_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#NullSelector.select_to_many"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.NullSelector.select_to_many" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">select_to_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#NullSelector.select_to_many"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.NullSelector.select_to_many" title="Link to this definition"></a></dt>
 <dd><p>Select every item in the population.</p>
 </dd></dl>
 
@@ -656,7 +670,7 @@ be a member of <cite>population</cite>.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="core.selector.SimpleSelector.select">
-<span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#SimpleSelector.select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.SimpleSelector.select" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#SimpleSelector.select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.SimpleSelector.select" title="Link to this definition"></a></dt>
 <dd><p>Greedy selection.</p>
 <p>Select the item in the population with highest fitness.</p>
 </dd></dl>
@@ -680,7 +694,7 @@ individual of a _population_.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="core.selector.ElitistSimpleSelector.select_to_many">
-<span class="sig-name descname"><span class="pre">select_to_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#ElitistSimpleSelector.select_to_many"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.ElitistSimpleSelector.select_to_many" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">select_to_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#ElitistSimpleSelector.select_to_many"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.ElitistSimpleSelector.select_to_many" title="Link to this definition"></a></dt>
 <dd><p>Context that implements elitism.</p>
 <p>Preserve and update an elite. Each time the selector is used, insert
 the current elite to the results.</p>
@@ -700,7 +714,7 @@ the current elite to the results.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="core.selector.TournamentSelector.select">
-<span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#TournamentSelector.select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.TournamentSelector.select" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Population" title="core.population.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#TournamentSelector.select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.selector.TournamentSelector.select" title="Link to this definition"></a></dt>
 <dd><p>Tournament selection.</p>
 <p>Select a uniform sample, then select the best member in that sample.</p>
 </dd></dl>
@@ -739,7 +753,7 @@ the current elite to the results.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="core.variator.Variator.vary">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/variator.html#Variator.vary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.variator.Variator.vary" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/variator.html#Variator.vary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.variator.Variator.vary" title="Link to this definition"></a></dt>
 <dd><p>Appy the variator to a tuple of parents</p>
 <p>Produce a tuple of individuals from a tuple of individuals.
 The input and output tuple sizes should match the arity and coarity of
@@ -761,12 +775,12 @@ Implementation note: clear the score first.</p>
 <p>Variator that does not change anything</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="core.variator.DefaultVariator.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/variator.html#DefaultVariator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.variator.DefaultVariator.__init__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/variator.html#DefaultVariator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.variator.DefaultVariator.__init__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="core.variator.DefaultVariator.vary">
-<span class="sig-name descname"><span class="pre">vary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/variator.html#DefaultVariator.vary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.variator.DefaultVariator.vary" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">vary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/variator.html#DefaultVariator.vary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.variator.DefaultVariator.vary" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -775,6 +789,312 @@ Implementation note: clear the score first.</p>
 <section id="module-core">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-core" title="Link to this heading"></a></h2>
 <p>Export modules from core.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="core.Controller">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">core.</span></span><span class="sig-name descname"><span class="pre">Controller</span></span><a class="reference internal" href="_modules/core/controller.html#Controller"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Controller" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Base class for all evolutionary algorothms.</p>
+<p>Derive this class to create custom algorithms.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="core.Controller.__init__">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/controller.html#Controller.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Controller.__init__" title="Link to this definition"></a></dt>
+<dd><p>Subclasses should override this method.</p>
+<p>The implementation can accept operators as arguments. Alternatively,
+it may also acquire operators from the global scope, or define them
+in the initialiser.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="core.Controller.generation">
+<span class="sig-name descname"><span class="pre">generation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#core.Controller.generation" title="Link to this definition"></a></dt>
+<dd><p>Generation counter, automatically increments when <a class="reference internal" href="#core.Controller.step" title="core.Controller.step"><code class="xref py py-attr docutils literal notranslate"><span class="pre">step</span></code></a> is called.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="core.Controller.accountants">
+<span class="sig-name descname"><span class="pre">accountants</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#core.accountant.Accountant" title="core.accountant.Accountant"><span class="pre">Accountant</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#core.Controller.accountants" title="Link to this definition"></a></dt>
+<dd><p>Registered <code class="xref py py-class docutils literal notranslate"><span class="pre">Accountant</span></code> objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="core.Controller.events">
+<span class="sig-name descname"><span class="pre">events</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#core.Controller.events" title="Link to this definition"></a></dt>
+<dd><p>Collection of events that can be reported by this controller.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="core.Controller.step">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/controller.html#Controller.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Controller.step" title="Link to this definition"></a></dt>
+<dd><p>Advance the population by one generation.</p>
+<p>Subclasses should override this method.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Do not manually increment <a class="reference internal" href="#core.Controller.generation" title="core.Controller.generation"><code class="xref py py-attr docutils literal notranslate"><span class="pre">generation</span></code></a>. This property
+is automatically managed.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="core.Controller.register">
+<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">accountant</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.accountant.Accountant" title="core.accountant.Accountant"><span class="pre">Accountant</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/controller.html#Controller.register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Controller.register" title="Link to this definition"></a></dt>
+<dd><p>Attach an <a class="reference internal" href="#core.accountant.Accountant" title="core.accountant.Accountant"><code class="xref py py-class docutils literal notranslate"><span class="pre">Accountant</span></code></a> to this controller.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>accountant</strong> – An <a class="reference internal" href="#core.accountant.Accountant" title="core.accountant.Accountant"><code class="xref py py-class docutils literal notranslate"><span class="pre">Accountant</span></code></a> that observes and
+collects data from this Controller.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="core.Controller.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/controller.html#Controller.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Controller.update" title="Link to this definition"></a></dt>
+<dd><p>Report an event to all attached <a class="reference internal" href="#core.accountant.Accountant" title="core.accountant.Accountant"><code class="xref py py-class docutils literal notranslate"><span class="pre">Accountant</span></code></a> objects.</p>
+<p>The event must be in <a class="reference internal" href="#core.Controller.events" title="core.Controller.events"><code class="xref py py-attr docutils literal notranslate"><span class="pre">events</span></code></a>. If not, raise an exception.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>event</strong> – the event to report.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – if an reported event is not registered.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="core.Evaluator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">core.</span></span><span class="sig-name descname"><span class="pre">Evaluator</span></span><a class="reference internal" href="_modules/core/evaluator.html#Evaluator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Evaluator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<p>Base class for all evaluators.</p>
+<p>Derive this class to create custom evaluators.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="core.Evaluator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/evaluator.html#Evaluator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Evaluator.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="core.Evaluator.retain_fitness">
+<span class="sig-name descname"><span class="pre">retain_fitness</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#core.Evaluator.retain_fitness" title="Link to this definition"></a></dt>
+<dd><p>If this evaluator should re-evaluate an <a class="reference internal" href="#core.Individual" title="core.Individual"><code class="xref py py-class docutils literal notranslate"><span class="pre">Individual</span></code></a> whose
+<a class="reference internal" href="#core.population.Individual.fitness" title="core.population.Individual.fitness"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fitness</span></code></a> is already set.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="core.Evaluator.evaluate">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">individual</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.Individual" title="core.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/core/evaluator.html#Evaluator.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Evaluator.evaluate" title="Link to this definition"></a></dt>
+<dd><p>Evaluation strategy.</p>
+<p>Subclasses should override this method.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The implementation should assign higher fitness to better individuals.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>individual</strong> – individual to evaluate</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Fitness of the individual</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="core.Evaluator.evaluate_population">
+<span class="sig-name descname"><span class="pre">evaluate_population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.Population" title="core.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/evaluator.html#Evaluator.evaluate_population"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Evaluator.evaluate_population" title="Link to this definition"></a></dt>
+<dd><p>Context of <a class="reference internal" href="#core.Evaluator.evaluate" title="core.Evaluator.evaluate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">evaluate()</span></code></a>.</p>
+<p>Iterate individuals in a population. For each individual, compute a
+fitness with <a class="reference internal" href="#core.Evaluator.evaluate" title="core.Evaluator.evaluate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">evaluate()</span></code></a>, then assign that value to the individual.</p>
+<p>A subclass may override this method to implement behaviours that
+require access to the entire population.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method must <strong>never</strong> return a value. It must assign to
+<a class="reference internal" href="#core.population.Individual.fitness" title="core.population.Individual.fitness"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fitness</span></code></a> for each <a class="reference internal" href="#core.Individual" title="core.Individual"><code class="xref py py-class docutils literal notranslate"><span class="pre">Individual</span></code></a> in the <a class="reference internal" href="#core.Population" title="core.Population"><code class="xref py py-class docutils literal notranslate"><span class="pre">Population</span></code></a>.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="core.Individual">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">core.</span></span><span class="sig-name descname"><span class="pre">Individual</span></span><a class="reference internal" href="_modules/core/population.html#Individual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Individual" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">R</span></code>]</p>
+<p>Base class for all individuals.</p>
+<p>Derive this class to create custom representations.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="core.Individual.__init__">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/population.html#Individual.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Individual.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="core.Individual.fitness">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fitness</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#core.Individual.fitness" title="Link to this definition"></a></dt>
+<dd><p>Fitness of an individual.</p>
+<p>Writing to this property changes the fitness of the individual.
+Reading this property may raise an exception, if a fitness has
+not been assigned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Fitness of the individual</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – if the current fitness is <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="core.Individual.reset_fitness">
+<span class="sig-name descname"><span class="pre">reset_fitness</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/population.html#Individual.reset_fitness"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Individual.reset_fitness" title="Link to this definition"></a></dt>
+<dd><p>Reset the fitness of the individual.</p>
+<p>Set the fitness of the individual to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="core.Individual.has_fitness">
+<span class="sig-name descname"><span class="pre">has_fitness</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/core/population.html#Individual.has_fitness"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Individual.has_fitness" title="Link to this definition"></a></dt>
+<dd><p>Return if the genome has a fitness value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">False</span></code> if the current <a class="reference internal" href="#core.Individual.fitness" title="core.Individual.fitness"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fitness</span></code></a> is <code class="docutils literal notranslate"><span class="pre">None</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="core.Individual.copy">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="_modules/core/population.html#Individual.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Individual.copy" title="Link to this definition"></a></dt>
+<dd><p>Copy the solution.</p>
+<p>Subclasses should override this method.</p>
+<p>In addition to duplicating <code class="xref py py-attr docutils literal notranslate"><span class="pre">genome</span></code>, the implementation
+should decide whether to retain other fields such as <a class="reference internal" href="#core.Individual.fitness" title="core.Individual.fitness"><code class="xref py py-attr docutils literal notranslate"><span class="pre">fitness</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new individual.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Ensure that changes made to the returned value do not affect
+the original value.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="core.Population">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">core.</span></span><span class="sig-name descname"><span class="pre">Population</span></span><a class="reference internal" href="_modules/core/population.html#Population"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Population" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#core.population.AbstractCollection" title="core.population.AbstractCollection"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractCollection</span></code></a>[<a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><code class="xref py py-class docutils literal notranslate"><span class="pre">Individual</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">R</span></code>]], <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><code class="xref py py-class docutils literal notranslate"><span class="pre">Individual</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">R</span></code>]], <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>[<a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><code class="xref py py-class docutils literal notranslate"><span class="pre">Individual</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">R</span></code>]]</p>
+<p>A flat collection of individuals.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="core.Population.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.population.Individual" title="core.population.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">[</span></span><span class="pre">R</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/population.html#Population.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Population.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="core.Population.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="_modules/core/population.html#Population.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Population.copy" title="Link to this definition"></a></dt>
+<dd><p>Return an independent population.</p>
+<p>Changes made to items in the new population should not affect
+items in this population. This behaviour depends on correct implementation
+of <cite>~.Individual.copy</cite> in each item.</p>
+<p>Call <cite>~.Individual.copy</cite> for each <a class="reference internal" href="#core.Individual" title="core.Individual"><code class="xref py py-class docutils literal notranslate"><span class="pre">Individual</span></code></a> in this
+population. Collect the results, then create a new population with
+these values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new population.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="core.Population.sort">
+<span class="sig-name descname"><span class="pre">sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">ranker:</span> <span class="pre">Callable[[Individual[R]],</span> <span class="pre">float]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">Population.&lt;lambda&gt;&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/population.html#Population.sort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Population.sort" title="Link to this definition"></a></dt>
+<dd><p>Rearrange items by fitness, highest-first.</p>
+<p>The item at index 0 has the highest index.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="core.Population.reset_fitness">
+<span class="sig-name descname"><span class="pre">reset_fitness</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/population.html#Population.reset_fitness"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Population.reset_fitness" title="Link to this definition"></a></dt>
+<dd><p>Remove fitness values of all Individuals in the population.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="core.Population.best">
+<span class="sig-name descname"><span class="pre">best</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#core.Individual" title="core.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">[</span></span><span class="pre">R</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/population.html#Population.best"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Population.best" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="core.Elitist">
+<span class="sig-prename descclassname"><span class="pre">core.</span></span><span class="sig-name descname"><span class="pre">Elitist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.selector.Selector" title="core.selector.Selector"><span class="pre">Selector</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#core.selector.Selector" title="core.selector.Selector"><span class="pre">Selector</span></a></span></span><a class="reference internal" href="_modules/core/selector.html#Elitist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Elitist" title="Link to this definition"></a></dt>
+<dd><p>Decorator that adds elitism to a selector.</p>
+<dl class="simple">
+<dt>Modify <cite>select_to_many</cite> of <cite>sel</cite> to use elitism. If <cite>sel</cite> already</dt><dd><p>overrides <cite>select_to_many</cite>, that implementation is destroyed.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sel</strong> – A selector</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A selector</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="core.SimpleSelector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">core.</span></span><span class="sig-name descname"><span class="pre">SimpleSelector</span></span><a class="reference internal" href="_modules/core/selector.html#SimpleSelector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.SimpleSelector" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#core.selector.Selector" title="core.selector.Selector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Selector</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<p>Simple selector that select the highest-fitness individual.</p>
+<p>Example for overriding <cite>select</cite>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="core.SimpleSelector.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">budget</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/core/selector.html#SimpleSelector.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.SimpleSelector.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="core.SimpleSelector.select">
+<span class="sig-name descname"><span class="pre">select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.Population" title="core.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#core.Individual" title="core.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/selector.html#SimpleSelector.select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.SimpleSelector.select" title="Link to this definition"></a></dt>
+<dd><p>Greedy selection.</p>
+<p>Select the item in the population with highest fitness.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="core.Variator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">core.</span></span><span class="sig-name descname"><span class="pre">Variator</span></span><a class="reference internal" href="_modules/core/variator.html#Variator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Variator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code>]</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="core.Variator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coarity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/core/variator.html#Variator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Variator.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="core.Variator.vary">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#core.Individual" title="core.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#core.Individual" title="core.Individual"><span class="pre">Individual</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/variator.html#Variator.vary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Variator.vary" title="Link to this definition"></a></dt>
+<dd><p>Appy the variator to a tuple of parents</p>
+<p>Produce a tuple of individuals from a tuple of individuals.
+The input and output tuple sizes should match the arity and coarity of
+this selector, respectively.
+Implementation note: clear the score first.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="core.Variator.vary_population">
+<span class="sig-name descname"><span class="pre">vary_population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#core.Population" title="core.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#core.Population" title="core.Population"><span class="pre">Population</span></a><span class="p"><span class="pre">[</span></span><span class="pre">T</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/core/variator.html#Variator.vary_population"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#core.Variator.vary_population" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
