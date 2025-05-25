@@ -7,15 +7,16 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing import Iterator
-    from typing import Iterable
-    from typing import Sequence
     from typing import Callable
     from typing import Optional
     from typing import Self
     from typing import Type
     from typing import Any
     from typing import Union
-    from typing import overload
+
+from typing import overload
+from typing import Iterable
+from typing import Sequence
 
 import itertools
 from abc import ABC, abstractmethod
