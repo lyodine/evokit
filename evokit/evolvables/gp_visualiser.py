@@ -34,7 +34,8 @@ def p2dot(gp: Program,
         identifier when called.
     """
     expr: Expression = gp.genome
-    my_name: str = expr.value.__name__ if callable(expr.value) else str(expr.value)
+    my_name: str = expr.value.__name__ if callable(expr.value)\
+        else str(expr.value)
     my_ident: str = dispatcher()
     dot: Digraph = Digraph("GP Visualisation")
     dot.node(my_ident, my_name)
@@ -63,7 +64,8 @@ def _p2dot_recurse(expr: Expression,
         dispatcher: :class:`Callable` that should return a unique
         identifier when called.
     """
-    my_name: str = expr.value.__name__ if callable(expr.value) else str(expr.value)
+    my_name: str = expr.value.__name__ if callable(expr.value)\
+        else str(expr.value)
     my_ident: str = dispatcher()
 
     dot.node(my_ident, my_name)
