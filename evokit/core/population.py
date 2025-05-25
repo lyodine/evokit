@@ -78,7 +78,7 @@ class Individual(ABC, Generic[R], metaclass=MetaGenome):
         #  the representation in this attribute.
         # TODO Think about a better way to put it, "contained value"?
         #   surely "value" is too general.
-        self.genome: Optional[R] = None
+        self.genome: R
 
     @property
     def fitness(self) -> float:
