@@ -60,6 +60,8 @@ class Individual(ABC, Generic[R], metaclass=MetaGenome):
     """Base class for all individuals.
 
     Derive this class to create custom representations.
+
+    See :doc:`../guides/examples/onemax`.
     """
     def __new__(cls: Type[Self], *args: Any, **kwargs: Any) -> Self:
         """Machinery. Implement managed attributes.
@@ -75,9 +77,7 @@ class Individual(ABC, Generic[R], metaclass=MetaGenome):
         #: Fitness of the individual
         self._fitness: Optional[float]
         #: Genotype of the individual. Subclasses should store
-        #  the representation in this attribute.
-        # TODO Think about a better way to put it, "contained value"?
-        #   surely "value" is too general.
+        #  the genotype in this attribute.
         self.genome: R
 
     @property
@@ -85,19 +85,18 @@ class Individual(ABC, Generic[R], metaclass=MetaGenome):
         """Fitness of an individual.
 
         Writing to this property changes the fitness of the individual.
-        Reading this property may raise an exception, if a fitness has
-        not been assigned.
+        If this individual has yet to be assigned a fitness, reading 
+        from this property raises an exception.
+
+        To determine if the individual has a fitness, call
+        :meth:`has_fitness`.
 
         Return:
             Fitness of the individual
 
         Raise:
-            ValueError: if the current fitness is ``None``
+            :class:`ValueError`: if the current fitness is ``None``
         """
-        # TODO: Consider letting fitness return None if it is not assigned,
-        #   instead of raising an exception.
-        # There should be a limit to hand-holding the developer,
-        #   and this might be it.
 
         if (self._fitness is None):
             raise ValueError("Score is accessed but null")
@@ -106,7 +105,9 @@ class Individual(ABC, Generic[R], metaclass=MetaGenome):
 
     @fitness.setter
     def fitness(self, value: float) -> None:
-        """Sphinx does not register docstrings on setters.
+        """Sphinx does not pick up docstrings on setters.
+        
+        This docstring should never be seen.
         """
         self._fitness = value
 
@@ -118,10 +119,10 @@ class Individual(ABC, Generic[R], metaclass=MetaGenome):
         self._fitness = None
 
     def has_fitness(self) -> bool:
-        """Return if the genome has a fitness value.
+        """Return if the individual has a fitness value.
 
         Return:
-            ``False`` if the current :attr:`fitness` is ``None``, otherwise ``True``
+            ``False`` if the current :attr:`.fitness` is ``None``, otherwise ``True``
         """
         return self._fitness is not None
 
@@ -131,8 +132,8 @@ class Individual(ABC, Generic[R], metaclass=MetaGenome):
 
         Subclasses should override this method.
 
-        In addition to duplicating :attr:`genome`, the implementation
-        should decide whether to retain other fields such as :attr:`fitness`.
+        In addition to duplicating :attr:`.genome`, the implementation
+        should decide whether to retain other fields such as :attr:`.fitness`.
 
         Returns:
             A new individual.
@@ -191,7 +192,7 @@ class AbstractCollection(ABC, Generic[R], Sequence[R], Iterable[R]):
             raise StopIteration
 
     def append(self, value: R) -> None:
-        """Append an item to this collection
+        """Append an item to this collection.
 
         Args:
             value: the item to add to this item
@@ -205,36 +206,33 @@ class AbstractCollection(ABC, Generic[R], Sequence[R], Iterable[R]):
         Args:
             values: collection whose values are appended to this collection
         """
-        # TODO WOW list comprehension magic. Might be totally inefficient
-        # though.
-        # Remember that this class is a performance bottleneck.
+        # TODO Inefficient list comprehension. Looks awesome though.
+        # Improve at my own convenience.
         self._items = list(itertools.chain(self._items, values))
 
     def populate(self, new_data: Iterable[R]) -> None:
-        """Remove items in this collection with all items from another
-        collection.
+        """Replace items in this population with items in ``new_data`.
 
         Args:
             values: collection whose values are appended to this collection
         """
-        # TODO This method is defined but not used, as of 2024-04-02.
-        #   It was added for "completeness". Completeness does not warrant
-        #   redundancy.
+        # Redundant.
         self._items = list(new_data)
 
     def draw(self, key: Optional[R] = None, pos: Optional[int] = None) -> R:
         """Remove an item.
 
-        Identify an item either by value (in key) or by position (in pos).
-        Remove that item from the collection, then return that value.
+        Identify an item either by value (in ``key``) or by position
+        (in ``pos``). Remove that item from the collection, then return that item.
 
         Returns:
             The :class:`Individual` that is removed from the population
+
         Raises:
-            TypeError: If neither ``key`` nor ``pos`` is given.
+            :class:`TypeError`: If neither ``key`` nor ``pos`` is given.
         """
         if (key is None and pos is None):
-            raise TypeError("An item must be speccified, either by"
+            raise TypeError("An item must be specified, either by"
                             " value or by position. Neither is given.")
         elif (key is not None and pos is not None):
             raise TypeError("The item can only be specified by value"
@@ -279,14 +277,11 @@ class Population(AbstractCollection[D],
 
         Changes made to items in the new population should not affect
         items in this population. This behaviour depends on correct implementation
-        of `~.Individual.copy` in each item.
+        of :meth:`.Individual.copy` in each item.
 
-        Call `~.Individual.copy` for each :class:`Individual` in this
+        Call :meth:`.Individual.copy` for each :class:`Individual` in this
         population. Collect the results, then create a new population with
         these values.
-
-        Returns:
-            A new population.
         """
         return self.__class__(*[x.copy() for x in self._items])
 
@@ -302,7 +297,6 @@ class Population(AbstractCollection[D],
 
     def reset_fitness(self: Self) -> None:
         """Remove fitness values of all Individuals in the population.
-
         """
 
         # TODO This behaviour exists in two places: in evaluators
@@ -313,6 +307,8 @@ class Population(AbstractCollection[D],
             x.reset_fitness()
 
     def best(self: Self) -> D:
+        """Return the highest-fitness individual in this population.
+        """
         best_individual: D = self[0]
 
         for x in self:
