@@ -1,21 +1,20 @@
 """ The controller is an iterative optimizer that receives various evolutionary operators.
 """
+from __future__ import annotations
 
-from typing import get_args
-from typing import Dict
+from typing import TYPE_CHECKING
 
-from typing import Callable
-from typing import Self
-from typing import Optional
-from typing import TypeVar
-from typing import Generic
+if TYPE_CHECKING:
+    from typing import Self
+    from .population import GenomePool
+    from .evaluator import Evaluator
+    from .variator import Variator
+    from .selector import Selector
+    from .population import Population
 
-from .population import Population
 from .population import Genome
-from .population import GenomePool
-from .evaluator import Evaluator
-from .variator import Variator
-from .selector import Selector
+from typing import Generic
+from typing import TypeVar
 
 T = TypeVar("T", bound = Genome)
 
@@ -41,23 +40,7 @@ class Controller(Generic[T]):
         self.parent_selector = parent_selector
         self.variator = variator
         self.offspring_selector = offspring_selector
-        self._ensure_operator_types()
         self.generation = 0
-
-    def _ensure_operator_types(self):
-        """!Assert that the population, the evaluator, the parent selector,
-            the variator, and the offspring selector are correctly typed.
-            @note This function does not check if operators have the correct
-                type arguments. For example, it does not detect if an
-                evaluator for binary strings and an variator for genetic
-                programs are used together, only that the evaluator is an
-                evaluator and the variator is an variator.
-        """
-        assert isinstance(self.population, Population)
-        assert isinstance(self.evaluator, Evaluator)
-        assert isinstance(self.parent_selector, Selector)
-        assert isinstance(self.variator, Variator)
-        assert isinstance(self.offspring_selector, Selector)
 
     def step(self) -> Self:
         """!Advance the population by one generation.
@@ -80,14 +63,10 @@ class Controller(Generic[T]):
         self.evaluator.evaluate_population(offspring)
 
         # Select from the offspring
-        survivors = self.survivor_selector.select_to_population(offspring)
+        offspring = self.offspring_selector.select_to_population(offspring)
 
         # The survivor become the next population.
-        self.population = survivors
+        self.population = offspring
 
         # Returning self allows chaining multiple calls to `step`
         return self
-    
-    
-
-    
