@@ -12,7 +12,7 @@ authors = [
 
 readme = "README.md"
 
-license = {file = "LICENSE.txt"}
+license-files = ["LICENSE.txt"]
 
 keywords = ["Machine Learning", "Evolutionary Computing", "Framework"]
 
@@ -32,7 +32,6 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Artificial Life",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Typing :: Typed",
-    "License :: OSI Approved :: MIT License"
 ]
 
 # Add tags:
@@ -49,10 +48,16 @@ accounting_visualise = ["numpy>=1.26.4", "matplotlib>=3.10.1"]
 
 [build-system]
 
-requires = ["setuptools >= 60.1.1"]
+requires = ["setuptools >= 70.1.1"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools]
+packages = ["evokit"]
 
+[project.urls]
+Homepage = "https://yidingli.com/evokit/"
+Documentation = "https://yidingli.com/evokit/docs/"
+Repository = "https://gitlab.com/evokit/evokit"
 
 # [tools.setuptools.packages.find]
 # where = ["src"]
