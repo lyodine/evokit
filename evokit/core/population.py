@@ -8,12 +8,12 @@ if TYPE_CHECKING:
     from typing import Optional
     from typing import Self
     from typing import Type
-    from typing import Any
 
 from functools import wraps
 
 from abc import ABC, abstractmethod, ABCMeta
 from typing import Generic, TypeVar
+from typing import Any
 
 R = TypeVar('R')
 

@@ -7,10 +7,10 @@ if TYPE_CHECKING:
     from typing import Sequence
     from typing import Self
     from typing import Type
-    from typing import Any
 
 from abc import abstractmethod
 from abc import ABC
+from typing import Any
 from typing import Generic, TypeVar
 
 from .population import Individual, Population
