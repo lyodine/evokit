@@ -47,8 +47,8 @@ class _MetaAlgorithm(ABCMeta):
                 self = args[0]
                 self.update("STEP_BEGIN")
                 custom_step(*args, **kwargs)
-                self.generation += 1
                 self.update("STEP_END")
+                self.generation += 1
 
             return wrapper
 
@@ -80,6 +80,7 @@ class Algorithm(ABC, Generic[T], metaclass=_MetaAlgorithm):
         #   It is therefore necessary to repeat them in :meth:`__init__`.
         instance = super().__new__(cls)
         instance.generation = 0
+        instance.automatic_events = ["STEP_BEGIN", "STEP_END"]
         instance.accountants = []
         instance.events = []
         return instance
@@ -101,8 +102,7 @@ class Algorithm(ABC, Generic[T], metaclass=_MetaAlgorithm):
         #! Events that can be reported by this algorithm.
         self.events: list[str]
         #! Events that are automatically fired.
-        self.automatic_events: list[str] = [
-            "STEP_BEGIN", "STEP_END"]
+        self.automatic_events: list[str]
 
     @abstractmethod
     def step(self) -> None:
