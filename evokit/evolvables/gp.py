@@ -56,52 +56,21 @@ def _get_arity(fun: Any) -> int:
     """
     if (callable(fun)):
         return len(signature(fun).parameters)
-    elif isinstance(fun, ExpressionBranch):
+    elif isinstance(fun, Expression):
         # Specialised code for programs
-        return len(fun.children)
+        return fun.arity
+    elif isinstance(fun, Symbol):
+        # Specialised code for programs
+        return 0
     else:
         return 0
-
-class Expression(abc.ABC, Generic[T]):
-    def __init__(self: Self, arity: int)-> None:
-        self.arity: int = arity
-
-        self.factory: Optional[ExpressionFactory[T]] = None
-        self._children: Optional[List[Expression[T]]] = None
-
-    @abstractmethod
-    def __call__(self: Self, *params: T) -> T: ...
-
-    @abstractmethod
-    def copy(self: Self) -> Self: ...
-
-    @abstractmethod
-    def nodes(self: Self) -> Tuple[Expression[T], ...]: ...
-
-    @abstractmethod
-    def __str__(self: Self) -> str: ...
-
-    @abstractmethod
-    def __repr__(self: Self) -> str: ...
-
-    @property
-    def children(self: Self) -> List[Expression[T]]:
-        if self._children is not None:
-            return self._children
-        else:
-            raise ValueError("Children of this expression have not been set.")
-
-    @children.setter
-    def children(self: Self, children: List[Expression[T]]) -> None:
-        self._children = children
-
 
 # class ExpressionSymbol(Expression[T]):
 #     def __init__(self: Self, arity: int, pos: int) -> None:
 #         super().__init__(arity)
 #         global _EXPR_PARAM_PREFIX
 #         self.pos: int = pos
-#         self.__name__: str = _EXPR_PARAM_PREFIX + str(self.pos)
+
 
 #         #! Children of the expression node
 #         self.children: List[Expression[T]] = []
@@ -135,7 +104,7 @@ class Expression(abc.ABC, Generic[T]):
 #         return f"ExpressionSymbol({self.__name__})"
 
 
-class Expression(Expression[T]):
+class Expression(Generic[T]):
     """Recursive data structure of a program tree.
 
     An instance of this class represents an expression node. A expression node
@@ -143,34 +112,32 @@ class Expression(Expression[T]):
     """
     def __init__(self: Self,
                  arity: int,
-                 value: T | Callable[..., T],
-                 children: Optional[List[Expression[T]]] = None):
-        super().__init__(arity)
+                 value: T | Callable[..., T] | Symbol,
+                 children: List[Expression[T]],
+                 factory: Optional[ExpressionFactory] = None):
+        self.arity: int = arity
         #! Value of the expression node.
-        self.value: T | typing.Callable[..., T] = value
+        self.value: T | typing.Callable[..., T] | Symbol = value
         
-        if children is not None:
-            self.children = children
+        self.children = children
+
+        self._factory = factory
+
         #! Arity of the expression as a ``Callable``
         # self.arity = _get_arity(self.value)
         
     @property
-    @override
-    def children(self: Self) -> List[Expression[T]]:
-        return super().children
+    def factory(self: Self) -> ExpressionFactory[T]:
+        if self._factory is not None:
+            return self._factory
+        else:
+            raise ValueError("This expression is not associated with a factory.")
     
-    @children.setter
-    @override
-    def children(self: Self, children: List[Expression[T]]) -> None:
-        value_arity: int = _get_arity(self.value)
-        children_arity: int = len(children)
+    @factory.setter
+    def factory(self: Self, factory: ExpressionFactory[T]) -> None:
+        self._factory = factory
 
-        if (value_arity != children_arity):
-            raise ValueError(f"When constructing the branch node, the value expects"
-                             f"{value_arity} arguments, "
-                             f"{value_arity} children defined.")
-
-        self._children = children
+    
 
     def __call__(self: Self, *args: T) -> T:
         """Evaluate the expression tree.
@@ -199,6 +166,8 @@ class Expression(Expression[T]):
 
         if callable(self.value):
             return self.value(*results)
+        if isinstance(self.value, Symbol):
+            return args[self.value.pos]
         else:
             return self.value
 
@@ -210,7 +179,7 @@ class Expression(Expression[T]):
         implements a method named ``copy``). Use the results to create
         a new :class:`Expression`
         """
-        new_value: T | Callable[..., T]
+        new_value: T | Callable[..., T] | Symbol
         if (hasattr(self.value, "copy") and callable(getattr(self.value,'m'))):
             new_value = getattr(self.value,'m')('copy')
         else:
@@ -218,8 +187,7 @@ class Expression(Expression[T]):
 
         new_children: List[Expression[T]] = [x.copy() for x in self.children]
 
-        new_self: Self = self.__class__(self.arity, new_value, new_children)
-        return new_self
+        return self.__class__(self.arity, new_value, new_children, self.factory)
 
     def nodes(self: Self) -> Tuple[Expression[T], ...]:
         """
@@ -251,6 +219,10 @@ class Symbol():
     __slots__ = ['pos']
     def __init__(self: Self, pos: int):
         self.pos: int = pos
+    
+    def __str__(self:Self) -> str:
+        global _EXPR_PARAM_PREFIX
+        return _EXPR_PARAM_PREFIX + str(self.pos)
 
 class ExpressionFactory(Generic[T]):
     """Factory class for :class:`Expression`.
@@ -328,40 +300,17 @@ class ExpressionFactory(Generic[T]):
         # Get the new node value
         new_node: Expression[T]
 
-        if (layer_budget < 1):
-            return self.draw_node(1)
-        else:
-            new_node = self.draw_node(nullary_ratio)
-            if isinstance(new_node, ExpressionBranch):
-                inferred_value_arity: int = _get_arity(new_node.value)
-                new_node.children = [*(self._build_recurse(layer_budget-1,nullary_ratio)
-                      for _ in range(inferred_value_arity))]
-            return new_node
-                
+        target_primitive: T | Callable[..., T] | Symbol =\
+                            self.draw_primitive(1) if layer_budget < 1\
+                            else self.draw_primitive(nullary_ratio)
         
-    def draw_node(self: Self,
-                  nullary_ratio: Optional[float] = None,
-                  free_draw: bool = False) -> Expression[T]:
-        """
-        """
-        target_primitive = self.draw_primitive(nullary_ratio, free_draw)
-        return self.primitive_to_expression(target_primitive)
+        inferred_value_arity = _get_arity(target_primitive)
 
-    def draw_node_by_arity(self: Self,
-                           arity: int) -> Expression[T]:
-        """
-        """
-        target_primitive = random.choice(self.primitive_pool[arity])
-        return self.primitive_to_expression(target_primitive)
-
-    def primitive_to_expression(self: Self, primitive: T | Callable[..., T] | Symbol) -> Expression[T]:
-        expr: Expression[T]
-        if isinstance(primitive, Symbol):
-            expr = ExpressionSymbol(self.arity, primitive.pos)
-        else:
-            expr = ExpressionBranch(self.arity, primitive)
-        expr.factory = self
-        return expr        
+        return Expression(arity = self.arity,
+                          value = target_primitive,
+                          children = [*(self._build_recurse(layer_budget-1, nullary_ratio)
+                            for _ in range(inferred_value_arity))],
+                          factory = self)
 
     def draw_primitive(self: Self,
                        nullary_ratio: Optional[float] = None,
@@ -387,6 +336,11 @@ class ExpressionFactory(Generic[T]):
             self._build_cost_node_budget(1)
 
         return random.choice(value_pool)
+    
+    def primitive_by_arity(self: Self,
+                           arity: int) -> T | Callable[..., T] | Symbol :
+        
+        return random.choice(self.primitive_pool[arity])
 
 
 
@@ -422,8 +376,8 @@ class ProgramFactory(Generic[T]):
 
 class CrossoverSubtree(Variator[Program[float]]):
     def __init__(self, shuffle: bool = False):
-        self.arity = 1
-        self.coarity = 1
+        self.arity = 2
+        self.coarity = 2
         self.shuffle = shuffle
 
     def vary(self,
@@ -446,11 +400,11 @@ class CrossoverSubtree(Variator[Program[float]]):
             if (not self.shuffle):
                 self.__class__._swap_children(
                     random.choice(internal_nodes_from_root_1),
-                    random.choice(internal_nodes_from_root_1))
+                    random.choice(internal_nodes_from_root_2))
             else:
                 self.__class__._shuffle_children(
                     random.choice(internal_nodes_from_root_1),
-                    random.choice(internal_nodes_from_root_1))
+                    random.choice(internal_nodes_from_root_2))
             
             # expression_node_from_root_1_to_swap =\
             #     random.choice(internal_nodes_from_root_1)
@@ -467,7 +421,6 @@ class CrossoverSubtree(Variator[Program[float]]):
         r2_children = expr2.children
 
         r1_index_to_swap = random.randint(0, len(expr1.children) - 1)
-
         r2_index_to_swap = random.randint(0, len(expr2.children) - 1)
 
         r2_index_hold = r2_children[r2_index_to_swap].copy()
@@ -486,29 +439,6 @@ class CrossoverSubtree(Variator[Program[float]]):
             expr2.children[i] = child_nodes[i].copy()
 
 
-
-
-# NODE_BUDGET = 10
-# LAYER_BUDGET = 2
-# POPULATION_SIZE = 10
-
-# from .funcs import *
-
-# a = ProgramFactory[float]((add, sub, mul, div, sin, cos), 5)
-
-# from ..core.population import Population
-
-# pop = Population[Program[float]]()
-
-
-# for x in range(POPULATION_SIZE):
-#     pop.append(a.build(NODE_BUDGET, LAYER_BUDGET,nullary_ratio=0.1))
-
-# new_pop = 
-
-
-
-
 # class CrossoverSubtree(Variator[Program[float]]):
 #     def __init__(self):
 #         self.arity = 1
@@ -518,133 +448,6 @@ class CrossoverSubtree(Variator[Program[float]]):
 #              parents: Sequence[Program[float]]) -> Tuple[Program[float], ...]:
 
 #         root1: Program = parents[0].copy()
-#         random_node = random.choice(root1.genome.nodes())
-        
-        
-            
-# class MutateSubtree(Variator[Program[float]]):
-#     def __init__(self):
-#         self.arity = 2
-#         self.coarity = 2
-
-#     def vary(self,
-#              parents: Sequence[Program[float]]) -> Tuple[Program[float], ...]:
-
-#         root1: Program = parents[0].copy()
-#         root2: Program = parents[1].copy()
-#         # print(f"root 1: {str(root1)}")
-#         # print(f"root 2: {str(root2)}")
-
-#         nodes_from_root_1 = root1.genome.nodes()
-#         nodes_from_root_2 = root2.genome.nodes()
-#         # print(f"root 1 nodes: {str([str(x) for x in nodes_from_root_1])}")
-#         # print(f"root 2 nodes: {str([str(x) for x in nodes_from_root_2])}")
-
-#         # Select internal nodes, these nodes have children.
-#         internal_nodes_from_root_1 =\
-#             tuple(x for x in nodes_from_root_1 if len(x.children) > 0)
-#         internal_nodes_from_root_2 =\
-#             tuple(x for x in nodes_from_root_2 if len(x.children) > 0)
-#         # print(f"root 1 i.nodes: {str([str(x) for x in internal_nodes_from_root_1])}")
-#         # print(f"root 2 i.nodes: {str([str(x) for x in internal_nodes_from_root_2])}")
-
-#         # If both expression trees have valid internal nodes, their
-#         #   children can be exchanged.
-#         if (internal_nodes_from_root_1 and internal_nodes_from_root_2):
-#             expression_node_from_root_1_to_swap =\
-#                 random.choice(internal_nodes_from_root_1)
-#             expression_node_from_root_2_to_swap =\
-#                 random.choice(internal_nodes_from_root_2)
-#             self.__class__._swap_children(
-#                 expression_node_from_root_1_to_swap, expression_node_from_root_2_to_swap)
-
-
-#         # print(f"Xoot 1: {str(root1)}")
-#         # print(f"Xoot 2: {str(root2)}")
-
-#         return (root1, root2)
-
-
-
-# class ProgramNodeMutationVariator(Variator[Program[float]]):
-#     def __init__(self, mutation_rate: float, nullary_ratio = 0):
-#         self.arity = 1
-#         self.coarity = 1
-#         self.mutation_rate = mutation_rate
-#         self.nullary_ratio = nullary_ratio
-
-#     def vary(self,
-#              parents: Tuple[Program[float], ...]) -> Tuple[Program[float], ...]:
-#         root: Program = parents[0].copy()
-#         root.genome.value =\
-#             root.factory.exprfactory.poll_function(self.nullary_ratio,
-#                                                    free_draw=True)
-#         return (root,)
-
-
-
-# class SymbolicEvaluator(Evaluator[Program[float]]):
-#     def __init__(self, objective: Callable, support: Tuple[Tuple[float, ...], ...]):
-#         self.objective = objective
-#         self.support = support
-#         self.arity = _get_arity(objective)
-#         if self.arity != len(support[0]):
-#             raise TypeError("aaaaaaah")
-
-#     def evaluate(self, program: Program[float]) -> float:
-#         if self.arity != _get_arity(program):
-#             raise TypeError("what")
-#         return -sum([abs(self.objective(*sup) - program(*sup)) for sup in self.support])
-
-# class SmallerIsBetter(Evaluator[Program[float]]):
-#     def evaluate(self, program: Program[float]) -> float:
-#         return -len(program.genome.nodes())
-
-
-# # class GymEvaluator(Evaluator[Program[float]]):
-# #     def __init__(self, env,
-# #                  wrapper: Callable[[float], float],
-# #                  episode_count: int,
-# #                  step_count: int,
-# #                  score_wrapper: Callable[[float], float] = lambda x: x):
-# #         super().__init__()
-# #         self.env = env
-# #         self.wrapper = wrapper
-# #         self.episode_count = episode_count
-# #         self.step_count = step_count
-# #         self.score_wrapper = score_wrapper
-
-# #     def evaluate(self, s1: Program[float]) -> float:
-# #         score = s1.evaluate_with_args(1, 4, 8, 16)
-# #         return self.score_wrapper(score)
-
-# #     @staticmethod
-# #     def evaluate_episode(s1: Program[float],
-# #                          env,
-# #                          wrapper: Callable[[float], float],
-# #                          episode_count: int,
-# #                          step_count: int) -> float:
-# #         score = 0.
-# #         for i in range(0, episode_count):
-# #             score = score + GymEvaluator.evaluate_step(s1, env, wrapper, step_count)
-# #         return score / episode_count
-
-# #     @staticmethod
-# #     def evaluate_step(s1: Program[float],
-# #                       env,
-# #                       wrapper: Callable[[float], float],
-# #                       step_count: int) -> float:
-# #         step_result = env.reset()
-# #         score = 0.
-# #         # hard coded - an episode consists of 10 evaluations.
-# #         for i in range(0, step_count):
-# #             if (len(step_result) >= 5 and (step_result[2] or step_result[3])):
-# #                 break
-# #             step_result = env.step(wrapper(s1.evaluate_with_args(*step_result[0])))  # type: ignore
-# #             if (step_result[2]):
-# #                 break
-# #             score = score + step_result[1]  # type: ignore
-# #         return score
 
 
 # from ..core.population import Population
