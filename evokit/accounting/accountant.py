@@ -13,6 +13,7 @@ if TYPE_CHECKING:
     from typing import Any
     from typing import Callable
     from typing import Optional
+    from typing import Iterable
     from collections.abc import Container
 
 from typing import Sequence
@@ -37,7 +38,7 @@ class AccountantRecord(NamedTuple, Generic[T]):
     # Spent 1 hour on this to no avail, will leave it be for the interest
     #   of time.
 
-    #: Event that triggers the handler.
+    #: Event that triggered the handler.
     event: str
 
     #: Generation count when the event :attr:`event` occurs.
@@ -48,6 +49,10 @@ class AccountantRecord(NamedTuple, Generic[T]):
 
     #: Time when the event :attr:`event` occurs.
     time: float = time.process_time()
+
+
+type AccountantHandler[C, T] =\
+    tuple[Container[str], Callable[[C], T]]
 
 
 class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
@@ -69,7 +74,7 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
 
     """
     def __init__(self: Self,
-                 handlers: dict[Container[str], Callable[[C], Any]]):
+                 handlers: Iterable[AccountantHandler[C, T]]):
         """
         Args:
             handlers: a dictionary of `event : handler` mappings.
@@ -80,7 +85,7 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
         self._records: list[AccountantRecord] = []
 
         #: `Event - handler` pairs of the ``Accountant``
-        self.handlers: dict[Container[str], Callable[[C], Any]] = handlers
+        self.handlers: Iterable[AccountantHandler[C, T]] = []
 
         #: The attached :class:`Algorithm`
         self._subject: Optional[C] = None
@@ -116,7 +121,7 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
         if self._subject is None:
             raise RuntimeError("Accountant updated without a subject.")
         else:
-            for trigger, action in self.handlers.items():
+            for (trigger, action) in self.handlers:
                 if event in trigger:
                     self._records.append(
                         AccountantRecord(event,
