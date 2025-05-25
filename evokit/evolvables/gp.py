@@ -65,11 +65,11 @@ class Expression(Generic[T]):
                  value: T | Callable[..., T] | Symbol,
                  children: list[Expression[T]],
                  factory: Optional[ExpressionFactory] = None):
-        #! Arity of the expression node.
+        #: Arity of the expression node.
         self.arity: int = arity
-        #! Value of the expression node.
+        #: Value of the expression node.
         self.value: T | typing.Callable[..., T] | Symbol = value
-        #! Children of the expression node.
+        #: Children of the expression node.
         self.children = children
 
         self._factory = factory
@@ -401,7 +401,6 @@ class CrossoverSubtree(Variator[Program[float]]):
             items back to respective parents.
         """
         self.arity = 2
-        self.coarity = 2
         self.shuffle = shuffle
 
     def vary(self,
@@ -466,7 +465,6 @@ class MutateNode(Variator[Program]):
     """
     def __init__(self: Self) -> None:
         self.arity = 1
-        self.coarity = 1
 
     def vary(self: Self,
              parents: Sequence[Program]) -> tuple[Program, ...]:
@@ -505,7 +503,6 @@ class MutateSubtree(Variator[Program]):
                  layer_budget: int,
                  nullary_ratio: Optional[float] = None) -> None:
         self.arity = 1
-        self.coarity = 2
         self.node_budget = node_budget
         self.layer_budget = layer_budget
         self.nullary_ratio = nullary_ratio
