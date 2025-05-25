@@ -281,8 +281,8 @@ def trial_run() -> list[BinaryString]:
     GENERATION_COUNT: int = 100
 
     init_pop = Population[BinaryString](
-        *[BinaryString.random(BINSTRING_LENGTH)
-          for _ in range(POPULATION_SIZE)]
+        [BinaryString.random(BINSTRING_LENGTH)
+         for _ in range(POPULATION_SIZE)]
     )
 
     ctrl: CanonicalGeneticAlgorithm[BinaryString] = CanonicalGeneticAlgorithm(
@@ -295,7 +295,7 @@ def trial_run() -> list[BinaryString]:
 
     bests: list[BinaryString] = []
 
-    for i in range(GENERATION_COUNT):
+    for _ in range(GENERATION_COUNT):
         ctrl.step()
         bests.append(ctrl.population.best())
         # Because algorithms are not generic, the type of the population
