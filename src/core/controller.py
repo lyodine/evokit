@@ -17,7 +17,7 @@ from typing import TypeVar
 T = TypeVar("T", bound = Genome)
 
 class Controller(Generic[T]):
-    """The controller manages the learning process.
+    """Controller that manages the learning process.
     """
     def __init__(self,
             population: Population[T],
@@ -26,19 +26,13 @@ class Controller(Generic[T]):
             variator: Variator[T],
             offspring_selector: Selector[T],
     ) -> None:
-        """Initialize an evolution controller with a set of configurable components.
-
-        Extended description
-
+        """
         Args:
-            population: the initial population
+            population: The initial population
             evaluator: The evaluator acts on an individual to determine its fitness.
             parent_selector: The parent selector applies to the population before variation. The range of the parent selector must match the domain of the variator.
             variator: The variator receives a collection of elements and outputs a list of genomes. These genomes are deposited into the population.
             offspring_selector: The parent selector that is applied before variation.
-
-        Returns:
-            Nothing
         """
         self.population = population
         self.evaluator = evaluator
@@ -48,7 +42,7 @@ class Controller(Generic[T]):
         self.generation = 0
 
     def step(self) -> Self:
-        """!Advance the population by one generation.
+        """Advance the population by one generation.
         """
         # Increment the generation count
         # The generation count begins at 0. Before the first generation,
