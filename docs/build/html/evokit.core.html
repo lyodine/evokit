@@ -46,7 +46,13 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="why.html">Why EvoKit?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install-and-built.html">Installing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">evokit</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="evokit.html">evokit package</a><ul class="current">
@@ -60,7 +66,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="guides/index.html">Introduction</a></li>
 </ul>
 
         </div>
@@ -143,7 +148,7 @@ a <code class="xref py py-class docutils literal notranslate"><span class="pre">
 <span class="n">report</span> <span class="o">=</span> <span class="n">acc1</span><span class="o">.</span><span class="n">publish</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Tutorial: <a class="reference internal" href="guides/examples/accountant.html"><span class="doc">Accountant</span></a>.</p>
+<p>Tutorial: <a class="reference internal" href="guides/examples/accountant.html"><span class="doc">Collect Runtime Statistics with Accountant</span></a>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="evokit.core.accountant.Accountant.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handlers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">C</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evokit/core/accountant.html#Accountant.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.accountant.Accountant.__init__" title="Link to this definition"></a></dt>
@@ -201,7 +206,7 @@ returns a list of all collected records.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
 <p>Base class for all evolutionary algorithms.</p>
 <p>Derive this class to create custom algorithms.</p>
-<p>Tutorial: <a class="reference internal" href="guides/examples/controller.html"><span class="doc">Controller Example</span></a>.</p>
+<p>Tutorial: <a class="reference internal" href="guides/examples/controller.html"><span class="doc">Creating a Custom Controller</span></a>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="evokit.core.controller.Controller.__new__">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">__</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="_modules/evokit/core/controller.html#Controller.__new__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.controller.Controller.__new__" title="Link to this definition"></a></dt>
@@ -367,7 +372,7 @@ in the following order:</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">D</span></code>]</p>
 <p>Base class for all evaluators.</p>
 <p>Derive this class to create custom evaluators.</p>
-<p>Tutorial: <a class="reference internal" href="guides/examples/onemax.html"><span class="doc">OneMax Example</span></a>.</p>
+<p>Tutorial: <a class="reference internal" href="guides/examples/onemax.html"><span class="doc">Getting Started with OneMax</span></a>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="evokit.core.evaluator.Evaluator.__new__">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="_modules/evokit/core/evaluator.html#Evaluator.__new__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.evaluator.Evaluator.__new__" title="Link to this definition"></a></dt>
@@ -453,7 +458,7 @@ item has the highest fitness.</p>
 <p>The individual can information outside of the genotype, such as a
 <cite>.fitness</cite>, a reference to the parent, and strategy parameter(s).</p>
 </div>
-<p>Tutorial: <a class="reference internal" href="guides/examples/onemax.html"><span class="doc">OneMax Example</span></a>.</p>
+<p>Tutorial: <a class="reference internal" href="guides/examples/onemax.html"><span class="doc">Getting Started with OneMax</span></a>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="evokit.core.population.Individual.__new__">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Self</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="reference internal" href="_modules/evokit/core/population.html#Individual.__new__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.population.Individual.__new__" title="Link to this definition"></a></dt>
@@ -662,7 +667,7 @@ its <code class="xref py py-attr docutils literal notranslate"><span class="pre"
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">D</span></code>]</p>
 <p>Base class for all selectors.</p>
 <p>Derive this class to create custom selectors.</p>
-<p>Tutorial: <a class="reference internal" href="guides/examples/selector.html"><span class="doc">Selector Example</span></a>.</p>
+<p>Tutorial: <a class="reference internal" href="guides/examples/selector.html"><span class="doc">Creating a Custom Selector</span></a>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="evokit.core.selector.Selector.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">budget</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/evokit/core/selector.html#Selector.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.selector.Selector.__init__" title="Link to this definition"></a></dt>

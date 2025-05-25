@@ -105,7 +105,7 @@
 <h2>Completely Documented<a class="headerlink" href="#completely-documented" title="Link to this heading"></a></h2>
 <p>Every single public member is documented at [<a class="reference internal" href="modules.html"><span class="doc">evokit</span></a>]. All private members are richly commented.</p>
 <p>All private members, except for well-known dunders, are also documented:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_get_arity</span><span class="p">(</span><span class="n">fun</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_get_arity</span><span class="p">(</span><span class="n">fun</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">|</span> <span class="n">Expression</span> <span class="o">|</span> <span class="n">Symbol</span> <span class="o">|</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the arity of an object.</span>
 
 <span class="sd">    If the argument is callable, return the length of its signature.</span>

@@ -23,6 +23,7 @@ Using EvoKit is easy! With all operators defined, you can run an evolutionary al
       selector=Elitist(SimpleSelector[BinaryString](POPULATION_SIZE)),
       evaluator = BitDistanceEvaluator()
    )
+
    for _ in range(GENERATION_COUNT):
       ctrl.step()
 
