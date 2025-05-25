@@ -15,9 +15,9 @@ if TYPE_CHECKING:
 from enum import Flag, auto
 from typing import Generic, TypeVar
 
-from .population import Genome
+from .population import Individual
 
-T = TypeVar("T", bound = Genome)
+T = TypeVar("T", bound = Individual)
 
 class ControllerEvent(Flag):
     INITIALISATION = auto()

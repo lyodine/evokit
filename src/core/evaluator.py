@@ -3,14 +3,14 @@ from __future__ import annotations
 from abc import ABC, ABCMeta, abstractmethod
 from typing import TYPE_CHECKING, Generic, TypeVar
 
-from .population import Genome
+from .population import Individual
 
 if TYPE_CHECKING:
     from typing import Self
 
     from .population import Population
 
-T = TypeVar("T", bound=Genome)
+T = TypeVar("T", bound=Individual)
 
 class _MetaEvaluator(ABCMeta):
     """Machineary for the evaluator.
@@ -39,7 +39,7 @@ class _MetaEvaluator(ABCMeta):
         def wrap_function(custom_evaluate):
             def wrapper(*args, **kwargs) -> float:
                 genome = args[1]
-                if not isinstance(genome, Genome):
+                if not isinstance(genome, Individual):
                     raise TypeError("Evaluator is not a genome")
                 elif genome.is_scored():
                     return genome.score
@@ -77,7 +77,7 @@ class Evaluator(ABC, Generic[T]):
         def wrapper(*args, **kwargs) -> float:
             print ("shortcut used")
             genome = args[1]
-            if not isinstance(genome, Genome):
+            if not isinstance(genome, Individual):
                 raise TypeError("Evaluator is not a genome")
             elif genome.is_scored():
                 return genome.score

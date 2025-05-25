@@ -12,9 +12,9 @@ import abc
 from abc import abstractmethod
 from typing import Generic, TypeVar
 
-from .population import Genome, Population
+from .population import Individual, Population
 
-T = TypeVar("T", bound=Genome)
+T = TypeVar("T", bound=Individual)
 
 class ArityException(Exception):
     pass
@@ -36,7 +36,7 @@ class Variator(abc.ABC, Generic[T]):
 
         # magic remove the Nones
     
-    def _group_to_parents(self, population: Population[T])-> Sequence[Genome[T]]:
+    def _group_to_parents(self, population: Population[T])-> Sequence[Individual[T]]:
         # Tuple magic. Zipping an iterable with itself extracts a tuple of that size. The "discarding" behaviour is implemented this way.
         parent_groups: Sequence[int]
         if self.arity is None:
