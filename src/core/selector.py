@@ -20,21 +20,21 @@ T = TypeVar("T", bound=Genome)
 
 class Selector(ABC, Generic[T]):
     """!An abstract selector
-        A selector that can be applied as a parent selector or a survivor selector.
     """
 
     def __init__(self: Self, budget: int):
         """!Initialise the selector
+            @param budget: Expected number of genomes in the output.
         """
         self.budget = budget
 
     def select_to_pool(self,
                        population: Population[T],
                        coarity: int) -> GenomePool[T]:
-        """!Select to tuples of parents
-            Select to a GenomePool instance, which can be passed to the variator. The arity of the returned value depends on the arity of the selector.
-            If the population cannot exactly fill tuples of a given size, discard the left-over genomes.
+        """!Select from population to a pool of parents
+            @note If the population cannot exactly fill tuples of a given size, discard the left-over genomes.
             @postcondition: the returned population is descored
+            TODO Not so sure about that - I cannot find the code that descores the population.
         """
         selected = self.select_to_many(population)
 
@@ -97,7 +97,6 @@ class Selector(ABC, Generic[T]):
         """!Many-to-one selection strategy
             Select, possibly stochastically, a solution from the population
             @param parents: the input population
-            @param evaluator: the evaluator that selects from the input population
             @sideeffect Each call takes one member from the input population
         """
         pass
