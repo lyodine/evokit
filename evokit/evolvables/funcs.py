@@ -1,6 +1,9 @@
 import math
+
+
 def sin(x: float) -> float:
     return math.sin(x)
+
 
 def cos(x: float) -> float:
     return math.cos(x)
@@ -29,7 +32,7 @@ def div(x: float, y: float) -> float:
 
 
 def avg(x: float, y: float) -> float:
-    return (x + y)/2
+    return (x + y) / 2
 
 
 def lim(x: float, max_val: float, min_val: float) -> float:

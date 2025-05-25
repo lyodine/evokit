@@ -2,15 +2,15 @@ from __future__ import annotations
 
 import typing
 from dataclasses import dataclass
-from typing import Optional, Tuple, TypeVar, List, Union, Literal, Annotated
+from typing import Optional, Tuple, TypeVar, Literal, Annotated
 
 from ..core import SimpleLinearController
 from ..core import Evaluator
 from ..core import Individual, Population
-from ..core import Elitist, SimpleSelector, NullSelector
+from ..core import Elitist, SimpleSelector
 from ..core import Variator
 
-from typing import Self, Any, Sequence
+from typing import Self, Sequence
 
 import random
 
@@ -72,7 +72,7 @@ class BinaryString(Individual[int]):
         """
         self._assert_pos_out_of_bound(pos)
         result = (self.genome >> pos) & 1
-        return 1 if result == 1 else 0 # To make mypy happy
+        return 1 if result == 1 else 0  # To make mypy happy
 
     def set(self: Self, pos: int) -> None:
         """Set the bit at position :arg:`pos` to 0.
@@ -85,7 +85,7 @@ class BinaryString(Individual[int]):
         """
         self._assert_pos_out_of_bound(pos)
         self.genome |= 1 << pos
-        
+
     def clear(self: Self, pos: int) -> None:
         """Set the bit at position :arg:`pos` to 0.
 
@@ -96,7 +96,7 @@ class BinaryString(Individual[int]):
             IndexError: If :arg:`pos` is out of range.`
         """
         self._assert_pos_out_of_bound(pos)
-        self.genome &= ~(1<<pos)
+        self.genome &= ~(1 << pos)
 
     def flip(self: Self, pos: int) -> None:
         """Flip the bit at position :arg:`pos`.
@@ -108,14 +108,14 @@ class BinaryString(Individual[int]):
             IndexError: If :arg:`pos` is outside of range.
         """
         self._assert_pos_out_of_bound(pos)
-        self.genome ^= 1<<pos
+        self.genome ^= 1 << pos
 
     def __str__(self: Self) -> str:
         size: int = self.size
-        return str((size * [0] +
-                [int(digit) for digit in bin(self.genome)[2:]])[-size:])
-    
-    def _assert_pos_out_of_bound(self: Self, pos: int)-> None:
+        return str(
+            (size * [0] + [int(digit) for digit in bin(self.genome)[2:]])[-size:])
+
+    def _assert_pos_out_of_bound(self: Self, pos: int) -> None:
         """Assert that an index is within bound of this bit string.
 
         Raise:
@@ -124,6 +124,7 @@ class BinaryString(Individual[int]):
         if pos > self.size - 1:
             raise IndexError(f"Index {pos} is out of bound for a binary"
                              f"string of length {self.size}")
+
 
 class CountBits(Evaluator[BinaryString]):
     """Count the number of ``1`` s.
@@ -141,7 +142,7 @@ class MutateBits(Variator[BinaryString]):
     1-to-1 variator for :class:`BinaryString`. At each bit in the parent,
     flip it with probability :arg:`mutation_rate``.
     """
-    def __init__(self, mutation_rate: Annotated[float, ValueRange(0,1)]):
+    def __init__(self, mutation_rate: Annotated[float, ValueRange(0, 1)]):
         """
         Args:
             mutation_rate: Probability to flip each bit in the parent.

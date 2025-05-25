@@ -10,26 +10,17 @@ if TYPE_CHECKING:
     from typing import Any
     from typing import Self
     from typing import Callable
-    from typing import Iterable
     from typing import Sequence
-    from typing import Type
 
 from typing import TypeVar
 
-from operator import itemgetter
-
 from itertools import chain
-from abc import abstractmethod
-from typing import override
 from ..core import Variator
 
-import abc
 import functools
-import math
 import random
 import typing
 from inspect import signature
-import random
 from typing import Generic
 
 from ..core import Evaluator, Individual
@@ -63,13 +54,14 @@ def _get_arity(fun: Any) -> int:
     else:
         return 0
 
+
 class Expression(Generic[T]):
     """A node in an expression tree.
 
     Recursive data structure that implements program trees. An ``Expression``
     is also a :class:`Callable` that only accepts arguments passed by position.
 
-    The attribute :attr:`.value` 
+    The attribute :attr:`.value`
     """
     def __init__(self: Self,
                  arity: int,
@@ -82,7 +74,7 @@ class Expression(Generic[T]):
         self.value: T | typing.Callable[..., T] | Symbol = value
         #! Children of the expression node.
         self.children = children
-        
+
         self._factory = factory
 
     @property
@@ -96,7 +88,7 @@ class Expression(Generic[T]):
             return self._factory
         else:
             raise ValueError("This expression is not associated with a factory.")
-    
+
     @factory.setter
     def factory(self: Self, factory: ExpressionFactory[T]) -> None:
         self._factory = factory
@@ -145,8 +137,8 @@ class Expression(Generic[T]):
         a new :class:`Expression`
         """
         new_value: T | Callable[..., T] | Symbol
-        if (hasattr(self.value, "copy") and callable(getattr(self.value,'copy'))):
-            new_value = getattr(self.value,'copy')()
+        if (hasattr(self.value, "copy") and callable(getattr(self.value, 'copy'))):
+            new_value = getattr(self.value, 'copy')()
         else:
             new_value = self.value
 
@@ -156,7 +148,7 @@ class Expression(Generic[T]):
 
     def nodes(self: Self) -> Tuple[Expression[T], ...]:
         """Return a flat list view of all nodes and subnodes.
-        
+
         Note that operations performed on items in the returned list affect
         the original objects.
         """
@@ -177,7 +169,8 @@ class Expression(Generic[T]):
                 [str(x) for x in self.children])})"
 
         return (f"{my_name}{children_name}")
-    
+
+
 class Symbol():
     """Dummy object used by :class:`.ExpressionFactory`.
 
@@ -185,18 +178,20 @@ class Symbol():
         ??? TODO
     """
     __slots__ = ['pos']
+
     def __init__(self: Self, pos: int):
         self.pos: int = pos
-    
-    def __str__(self:Self) -> str:
+
+    def __str__(self: Self) -> str:
         global _EXPR_PARAM_PREFIX
         return _EXPR_PARAM_PREFIX + str(self.pos)
+
 
 class ExpressionFactory(Generic[T]):
     """Factory class for :class:`Expression`.
 
     Build :class:`Expression` with supplied hyperparameters. Then,
-    register itself with each created object by setting its 
+    register itself with each created object by setting its
     :attr:`Expression.factory` attribute.
 
     Note:
@@ -221,9 +216,9 @@ class ExpressionFactory(Generic[T]):
             ValueError if ``arity=0`` and ``primitives`` does not contain nullary
             values. The tree cannot be built without terminals.
         """
-        
+
         self.primitive_pool: Dict[int, List[T | Callable[..., T] | Symbol]] = {}
-        
+
         self.arity = arity
 
         self.primitive_pool[0] = []
@@ -273,8 +268,8 @@ class ExpressionFactory(Generic[T]):
         Raise:
             ``ValueError`` if ``nullary_ratio`` lies outside of range ``[0,1]``.
         """
-        if (nullary_ratio is not None and
-           (nullary_ratio < 0 or nullary_ratio > 1)):
+        if (nullary_ratio is not None
+                and (nullary_ratio < 0 or nullary_ratio > 1)):
             raise ValueError(f"Probability of drawing nullary values must be"
                              f"between 1 and 0. Got: {nullary_ratio}")
 
@@ -286,24 +281,21 @@ class ExpressionFactory(Generic[T]):
                        layer_budget: int,
                        nullary_ratio: Optional[float] = None) -> Expression[T]:
 
-        # Get the new node value
-        new_node: Expression[T]
-
         target_primitive: T | Callable[..., T] | Symbol =\
-                            self.draw_primitive(1) if layer_budget < 1\
-                            else self.draw_primitive(nullary_ratio)
-        
+            self.draw_primitive(1) if layer_budget < 1\
+            else self.draw_primitive(nullary_ratio)
+
         inferred_value_arity = _get_arity(target_primitive)
 
-        return Expression(arity = self.arity,
-                          value = target_primitive,
-                          children = [*(self._build_recurse(layer_budget-1, nullary_ratio)
-                            for _ in range(inferred_value_arity))],
-                          factory = self)
+        return Expression(arity=self.arity,
+                          value=target_primitive,
+                          children=[*(self._build_recurse(layer_budget - 1, nullary_ratio)
+                                    for _ in range(inferred_value_arity))],
+                          factory=self)
 
     def draw_primitive(self: Self,
                        nullary_ratio: Optional[float] = None,
-                       free_draw: bool = False) -> T | Callable[..., T] | Symbol :
+                       free_draw: bool = False) -> T | Callable[..., T] | Symbol:
         """Return an item from :attr:`primitive_pool`
 
         Args:
@@ -334,15 +326,16 @@ class ExpressionFactory(Generic[T]):
             self._build_cost_node_budget(1)
 
         return random.choice(value_pool)
-    
+
     def primitive_by_arity(self: Self,
-                           arity: int) -> T | Callable[..., T] | Symbol :
+                           arity: int) -> T | Callable[..., T] | Symbol:
         """Draw a instruction or terminal of the given arity.
 
         If no primitive of the given arity exists, return an empty list.
         """
         return random.choice(self.primitive_pool[arity])
-    
+
+
 class Program(Individual[Expression[T]]):
     """A tree-based genetic program.
     """
@@ -364,8 +357,8 @@ class ProgramFactory(Generic[T]):
     :class`ExpressionFactory`.
     """
     def __init__(self: Self, primitives: Tuple[T | Callable[..., T], ...], arity: int):
-        self.exprfactory = ExpressionFactory[T](primitives = primitives,
-                                                arity = arity)
+        self.exprfactory = ExpressionFactory[T](primitives=primitives,
+                                                arity=arity)
 
     def build(self: Self,
               node_budget: int,
@@ -373,7 +366,6 @@ class ProgramFactory(Generic[T]):
               nullary_ratio: Optional[float] = None) -> Program:
         # new_deposit = [x.copy() for x in self.symbol_deposit]
         return Program(self.exprfactory.build(node_budget, layer_budget, nullary_ratio))
-
 
 
 class CrossoverSubtree(Variator[Program[float]]):
@@ -421,13 +413,13 @@ class CrossoverSubtree(Variator[Program[float]]):
                 self.__class__._shuffle_children(
                     random.choice(internal_nodes_from_root_1),
                     random.choice(internal_nodes_from_root_2))
-            
+
             # expression_node_from_root_1_to_swap =\
             #     random.choice(internal_nodes_from_root_1)
             # expression_node_from_root_2_to_swap =\
             #     random.choice(internal_nodes_from_root_2)
         return (root1, root2, root1_pass, root2_pass)
-            
+
     @staticmethod
     def _swap_children(expr1: Expression[float], expr2: Expression[float]) -> None:
         r1_children = expr1.children
@@ -461,7 +453,7 @@ class CrossoverSubtree(Variator[Program[float]]):
 #              parents: Sequence[Program[float]]) -> Tuple[Program[float], ...]:
 
 #         root1: Program = parents[0].copy()
-#         random_node = random.choice(root1.genome.nodes())  
+#         random_node = random.choice(root1.genome.nodes())
 
 class MutateNode(Variator[Program]):
     """Mutator that changes the primitive in a uniformly random node to
@@ -476,24 +468,25 @@ class MutateNode(Variator[Program]):
         """
         Args:
             parents: collection where the 0th item is the parent.
-        
+
         Raise:
             ``ValueError`` if the parent's :attr:`Program.genome`
             does not have :attr:`Expression.factory` set.
         """
         root1: Program = parents[0].copy()
         if root1.genome.factory is None:
-            raise ValueError("") 
+            raise ValueError("")
         root_pass: Program = parents[0].copy()
         random_node = random.choice(root1.genome.nodes())
         random_node.value = root1.genome.factory.primitive_by_arity(
-                                _get_arity(random_node.value))
-        
+            _get_arity(random_node.value))
+
         random_node.value = root1.genome.factory.primitive_by_arity(
-                                _get_arity(random_node.value))
-        
+            _get_arity(random_node.value))
+
         return (root1, root_pass)
-    
+
+
 class MutateSubtree(Variator[Program]):
     """Mutation operator that randomly mutates subtrees.
 
@@ -502,7 +495,10 @@ class MutateSubtree(Variator[Program]):
     :meth:`ExpressionFactory.build` of the associated :class:`ExpressionFactory`
     found in :attr:`Expression.factory`.
     """
-    def __init__(self: Self, node_budget: int, layer_budget: int, nullary_ratio: Optional[float] = None) -> None:
+    def __init__(self: Self,
+                 node_budget: int,
+                 layer_budget: int,
+                 nullary_ratio: Optional[float] = None) -> None:
         self.arity = 1
         self.coarity = 2
         self.node_budget = node_budget
@@ -511,19 +507,20 @@ class MutateSubtree(Variator[Program]):
 
     def vary(self: Self,
              parents: Sequence[Program]) -> Tuple[Program, ...]:
-        
+
         root1: Program = parents[0].copy()
         root_pass: Program = parents[0].copy()
         internal_nodes: Tuple[Expression, ...] =\
-                tuple(x for x in root1.genome.nodes() if len(x.children) > 0)
+            tuple(x for x in root1.genome.nodes() if len(x.children) > 0)
 
         if (internal_nodes):
             random_internal_node = random.choice(internal_nodes)
-            index_for_replacement = random.randint(0, len(random_internal_node.children)-1)
+            index_for_replacement = \
+                random.randint(0, len(random_internal_node.children) - 1)
             random_internal_node.children[index_for_replacement] = \
-                    random_internal_node.factory.build(self.node_budget,
-                                                self.layer_budget,
-                                                self.nullary_ratio)
+                random_internal_node.factory.build(self.node_budget,
+                                                   self.layer_budget,
+                                                   self.nullary_ratio)
 
         return (root1, root_pass)
 
@@ -541,7 +538,7 @@ class SymbolicEvaluator(Evaluator[Program[float]]):
                  support: Tuple[Tuple[float, ...], ...]):
         """
         Args:
-            objective: function that 
+            objective: function that
             support: collection of points on which the program
             is compared against ``objective``.
 
@@ -559,7 +556,9 @@ class SymbolicEvaluator(Evaluator[Program[float]]):
                             f"{support[0]}; they are not the same.")
 
     def evaluate(self, program: Program[float]) -> float:
-        return -sum([abs(self.objective(*sup) - program.genome(*sup)) for sup in self.support])
+        return -sum([abs(self.objective(*sup) - program.genome(*sup))
+                     for sup in self.support])
+
 
 class PenaliseNodeCount(Evaluator[Program[float]]):
     """Evaluator that favours smaller program trees.
