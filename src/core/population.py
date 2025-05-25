@@ -30,7 +30,7 @@ class Individual(ABC, Generic[R]):
 
     Derive this class to create custom representations.
     """
-    def __new__(cls: Type[Self], *args: Any, **kwargs: Any)-> Self:
+    def __new__(cls: Type[Self], *args: Any, **kwargs: Any) -> Self:
         """Machinery. Implement managed attributes.
 
         :meta private:
@@ -112,7 +112,9 @@ class Individual(ABC, Generic[R]):
         # TODO Some people do not how to do this -- link to an example
         #   to make this function more usable.
 
+
 T = TypeVar('T', bound=Individual)
+
 
 class AbstractCollection(ABC, Sequence[R], Iterable[R]):
     """Machinery.
@@ -126,10 +128,11 @@ class AbstractCollection(ABC, Sequence[R], Iterable[R]):
 
     def __len__(self) -> int:
         return len(self._items)
-    
+
     @overload
     def __getitem__(self, key: int) -> R:
         ...
+
     @overload
     def __getitem__(self, key: slice) -> Sequence[R]:
         ...
@@ -229,6 +232,7 @@ class AbstractCollection(ABC, Sequence[R], Iterable[R]):
                 return key
         else:
             raise RuntimeError("Values of key and pos changed during evaluation")
+
 
 class Population(AbstractCollection[Individual[R]], Sequence[Individual[R]], Iterable[Individual[R]]):
     """A flat collection of individuals.

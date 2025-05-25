@@ -8,7 +8,6 @@ if TYPE_CHECKING:
     from typing import Optional
     from typing import Self
     from typing import Any
-    from typing import Protocol
     from collections.abc import Callable
 
 from typing import override
@@ -64,7 +63,7 @@ class Selector(ABC, Generic[T]):
 
         Repeatedly apply select() to create a collection of solutions. Each
         application removes an item in the original population.
-        
+
         A subclass may override this method to implement behaviours that
         require access to the entire selection process.
 
@@ -188,7 +187,7 @@ class TournamentSelector(Selector[T]):
         super().__init__(budget)
         self.bracket_size: int = bracket_size
         self.probability: float = min(2, max(probability, 0))
-    
+
     @override
     def select(self,
                population: Population[T]) -> Tuple[Individual[T]]:
@@ -218,6 +217,7 @@ class TournamentSelector(Selector[T]):
 
         return (selected_solution,)
 
+
 def Elitist(sel: Selector[T]) -> Selector:
     """Decorator that adds elitism to a selector.
 
@@ -231,17 +231,20 @@ def Elitist(sel: Selector[T]) -> Selector:
         A selector
     """
 
-    def wrap_function(original_select_to_many: \
-                      Callable[[Selector[T], Population[T]],\
+    def wrap_function(original_select_to_many:
+                      Callable[[Selector[T], Population[T]],
                                Tuple[Individual[T], ...]]) -> Callable:
+        
         @wraps(original_select_to_many)
-        def wrapper(self:Selector[T], population: Population[T], *args:Any, **kwargs:Any) -> Tuple[Individual[T], ...]:
+        def wrapper(self: Selector[T],
+                    population: Population[T],
+                    *args: Any, **kwargs: Any) -> Tuple[Individual[T], ...]:
             """Context that implements elitism.
             """
-            # Define an attribute that retains the best individual. 
+            # Define an attribute that retains the best individual.
             #   Avoid name collision.
             UBER_SECRET_BEST_INDIVIDIAUL_NAME = "__best_individual"
-            
+
             # If the ``UBER_SECRET_BEST_INDIVIDIAUL_NAME`` has not been set, set it.
             # Then, collect the best individual from the population, make a copy of it.
             if not hasattr(self, UBER_SECRET_BEST_INDIVIDIAUL_NAME):
@@ -256,9 +259,9 @@ def Elitist(sel: Selector[T]) -> Selector:
             # Append the best individual to results
             return (*results, best_individual)
         return wrapper
-    
-    setattr(sel, 'select_to_many', 
+
+    setattr(sel, 'select_to_many',
             MethodType(
-                wrap_function(sel.select_to_many.__func__), #type:ignore
+                wrap_function(sel.select_to_many.__func__),  # type:ignore
                 sel))
     return sel

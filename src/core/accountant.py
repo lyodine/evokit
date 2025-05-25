@@ -7,7 +7,6 @@ if TYPE_CHECKING:
     from typing import Dict
     from typing import Any
     from typing import Callable
-    from typing import Sequence
     from typing import Optional
     from typing import List
     from .controller import Controller
@@ -31,11 +30,12 @@ class AccountantRecord(NamedTuple):
     #: Data collected in generation :attr:`generation` after event :attr:`event`.
     value: Any
 
+
 class Accountant:
     """Monitor and collect data from a running :class:`Controller`.
 
     Maintain a dictionary of `event : handler` mappings. When
-    `event` fires in the attached :class:`.Controller`, 
+    `event` fires in the attached :class:`.Controller`,
     `handler` collects data.
 
     The accountant subscribes to a :class:`.Controller`,
@@ -51,20 +51,20 @@ class Accountant:
         .. code-block::
 
             Controller -> Any
-            
+
         """
         self.records: List[AccountantRecord] = []
         # TODO I will skip on commenting it - the handler should not be directly accessed
         #   though ... should I make it possible to change the handlers once they are declared?
         # Meditating on how to do it.
         self.handlers: Dict[str, Callable[[Controller], Any]] = handlers
-        
+
         #: The attached :class:`Controller`
         self.subject: Optional[Controller] = None
 
     def subscribe(self: Self, subject: Controller) -> None:
         """Machinery.
-        
+
         Subscribe for events in a :class:`.Controller`.
 
         Args:
@@ -75,9 +75,9 @@ class Accountant:
         """
         self.subject = subject
 
-    def update(self: Self, event: str)-> None:
+    def update(self: Self, event: str) -> None:
         """Machinery.
-        
+
         When the attached :class:`.Controller` calls :meth:`.Controller.update`,
         it calls this method on every registered accountant.
 
@@ -99,7 +99,7 @@ class Accountant:
                                                          self.subject.generation,
                                                          action(self.subject)))
 
-    def publish(self)-> List[AccountantRecord]:
+    def publish(self) -> List[AccountantRecord]:
         # Bad comment!
         """Report collected data.
 
@@ -117,7 +117,7 @@ class Accountant:
                              " cannot publish.")
         return self.records
 
-    def is_registered(self)-> bool:
+    def is_registered(self) -> bool:
         """Return if this accountant is attached to a :class:Controller.
 
         Returns:
