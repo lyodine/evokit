@@ -30,21 +30,25 @@ T = TypeVar('T', bound=Individual)
 
 class BinaryString(Individual[int]):
     """A string of bits.
+
+    Tutorial: :doc:`../guides/examples/onemax`.
     """
     def __init__(self, value: int, size: int) -> None:
         """
         Args:
-            value: Integer whose binary representation is used
+            value: Integer whose binary representation is used.
 
             size: Length of the binary string
         """
-        # TODO better way to denote ``value``?
         self.genome: int = value
         self.size: int = size
 
     @staticmethod
     def random(size: int) -> BinaryString:
-        """Generate a random binary string.
+        """Return a random binary string.
+
+        Each item in the returned value may be either 1 or 0 with equal
+        probability.
 
         Args:
             size: Size of the generated binary string.
@@ -79,6 +83,9 @@ class BinaryString(Individual[int]):
 
         Args:
             pos: Position of the bit value to set.
+        
+        Effect:
+            Change :attr:`.genome`.
 
         Raise:
             IndexError: If :arg:`pos` is out of range.`
@@ -92,6 +99,9 @@ class BinaryString(Individual[int]):
         Args:
             pos: Position of the bit value to clear.
 
+        Effect:
+            Change :attr:`.genome`.
+
         Raise:
             IndexError: If :arg:`pos` is out of range.`
         """
@@ -103,6 +113,9 @@ class BinaryString(Individual[int]):
 
         Args:
             pos: Position of the bit value to flip.
+
+        Effect:
+            Change :attr:`.genome`.
 
         Raise:
             IndexError: If :arg:`pos` is outside of range.
@@ -117,6 +130,9 @@ class BinaryString(Individual[int]):
 
     def _assert_pos_out_of_bound(self: Self, pos: int) -> None:
         """Assert that an index is within bound of this bit string.
+
+        Args:
+            pos: An index.
 
         Raise:
             IndexError: If :arg:`pos` is outside of range :math:`[0, self.size-1]`
@@ -139,7 +155,7 @@ class CountBits(Evaluator[BinaryString]):
 class MutateBits(Variator[BinaryString]):
     """Randomly flip each bit in the parent.
 
-    1-to-1 variator for :class:`BinaryString`. At each bit in the parent,
+    1-to-1 variator for :class:`.BinaryString`. At each bit in the parent,
     flip it with probability :arg:`mutation_rate``.
     """
     def __init__(self, mutation_rate: float):
@@ -148,7 +164,7 @@ class MutateBits(Variator[BinaryString]):
             mutation_rate: Probability to flip each bit in the parent.
 
         Raise:
-            ValueError: If :arg:`mutation_rate` is not in range [0,1].
+            ValueError: If :arg:`mutation_rate` is not in range ``[0,1]``.
         """
         if (mutation_rate < 0 or mutation_rate > 1):
             raise ValueError(f"Mutation rate must be between 0 and 1."
@@ -189,24 +205,9 @@ if __name__ == "__main__":
 
     dicts: typing.Dict[int, Optional[float]] = {}
 
-    # from core.accountant import Accountant
-
-    # Ignore type checking. Because `Accountant` is defined for the
-    #       `Controller` class, which does not necessarily have one
-    #       `population`, type checkers report error on this line.\
-    # Because an LinearController is registered with this `Accountant`,
-    #       we can be _somewhat_ sure that the accountant's suject has
-    #       a `.population`.
-    #
-    # acc = Accountant({"GENERATION_BEGIN": lambda x: len(x.population)})  # type:ignore
-
-    # ctrl.register(acc)
-
     for i in range(GENERATION_COUNT):
         ctrl.step()
         dicts[i] = ctrl.population[-1].fitness
         print(ctrl.population)
 
     print(dicts)
-
-    # print(acc.publish())
