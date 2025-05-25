@@ -102,10 +102,11 @@ if __name__ == "__main__":
 
     ctrl = LinearController[Binary] (
         population = init_pop,
-        evaluator = evaluator,
+        parent_evaluator = evaluator,
+        parent_selector = pselector,
         variator = variator,
-        offspring_selector = pselector,
-        parent_selector = cselector
+        survivor_evaluator = evaluator,
+        survivor_selector = cselector,
     )
 
     dicts : typing.Dict[int, Optional[float]]= {}
@@ -126,7 +127,7 @@ if __name__ == "__main__":
 
     for i in range(0, 100):
         ctrl.step()
-        dicts[i] = ctrl.population[0].score
+        dicts[i] = ctrl.population[0].fitness
 
     print (dicts)
 
