@@ -136,3 +136,41 @@ class LinearAlgorithm(Algorithm[T]):
             self.population)
 
         self.update("POST_SURVIVOR_SELECTION")
+
+
+class CanonicalGeneticAlgorithm(Algorithm[T]):
+    """The canonical genetic algorithm.
+
+    An evolutionary algorithm that performs crossover followed
+    by mutation. The name comes from its first application and
+    widespread use.
+
+    This generalised algorithm consecutively performs two variations
+    of any kind.
+
+    The algorithm does not fire events.
+    """
+    @override
+    def __init__(self,
+                 population: Population[T],
+                 evaluator: Evaluator[T],
+                 selector: Selector[T],
+                 variator1: Variator[T],
+                 variator2: Variator[T]) -> None:
+        self.population = population
+        self.evaluator = evaluator
+        self.selector = selector
+        self.variator1 = variator1
+        self.variator2 = variator2
+        self.accountants: list[Accountant] = []
+
+    @override
+    def step(self) -> None:
+
+        self.population = self.variator1.vary_population(self.population)
+
+        self.population = self.variator2.vary_population(self.population)
+
+        self.evaluator.evaluate_population(self.population)
+
+        self.population = self.selector.select_population(self.population)
