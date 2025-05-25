@@ -243,26 +243,39 @@ class OnePointCrossover(Variator[BinaryString]):
         should_perform_crossover: float = random.random()
 
         if should_perform_crossover < self.crossover_probability:
-            # Since :meth:`.from_bit_list(.)` creates a :class:`BinaryString`
-            #   that is independent of the input list, no need to copy the
-            #   parent this time.
-            pa = parents[0].to_bit_list()
-            pb = parents[1].to_bit_list()
+            # Since integers are not stateful, no need to copy
+            p1_genome = parents[0].genome
+            p2_genome = parents[1].genome
+            size = parents[0].size
 
-            k = random.randrange(len(pa) + 1)
+            k = random.randrange(size + 1)
 
-            new_pa: list[int] = pb[:k] + pa[k:]
-            new_pb: list[int] = pa[:k] + pb[k:]
+            m1 = 2**size - 1
+            head_mask = m1 >> (size - k) << (size - k)
+            tail_mask = (m1 >> k) & m1
 
-            return (BinaryString.from_bit_list(new_pa),
-                    BinaryString.from_bit_list(new_pb))
+            c1_genome = (p1_genome & head_mask) | (p2_genome & tail_mask)
+            c2_genome = (p2_genome & head_mask) | (p1_genome & tail_mask)
+
+            c1 = BinaryString(c1_genome, size=size)
+            c2 = BinaryString(c2_genome, size=size)
+            return (c1, c2)
         else:
             return (parents[0].copy(),
                     parents[1].copy())
 
 
+def _splice_genes(p1_genome: int,
+                  p2_genome: int,
+                  k: int,
+                  size: int):
+    p1_head = p1_genome >> k << k
+    p2_tail = ((p2_genome << k) & 2**size - 1) >> k
+    return p1_head | p2_tail
+
+
 def trial_run() -> list[BinaryString]:
-    BINSTRING_LENGTH: int = 40
+    BINSTRING_LENGTH: int = 5
     POPULATION_SIZE: int = 100
     GENERATION_COUNT: int = 100
 
