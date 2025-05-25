@@ -18,14 +18,16 @@ from typing import Self
 from typing import Callable
 from inspect import signature
 
-from core.globals import LogLevel
-from core.globals import report
-from core.variator import Variator
-from core.selector import ElitistSimpleSelector
-from core.evaluator import Evaluator
-from core.controller import Controller
-from core.population import Population
-from core.population import Genome
+from core import LogLevel
+from core import report
+from core import Variator
+from core import Elitist
+from core import SimpleSelector
+from core import Evaluator
+from core import Controller
+from core import Population
+from core import Genome
+
 
 
 import random
@@ -419,8 +421,11 @@ evaluator = GymEvaluator(eval, cartpole_wrapper, step_bound, episode_bound, scor
 
 # Prepare the selector.
 import gymnasium as gym
-selc = ElitistSimpleSelector[Program[float]](coarity = 2, budget = pop_size)
-selp = ElitistSimpleSelector[Program[float]](coarity = 2, budget = pop_size)
+selc = Elitist(SimpleSelector[Program[float]](coarity = 2, budget = pop_size))
+selp = Elitist(SimpleSelector[Program[float]](coarity = 2, budget = pop_size))
+
+# selc = Elitist(SimpleSelector[Program[float]](coarity = 2, budget = pop_size))
+# selp = Elitist(SimpleSelector[Program[float]](coarity = 2, budget = pop_size))
 
 ctrl = Controller[Program[float]](
     population = pops,
