@@ -11,9 +11,7 @@ if TYPE_CHECKING:
 
 from core import Controller
 from core import SimpleSelector
-from core import LogLevel
 from core import Elitist
-from core import report
 from core import Population
 from core import Evaluator
 from core import Variator
@@ -137,10 +135,6 @@ class ExpressionFactory(typing.Generic[T]):
             children.append(self._build_recurse(depth-1, nullary_ratio))
 
         root = Expression(target_function, *children)
-        if (self.budget_used < self.budget_cap):
-            report(LogLevel.TRC, f"Tree built below budget! used: {self.budget_used}, cap: {self.budget_cap}")
-        else:
-            report(LogLevel.TRC, f"Tree built at budget. used: {self.budget_used - 1}, cap: {self.budget_cap}")
         return root
         
 
