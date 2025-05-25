@@ -448,6 +448,103 @@ class CrossoverSubtree(Variator[Program[float]]):
 #              parents: Sequence[Program[float]]) -> Tuple[Program[float], ...]:
 
 #         root1: Program = parents[0].copy()
+#         random_node = random.choice(root1.genome.nodes())  
+
+class MutateNode(Variator[Program]):
+    def __init__(self: Self) -> None:
+        self.arity = 1
+        self.coarity = 1
+
+    def vary(self: Self,
+             parents: Sequence[Program]) -> Tuple[Program, ...]:
+
+        root1: Program = parents[0].copy()
+        random_node = random.choice(root1.genome.nodes())
+        random_node.value = root1.genome.factory.primitive_by_arity(
+                                _get_arity(random_node.value))
+        
+        random_node.value = root1.genome.factory.primitive_by_arity(
+                                _get_arity(random_node.value))
+        
+        return (root1,)
+    
+class MutateSubtree(Variator[Program]):
+    def __init__(self: Self, node_budget: int, layer_budget: int, nullary_ratio: Optional[float] = None) -> None:
+        self.arity = 1
+        self.coarity = 1
+        self.node_budget = node_budget
+        self.layer_budget = layer_budget
+        self.nullary_ratio = nullary_ratio
+
+    def vary(self: Self,
+             parents: Sequence[Program]) -> Tuple[Program, ...]:
+
+        root1: Program = parents[0].copy()
+        internal_nodes: Tuple[Expression, ...] =\
+                tuple(x for x in root1.genome.nodes() if len(x.children) > 0)
+
+        if (internal_nodes):
+            random_internal_node = random.choice(internal_nodes)
+            index_for_replacement = random.randint(0, len(random_internal_node.children)-1)
+            random_internal_node.children[index_for_replacement] = \
+                    random_internal_node.factory.build(self.node_budget,
+                                                self.layer_budget,
+                                                self.nullary_ratio)
+
+        return (root1,)
+
+
+
+
+NODE_BUDGET = 10
+LAYER_BUDGET = 2
+POPULATION_SIZE = 10
+
+from .funcs import *
+
+a = ProgramFactory[float]((add, sub, mul, div, sin, cos), 5)
+
+args = (1,23,3,34,4)
+from ..core.population import Population
+
+mutate_subtree = MutateSubtree(NODE_BUDGET,
+                               LAYER_BUDGET)
+
+mutate_node = MutateNode()
+sbufflet = CrossoverSubtree(shuffle=True)
+
+pop = Population[Program[float]]()
+pop.append(a.build(NODE_BUDGET, LAYER_BUDGET, nullary_ratio=0.1))
+pop.append(a.build(NODE_BUDGET, LAYER_BUDGET, nullary_ratio=0.1))
+print(pop)
+new_pop = sbufflet.vary_population(pop)
+print(new_pop)
+    
+
+
+class SymbolicEvaluator(Evaluator[Program[float]]):
+    def __init__(self,
+                 objective: Callable,
+                 support: Tuple[Tuple[float, ...], ...]):
+        self.objective = objective
+        self.support = support
+        self.arity = _get_arity(objective)
+
+        if self.arity != len(support[0]):
+            raise TypeError(f"The objective function has arity "
+                            f"{self.arity}, the first item in support has arity "
+                            f"{support[0]}; they are not the same.")
+
+    def evaluate(self, program: Program[float]) -> float:
+        return -sum([abs(self.objective(*sup) - program.genome(*sup)) for sup in self.support])
+
+class PenaliseNodeCount(Evaluator[Program[float]]):
+    def __init__(self, coefficient: float):
+        self.coefficient = coefficient
+
+    def evaluate(self, program: Program[float]) -> float:
+        return -(self.coefficient * len(program.genome.nodes()))
+
 
 
 # from ..core.population import Population
