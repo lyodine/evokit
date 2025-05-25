@@ -29,6 +29,8 @@ class _MetaAlgorithm(ABCMeta):
 
         * After step is called, :attr:`.Algorithm.generation`
           increments by ``1``.
+        * Fire event "STEP_BEGIN" before calling :meth:`.Algorithm.step`,
+          fire event "STEP_END" after calling :meth:`.Algorithm.step`.
     """
     def __new__(mcls: Type[Any], name: str, bases: tuple[type],
                 namespace: dict[str, Any]) -> Any:
@@ -43,8 +45,10 @@ class _MetaAlgorithm(ABCMeta):
             #   the output of the wrapped function: :meth:`step` returns None.
             def wrapper(*args: Any, **kwargs: Any) -> None:
                 self = args[0]
+                self.update("STEP_BEGIN")
                 custom_step(*args, **kwargs)
                 self.generation += 1
+                self.update("STEP_END")
 
             return wrapper
 
@@ -96,20 +100,27 @@ class Algorithm(ABC, Generic[T], metaclass=_MetaAlgorithm):
         self.accountants: list[Accountant]
         #! Events that can be reported by this algorithm.
         self.events: list[str]
+        #! Events that are automatically fired.
+        self.automatic_events: list[str] = [
+            "STEP_BEGIN", "STEP_END"]
 
     @abstractmethod
     def step(self) -> None:
         """Advance the population by one generation.
 
         Subclasses should override this method. Use operators to update
-        the population (or populations). Call :meth:`update` to fire events.
+        the population (or populations). Call :meth:`update` to fire
+        events for data collection mechanisms such as :class:`Accountant`.
 
         Note:
             The :attr:`.generation` attribute increments by 1 _after_
-            :meth:`.step` is called.
+            :meth:`.step` is called. Do not manually increment
+            :attr:`generation`. This property is automatically managed.
 
-            Do not manually increment :attr:`generation`. This property
-            is automatically managed.
+            Calling :meth:`.step` automatically fires two events via
+            :meth:`.update`: "STEP_BEGIN" before and "STEP_END" after.
+            This behaviour cannot be suppressed. For more on events,
+            see :class:`accounting.accountant.Accountant`.
         """
         pass
 
@@ -132,10 +143,13 @@ class Algorithm(ABC, Generic[T], metaclass=_MetaAlgorithm):
             event: The event to report.
 
         Raise:
-            ValueError: if an reported event is not registered.
+            ValueError: if an reported event is not declared in
+            :attr:`events` and is not an automatically reported
+            event in :attr:`automatic_events`.
         """
-        if event not in self.events:
+        if event not in self.events and event not in self.automatic_events:
             raise ValueError(f"Algorithm fires unregistered event {event}."
-                             f"Add {event} to the algorithm's .events value")
+                             f"Add {event} to the algorithm's list of"
+                             "`.events`.")
         for acc in self.accountants:
             acc._update(event)
