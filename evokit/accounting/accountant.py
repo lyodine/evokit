@@ -13,6 +13,7 @@ if TYPE_CHECKING:
     from typing import Any
     from typing import Callable
     from typing import Optional
+    from collections.abc import Container
 
 from typing import Sequence
 C = TypeVar("C", bound=Algorithm)
@@ -67,7 +68,8 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
     Tutorial: :doc:`../guides/examples/accountant`.
 
     """
-    def __init__(self: Self, handlers: dict[str, Callable[[C], Any]]):
+    def __init__(self: Self,
+                 handlers: dict[Container[str], Callable[[C], Any]]):
         """
         Args:
             handlers: a dictionary of `event : handler` mappings.
@@ -78,7 +80,7 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
         self._records: list[AccountantRecord] = []
 
         #: `Event - handler` pairs of the ``Accountant``
-        self.handlers: dict[str, Callable[[C], Any]] = handlers
+        self.handlers: dict[Container[str], Callable[[C], Any]] = handlers
 
         #: The attached :class:`Algorithm`
         self._subject: Optional[C] = None
@@ -115,7 +117,7 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
             raise RuntimeError("Accountant updated without a subject.")
         else:
             for trigger, action in self.handlers.items():
-                if event == trigger:
+                if event in trigger:
                     self._records.append(
                         AccountantRecord(event,
                                          self._subject.generation,
