@@ -19,10 +19,8 @@ from core import Evaluator
 from core import Variator
 from core import Genome
 
-
 from typing import Generic
     
-
 import abc
 import typing
 import math
@@ -43,8 +41,22 @@ class ArityMismatch(TypeError):
                          f"{given}.")
 
 def _get_arity(fun: Any) -> int:
+    """Inspect the arity of an object
+
+    Return the signatue length of a callable. If the input is not callable,
+        return 0.
+    
+    Args:
+        fun: An object
+
+    Return:
+        The arity of `fun`
+    """
     if (callable(fun)):
         return len(signature(fun).parameters)                 
+    elif isinstance(fun, Program):
+        # Specialised code for programs
+        return len(a.symbols)
     else:
         return 0
 
@@ -163,9 +175,7 @@ class ExpressionFactory(typing.Generic[T]):
             if (random.random() < nullary_ratio):
                 choice_poll = self.function_pool[0]
             else:
-                choice_poll = choice([self.function_pool[x] for x in self.function_pool.keys() if x != 0])
-                
-                
+                choice_poll = choice([self.function_pool[x] for x in self.function_pool.keys() if x != 0])            
             
         choice_function: Callable[..., T] = choice(choice_poll)
 
@@ -218,9 +228,6 @@ class ProgramFactory(Generic[T]):
     
     def build(self, depth: int, budget: int, unary_weight: Optional[float] = None) -> Program:
         return Program(self.exprfactory.build(depth, budget, unary_weight), self.symbol_deposit, self)
-    
-    
-    
 
 # Note that programs from the same factory share the same set of argument values.
 # This should be desirable - and well hidden - if the object is only shared by one thread.
@@ -230,7 +237,6 @@ class ProgramArityMismatchError(Exception):
     def __init__(self, expected:Optional[int], given: Optional[int]):
         super().__init__(f"The program is expecting {expected} arguments, only {given} are given.")
         
-
 class Program(Genome[T]):
     """
     
@@ -342,6 +348,21 @@ class ProgramCrossoverVariator(Variator[Program[float]]):
         return random.choice(functions)
 
 
+
+
+class SymbolicEvaluator(Evaluator[Program[float]]):
+    def __init__(self, objective: Callable, support: Tuple[Tuple[float, ...], ...]):
+        self.objective = objective
+        self.support = support
+        self.arity = _get_arity(objective)
+        if self.arity != len(support[0]):
+            raise TypeError("aaaaaaah")
+
+    def evaluate(self, program: Program[float]) -> float:
+        if self.arity != _get_arity(program):
+            raise TypeError("what")
+        return -sum([abs(self.objective(*sup) - program(*sup)) for sup in self.support])
+
 class GymEvaluator(Evaluator[Program[float]]):
     def __init__(self, env, wrapper: Callable[[float], float], episode_count: int, step_count: int, score_wrapper: Callable[[float], float] = lambda x : x):
         super().__init__()
@@ -377,71 +398,4 @@ class GymEvaluator(Evaluator[Program[float]]):
             score = score + step_result[1] #type: ignore
         return score
 
-# # ########## Begin setup :) ########## #
 
-# Size of the population. Affects the size of the initial initial population, also enforced by selectors.
-pop_size = 100
-
-# Depth constraint of the expression tree
-tree_depth = 5
-# Node budget of the expression tree
-node_budget = 20
-
-# The number of episodes for each evaluation. The actual score should be the mean of these scores.
-# The length of each episode is hard-coded to be 10 (see `evaluate_step`)
-step_bound = 4
-episode_bound = 4
-
-
-# Build the population of ternary programs. The arity (4) should match the size of the observation space (4 for cartpole)
-progf = ProgramFactory((add, sub, mul, div, sin, cos, mul, div, lim, avg), 4)
-
-# Declare and populate the population
-pops: Population[Program[float]] = Population()
-for i in range(0, pop_size):
-    pops.append(progf.build(tree_depth, node_budget))
-
-# Prepare the variator
-variator = ProgramCrossoverVariator(arity = 2, coarity = 3)
-
-# The evaluaor is ready. Feed the custom wrapper and the environment to GymEvaluator
-def pendulum_wrapper(f: float):
-    return [round(max(min(2, f), -2))]
-
-def cartpole_wrapper(f: float) -> int:
-    return round(max(min(1, f), 0))
-
-eval = gym.make('CartPole-v1')
-evaluator = GymEvaluator(eval, cartpole_wrapper, step_bound, episode_bound, score_wrapper = lambda x : -x)
-
-# Prepare the selector.
-import gymnasium as gym
-selc = Elitist(SimpleSelector[Program[float]](budget = pop_size))
-selp = Elitist(SimpleSelector[Program[float]](budget = pop_size))
-
-# selc = Elitist(SimpleSelector[Program[float]](coarity = 2, budget = pop_size))
-# selp = Elitist(SimpleSelector[Program[float]](coarity = 2, budget = pop_size))
-
-ctrl = Controller[Program[float]](
-    population = pops,
-    evaluator = evaluator,
-    parent_selector = selc,
-    variator = variator,
-    offspring_selector = selp
-)
-
-best_solutions: List[Program] = []
-best_scores: List[Program] = []
-
-def score_keeper(best_scores, best_solutions, c: Controller[Program[T]]):
-    best_solutions = best_solutions.append(c.population[0])
-    best_scores = best_scores.append(c.population[0].score)
-
-from functools import partial
-for i in range(0, 2):
-    # ctrl.step(partial(score_keeper, best_scores, best_solutions))
-    ctrl.step()
-
-
-print ([str(x) for x in best_solutions])
-print (str(best_scores))
