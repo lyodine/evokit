@@ -73,5 +73,6 @@ rst_prolog = """
   :class: highlight
 
 .. role:: arg(code)
+  :class: highlight
 
 """
