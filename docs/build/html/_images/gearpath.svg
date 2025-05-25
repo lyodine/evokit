@@ -2,12 +2,12 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="175.27974mm"
-   height="47.975559mm"
-   viewBox="0 0 175.27974 47.975559"
+   width="170.46391mm"
+   height="40.304428mm"
+   viewBox="0 0 170.46391 40.304428"
    version="1.1"
    id="svg1"
-   inkscape:export-filename="we.svg"
+   inkscape:export-filename="cogmath.svg"
    inkscape:export-xdpi="100"
    inkscape:export-ydpi="100"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -37,12 +37,11 @@
      id="defs1" />
   <g
      id="g78"
-     transform="translate(-17.18989,-74.57385)">
+     transform="translate(-27.387475,-78.427458)">
     <path
-       id="rect86"
-       style="fill:#cddbe5;fill-opacity:1;stroke:none;stroke-width:1.18998;stroke-dasharray:none;stroke-opacity:1"
-       d="m 17.18989,74.573846 v 1.247912 L 27.591727,98.561626 17.18989,121.30147 v 1.24794 h 164.67563 v 0 l 10.60411,-23.987784 -10.60411,-23.98778 v 0 z"
-       sodipodi:nodetypes="ccccccccccc" />
+       id="rect87"
+       style="fill:#8bacc2;fill-opacity:1;stroke:none;stroke-width:0.507828;stroke-dasharray:none;stroke-opacity:1"
+       d="m 180.96765,88.516561 v 6.212024 H 27.387476 v 7.647595 H 180.96765 v 6.29316 L 197.8514,98.592948 Z" />
     <g
        inkscape:label="Rendered Gears"
        transform="matrix(0.90607599,-0.1925924,0.1925924,0.90607599,155.3278,98.579648)"
