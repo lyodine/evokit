@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en-uk" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>evokit.core.controller &mdash; evokit  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/styles.css?v=dd041f00" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=92c5c9a7"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            evokit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">evokit</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">evokit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">evokit.core.controller</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for evokit.core.controller</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Self</span>
+    <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+    <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+    <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+    <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+    <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
+    <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+    <span class="kn">from</span> <span class="nn">.evaluator</span> <span class="kn">import</span> <span class="n">Evaluator</span>
+    <span class="kn">from</span> <span class="nn">.variator</span> <span class="kn">import</span> <span class="n">Variator</span>
+    <span class="kn">from</span> <span class="nn">.selector</span> <span class="kn">import</span> <span class="n">Selector</span>
+    <span class="kn">from</span> <span class="nn">.population</span> <span class="kn">import</span> <span class="n">Population</span>
+    <span class="kn">from</span> <span class="nn">.accountant</span> <span class="kn">import</span> <span class="n">Accountant</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">override</span>
+
+<span class="kn">from</span> <span class="nn">.population</span> <span class="kn">import</span> <span class="n">Individual</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Individual</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">MetaController</span><span class="p">(</span><span class="n">ABCMeta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Machinery. Implement special behavious in :class:`Controller`.</span>
+
+<span class="sd">    :meta private:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="n">mcls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bases</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">type</span><span class="p">],</span>
+                <span class="n">namespace</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">ABCMeta</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">mcls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">namespace</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">wrap_step</span><span class="p">(</span><span class="n">custom_step</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+            <span class="nd">@wraps</span><span class="p">(</span><span class="n">custom_step</span><span class="p">)</span>
+            <span class="c1"># The `@wraps` decorator ensures that the wrapper correctly</span>
+            <span class="c1">#   inherits properties of the wrapped function, including</span>
+            <span class="c1">#   docstring and signature.</span>
+            <span class="c1"># Return type is Any, because `wrapper` returns</span>
+            <span class="c1">#   the output of the wrapped function.</span>
+            <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+                <span class="bp">self</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">generation</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">return</span> <span class="n">custom_step</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">wrapper</span>
+
+        <span class="n">namespace</span><span class="p">[</span><span class="s2">&quot;step&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wrap_step</span><span class="p">(</span>
+            <span class="n">namespace</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;step&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">type</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">mcls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">namespace</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Controller">
+<a class="viewcode-back" href="../../../evokit.core.html#evokit.core.controller.Controller">[docs]</a>
+<span class="k">class</span> <span class="nc">Controller</span><span class="p">(</span><span class="n">ABC</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MetaController</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all evolutionary algorothms.</span>
+
+<span class="sd">    Derive this class to create custom algorithms.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">__</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Machinery.</span>
+
+<span class="sd">        Implement managed attributes.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Note that Sphinx does not collect these values.</span>
+        <span class="c1">#   It is therefore necessary to repeat them in :meth:`__init__`.</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">generation</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">accountants</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="n">instance</span>
+
+<div class="viewcode-block" id="Controller.__init__">
+<a class="viewcode-back" href="../../../evokit.core.html#evokit.core.controller.Controller.__init__">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Subclasses should override this method.</span>
+
+<span class="sd">        The implementation can accept operators as arguments. Alternatively,</span>
+<span class="sd">        it may also acquire operators from the global scope, or define them</span>
+<span class="sd">        in the initialiser.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO The note is just not right - normally, the child should</span>
+        <span class="c1">#   call the initialiser of the parent/</span>
+
+        <span class="c1">#: Generation counter, automatically increments wit :py:attr:`step`.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generation</span><span class="p">:</span> <span class="nb">int</span>
+        <span class="c1">#: Registered :class:`Accountant` objects.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">accountants</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Accountant</span><span class="p">]</span>
+        <span class="c1">#: Collection of events that can be reported by this controller.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Controller.step">
+<a class="viewcode-back" href="../../../evokit.core.html#evokit.core.controller.Controller.step">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Advance the population by one generation.</span>
+
+<span class="sd">        Subclasses should override this method.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            Do not manually increment :attr:`generation`. This property</span>
+<span class="sd">            is automatically managed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO Should I use this note to make it clear?</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="Controller.register">
+<a class="viewcode-back" href="../../../evokit.core.html#evokit.core.controller.Controller.register">[docs]</a>
+    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">accountant</span><span class="p">:</span> <span class="n">Accountant</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Attach an :class:`.Accountant` to this controller.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            accountant: An :class:`.Accountant` that observes and</span>
+<span class="sd">                collects data from this Controller.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">accountants</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accountant</span><span class="p">)</span>
+        <span class="n">accountant</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Controller.update">
+<a class="viewcode-back" href="../../../evokit.core.html#evokit.core.controller.Controller.update">[docs]</a>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Report an event to all attached :class:`.Accountant` objects.</span>
+
+<span class="sd">        The event must be in :attr:`events`. If not, raise an exception.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            event: the event to report.</span>
+
+<span class="sd">        Raise:</span>
+<span class="sd">            ValueError: if an reported event is not registered.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">event</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Controller fires unregistered event </span><span class="si">{</span><span class="n">event</span><span class="si">}</span><span class="s2">.&quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;Add </span><span class="si">{</span><span class="n">event</span><span class="si">}</span><span class="s2"> to the controller&#39;s .events value&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">acc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">accountants</span><span class="p">:</span>
+            <span class="n">acc</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">event</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="LinearController">
+<a class="viewcode-back" href="../../../evokit.core.html#evokit.core.controller.LinearController">[docs]</a>
+<span class="k">class</span> <span class="nc">LinearController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A simple evolutionary algorithm.</span>
+
+<span class="sd">    An evolutionary algorithm that maintains one population and does not</span>
+<span class="sd">    take advantage of parallelism. The algorithm applies its operators</span>
+<span class="sd">    in the following order:</span>
+
+<span class="sd">        #. **evaluate** for parent selection</span>
+<span class="sd">        #. parent **selection**</span>
+<span class="sd">        #. *update population*</span>
+<span class="sd">        #. **vary** parents</span>
+<span class="sd">        #. **evaluate** for survivor selection</span>
+<span class="sd">        #. survivor **selection**</span>
+<span class="sd">        #. *update population*</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="LinearController.__init__">
+<a class="viewcode-back" href="../../../evokit.core.html#evokit.core.controller.LinearController.__init__">[docs]</a>
+    <span class="nd">@override</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">population</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
+                 <span class="n">parent_evaluator</span><span class="p">:</span> <span class="n">Evaluator</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
+                 <span class="n">parent_selector</span><span class="p">:</span> <span class="n">Selector</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
+                 <span class="n">variator</span><span class="p">:</span> <span class="n">Variator</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
+                 <span class="n">survivor_evaluator</span><span class="p">:</span> <span class="n">Evaluator</span><span class="p">[</span><span class="n">T</span><span class="p">],</span>
+                 <span class="n">survivor_selector</span><span class="p">:</span> <span class="n">Selector</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># _Introduction to Evolutionary Computing_ calls</span>
+        <span class="c1">#   selectors &quot;survivor selection&quot; and the outcome</span>
+        <span class="c1">#   &quot;offspring&quot;. I&#39;m not making the call there.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">population</span> <span class="o">=</span> <span class="n">population</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent_evaluator</span> <span class="o">=</span> <span class="n">parent_evaluator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent_selector</span> <span class="o">=</span> <span class="n">parent_selector</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variator</span> <span class="o">=</span> <span class="n">variator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">survivor_evaluator</span> <span class="o">=</span> <span class="n">survivor_evaluator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">survivor_selector</span> <span class="o">=</span> <span class="n">survivor_selector</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">accountants</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Accountant</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Each event name informs what action has taken place.</span>
+        <span class="c1">#   This should be easier to understand, compared to &quot;PRE_...&quot;.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;GENERATION_BEGIN&quot;</span><span class="p">,</span>
+                                  <span class="s2">&quot;POST_PARENT_SELECTION&quot;</span><span class="p">,</span>
+                                  <span class="s2">&quot;POST_VARIATION&quot;</span><span class="p">,</span>
+                                  <span class="s2">&quot;POST_SURVIVOR_EVALUATION&quot;</span><span class="p">,</span>
+                                  <span class="s2">&quot;POST_SURVIVOR_SELECTION&quot;</span><span class="p">]</span></div>
+
+        <span class="c1"># wwerwe</span>
+        <span class="c1"># &quot;&quot;&quot;</span>
+        <span class="c1"># Args:</span>
+        <span class="c1"># TODO These names are repeated in the class docstring.</span>
+        <span class="c1">#     population: initial population.</span>
+
+        <span class="c1">#     parent_evaluator: operator that evaluate the fitness of an individual.</span>
+
+        <span class="c1">#     parent_selector: operator that selects individuals for variation.</span>
+
+        <span class="c1">#     variator: operator that creates new individuals from existing ones.</span>
+
+        <span class="c1">#     survivor_evaluator: operator that selects to the next generation.</span>
+
+        <span class="c1">#     survivor_selector: operator that selects to the next generation.</span>
+        <span class="c1"># &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LinearController.step">
+<a class="viewcode-back" href="../../../evokit.core.html#evokit.core.controller.LinearController.step">[docs]</a>
+    <span class="nd">@override</span>
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent_evaluator</span><span class="o">.</span><span class="n">evaluate_population</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">population</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;GENERATION_BEGIN&quot;</span><span class="p">)</span>
+        <span class="c1"># Update the population after each event. This ensures that</span>
+        <span class="c1">#   the :class:`Accountant` always has access to the most</span>
+        <span class="c1">#   up-to-date information.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">population</span> <span class="o">=</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">parent_selector</span><span class="o">.</span><span class="n">select_to_population</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">population</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;POST_PARENT_SELECTION&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">population</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">variator</span><span class="o">.</span><span class="n">vary_population</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">population</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;POST_VARIATION&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">survivor_evaluator</span><span class="o">.</span><span class="n">evaluate_population</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">population</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;POST_SURVIVOR_EVALUATION&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">population</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">survivor_selector</span><span class="o">.</span><span class="n">select_to_population</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">population</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;POST_SURVIVOR_SELECTION&quot;</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Yiding Li.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
