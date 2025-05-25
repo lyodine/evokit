@@ -135,7 +135,7 @@
 </li>
         <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.BinaryString.__init__">(evokit.evolvables.binstring.BinaryString method)</a>
 </li>
-        <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.RandomBitMutator.__init__">(evokit.evolvables.binstring.RandomBitMutator method)</a>
+        <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.MutateBits.__init__">(evokit.evolvables.binstring.MutateBits method)</a>
 </li>
         <li><a href="evokit.evolvables.html#evokit.evolvables.gp.CrossoverSubtree.__init__">(evokit.evolvables.gp.CrossoverSubtree method)</a>
 </li>
@@ -204,8 +204,6 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.BitDistanceEvaluator">BitDistanceEvaluator (class in evokit.evolvables.binstring)</a>
-</li>
       <li><a href="evokit.evolvables.html#evokit.evolvables.gp.ExpressionFactory.build">build() (evokit.evolvables.gp.ExpressionFactory method)</a>
 
       <ul>
@@ -218,6 +216,8 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.BinaryString.clear">clear() (evokit.evolvables.binstring.BinaryString method)</a>
+</li>
       <li><a href="evokit.core.html#evokit.core.controller.Controller">Controller (class in evokit.core.controller)</a>
 </li>
       <li><a href="evokit.core.html#evokit.core.population.Individual.copy">copy() (evokit.core.population.Individual method)</a>
@@ -235,6 +235,8 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="evokit.evolvables.html#evokit.evolvables.funcs.cos">cos() (in module evokit.evolvables.funcs)</a>
+</li>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.CountBits">CountBits (class in evokit.evolvables.binstring)</a>
 </li>
       <li><a href="evokit.evolvables.html#evokit.evolvables.gp.CrossoverSubtree">CrossoverSubtree (class in evokit.evolvables.gp)</a>
 </li>
@@ -269,9 +271,7 @@
       <ul>
         <li><a href="evokit.core.html#evokit.core.evaluator.NullEvaluator.evaluate">(evokit.core.evaluator.NullEvaluator method)</a>
 </li>
-        <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.BitDistanceEvaluator.evaluate">(evokit.evolvables.binstring.BitDistanceEvaluator method)</a>
-</li>
-        <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.NullEvaluator.evaluate">(evokit.evolvables.binstring.NullEvaluator method)</a>
+        <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.CountBits.evaluate">(evokit.evolvables.binstring.CountBits method)</a>
 </li>
         <li><a href="evokit.evolvables.html#evokit.evolvables.gp.PenaliseNodeCount.evaluate">(evokit.evolvables.gp.PenaliseNodeCount method)</a>
 </li>
@@ -314,8 +314,6 @@
         <li><a href="evokit.core.html#module-evokit.core.controller">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     evokit.core.evaluator
 
@@ -323,6 +321,8 @@
         <li><a href="evokit.core.html#module-evokit.core.evaluator">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     evokit.core.population
 
@@ -397,6 +397,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="evokit.core.html#evokit.core.population.Individual.fitness">fitness (evokit.core.population.Individual property)</a>
 </li>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.BinaryString.flip">flip() (evokit.evolvables.binstring.BinaryString method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -411,7 +413,7 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.getrandbits">getrandbits() (in module evokit.evolvables.binstring)</a>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.BinaryString.get">get() (evokit.evolvables.binstring.BinaryString method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -486,6 +488,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="evokit.evolvables.html#evokit.evolvables.funcs.mul">mul() (in module evokit.evolvables.funcs)</a>
 </li>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.MutateBits">MutateBits (class in evokit.evolvables.binstring)</a>
+</li>
       <li><a href="evokit.evolvables.html#evokit.evolvables.gp.MutateNode">MutateNode (class in evokit.evolvables.gp)</a>
 </li>
       <li><a href="evokit.evolvables.html#evokit.evolvables.gp.MutateSubtree">MutateSubtree (class in evokit.evolvables.gp)</a>
@@ -499,11 +503,7 @@
       <li><a href="evokit.evolvables.html#evokit.evolvables.gp.Expression.nodes">nodes() (evokit.evolvables.gp.Expression method)</a>
 </li>
       <li><a href="evokit.core.html#evokit.core.evaluator.NullEvaluator">NullEvaluator (class in evokit.core.evaluator)</a>
-
-      <ul>
-        <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.NullEvaluator">(class in evokit.evolvables.binstring)</a>
 </li>
-      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="evokit.core.html#evokit.core.selector.NullSelector">NullSelector (class in evokit.core.selector)</a>
@@ -545,17 +545,11 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.BinaryString.random">random() (evokit.evolvables.binstring.BinaryString static method)</a>
-
-      <ul>
-        <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.random">(in module evokit.evolvables.binstring)</a>
 </li>
-      </ul></li>
-      <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.RandomBitMutator">RandomBitMutator (class in evokit.evolvables.binstring)</a>
+      <li><a href="evokit.core.html#evokit.core.controller.Controller.register">register() (evokit.core.controller.Controller method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="evokit.core.html#evokit.core.controller.Controller.register">register() (evokit.core.controller.Controller method)</a>
-</li>
       <li><a href="evokit.core.html#evokit.core.population.Individual.reset_fitness">reset_fitness() (evokit.core.population.Individual method)</a>
 
       <ul>
@@ -592,10 +586,12 @@
 </li>
       <li><a href="evokit.core.html#evokit.core.selector.Selector">Selector (class in evokit.core.selector)</a>
 </li>
-      <li><a href="evokit.core.html#evokit.core.controller.SimpleLinearController">SimpleLinearController (class in evokit.core.controller)</a>
+      <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.BinaryString.set">set() (evokit.evolvables.binstring.BinaryString method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="evokit.core.html#evokit.core.controller.SimpleLinearController">SimpleLinearController (class in evokit.core.controller)</a>
+</li>
       <li><a href="evokit.core.html#evokit.core.selector.SimpleSelector">SimpleSelector (class in evokit.core.selector)</a>
 </li>
       <li><a href="evokit.evolvables.html#evokit.evolvables.funcs.sin">sin() (in module evokit.evolvables.funcs)</a>
@@ -653,7 +649,7 @@
       <ul>
         <li><a href="evokit.core.html#evokit.core.variator.Variator.vary">(evokit.core.variator.Variator method)</a>
 </li>
-        <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.RandomBitMutator.vary">(evokit.evolvables.binstring.RandomBitMutator method)</a>
+        <li><a href="evokit.evolvables.html#evokit.evolvables.binstring.MutateBits.vary">(evokit.evolvables.binstring.MutateBits method)</a>
 </li>
         <li><a href="evokit.evolvables.html#evokit.evolvables.gp.CrossoverSubtree.vary">(evokit.evolvables.gp.CrossoverSubtree method)</a>
 </li>

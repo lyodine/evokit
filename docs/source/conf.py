@@ -71,4 +71,7 @@ rst_prolog = """
 .. role:: python(code)
   :language: python
   :class: highlight
+
+.. role:: arg(code)
+
 """
