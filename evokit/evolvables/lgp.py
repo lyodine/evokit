@@ -23,7 +23,7 @@ from enum import Enum, auto
 
 from .._utils.addons import ensure_dependency
 
-ensure_dependency("numpy")
+ensure_dependency("numpy", None)
 
 T = TypeVar("T")
 

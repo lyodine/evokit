@@ -41,14 +41,19 @@ classifiers = [
 
 [project.optional-dependencies]
 # To visualise representations
-visualise = ["graphviz>=0.20.3"]
+gp_visualise = ["graphviz>=0.20.3"]
 # To execute test cases.
-test = ["pytest", "nbmake"]
+test = ["pytest>=8.2.0", "nbmake>=1.5.4"]
+# To visualise accounting records
+accounting_visualise = ["numpy>=1.26.4", "matplotlib>=3.10.1"]
+
 
 [build-system]
 
 requires = ["setuptools >= 60.1.1"]
 build-backend = "setuptools.build_meta"
+
+
 
 # [tools.setuptools.packages.find]
 # where = ["src"]

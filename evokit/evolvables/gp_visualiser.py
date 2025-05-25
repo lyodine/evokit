@@ -5,8 +5,12 @@ from .gp import Expression
 
 from typing import Callable
 from .gp import Program
+from .._utils.addons import ensure_dependency
+
 #: Global counter of the number of dispatched identifiers.
 ident = 0
+
+ensure_dependency("graphviz", None, "gp_visualiser")
 
 
 def _dispatch_ident() -> str:
