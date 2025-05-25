@@ -9,10 +9,10 @@ if TYPE_CHECKING:
     from typing import Callable
     from typing import Optional
     from typing import List
-    from typing import TypeVar
-    from typing import Generic
-    from .controller import Controller
 
+from typing import Generic
+from .controller import Controller
+from typing import TypeVar
 from typing import NamedTuple
 
 C = TypeVar("C", bound=Controller)
@@ -38,18 +38,29 @@ class AccountantRecord(NamedTuple, Generic[C]):
 class Accountant(Generic[C]):
     """Monitor and collect data from a running :class:`Controller`.
 
-    Maintain a dictionary of `event : handler` mappings. When
-    `event` fires in the attached :class:`.Controller`,
-    `handler` collects data.
+    Maintain a dictionary of `event : handler` mappings. Each time
+    `event` fires, `handler` collects data from the :class:`Controller`.
 
-    The accountant subscribes to a :class:`.Controller`,
-    the :class:`.Controller` registers an accountant.
+    Call :meth:`.Controller.register` to register an ``Accountant`` to
+    a :class:`Controller`.
 
-    ```
+    Example:
 
-    ```
+    .. code-block:: python
+
+        ctrl = SimpleLinearController(...)
+        acc1 = Accountant(handlers={"POST_EVALUATION":
+                                    lambda x: len(x.population)})
+        ctrl.register(acc1)
+
+        for _ in range(...):
+            ctrl.step()
+
+        report = acc1.publish()
+
+    See :doc:`../guides/examples/accountant`
+
     """
-    # TODO is this langauge good
     def __init__(self: Self, handlers: Dict[str, Callable[[C], Any]]):
         """
         Args:
@@ -71,7 +82,7 @@ class Accountant(Generic[C]):
         #: The attached :class:`Controller`
         self.subject: Optional[C] = None
 
-    def subscribe(self: Self, subject: C) -> None:
+    def _subscribe(self: Self, subject: C) -> None:
         """Machinery.
 
         Subscribe for events in a :class:`.Controller`.
@@ -79,12 +90,10 @@ class Accountant(Generic[C]):
         Args:
             subject: the :class:`.Controller` whose events are monitored by
                 this accountant.
-
-        :meta private:
         """
         self.subject = subject
 
-    def update(self: Self, event: str) -> None:
+    def _update(self: Self, event: str) -> None:
         """Machinery.
 
         When the attached :class:`.Controller` calls :meth:`.Controller.update`,
@@ -96,8 +105,6 @@ class Accountant(Generic[C]):
 
         Raise:
             RuntimeError: If no :class:`Controller` is attached.
-
-        :meta private:
         """
         if self.subject is None:
             raise RuntimeError("Accountant updated without a subject.")
@@ -109,17 +116,13 @@ class Accountant(Generic[C]):
                                                          action(self.subject)))
 
     def publish(self) -> List[AccountantRecord]:
-        # Bad comment!
         """Report collected data.
 
         Each time an event fires in the attached :class`.Controller`,
-        if that event is registered in :attr:`handlers`, then the
-        return value of the corresponding handler adds to this list,
-        alongside the context in which the value is returned.
-
-        Returns:
-            A list of named tuples. See :class:`.AccountantRecord` for fields of
-            each item.
+        if that event is registered in :attr:`handlers`, supply the
+        :class`.Controller` to the handler as argument then collect
+        the result in an :class:`AccountantRecord`. This method
+        returns a list of all collected records.
         """
         if not self.is_registered():
             raise ValueError("Accountant is not attached to a controller;"
@@ -128,8 +131,5 @@ class Accountant(Generic[C]):
 
     def is_registered(self) -> bool:
         """Return if this accountant is attached to a :class:Controller.
-
-        Returns:
-            `False` if :attr:`subject` is `None`, otherwise `True`.
         """
         return self.subject is not None
