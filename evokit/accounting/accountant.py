@@ -3,14 +3,14 @@ from typing import TYPE_CHECKING
 from typing import Generic
 from ..core.algorithm import Algorithm
 from typing import TypeVar
-from typing import NamedTuple
 from typing import override, overload
+from dataclasses import dataclass
+from dataclasses import field
 
 import time
 
 if TYPE_CHECKING:
     from typing import Self
-    from typing import Any
     from typing import Callable
     from typing import Optional
     from typing import Iterable
@@ -22,7 +22,8 @@ C = TypeVar("C", bound=Algorithm)
 T = TypeVar("T")
 
 
-class AccountantRecord(NamedTuple, Generic[T]):
+@dataclass(frozen=True)
+class AccountantRecord(Generic[T]):
     """A value collected by an :class:`Accountant`; also contains the context
     in which that value is collected.
 
@@ -47,8 +48,8 @@ class AccountantRecord(NamedTuple, Generic[T]):
     #: Data collected in :attr:`generation` after :attr:`event`.
     value: T
 
-    #: Time when the event :attr:`event` occurs.
-    time: float = time.process_time()
+    #: Time (by :meth:`time.perf_counter`) when the event :attr:`event` occurs.
+    time: float = field(default_factory=time.perf_counter)
 
 
 type AccountantHandler[C, T] =\
@@ -85,7 +86,7 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
         self._records: list[AccountantRecord] = []
 
         #: `Event - handler` pairs of the ``Accountant``
-        self.handlers: Iterable[AccountantHandler[C, T]] = []
+        self.handlers: Iterable[AccountantHandler[C, T]] = handlers
 
         #: The attached :class:`Algorithm`
         self._subject: Optional[C] = None
@@ -122,6 +123,7 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
             raise RuntimeError("Accountant updated without a subject.")
         else:
             for (trigger, action) in self.handlers:
+                print(2)
                 if event in trigger:
                     self._records.append(
                         AccountantRecord(event,
