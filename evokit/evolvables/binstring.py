@@ -4,6 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import TypeVar
 from typing import Literal
+from typing import Type
 
 from ..core import Evaluator
 from ..core import Individual, Population
@@ -128,9 +129,40 @@ class BinaryString(Individual[int]):
 
     def __str__(self: Self) -> str:
         size: int = self.size
-        return str(
-            (size * [0] + [int(digit) for digit in bin(self.genome)[2:]])
-            [-size:])
+        return str((size * [0] + [int(digit)
+                                  for digit in bin(self.genome)[2:]])[-size:])
+
+    def to_bit_list(self: Self) -> list[int]:
+        """Return a list of bits that represents
+        the binary value of :attr:`.genome`.
+        """
+        size: int = self.size
+        return (size * [0] + [int(digit)
+                              for digit in bin(self.genome)[2:]])[-size:]
+
+    @classmethod
+    def from_bit_list(cls: Type[BinaryString],
+                      bit_list: list[int]) -> BinaryString:
+        """Return a :class:`.BinaryString` whose :attr:`.genome`
+        is the value of bit_list parsed as binary.
+
+        Args:
+            bit_list: A string of values ``0`` or ``1``.
+
+        Warn:
+            For efficiency, this method does not check if each item in
+            :arg:`bit_list` is one of ``1`` and ``0``.
+
+            Effectively, even numbers will be treated as ``1``s whereas
+            odd numbers will be treated as ``0``s.
+        """
+        # Should be efficient, pressing each bit into the genome.
+        genome: int = 0
+        for bit in bit_list:
+            genome = (genome << 1) | bit
+
+        return BinaryString(value=genome,
+                            size=len(bit_list))
 
     def _assert_pos_out_of_bound(self: Self, pos: int) -> None:
         """Assert that an index is within bound of this bit string.
