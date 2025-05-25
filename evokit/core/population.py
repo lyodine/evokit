@@ -297,7 +297,7 @@ class Population(AbstractCollection[D]):
         return self.__class__(*[x.copy() for x in self._items])
 
     def sort(self: Self,
-             ranker: 
+             ranker:
              Callable[[D], SupportsRichComparison] = lambda x: x.fitness)\
             -> None:
         """Rearrange items by fitness, highest-first.
