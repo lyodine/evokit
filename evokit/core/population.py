@@ -59,11 +59,14 @@ class Individual(ABC, Generic[R], metaclass=MetaGenome):
 
     Derive this class to create custom representations.
 
-    Note:
-        An implementation should store the genotype in :attr:`.genome`.
+    The individual stores the encoding (:attr:`.genome`)
+    and fitness (:attr:`.fitness`) of a representation.
 
-        The individual can information outside of the genotype, such as a
+    The individual can information outside of the genotype, such as a
         `.fitness`, a reference to the parent, and strategy parameter(s).
+
+    Note:
+        Implementation should store the genotype in :attr:`.genome`.
 
     Tutorial: :doc:`../guides/examples/onemax`.
     """
