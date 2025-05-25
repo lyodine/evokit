@@ -8,6 +8,9 @@ from .population import Individual
 if TYPE_CHECKING:
     from typing import Self
     from typing import Any
+    from typing import Type
+    from typing import Tuple
+    from typing import Dict
     from typing import Callable
     from .population import Population
 
@@ -34,7 +37,7 @@ class _MetaEvaluator(ABCMeta):
 
     """
     # cls, name, bases, attrs
-    def __new__(mcls: type, name: str, bases, namespace) -> Any: # noqa #type:ignore
+    def __new__(mcls: Type, name: str, bases: Tuple[type], namespace: Dict[str, Any]) -> Type:
         """
         """
         # Moderately cursed Python magic.
