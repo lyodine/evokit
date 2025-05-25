@@ -6,36 +6,35 @@ Base Classes
 
 Everything that form an algorithm derive from the following base classes:
 
-All algorithms in EvoKit derive from the following base classes: :class:`.Selector`, :class:`.Evaluator`, and :class:`.Variator`.
+Operators derive :class:`.Selector`, :class:`.Evaluator`, and :class:`.Variator`.
 
-The :class:`.Controller` represents an algorithm.
+Algorithms derive :class:`.Controller`.
 
-The :class:`.Individual` represents an individual, many individuals form a :class:`.Population`
-
-
+Representations derive :class:`.Individual`; :class:`.Population` models a population.
 
 
 Getting Started
 ---------------
 
-   * Begin with the OneMax Problem: :doc:`examples/onemax`
+* Begin with the OneMax Problem: :doc:`examples/onemax`
 
-   * Genetic programming: :doc:`examples/gp`
+* Genetic programming: :doc:`examples/gp`
 
-   * Custom selectors: :doc:`examples/selector`
+* Custom selectors: :doc:`examples/selector`
 
-   * Custom algorithms: :doc:`examples/controller`
+* Custom algorithms: :doc:`examples/controller`
 
 Advanced Tutorials
 ------------------
 
-   * Modifying the behaviour of existing operators: :doc:`examples/interceptor`
+* Modify the behaviour of existing operators: :doc:`examples/interceptor`
 
-   * :doc:`examples/accountant` Collecting runtime statistics using the.
+* Collect runtime statistics with :class:`.Accountant` : :doc:`examples/accountant`.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: What:
+   :hidden:
 
    examples/accountant.ipynb
    examples/controller.ipynb

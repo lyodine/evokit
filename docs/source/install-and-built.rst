@@ -13,7 +13,7 @@ Navigate to ``evoframe``, then run
 Installing and Building
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-EvoKit is built with `build`_. Please ensure that your ``build`` is up to date. Run
+EvoKit is built with `build`_. To ensure that ``build`` is up to date, run
 
 .. _build: https://pypi.org/project/build/
 
@@ -24,7 +24,7 @@ EvoKit is built with `build`_. Please ensure that your ``build`` is up to date. 
 Build a source distribution
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Navigate to ``evoframe``, then run
+Navigate to ``evoframe/``, then run
 
 .. code-block:: bash
 
@@ -33,7 +33,7 @@ Navigate to ``evoframe``, then run
 Build a built distribution (wheel)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Navigate to ``evoframe``, then run
+Navigate to ``evoframe/``, then run
 
 .. code-block:: bash
 
@@ -42,10 +42,10 @@ Navigate to ``evoframe``, then run
 Build Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-The directory ``evoframe/docs`` contains everything related to building documentations.
+The directory ``evoframe/docs/`` contains everything related to building documentations.
 
-   * ``make.bat`` rebuilds the documentation.
+* Run ``make.bat`` to rebuild the documentation.
    
-   * ``source/`` contains the configuration files. 
+* Run ``update.bat`` to update API references in ``source/`` then rebuild the documentation.
 
-   * ``update.bat`` updates ``source/`` to capture the current source code, then runs ``make.bat``
+* ``source/`` contains all configuration files, including ``conf.py``.
