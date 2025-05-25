@@ -62,25 +62,20 @@ class Evaluator(ABC, Generic[T], metaclass=MetaEvaluator):
         instance.retain_fitness = False
         return instance
 
-    @abstractmethod
-    def __init__(self) -> None:
+    def __init__(self: Self) -> None:
+        self.retain_fitness: bool
+        """ If this evaluator should re-evaluate an :class:`Individual` whose
+        :attr:`.fitness` is already set.
         """
-        Args:
-            events: Collection of events that can be fired by the controller.
-
-        Note:
-            No need to not call `super().init(...)` when overriding :func:`__init__`.
-            The attributes :attr:`generation`, :attr:`accountants`,
-            and :attr:`events` are automatically managed.
-        """
-        self.retain_fitness = False
 
     @abstractmethod
     def evaluate(self: Self, individual: T) -> float:
         """Evaluation strategy.
 
-        All subclasses should override this method. The implementation should
-        assign higher fitness to higher-quality individuals.
+        Subclasses should override this method.
+        
+        Note:
+            The implementation should assign higher fitness to better individuals.
 
         Args:
             individual: individual to evaluate
@@ -99,8 +94,8 @@ class Evaluator(ABC, Generic[T], metaclass=MetaEvaluator):
         A subclass may override this method to implement behaviours that
         require access to the entire population.
 
-        Attention:
-            This method should **never** return a value. It should assign to
+        Note:
+            This method must **never** return a value. It must assign to
             :attr:`.fitness` for each :class:`.Individual` in the :class:`.Population`.
         """
         for x in pop:

@@ -7,7 +7,7 @@
   <title>src &mdash; Evoframe  documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="_static/styles.css?v=91cde0b6" />
+      <link rel="stylesheet" type="text/css" href="_static/styles.css?v=dd041f00" />
 
   
   <!--[if lt IE 9]>
@@ -89,28 +89,25 @@
 <li class="toctree-l4"><a class="reference internal" href="core.html#core.accountant.AccountantRecord.event"><code class="docutils literal notranslate"><span class="pre">AccountantRecord.event</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#core.accountant.AccountantRecord.generation"><code class="docutils literal notranslate"><span class="pre">AccountantRecord.generation</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#core.accountant.AccountantRecord.value"><code class="docutils literal notranslate"><span class="pre">AccountantRecord.value</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#core.accountant.AccountantRecord.__new__"><code class="docutils literal notranslate"><span class="pre">AccountantRecord.__new__()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="core.html#core.accountant.Accountant"><code class="docutils literal notranslate"><span class="pre">Accountant</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="core.html#core.accountant.Accountant.__init__"><code class="docutils literal notranslate"><span class="pre">Accountant.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#core.accountant.Accountant.handlers"><code class="docutils literal notranslate"><span class="pre">Accountant.handlers</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#core.accountant.Accountant.register"><code class="docutils literal notranslate"><span class="pre">Accountant.register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#core.accountant.Accountant.subject"><code class="docutils literal notranslate"><span class="pre">Accountant.subject</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#core.accountant.Accountant.publish"><code class="docutils literal notranslate"><span class="pre">Accountant.publish()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#core.accountant.Accountant.is_attached"><code class="docutils literal notranslate"><span class="pre">Accountant.is_attached()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#core.accountant.Accountant.is_registered"><code class="docutils literal notranslate"><span class="pre">Accountant.is_registered()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="core.html#module-core.controller">core.controller module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="core.html#core.controller.Controller"><code class="docutils literal notranslate"><span class="pre">Controller</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="core.html#core.controller.Controller.__new__"><code class="docutils literal notranslate"><span class="pre">Controller.__new__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#core.controller.Controller.__init__"><code class="docutils literal notranslate"><span class="pre">Controller.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#core.controller.Controller.generation"><code class="docutils literal notranslate"><span class="pre">Controller.generation</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#core.controller.Controller.accountants"><code class="docutils literal notranslate"><span class="pre">Controller.accountants</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#core.controller.Controller.events"><code class="docutils literal notranslate"><span class="pre">Controller.events</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#core.controller.Controller.step"><code class="docutils literal notranslate"><span class="pre">Controller.step()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#core.controller.Controller.attach"><code class="docutils literal notranslate"><span class="pre">Controller.attach()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#core.controller.Controller.register"><code class="docutils literal notranslate"><span class="pre">Controller.register()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#core.controller.Controller.update"><code class="docutils literal notranslate"><span class="pre">Controller.update()</span></code></a></li>
 </ul>
 </li>
@@ -124,6 +121,7 @@
 <li class="toctree-l2"><a class="reference internal" href="core.html#module-core.evaluator">core.evaluator module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="core.html#core.evaluator.Evaluator"><code class="docutils literal notranslate"><span class="pre">Evaluator</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="core.html#core.evaluator.Evaluator.__init__"><code class="docutils literal notranslate"><span class="pre">Evaluator.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#core.evaluator.Evaluator.retain_fitness"><code class="docutils literal notranslate"><span class="pre">Evaluator.retain_fitness</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#core.evaluator.Evaluator.evaluate"><code class="docutils literal notranslate"><span class="pre">Evaluator.evaluate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#core.evaluator.Evaluator.evaluate_population"><code class="docutils literal notranslate"><span class="pre">Evaluator.evaluate_population()</span></code></a></li>
 </ul>
@@ -133,9 +131,9 @@
 <li class="toctree-l2"><a class="reference internal" href="core.html#module-core.population">core.population module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="core.html#core.population.Individual"><code class="docutils literal notranslate"><span class="pre">Individual</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="core.html#core.population.Individual.__init__"><code class="docutils literal notranslate"><span class="pre">Individual.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#core.population.Individual.score"><code class="docutils literal notranslate"><span class="pre">Individual.score</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#core.population.Individual.descore"><code class="docutils literal notranslate"><span class="pre">Individual.descore()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#core.population.Individual.is_scored"><code class="docutils literal notranslate"><span class="pre">Individual.is_scored()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#core.population.Individual.fitness"><code class="docutils literal notranslate"><span class="pre">Individual.fitness</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#core.population.Individual.reset_fitness"><code class="docutils literal notranslate"><span class="pre">Individual.reset_fitness()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#core.population.Individual.has_fitness"><code class="docutils literal notranslate"><span class="pre">Individual.has_fitness()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#core.population.Individual.copy"><code class="docutils literal notranslate"><span class="pre">Individual.copy()</span></code></a></li>
 </ul>
 </li>
@@ -151,7 +149,7 @@
 <li class="toctree-l4"><a class="reference internal" href="core.html#core.population.Population.__init__"><code class="docutils literal notranslate"><span class="pre">Population.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#core.population.Population.copy"><code class="docutils literal notranslate"><span class="pre">Population.copy()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#core.population.Population.sort"><code class="docutils literal notranslate"><span class="pre">Population.sort()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#core.population.Population.descore"><code class="docutils literal notranslate"><span class="pre">Population.descore()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#core.population.Population.reset_fitness"><code class="docutils literal notranslate"><span class="pre">Population.reset_fitness()</span></code></a></li>
 </ul>
 </li>
 </ul>

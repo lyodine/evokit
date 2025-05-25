@@ -7,6 +7,7 @@ if TYPE_CHECKING:
     from typing import List
     from typing import Optional
     from typing import Self
+from typing import override
 
 from abc import ABC, abstractmethod
 from types import MethodType
@@ -39,6 +40,13 @@ class Selector(ABC, Generic[T]):
 
         Args:
             population: population to select from.
+
+        Returns:
+            A new population with selected individuals.
+
+        Effect:
+            Remove all items from the original ``population`` (from
+            :meth:`select_to_many`).
         """
         selected = self.select_to_many(population)
         new_population = Population[T]()
@@ -57,6 +65,12 @@ class Selector(ABC, Generic[T]):
 
         Args:
             population: population to select from.
+
+        Returns:
+            A tuple of selected individuals.
+
+        Effect:
+            Remove all items from the original ``population``.
         """
 
         # TODO This method destroys the original population (by calling .draw).
@@ -94,7 +108,7 @@ class Selector(ABC, Generic[T]):
             population: population to select from.
 
         Return:
-            A tuple that includes all selected individuals.
+            A tuple of selected individuals.
         """
         pass
 
@@ -103,6 +117,7 @@ class NullSelector(Selector[T]):
     """Selector that does nothing.
 
     """
+    @override
     def select_to_many(self, population: Population[T]) -> Tuple[T, ...]:
         """Select every item in the population.
         """
@@ -114,6 +129,7 @@ class SimpleSelector(Selector[T]):
 
     Example for overriding `select`.
     """
+    @override
     def __init__(self: Self, budget: int):
         super().__init__(budget)
 
@@ -135,10 +151,12 @@ class ElitistSimpleSelector(SimpleSelector[T]):
         is not enough, because elitism requires the highest-fitness
         individual of a _population_.
     """
+    @override
     def __init__(self: Self, budget: int):
         super().__init__(budget-1)
         self.best_individual: Optional[T] = None
 
+    @override
     def select_to_many(self, population: Population[T]) -> Tuple[T, ...]:
         """Context that implements elitism.
 
@@ -165,7 +183,8 @@ class TournamentSelector(Selector[T]):
         super().__init__(budget)
         self.bracket_size: int = bracket_size
         self.probability: float = min(2, max(probability, 0))
-
+    
+    @override
     def select(self,
                population: Population[T]) -> Tuple[T]:
         """Tournament selection.
@@ -207,6 +226,7 @@ def Elitist(sel: Selector[T]) -> Selector:  # type:ignore
     Return:
         A selector
     """
+
     def select_to_many(self,
                        population: Population[T]) -> Tuple[Individual[T], ...]:
         """Context that implements elitism.

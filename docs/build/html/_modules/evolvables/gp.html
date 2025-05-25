@@ -1,40 +1,76 @@
 <!DOCTYPE html>
+<html class="writer-html5" lang="en-uk" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>evolvables.gp &mdash; Evoframe  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/styles.css?v=dd041f00" />
 
-<html lang="en-uk" data-content_root="../../">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>evolvables.gp &#8212; Evoframe  documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../../_static/classic.css?v=def86cc0" />
-    
-    <script src="../../_static/documentation_options.js?v=92c5c9a7"></script>
-    <script src="../../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=92c5c9a7"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
-  </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Evoframe  documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">evolvables.gp</a></li> 
-      </ul>
-    </div>  
+</head>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Evoframe
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Evoframe</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">evolvables.gp</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
   <h1>Source code for evolvables.gp</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
@@ -68,10 +104,13 @@
 <div class="viewcode-block" id="ArityMismatch">
 <a class="viewcode-back" href="../../evolvables.html#evolvables.gp.ArityMismatch">[docs]</a>
 <span class="k">class</span> <span class="nc">ArityMismatch</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+<div class="viewcode-block" id="ArityMismatch.__init__">
+<a class="viewcode-back" href="../../evolvables.html#evolvables.gp.ArityMismatch.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">,</span> <span class="n">expected</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">given</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;function </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span><span class="si">}</span><span class="s2"> expects &quot;</span>
                          <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">expected</span><span class="si">}</span><span class="s2"> arguments, got&quot;</span>
                          <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">given</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
+</div>
 
 
 <span class="k">def</span> <span class="nf">_get_arity</span><span class="p">(</span><span class="n">fun</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -97,9 +136,12 @@
 <div class="viewcode-block" id="Expression">
 <a class="viewcode-back" href="../../evolvables.html#evolvables.gp.Expression">[docs]</a>
 <span class="k">class</span> <span class="nc">Expression</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+<div class="viewcode-block" id="Expression.__init__">
+<a class="viewcode-back" href="../../evolvables.html#evolvables.gp.Expression.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">:</span> <span class="n">T</span> <span class="o">|</span> <span class="n">typing</span><span class="o">.</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">T</span><span class="p">],</span> <span class="o">*</span><span class="n">children</span><span class="p">:</span> <span class="n">Expression</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_function</span> <span class="o">=</span> <span class="n">function</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Expression</span><span class="p">[</span><span class="n">T</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">children</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Expression</span><span class="p">[</span><span class="n">T</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">children</span><span class="p">)</span></div>
+
     
 <div class="viewcode-block" id="Expression.evaluate">
 <a class="viewcode-back" href="../../evolvables.html#evolvables.gp.Expression.evaluate">[docs]</a>
@@ -157,6 +199,8 @@
 <div class="viewcode-block" id="ExpressionFactory">
 <a class="viewcode-back" href="../../evolvables.html#evolvables.gp.ExpressionFactory">[docs]</a>
 <span class="k">class</span> <span class="nc">ExpressionFactory</span><span class="p">(</span><span class="n">typing</span><span class="o">.</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+<div class="viewcode-block" id="ExpressionFactory.__init__">
+<a class="viewcode-back" href="../../evolvables.html#evolvables.gp.ExpressionFactory.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">functions</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">T</span><span class="p">],</span> <span class="o">...</span><span class="p">]):</span>
         <span class="c1"># Build a pool of functions, as a dictionary where each index corresponds to an arity, and each </span>
         <span class="c1">#   value is a list of functions (or terminals!) with that arity.</span>
@@ -171,7 +215,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">depth_cap</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">budget_cap</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">depth</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">budget_used</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">budget_used</span> <span class="o">=</span> <span class="mi">0</span></div>
+
 
 <div class="viewcode-block" id="ExpressionFactory.build">
 <a class="viewcode-back" href="../../evolvables.html#evolvables.gp.ExpressionFactory.build">[docs]</a>
@@ -247,17 +292,23 @@
 <div class="viewcode-block" id="BadSymbolError">
 <a class="viewcode-back" href="../../evolvables.html#evolvables.gp.BadSymbolError">[docs]</a>
 <span class="k">class</span> <span class="nc">BadSymbolError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="BadSymbolError.__init__">
+<a class="viewcode-back" href="../../evolvables.html#evolvables.gp.BadSymbolError.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The symbol </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> is used but not assigned.&quot;</span><span class="p">)</span></div>
+</div>
 
 
 
 <div class="viewcode-block" id="Symbol">
 <a class="viewcode-back" href="../../evolvables.html#evolvables.gp.Symbol">[docs]</a>
 <span class="k">class</span> <span class="nc">Symbol</span><span class="p">(</span><span class="n">typing</span><span class="o">.</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+<div class="viewcode-block" id="Symbol.__init__">
+<a class="viewcode-back" href="../../evolvables.html#evolvables.gp.Symbol.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;default_symbol_name&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-        <span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span> <span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span> <span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">name</span></div>
+
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
@@ -277,6 +328,8 @@
 <div class="viewcode-block" id="ProgramFactory">
 <a class="viewcode-back" href="../../evolvables.html#evolvables.gp.ProgramFactory">[docs]</a>
 <span class="k">class</span> <span class="nc">ProgramFactory</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+<div class="viewcode-block" id="ProgramFactory.__init__">
+<a class="viewcode-back" href="../../evolvables.html#evolvables.gp.ProgramFactory.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">functions</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">T</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span> <span class="n">arity</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">arity</span> <span class="o">=</span> <span class="n">arity</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_symbol_count</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># only used to keep track of symbol names. Does not relate to arity</span>
@@ -285,7 +338,8 @@
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">arity</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">deposit_symbol</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">next_symbol</span><span class="p">())</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">exprfactory</span> <span class="o">=</span> <span class="n">ExpressionFactory</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="n">functions</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">symbol_deposit</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exprfactory</span> <span class="o">=</span> <span class="n">ExpressionFactory</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="n">functions</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">symbol_deposit</span><span class="p">))</span></div>
+
 
 <div class="viewcode-block" id="ProgramFactory.next_symbol_name">
 <a class="viewcode-back" href="../../evolvables.html#evolvables.gp.ProgramFactory.next_symbol_name">[docs]</a>
@@ -320,8 +374,11 @@
 <div class="viewcode-block" id="ProgramArityMismatchError">
 <a class="viewcode-back" href="../../evolvables.html#evolvables.gp.ProgramArityMismatchError">[docs]</a>
 <span class="k">class</span> <span class="nc">ProgramArityMismatchError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="ProgramArityMismatchError.__init__">
+<a class="viewcode-back" href="../../evolvables.html#evolvables.gp.ProgramArityMismatchError.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expected</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">given</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The program is expecting </span><span class="si">{</span><span class="n">expected</span><span class="si">}</span><span class="s2"> arguments, only </span><span class="si">{</span><span class="n">given</span><span class="si">}</span><span class="s2"> are given.&quot;</span><span class="p">)</span></div>
+</div>
 
         
 <div class="viewcode-block" id="Program">
@@ -330,11 +387,14 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Program.__init__">
+<a class="viewcode-back" href="../../evolvables.html#evolvables.gp.Program.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">Expression</span><span class="p">,</span> <span class="n">symbols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Symbol</span><span class="p">],</span> <span class="n">factory</span><span class="p">:</span> <span class="n">ProgramFactory</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">expr</span> <span class="o">=</span> <span class="n">expr</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">symbols</span> <span class="o">=</span> <span class="n">symbols</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">factory</span> <span class="o">=</span> <span class="n">factory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">factory</span> <span class="o">=</span> <span class="n">factory</span></div>
+
     
 <div class="viewcode-block" id="Program.evaluate">
 <a class="viewcode-back" href="../../evolvables.html#evolvables.gp.Program.evaluate">[docs]</a>
@@ -427,6 +487,7 @@
     <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">max_val</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">min_val</span><span class="p">)</span></div>
 
 
+
 <div class="viewcode-block" id="ProgramCrossoverVariator">
 <a class="viewcode-back" href="../../evolvables.html#evolvables.gp.ProgramCrossoverVariator">[docs]</a>
 <span class="k">class</span> <span class="nc">ProgramCrossoverVariator</span><span class="p">(</span><span class="n">Variator</span><span class="p">[</span><span class="n">Program</span><span class="p">[</span><span class="nb">float</span><span class="p">]]):</span>
@@ -494,12 +555,15 @@
 <div class="viewcode-block" id="SymbolicEvaluator">
 <a class="viewcode-back" href="../../evolvables.html#evolvables.gp.SymbolicEvaluator">[docs]</a>
 <span class="k">class</span> <span class="nc">SymbolicEvaluator</span><span class="p">(</span><span class="n">Evaluator</span><span class="p">[</span><span class="n">Program</span><span class="p">[</span><span class="nb">float</span><span class="p">]]):</span>
+<div class="viewcode-block" id="SymbolicEvaluator.__init__">
+<a class="viewcode-back" href="../../evolvables.html#evolvables.gp.SymbolicEvaluator.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">objective</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">support</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="o">...</span><span class="p">]):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">objective</span> <span class="o">=</span> <span class="n">objective</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">support</span> <span class="o">=</span> <span class="n">support</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">arity</span> <span class="o">=</span> <span class="n">_get_arity</span><span class="p">(</span><span class="n">objective</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">arity</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">support</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;aaaaaaah&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;aaaaaaah&quot;</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="SymbolicEvaluator.evaluate">
 <a class="viewcode-back" href="../../evolvables.html#evolvables.gp.SymbolicEvaluator.evaluate">[docs]</a>
@@ -513,13 +577,16 @@
 <div class="viewcode-block" id="GymEvaluator">
 <a class="viewcode-back" href="../../evolvables.html#evolvables.gp.GymEvaluator">[docs]</a>
 <span class="k">class</span> <span class="nc">GymEvaluator</span><span class="p">(</span><span class="n">Evaluator</span><span class="p">[</span><span class="n">Program</span><span class="p">[</span><span class="nb">float</span><span class="p">]]):</span>
+<div class="viewcode-block" id="GymEvaluator.__init__">
+<a class="viewcode-back" href="../../evolvables.html#evolvables.gp.GymEvaluator.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">wrapper</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">],</span> <span class="n">episode_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">step_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">score_wrapper</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">x</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">env</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">wrapper</span> <span class="o">=</span> <span class="n">wrapper</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">episode_count</span> <span class="o">=</span> <span class="n">episode_count</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">step_count</span> <span class="o">=</span> <span class="n">step_count</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">score_wrapper</span> <span class="o">=</span> <span class="n">score_wrapper</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">score_wrapper</span> <span class="o">=</span> <span class="n">score_wrapper</span></div>
+
 
 <div class="viewcode-block" id="GymEvaluator.evaluate">
 <a class="viewcode-back" href="../../evolvables.html#evolvables.gp.GymEvaluator.evaluate">[docs]</a>
@@ -560,43 +627,31 @@
 
 </pre></div>
 
-            <div class="clearer"></div>
+           </div>
           </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Yiding Li.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<search id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</search>
-<script>document.getElementById('searchbox').style.display = "block"</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Evoframe  documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">evolvables.gp</a></li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
-    &#169; Copyright 2024, Yiding Li.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
-    </div>
-  </body>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
 </html>

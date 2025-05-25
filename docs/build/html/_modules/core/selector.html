@@ -6,6 +6,7 @@
   <title>core.selector &mdash; Evoframe  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/styles.css?v=dd041f00" />
 
   
   <!--[if lt IE 9]>
@@ -80,6 +81,7 @@
     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Self</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">override</span>
 
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
 <span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">MethodType</span>
@@ -99,42 +101,64 @@
 <span class="sd">    Derive this class to create custom selectors.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+<div class="viewcode-block" id="Selector.__init__">
+<a class="viewcode-back" href="../../core.html#core.selector.Selector.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">budget</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            budget: Number of individuals in the output.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">budget</span> <span class="o">=</span> <span class="n">budget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">budget</span> <span class="o">=</span> <span class="n">budget</span></div>
+
 
 <div class="viewcode-block" id="Selector.select_to_population">
 <a class="viewcode-back" href="../../core.html#core.selector.Selector.select_to_population">[docs]</a>
     <span class="k">def</span> <span class="nf">select_to_population</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                              <span class="n">population</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;As an offspring selector, select from a population to a population.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Select from a population to a population.</span>
+
+<span class="sd">        Invoke :meth:`select_to_many`, then shape the result to a :class:`.Population`.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            population: population to select from.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new population with selected individuals.</span>
+
+<span class="sd">        Effect:</span>
+<span class="sd">            Remove all items from the original ``population`` (from</span>
+<span class="sd">            :meth:`select_to_many`).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">selected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">select_to_many</span><span class="p">(</span><span class="n">population</span><span class="p">)</span>
         <span class="n">new_population</span> <span class="o">=</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">]()</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">selected</span><span class="p">:</span>
             <span class="n">new_population</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-
         <span class="k">return</span> <span class="n">new_population</span></div>
 
 
 <div class="viewcode-block" id="Selector.select_to_many">
 <a class="viewcode-back" href="../../core.html#core.selector.Selector.select_to_many">[docs]</a>
     <span class="k">def</span> <span class="nf">select_to_many</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">population</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Context for the selection strategy.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Context of :attr:`select`.</span>
 
-<span class="sd">        Repeatedly apply select() to create a collection of solutions.</span>
+<span class="sd">        Repeatedly apply select() to create a collection of solutions. Each</span>
+<span class="sd">        application removes an item in the original population.</span>
+<span class="sd">        </span>
 <span class="sd">        A subclass may override this method to implement behaviours that</span>
 <span class="sd">        require access to the entire selection process.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            population: population to select from.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A tuple of selected individuals.</span>
+
+<span class="sd">        Effect:</span>
+<span class="sd">            Remove all items from the original ``population``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># TODO This method destroys the original population (by calling .draw).</span>
+        <span class="c1">#   Should I let it retain the original population?</span>
 
         <span class="n">return_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">old_population</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">population</span>
@@ -161,14 +185,17 @@
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                <span class="n">population</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Selection strategy of the selector.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Selection strategy.</span>
 
 <span class="sd">        All subclasses should override this method. The implementation should</span>
-<span class="sd">            return a tuple of individuals. Each item in the tuple should also</span>
-<span class="sd">            be a member of `population`.</span>
+<span class="sd">        return a tuple of individuals. Each item in the tuple should also</span>
+<span class="sd">        be a member of `population`.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            population: population to select from.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            A tuple of selected individuals.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 </div>
@@ -183,6 +210,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="NullSelector.select_to_many">
 <a class="viewcode-back" href="../../core.html#core.selector.NullSelector.select_to_many">[docs]</a>
+    <span class="nd">@override</span>
     <span class="k">def</span> <span class="nf">select_to_many</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">population</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Select every item in the population.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -198,8 +226,12 @@
 
 <span class="sd">    Example for overriding `select`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="SimpleSelector.__init__">
+<a class="viewcode-back" href="../../core.html#core.selector.SimpleSelector.__init__">[docs]</a>
+    <span class="nd">@override</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">budget</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">budget</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">budget</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="SimpleSelector.select">
 <a class="viewcode-back" href="../../core.html#core.selector.SimpleSelector.select">[docs]</a>
@@ -209,7 +241,7 @@
 
 <span class="sd">        Select the item in the population with highest fitness.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">population</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">score</span><span class="p">)</span>
+        <span class="n">population</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">fitness</span><span class="p">)</span>
         <span class="n">selected_solution</span> <span class="o">=</span> <span class="n">population</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">selected_solution</span><span class="p">,)</span></div>
 </div>
@@ -225,12 +257,17 @@
 <span class="sd">        is not enough, because elitism requires the highest-fitness</span>
 <span class="sd">        individual of a _population_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ElitistSimpleSelector.__init__">
+<a class="viewcode-back" href="../../core.html#core.selector.ElitistSimpleSelector.__init__">[docs]</a>
+    <span class="nd">@override</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">budget</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">budget</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">best_individual</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_individual</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
 
 <div class="viewcode-block" id="ElitistSimpleSelector.select_to_many">
 <a class="viewcode-back" href="../../core.html#core.selector.ElitistSimpleSelector.select_to_many">[docs]</a>
+    <span class="nd">@override</span>
     <span class="k">def</span> <span class="nf">select_to_many</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">population</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Context that implements elitism.</span>
 
@@ -242,7 +279,7 @@
         <span class="k">if</span> <span class="n">best_individual</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">best_individual</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">score</span> <span class="o">&lt;</span> <span class="n">best_individual</span><span class="o">.</span><span class="n">score</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">fitness</span> <span class="o">&lt;</span> <span class="n">best_individual</span><span class="o">.</span><span class="n">fitness</span><span class="p">:</span>
                 <span class="n">best_individual</span> <span class="o">=</span> <span class="n">x</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">best_individual</span> <span class="o">=</span> <span class="n">best_individual</span>
 
@@ -256,14 +293,18 @@
 <span class="k">class</span> <span class="nc">TournamentSelector</span><span class="p">(</span><span class="n">Selector</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Tournament selector.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="TournamentSelector.__init__">
+<a class="viewcode-back" href="../../core.html#core.selector.TournamentSelector.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">budget</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">bracket_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
                  <span class="n">probability</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">budget</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bracket_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">bracket_size</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">probability</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">probability</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probability</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">probability</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span></div>
 
+    
 <div class="viewcode-block" id="TournamentSelector.select">
 <a class="viewcode-back" href="../../core.html#core.selector.TournamentSelector.select">[docs]</a>
+    <span class="nd">@override</span>
     <span class="k">def</span> <span class="nf">select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                <span class="n">population</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Tournament selection.</span>
@@ -278,7 +319,7 @@
             <span class="n">sample</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">population</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">sample</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">population</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">bracket_size</span><span class="p">)</span>
-        <span class="n">sample</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">score</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">sample</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">fitness</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="c1"># If nothing is selected stochastically, select the last element</span>
         <span class="n">selected_solution</span><span class="p">:</span> <span class="n">T</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -309,6 +350,7 @@
 <span class="sd">    Return:</span>
 <span class="sd">        A selector</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">select_to_many</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                        <span class="n">population</span><span class="p">:</span> <span class="n">Population</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Individual</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Context that implements elitism.</span>
@@ -321,7 +363,7 @@
         <span class="k">if</span> <span class="n">best_individual</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">best_individual</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">score</span> <span class="o">&gt;</span> <span class="n">best_individual</span><span class="o">.</span><span class="n">score</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">fitness</span> <span class="o">&gt;</span> <span class="n">best_individual</span><span class="o">.</span><span class="n">fitness</span><span class="p">:</span>
                 <span class="n">best_individual</span> <span class="o">=</span> <span class="n">x</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">best_individual</span> <span class="o">=</span> <span class="n">best_individual</span>
 

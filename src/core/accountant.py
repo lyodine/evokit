@@ -16,51 +16,77 @@ from typing import NamedTuple
 
 
 class AccountantRecord(NamedTuple):
+    """A value collected by an :class:`Accountant`, with the context
+    in which it is collected.
+    """
+    # TODO Sphinx somehow collects `__new__`, which should not be documented.
+    # Spent 1 hour on this to no avail, will leave it be for the interest of time.
+
     #: Event that triggers the handler.
     event: str
 
-    #: Generation count when the event is fired.
+    #: Generation count when the event :attr:`event` occurs.
     generation: int
 
-    #: Data that is collected by the handler.
+    #: Data collected in generation :attr:`generation` after event :attr:`event`.
     value: Any
 
 class Accountant:
-    """Monitor and collect data from a running :class:Controller.
+    """Monitor and collect data from a running :class:`Controller`.
 
-    The `Accountant` maintains a dictionary of event:handler mappings. When
-    an event fires in the attached :class:`.Controller`, the corresponding
-    handler collects data.
+    Maintain a dictionary of `event : handler` mappings. When
+    `event` fires in the attached :class:`.Controller`, 
+    `handler` collects data.
 
-    Attention:
-        One `Accountant` can only be registered with one :class:`.Controller`;
-        one :class:`.Controller` can have multiple `Accountant` s.
+    The accountant subscribes to a :class:`.Controller`,
+    the :class:`.Controller` registers an accountant.
     """
+    # TODO is this langauge good
     def __init__(self: Self, handlers: Dict[str, Callable[[Controller], Any]]):
         """
         Args:
-            handlers: a dictionary of event:handler mappings. Each handler
-                should receive a :class:`.Controller` and return a value.
+            handlers: a dictionary of `event : handler` mappings. Each `handler`
+                should have the following signature:
+
+        .. code-block::
+
+            Controller -> Any
+            
         """
         self.records: List[AccountantRecord] = []
-        #: Mapping between events and handlers
+        # TODO I will skip on commenting it - the handler should not be directly accessed
+        #   though ... should I make it possible to change the handlers once they are declared?
+        # Meditating on how to do it.
         self.handlers: Dict[str, Callable[[Controller], Any]] = handlers
+        
+        #: The attached :class:`Controller`
         self.subject: Optional[Controller] = None
 
-    def register(self: Self, subject: Controller) -> None:
-        """Register with a :class:`.Controller`.
+    def subscribe(self: Self, subject: Controller) -> None:
+        """Machinery.
+        
+        Subscribe for events in a :class:`.Controller`.
 
         Args:
             subject: the :class:`.Controller` whose events are monitored by
-                this `Accountant`.
+                this accountant.
+
+        :meta private:
         """
         self.subject = subject
 
     def update(self: Self, event: str)-> None:
         """Machinery.
         
-        The attached :class:`.Controller` calls this method
-        to report an event.
+        When the attached :class:`.Controller` calls :meth:`.Controller.update`,
+        it calls this method on every registered accountant.
+
+        When an event matches a key in :attr:`handlers`, call the corresponding
+        value with the attached Controller as argument. Store the result in
+        :attr:`records`.
+
+        Raise:
+            RuntimeError: If no :class:`Controller` is attached.
 
         :meta private:
         """
@@ -86,15 +112,15 @@ class Accountant:
             A list of named tuples. See :class:`.AccountantRecord` for fields of
             each item.
         """
-        if not self.is_attached():
+        if not self.is_registered():
             raise ValueError("Accountant is not attached to a controller;"
                              " cannot publish.")
         return self.records
 
-    def is_attached(self)-> bool:
-        """Return if this `Accountant` is attached to a :class:Controller.
+    def is_registered(self)-> bool:
+        """Return if this accountant is attached to a :class:Controller.
 
         Returns:
-            `True` if 
+            `False` if :attr:`subject` is `None`, otherwise `True`.
         """
         return self.subject is not None

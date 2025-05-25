@@ -1,6 +1,3 @@
-""" The controller is an iterative optimizer that receives various
-    evolutionary operators.
-"""
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -58,29 +55,19 @@ class MetaController(ABCMeta):
             namespace.setdefault("step", lambda: None)
         )
 
-        def wrap_init(custom_init: Callable) -> Callable:
-            def wrapper(self: Controller, *args, **kwargs) -> Any:
-                self.generation = 0
-                self.accountants = []
-                self.events = []
-                return custom_init(self, *args, **kwargs)
-
-            return wrapper
-        namespace["__init__"] = wrap_init(
-            namespace.setdefault("__init__", lambda: None)
-        )
         return type.__new__(mcls, name, bases, namespace)
 
 
 class Controller(ABC, Generic[T], metaclass=MetaController):
     """Base class for all evolutionary algorothms.
 
-    The `Controller` Manage the learning process. Derive this class to create custom algorithms.
+    Derive this class to create custom algorithms.
     """
     def __new__(cls, *args, **kwargs):
-        """Machinery. Implement managed attributes.
+        """Machinery.
+        
+        Implement managed attributes.
 
-        :meta private:
         """
         # Note that Sphinx does not collect these values.
         #   It is therefore necessary to repeat them in :meth:`__init__`.
@@ -93,51 +80,50 @@ class Controller(ABC, Generic[T], metaclass=MetaController):
     @abstractmethod
     def __init__(self) -> None:
         """
-        Args:
-            events: Collection of events that can be fired by the controller.
+        
+        Subclasses should override this method.
 
-        Note:
-            No need to not call super().init(...) when overriding :func:`__init__`.
-            The attributes :attr:`generation`, :attr:`accountants`,
-            and :attr:`events` are automatically managed.
+        The implementation can accept operators as arguments. Alternatively,
+        it may also acquire operators from the global scope, or define them
+        in the initialiser.
         """
-        # TODO The note is just not right - normally, the child should call the initialiser of the parent/
+        # TODO The note is just not right - normally, the child should
+        #   call the initialiser of the parent/
         
         #: Generation counter, automatically increments when :py:attr:`step` is called.
         self.generation: int
-        #: Registered :class:`Controller` s.
+        #: Registered :class:`Accountant` objects.
         self.accountants: List[Accountant]
-        #: Events that can be fired by this Controller.
+        #: Collection of events that can be reported by this controller.
         self.events: List[str]
 
     @abstractmethod
     def step(self) -> Self:
         """Advance the population by one generation.
 
-        Update the current population or populations. Incrementing of
-        the :attr:`generation` counter is automatically managed.
+        Subclasses should override this method.
+
+        Note:
+            Do not manually increment :attr:`generation`. This property
+            is automatically managed.
         """
-        # TODO Calling super.step() may lead to unforseen consequences, such as
-        #   incrementing the generation counter twice. Just override it.
-        # Try to prevent this.
+        # TODO Should I use this note to make it clear?
         pass
 
     def register(self: Self, accountant: Accountant)-> None:
-        """Attach an :class:`.Accountant` to this `Controller`.
+        """Attach an :class:`.Accountant` to this controller.
 
         Args:
             accountant: An :class:`.Accountant` that observes and
-                collects data from this `Controller`.
+                collects data from this Controller.
         """
-        # TODO I just can't come up with a good name
         self.accountants.append(accountant)
         accountant.subscribe(self)
 
     def update(self, event: str) -> None:
-        """Report an event to all attached :class:`.Accountant` s.
+        """Report an event to all attached :class:`.Accountant` objects.
 
-        The event must be one listed in :attr:`events`. If not, raise
-        an exception.
+        The event must be in :attr:`events`. If not, raise an exception.
 
         Args:
             event: the event to report.
@@ -175,19 +161,7 @@ class LinearController(Controller[T]):
                  variator: Variator[T],
                  survivor_evaluator: Evaluator[T],
                  survivor_selector: Selector[T]) -> None:
-        """
-        Args:
-            population: initial population.
-
-            evaluator: operator that evaluate the fitness of an individual.
-
-            parent_selector: operator that selects individuals for variation.
-
-            variator: operator that creates new individuals from existing ones.
-
-            offspring_selector: operator that selects to the next generation.
-        """
-        # Introduction to Evolutionary Computing calls
+        # _Introduction to Evolutionary Computing_ calls
         #   selectors "survivor selection" and the outcome
         #   "offspring". I'm not making the call there.
         self.population = population
@@ -204,6 +178,22 @@ class LinearController(Controller[T]):
                                   "POST_VARIATION",
                                   "POST_SURVIVOR_EVALUATION",
                                   "POST_SURVIVOR_SELECTION"]
+        # wwerwe
+        # """
+        # Args:
+        # TODO These names are repeated in the class docstring.
+        #     population: initial population.
+
+        #     parent_evaluator: operator that evaluate the fitness of an individual.
+
+        #     parent_selector: operator that selects individuals for variation.
+
+        #     variator: operator that creates new individuals from existing ones.
+
+        #     survivor_evaluator: operator that selects to the next generation.
+
+        #     survivor_selector: operator that selects to the next generation.
+        # """
 
     @override
     def step(self) -> None:
