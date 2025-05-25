@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from typing import Self
     from typing import Callable
 
-from core import Variator
+from ..core import Variator
 
 import abc
 import functools
@@ -22,7 +22,7 @@ from inspect import signature
 from random import choice
 from typing import Generic
 
-from core import Evaluator, Individual
+from ..core import Evaluator, Individual
 
 
 T = typing.TypeVar("T")

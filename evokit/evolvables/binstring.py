@@ -3,11 +3,11 @@ from __future__ import annotations
 import typing
 from typing import Optional, Tuple, TypeVar, List
 
-from core.controller import LinearController
-from core.evaluator import Evaluator
-from core.population import Individual, Population
-from core.selector import Elitist, SimpleSelector, NullSelector
-from core.variator import Variator
+from ..core import LinearController
+from ..core import Evaluator
+from ..core import Individual, Population
+from ..core import Elitist, SimpleSelector, NullSelector
+from ..core import Variator
 
 from typing import Self, Any, Sequence
 
