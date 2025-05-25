@@ -12,7 +12,7 @@ Installation
 
 Overview
 - Operators
-- Using the interceptor
+- Using the interceptor (is this a good name?)
 
 Developer tutorials
 
@@ -38,6 +38,7 @@ Developer tutorials
 
    modules
    guides/introduction
+   examples/e1
 
 Indices and tables
 ==================
