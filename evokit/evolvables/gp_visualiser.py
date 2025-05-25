@@ -1,14 +1,10 @@
 # mypy: disable-error-code="import-untyped,no-any-unimported"
 from graphviz import Digraph 
 
-from typing import TYPE_CHECKING
+from .gp import Expression
 
-
-if TYPE_CHECKING:
-    from typing import Callable
-    from .gp import Program
-    from .gp import Expression
-
+from typing import Callable
+from .gp import Program
 #: Global counter of the number of dispatched identifiers.
 ident = 0
 
