@@ -33,5 +33,13 @@ As the variator and the evaluator depend on the individual, the variator, the ev
    :maxdepth: 2
    :caption: Contents:
 
-   examples/e_gp.ipynb
+   accountant.ipynb
+   gp.ipynb
+   onemax.ipynb
+   selector.ipynb
+   controller.ipynb
+   interceptor.ipynb
+   
+
+   
    
