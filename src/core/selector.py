@@ -123,6 +123,14 @@ class NullSelector(Selector[T]):
 
     """
     @override
+    def __init__(self: Self):
+        pass
+
+    @override
+    def select(self: Self, *_: Any, **__: Any) -> Any:
+        pass
+
+    @override
     def select_to_many(self, population: Population[T]) -> Tuple[Individual[T], ...]:
         """Select every item in the population.
         """
