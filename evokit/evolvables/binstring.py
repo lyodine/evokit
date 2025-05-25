@@ -20,21 +20,51 @@ T = TypeVar('T', bound=Individual)
 
 
 class BinaryString(Individual[List[int]]):
-    def __init__(self, value: List[int]) -> None:
-        self.genome: List[int] = value
+    """A string of bits.
+    """
+    def __init__(self, value: int, size: int) -> None:
+        """
+        Args:
+            value: length 
+        """
+        self.genome: int = value
+        self.size: int = size
 
     @staticmethod
-    def random(len: int) -> BinaryString:
+    def random(size: int) -> BinaryString:
         return BinaryString(
-            (len * [0] +
-                [int(digit) for digit in bin(getrandbits(len))[2:]])[-len:]
+            getrandbits(size),
+            size
         )
 
     def copy(self: Self) -> Self:
-        return type(self)(self.genome.copy())
+        return type(self)(self.genome, self.size)
+
+    def get(self: Self, pos: int) -> int:
+        self._assert_pos_out_of_bound(pos)
+        return (self.genome >> pos) & 1
+
+    def set(self: Self, pos: int) -> None:
+        self._assert_pos_out_of_bound(pos)
+        self.genome |= 1 << pos
+        
+    def unset(self: Self, pos: int) -> None:
+        self._assert_pos_out_of_bound(pos)
+        self.genome &= ~(1<<pos)
+
+    def flip(self: Self, pos: int) -> None:
+        self._assert_pos_out_of_bound(pos)
+        self.genome ^= 1<<pos
 
     def __str__(self: Self) -> str:
-        return str(self.genome)
+        size: int = self.size
+        return str((size * [0] +
+                [int(digit) for digit in bin(self.genome)[2:]])[-size:])
+    
+    def _assert_pos_out_of_bound(self: Self, pos: int)-> None:
+        if pos > self.size - 1:
+            raise IndexError(f"Index {pos} is out of bound for a binary"
+                             f"string of length {self.size}")
 
 
 class BitDistanceEvaluator(Evaluator[BinaryString]):
