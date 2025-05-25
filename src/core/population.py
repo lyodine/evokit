@@ -114,9 +114,6 @@ class Individual(ABC, Generic[R]):
         #   to make this function more usable.
 
 
-T = TypeVar('T', bound=Individual)
-
-
 class AbstractCollection(ABC, Sequence[R], Iterable[R]):
     """Machinery.
 
@@ -235,12 +232,15 @@ class AbstractCollection(ABC, Sequence[R], Iterable[R]):
             raise RuntimeError("Values of key and pos changed during evaluation")
 
 
-class Population(AbstractCollection[Individual[R]],
-                 Sequence[Individual[R]],
-                 Iterable[Individual[R]]):
+T = TypeVar("T")
+
+
+class Population(AbstractCollection[Individual[T]],
+                 Sequence[Individual[T]],
+                 Iterable[Individual[T]]):
     """A flat collection of individuals.
     """
-    def __init__(self, *args: Individual[R]):
+    def __init__(self, *args: Individual[T]):
         super().__init__(*args)
 
     def copy(self) -> Self:
@@ -260,7 +260,7 @@ class Population(AbstractCollection[Individual[R]],
         return self.__class__(*[x.copy() for x in self._items])
 
     def sort(self: Self,
-             ranker: Callable[[Individual[R]], float] = lambda x: x.fitness) -> None:
+             ranker: Callable[[Individual[T]], float] = lambda x: x.fitness) -> None:
         """Rearrange items by fitness, highest-first.
 
         The item at index 0 has the highest index.
@@ -281,8 +281,8 @@ class Population(AbstractCollection[Individual[R]],
         for x in self._items:
             x.reset_fitness()
 
-    def best(self: Self) -> Individual[R]:
-        best_individual: Individual[R] = self[0]
+    def best(self: Self) -> Individual[T]:
+        best_individual: Individual[T] = self[0]
 
         for x in self:
             if x.fitness > best_individual.fitness:
