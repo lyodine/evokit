@@ -21,16 +21,17 @@ D = TypeVar("D", bound=Individual)
 
 
 class MetaEvaluator(ABCMeta):
-    """Machinery. Implement special behavious in :class:`Evaluator`.
+    """Machinery. Implement special behaviours in :class:`Evaluator`.
 
     :meta private:
     """
+    # ^^ Actually a private metaclass! :meta private: indeed.
     def __new__(mcls: Type, name: str, bases: Tuple[type],
                 namespace: Dict[str, Any]) -> Any:  # BAD
         ABCMeta.__init__(mcls, name, bases, namespace)
-        # TODO This classifies as metaclass abuse. Though, I find it reasonable to
-        #   leave the machinery to the background, so that the user can have
-        #   an easier time extending the framework.
+        # Remorseless metaclass abuse. Consider using __init_subclass__ instead.
+        # This bad boy violates so many OO practices. Everything for ease
+        #   of use, I guess.
 
         def wrap_function(custom_evaluate: Callable[[Any, Any], float]) -> Callable:
             @wraps(custom_evaluate)
@@ -56,6 +57,8 @@ class Evaluator(ABC, Generic[D], metaclass=MetaEvaluator):
     """Base class for all evaluators.
 
     Derive this class to create custom evaluators.
+
+    See :doc:`../guides/examples/onemax`.
     """
     def __new__(cls, *args: Any, **kwargs: Any) -> Self:
         """Machinery. Implement managed attributes.
@@ -74,7 +77,7 @@ class Evaluator(ABC, Generic[D], metaclass=MetaEvaluator):
 
     @abstractmethod
     def evaluate(self: Self, individual: D) -> float:
-        """Evaluation strategy.
+        """Evaluation strategy. Return the fitness of an individual.
 
         Subclasses should override this method.
 
@@ -83,9 +86,6 @@ class Evaluator(ABC, Generic[D], metaclass=MetaEvaluator):
 
         Args:
             individual: individual to evaluate
-
-        Return:
-            Fitness of the individual
         """
 
     def evaluate_population(self: Self,
