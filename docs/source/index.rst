@@ -38,6 +38,7 @@ Developer tutorials
 
    modules
    guides/introduction
+   examples/e1
 
 Indices and tables
 ==================
