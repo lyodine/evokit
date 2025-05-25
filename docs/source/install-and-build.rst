@@ -97,20 +97,3 @@ increasing) values. A sample of the output follows.
    (17,)
    (17,)
    (17,)
-
-Optional Dependencies
----------------------
-
-EvoKit has several optional dependencies. These dependencies are not required
-for the framework to function.
-
-.. list-table:: Title
-   :widths: 25 25
-   :header-rows: 1
-
-   * - Dependency
-     - Purpose
-   * - ``evokit[visualise]``
-     - Visualise representations.
-   * - ``evokit[test]``
-     - Test the framework; not used by the framework.

@@ -34,7 +34,7 @@ Completely Documented
 .. literalinclude:: ../../evokit/evolvables/gp.py
     :language: python
     :pyobject: _get_arity
-    :lines: 1-12
+    :lines: 1-15
 
 Well Described
 --------------

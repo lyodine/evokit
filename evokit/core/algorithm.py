@@ -22,10 +22,10 @@ class _MetaAlgorithm(ABCMeta):
 
     Implement special behaviours in :class:`Algorithm`:
 
-        * After step is called, :attr:`.Algorithm.generation`
+        * After step is called, :attr:`Algorithm.generation`
           increments by ``1``.
-        * Fire event "STEP_BEGIN" before calling :meth:`.Algorithm.step`,
-          fire event "STEP_END" after calling :meth:`.Algorithm.step`.
+        * Fire event "STEP_BEGIN" before calling :meth:`Algorithm.step`,
+          fire event "STEP_END" after calling :meth:`Algorithm.step`.
     """
     def __new__(mcls: Type[Any], name: str, bases: tuple[type],
                 namespace: dict[str, Any]) -> Any:
@@ -102,17 +102,18 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
 
         Subclasses should override this method. Use operators to update
         the population (or populations). Call :meth:`update` to fire
-        events for data collection mechanisms such as :class:`Accountant`.
+        events for data collection mechanisms such as
+        :class:`accountant.Accountant`.
 
         Note:
-            The :attr:`.generation` attribute increments by 1 _after_
-            :meth:`.step` is called. Do not manually increment
+            The :attr:`generation` attribute increments by 1 _after_
+            :meth:`step` is called. Do not manually increment
             :attr:`generation`. This property is automatically managed.
 
-            Calling :meth:`.step` automatically fires two events via
+            Calling :meth:`step` automatically fires two events via
             :meth:`.update`: "STEP_BEGIN" before and "STEP_END" after.
             This behaviour cannot be suppressed. For more on events,
-            see :class:`accounting.Accountant`. Be advised that
+            see :class:`accountant.Accountant`. Be advised that
             these automatic events are fired just like any other event --
             nothing prevents you from firing them inside :meth:`step`.
             The :attr:`automatic_events` class attribute reports these
@@ -121,24 +122,13 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
         pass
 
     def register(self: Self, accountant: Accountant[Any, Any]) -> None:
-        """Attach an :class:`.Accountant` to this algorithm.
 
-        Do nothing if :arg:`accountant` is already in
-        :attr:`accountants`.
-
-        Args:
-            accountant: An :class:`.Accountant` that observes and
-                collects data from this Algorithm.
-
-        Effect:
-            Register a new :class:`.Accountant`, or do nothing.
-        """
         if accountant not in self.accountants:
             self.accountants.append(accountant)
             accountant.subscribe(self)
 
     def update(self, event: str) -> None:
-        """Report an event to all attached :class:`.Accountant` objects.
+        """Report an event to all attached :class:`Accountant` objects.
 
         If the event is not in :attr:`events`, raise an exception.
 
@@ -147,8 +137,8 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
 
         Raise:
             ValueError: if an reported event is not declared in
-            :attr:`events` and is not an automatically reported
-            event in :attr:`automatic_events`.
+                :attr:`events` and is not an automatically reported
+                event in :attr:`automatic_events`.
         """
         if event not in self.events\
                 and event not in self.automatic_events:
