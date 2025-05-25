@@ -14,13 +14,13 @@ EvoKit Documentation
 
 Using EvoKit is easy! With all operators defined, you can run an evolutionary algorithm in just 7 lines! [#]_ [#]_
 
-.. code-block:: ruby
+.. code-block:: python
    :linenos:
 
-   ctrl: SimpleLinearController = SimpleLinearConstroller(
+   ctrl: TruncationLinearController = SimpleLinearAlgorithm(
       population=init_pop,
       variator=RandomBitMutator(0.1),
-      selector=Elitist(SimpleSelector[BinaryString](POPULATION_SIZE)),
+      selector=Elitist(TruncationSelector[BinaryString](POPULATION_SIZE)),
       evaluator = BitDistanceEvaluator()
    )
 
