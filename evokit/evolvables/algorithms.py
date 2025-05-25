@@ -44,9 +44,10 @@ class SimpleLinearAlgorithm(Algorithm, Generic[T]):
         self.accountants: list[Accountant[SimpleLinearAlgorithm[T], Any]] = []
         # Each event name informs what action has taken place.
         #   This should be easier to understand, compared to "PRE_...".
-        self.events = ["POST_VARIATION",
-                       "POST_EVALUATION",
-                       "POST_SELECTION"]
+
+    events = ["POST_VARIATION",
+              "POST_EVALUATION",
+              "POST_SELECTION"]
 
     @override
     def step(self) -> None:
@@ -103,11 +104,12 @@ class LinearAlgorithm(Algorithm, Generic[T]):
         self.accountants: list[Accountant[LinearAlgorithm[T], Any]] = []
         # Each event name informs what action has taken place.
         #   This should be easier to understand, compared to "PRE_...".
-        self.events = ["POST_PARENT_EVALUATION",
-                       "POST_PARENT_SELECTION",
-                       "POST_VARIATION",
-                       "POST_OFFSPRING_EVALUATION",
-                       "POST_OFFSPRING_SELECTION"]
+
+    events = ["POST_PARENT_EVALUATION",
+              "POST_PARENT_SELECTION",
+              "POST_VARIATION",
+              "POST_OFFSPRING_EVALUATION",
+              "POST_OFFSPRING_SELECTION"]
 
     @override
     def step(self) -> None:
@@ -167,8 +169,9 @@ class CanonicalGeneticAlgorithm(Algorithm, Generic[T]):
         self.variator2 = variator2
         self.accountants: list[
             Accountant[CanonicalGeneticAlgorithm[T], Any]] = []
-        self.events = ["POST_VARIATION_1", "POST_VARIATION_2",
-                       "POST_EVALUATION", "POST_SELECTION"]
+
+    events = ["POST_VARIATION_1", "POST_VARIATION_2",
+              "POST_EVALUATION", "POST_SELECTION"]
 
     @override
     def step(self) -> None:

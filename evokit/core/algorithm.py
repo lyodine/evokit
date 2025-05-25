@@ -72,7 +72,6 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
         #   It is therefore necessary to repeat them in :meth:`__init__`.
         instance = super().__new__(cls)
         instance.generation = 0
-        instance.automatic_events = ["STEP_BEGIN", "STEP_END"]
         instance.accountants = []
         instance.events = []
         return instance
@@ -91,10 +90,14 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
         self.generation: int
         #! Registered :class:`Accountant` objects.
         self.accountants: list[Accountant[Any, Any]]
-        #! Events that can be reported by this algorithm.
-        self.events: list[str]
         #! Events that are automatically fired.
         self.automatic_events: list[str]
+
+    #! Events that can be reported by this algorithm.
+    events: list[str]
+
+    #! Events that are automatically reported by this algorithm.
+    automatic_events = ["STEP_BEGIN", "STEP_END"]
 
     @abstractmethod
     def step(self) -> None:
