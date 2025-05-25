@@ -37,7 +37,8 @@ class MetaGenome(ABCMeta):
                 namespace: dict[str, Any]) -> Any:  # `Any` is BAD
         ABCMeta.__init__(mcls, name, bases, namespace)
 
-        def wrap_function(custom_copy: Callable[[Individual], Individual]) -> Callable:
+        def wrap_function(custom_copy:
+                          Callable[[Individual], Individual]) -> Callable:
             @wraps(custom_copy)
             def wrapper(self: Individual,
                         *args: Any, **kwargs: Any) -> Individual:
@@ -230,7 +231,8 @@ class AbstractCollection(ABC, Generic[R], Sequence[R], Iterable[R]):
         """Remove an item from the population.
 
         Identify an item either by value (in :arg:`key`) or by position
-        (in :arg:`pos`). Remove that item from the collection, then return that item.
+        (in :arg:`pos`). Remove that item from the collection,
+        then return that item.
 
         Returns:
             The :class:`Individual` that is removed from the population
@@ -265,7 +267,7 @@ class AbstractCollection(ABC, Generic[R], Sequence[R], Iterable[R]):
             else:
                 return key
         else:
-            raise RuntimeError("Values of key and pos changed during evaluation")
+            raise RuntimeError("key and pos changed during evaluation")
 
 
 D = TypeVar("D", bound=Individual)
@@ -285,8 +287,8 @@ class Population(AbstractCollection[D]):
         """Return an independent population.
 
         Changes made to items in the new population should not affect
-        items in this population. This behaviour depends on correct implementation
-        of :meth:`.Individual.copy` in each item.
+        items in this population. This behaviour depends on correct
+        implementation of :meth:`.Individual.copy` in each item.
 
         Call :meth:`.Individual.copy` for each :class:`.Individual` in this
         population. Collect the results, then create a new population with
@@ -295,7 +297,9 @@ class Population(AbstractCollection[D]):
         return self.__class__(*[x.copy() for x in self._items])
 
     def sort(self: Self,
-             ranker: Callable[[D], SupportsRichComparison] = lambda x: x.fitness) -> None:
+             ranker: 
+             Callable[[D], SupportsRichComparison] = lambda x: x.fitness)\
+            -> None:
         """Rearrange items by fitness, highest-first.
 
         If individuals have multiple fitnesses, sort lexi ... what?.

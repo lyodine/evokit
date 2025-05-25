@@ -30,7 +30,7 @@ class AccountantRecord(NamedTuple, Generic[C]):
     #: Generation count when the event :attr:`event` occurs.
     generation: int
 
-    #: Data collected in generation :attr:`generation` after event :attr:`event`.
+    #: Data collected in :attr:`generation` after :attr:`event`.
     value: Any
 
 
@@ -63,8 +63,9 @@ class Accountant(Generic[C]):
     def __init__(self: Self, handlers: dict[str, Callable[[C], Any]]):
         """
         Args:
-            handlers: a dictionary of `event : handler` mappings. Each `handler`
-                should have the signature :python:`Algorithm -> Any`:
+            handlers: a dictionary of `event : handler` mappings.
+                Each `handler` should have the signature
+                :python:`Algorithm -> Any`:
         """
         #: Records collected by the ``Accountant``
         self.records: list[AccountantRecord] = []
@@ -104,9 +105,10 @@ class Accountant(Generic[C]):
         else:
             for trigger, action in self.handlers.items():
                 if event == trigger:
-                    self.records.append(AccountantRecord(event,
-                                                         self.subject.generation,
-                                                         action(self.subject)))
+                    self.records.append(
+                        AccountantRecord(event,
+                                         self.subject.generation,
+                                         action(self.subject)))
 
     def publish(self) -> list[AccountantRecord]:
         """Report collected data.
