@@ -16,7 +16,7 @@ from typing import Generic, TypeVar
 from .population import Individual, Population
 from typing import override
 
-D = TypeVar("D", bound=Individual)
+D = TypeVar("D", bound=Individual[Any])
 
 
 class Variator(ABC, Generic[D]):

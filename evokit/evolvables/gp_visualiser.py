@@ -4,6 +4,7 @@ from graphviz import Digraph
 from .gp import Expression
 
 from typing import Callable
+from typing import Any
 from .gp import Program
 from .._utils.addons import ensure_dependency
 
@@ -23,7 +24,7 @@ def _dispatch_ident() -> str:
     return "a" + str(*(ident := ident + 1,))
 
 
-def p2dot(gp: Program,
+def p2dot(gp: Program[Any],
           dispatcher: Callable[[], str] = _dispatch_ident) -> Digraph:
     """Visualise a tree-based genetic program.
 
@@ -37,12 +38,12 @@ def p2dot(gp: Program,
 
         identifier when called.
     """
-    expr: Expression = gp.genome
+    expr: Expression[Any] = gp.genome
     my_name: str = expr.value.__name__ if callable(expr.value)\
         else str(expr.value)
     my_ident: str = dispatcher()
     dot: Digraph = Digraph("GP Visualisation")
-    dot.node(my_ident, my_name)
+    dot.node(my_ident, my_name)  # type: ignore[reportUnknownMemberType]
 
     for each_child in expr.children:
         _p2dot_recurse(each_child, dot, my_ident, dispatcher)
@@ -50,7 +51,7 @@ def p2dot(gp: Program,
     return dot
 
 
-def _p2dot_recurse(expr: Expression,
+def _p2dot_recurse(expr: Expression[Any],
                    dot: Digraph,
                    parent_ident: str,
                    dispatcher: Callable[[], str]) -> None:
@@ -72,8 +73,8 @@ def _p2dot_recurse(expr: Expression,
         else str(expr.value)
     my_ident: str = dispatcher()
 
-    dot.node(my_ident, my_name)
-    dot.edge(parent_ident, my_ident)
+    dot.node(my_ident, my_name)  # type: ignore[reportUnknownMemberType]
+    dot.edge(parent_ident, my_ident)  # type: ignore[reportUnknownMemberType]
 
     for each_child in expr.children:
         _p2dot_recurse(each_child, dot, my_ident, dispatcher)

@@ -7,13 +7,15 @@ from ..core import Individual
 from ..core import Algorithm
 
 from typing import TypeVar
+from typing import Any
 from typing import override
+from typing import Generic
 
 
-T = TypeVar("T", bound=Individual)
+T = TypeVar("T", bound=Individual[Any])
 
 
-class SimpleLinearAlgorithm(Algorithm[T]):
+class SimpleLinearAlgorithm(Algorithm, Generic[T]):
     """A very simple evolutionary algorithm.
 
     An evolutionary algorithm that maintains one population and
@@ -39,7 +41,7 @@ class SimpleLinearAlgorithm(Algorithm[T]):
         self.evaluator = evaluator
         self.selector = selector
         self.variator = variator
-        self.accountants: list[Accountant] = []
+        self.accountants: list[Accountant[SimpleLinearAlgorithm[T], Any]] = []
         # Each event name informs what action has taken place.
         #   This should be easier to understand, compared to "PRE_...".
         self.events = ["POST_VARIATION",
@@ -58,7 +60,7 @@ class SimpleLinearAlgorithm(Algorithm[T]):
         self.update("POST_SELECTION")
 
 
-class LinearAlgorithm(Algorithm[T]):
+class LinearAlgorithm(Algorithm, Generic[T]):
     """A general evolutionary algorithm [SIMPLE_GA].
 
     An evolutionary algorithm that maintains one population. Each
@@ -98,7 +100,7 @@ class LinearAlgorithm(Algorithm[T]):
         self.variator = variator
         self.survivor_evaluator = survivor_evaluator
         self.survivor_selector = survivor_selector
-        self.accountants: list[Accountant] = []
+        self.accountants: list[Accountant[LinearAlgorithm[T], Any]] = []
         # Each event name informs what action has taken place.
         #   This should be easier to understand, compared to "PRE_...".
         self.events = ["POST_PARENT_EVALUATION",
@@ -130,7 +132,7 @@ class LinearAlgorithm(Algorithm[T]):
         self.update("POST_OFFSPRING_SELECTION")
 
 
-class CanonicalGeneticAlgorithm(Algorithm[T]):
+class CanonicalGeneticAlgorithm(Algorithm, Generic[T]):
     """The canonical genetic algorithm [CANON_GA]_.
 
     An evolutionary algorithm that consecutively apply
@@ -163,7 +165,8 @@ class CanonicalGeneticAlgorithm(Algorithm[T]):
         self.selector = selector
         self.variator1 = variator1
         self.variator2 = variator2
-        self.accountants: list[Accountant] = []
+        self.accountants: list[
+            Accountant[CanonicalGeneticAlgorithm[T], Any]] = []
         self.events = ["POST_VARIATION_1", "POST_VARIATION_2",
                        "POST_EVALUATION", "POST_SELECTION"]
 

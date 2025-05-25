@@ -8,11 +8,11 @@ if TYPE_CHECKING:
     from typing import Iterable
 
 from abc import ABC
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, Any
 from .population import Individual, Population
 
 
-D = TypeVar("D", bound=Individual)
+D = TypeVar("D", bound=Individual[Any])
 
 
 class Selector(ABC, Generic[D]):

@@ -83,7 +83,7 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
                 :python:`Algorithm -> Any`:
         """
         #: Records collected by the ``Accountant``
-        self._records: list[AccountantRecord] = []
+        self._records: list[AccountantRecord[T]] = []
 
         #: `Event - handler` pairs of the ``Accountant``
         self.handlers: Iterable[AccountantHandler[C, T]] = handlers
@@ -91,7 +91,7 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
         #: The attached :class:`Algorithm`
         self._subject: Optional[C] = None
 
-    def _subscribe(self: Self, subject: C) -> None:
+    def subscribe(self: Self, subject: C) -> None:
         """Machinery.
 
         :meta private:
@@ -104,7 +104,7 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
         """
         self._subject = subject
 
-    def _update(self: Self, event: str) -> None:
+    def update(self: Self, event: str) -> None:
         """Machinery.
 
         :meta private:
@@ -131,7 +131,7 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
                                          action(self._subject)))
 
     def report(self: Self,
-               scope: Optional[str | int]) -> list[AccountantRecord]:
+               scope: Optional[str | int]) -> list[AccountantRecord[T]]:
         """Report collected records.
 
         Args:
@@ -154,10 +154,10 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
                              " cannot publish.")
         if isinstance(scope, int):
             return [r for r in self._records
-                    if r.event == scope]
+                    if r.generation == scope]
         if isinstance(scope, str):
             return [r for r in self._records
-                    if r.generation == scope]
+                    if r.event == scope]
         else:
             return self._records
 

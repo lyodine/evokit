@@ -14,11 +14,6 @@ if TYPE_CHECKING:
     from typing import Callable
     from ..accounting.accountant import Accountant
 
-from typing import TypeVar
-from typing import Generic
-
-from .population import Individual
-
 
 class _MetaAlgorithm(ABCMeta):
     """Machinery.
@@ -36,7 +31,7 @@ class _MetaAlgorithm(ABCMeta):
                 namespace: dict[str, Any]) -> Any:
         ABCMeta.__init__(mcls, name, bases, namespace)
 
-        def wrap_step(custom_step: Callable) -> Callable:
+        def wrap_step(custom_step: Callable[..., None]) -> Callable[..., None]:
             @wraps(custom_step)
             # The `@wraps` decorator ensures that the wrapper correctly
             #   inherits properties of the wrapped function, including
@@ -59,10 +54,7 @@ class _MetaAlgorithm(ABCMeta):
         return type.__new__(mcls, name, bases, namespace)
 
 
-T = TypeVar("T", bound=Individual)
-
-
-class Algorithm(ABC, Generic[T], metaclass=_MetaAlgorithm):
+class Algorithm(ABC, metaclass=_MetaAlgorithm):
     """Base class for all evolutionary algorithms.
 
     Derive this class to create custom algorithms.
@@ -98,7 +90,7 @@ class Algorithm(ABC, Generic[T], metaclass=_MetaAlgorithm):
         #! Number of elapsed generations.
         self.generation: int
         #! Registered :class:`Accountant` objects.
-        self.accountants: list[Accountant]
+        self.accountants: list[Accountant[Any, Any]]
         #! Events that can be reported by this algorithm.
         self.events: list[str]
         #! Events that are automatically fired.
@@ -124,7 +116,7 @@ class Algorithm(ABC, Generic[T], metaclass=_MetaAlgorithm):
         """
         pass
 
-    def register(self: Self, accountant: Accountant) -> None:
+    def register(self: Self, accountant: Accountant[Any, Any]) -> None:
         """Attach an :class:`.Accountant` to this algorithm.
 
         Args:
@@ -132,7 +124,7 @@ class Algorithm(ABC, Generic[T], metaclass=_MetaAlgorithm):
                 collects data from this Algorithm.
         """
         self.accountants.append(accountant)
-        accountant._subscribe(self)
+        accountant.subscribe(self)
 
     def update(self, event: str) -> None:
         """Report an event to all attached :class:`.Accountant` objects.
@@ -152,4 +144,4 @@ class Algorithm(ABC, Generic[T], metaclass=_MetaAlgorithm):
                              f"Add {event} to the algorithm's list of"
                              "`.events`.")
         for acc in self.accountants:
-            acc._update(event)
+            acc.update(event)

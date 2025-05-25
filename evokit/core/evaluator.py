@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 from typing import Any
 
 
-D = TypeVar("D", bound=Individual)
+D = TypeVar("D", bound=Individual[Any])
 
 
 class _MetaEvaluator(ABCMeta):
@@ -26,7 +26,7 @@ class _MetaEvaluator(ABCMeta):
     Implement special behaviours in :class:`Evaluator`.
     """
     # ^^ Actually a private metaclass! :meta private: indeed.
-    def __new__(mcls: Type, name: str, bases: tuple[type],
+    def __new__(mcls: Type[Any], name: str, bases: tuple[type],
                 namespace: dict[str, Any]) -> Any:  # BAD
         ABCMeta.__init__(mcls, name, bases, namespace)
         # Remorseless metaclass abuse. Consider using __init_subclass__.
@@ -35,12 +35,11 @@ class _MetaEvaluator(ABCMeta):
 
         def wrap_function(
                 custom_evaluate: Callable[[Any, Any],
-                                          tuple[float, ...]]) -> Callable:
+                                          tuple[float, ...]])\
+                -> Callable[[Any, Any], tuple[float, ...]]:
             @wraps(custom_evaluate)
-            def wrapper(self: Evaluator, individual: Individual,
+            def wrapper(self: Evaluator[Any], individual: Individual[Any],
                         *args: Any, **kwargs: Any) -> tuple[float, ...]:
-                if not isinstance(individual, Individual):
-                    raise TypeError("The input is not an individual")
                 # If :attr:`retain_fitness` and the individual is scored, then
                 #   return that score. Otherwise, evaluate the individual.
                 if (self.retain_fitness and individual.has_fitness()):

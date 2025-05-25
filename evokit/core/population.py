@@ -25,16 +25,17 @@ class _MetaGenome(ABCMeta):
 
     Implement special behaviours in :class:`Individual`.
     """
-    def __new__(mcls: Type, name: str, bases: tuple[type],
+    def __new__(mcls: Type[Any], name: str, bases: tuple[type],
                 namespace: dict[str, Any]) -> Any:  # `Any` is BAD
         ABCMeta.__init__(mcls, name, bases, namespace)
 
         def wrap_function(custom_copy:
-                          Callable[[Individual], Individual]) -> Callable:
+                          Callable[[Individual[Any]], Individual[Any]])\
+                -> Callable[[Individual[Any]], Individual[Any]]:
             @wraps(custom_copy)
-            def wrapper(self: Individual,
-                        *args: Any, **kwargs: Any) -> Individual:
-                custom_copy_result: Individual
+            def wrapper(self: Individual[Any],
+                        *args: Any, **kwargs: Any) -> Individual[Any]:
+                custom_copy_result: Individual[Any]
                 if self.has_fitness():
                     old_fitness = self.fitness
                     custom_copy_result = custom_copy(self, *args, **kwargs)
@@ -151,7 +152,7 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
         """
 
 
-D = TypeVar("D", bound=Individual)
+D = TypeVar("D", bound=Individual[Any])
 
 
 class Population(list[D]):
@@ -193,9 +194,9 @@ class Population(list[D]):
         best_individual: D = self[0]
 
         for x in self:
-            if best_individual.fitness is float('nan'):
+            if best_individual.fitness == (float('nan'),):
                 best_individual = x
-            elif x.fitness is float('nan'):
+            elif x.fitness == (float('nan'),):
                 pass
             elif x.fitness > best_individual.fitness:
                 best_individual = x

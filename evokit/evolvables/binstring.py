@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from typing import TypeVar
 from typing import Literal
 from typing import Type
+from typing import Any
 
 from ..core import Evaluator
 from ..core import Individual, Population
@@ -29,7 +30,7 @@ class ValueRange:
     hi: int
 
 
-T = TypeVar('T', bound=Individual)
+T = TypeVar('T', bound=Individual[Any])
 
 
 class BinaryString(Individual[int]):
@@ -184,8 +185,8 @@ class CountBits(Evaluator[BinaryString]):
     Evaluator for :class:`BinaryString`. For each ``1`` in the binary string,
     incur a reward of 1.
     """
-    def evaluate(self, s1: BinaryString) -> tuple[float]:
-        return (s1.genome.bit_count(),)
+    def evaluate(self, individual: BinaryString) -> tuple[float,]:
+        return (individual.genome.bit_count(),)
 
 
 class MutateBits(Variator[BinaryString]):
@@ -265,13 +266,13 @@ class OnePointCrossover(Variator[BinaryString]):
                     parents[1].copy())
 
 
-def _splice_genes(p1_genome: int,
-                  p2_genome: int,
-                  k: int,
-                  size: int):
-    p1_head = p1_genome >> k << k
-    p2_tail = ((p2_genome << k) & 2**size - 1) >> k
-    return p1_head | p2_tail
+# def _splice_genes(p1_genome: int,
+#                   p2_genome: int,
+#                   k: int,
+#                   size: int):
+#     p1_head = p1_genome >> k << k
+#     p2_tail = ((p2_genome << k) & 2**size - 1) >> k
+#     return p1_head | p2_tail
 
 
 def trial_run() -> list[BinaryString]:

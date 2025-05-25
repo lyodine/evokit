@@ -16,7 +16,7 @@ from functools import wraps
 
 from operator import attrgetter
 
-D = TypeVar("D", bound=Individual)
+D = TypeVar("D", bound=Individual[Any])
 
 
 class NullSelector(Selector[D]):
@@ -44,8 +44,8 @@ class TruncationSelector(Selector[D]):
     @override
     def select_population(self: Self,
                           from_population: Population[D]) -> Population[D]:
-        return Population(*sorted(list(from_population),
-                                  key=attrgetter("fitness"))[-self.budget:])
+        return Population[D](*sorted(list(from_population),
+                                     key=attrgetter("fitness"))[-self.budget:])
 
 
 class TournamentSelector(Selector[D]):
@@ -94,7 +94,7 @@ class TournamentSelector(Selector[D]):
         return (sample[-1],)
 
 
-def Elitist(sel: Selector[D]) -> Selector:
+def Elitist(sel: Selector[D]) -> Selector[D]:
     """Decorator that adds elitism to a selector.
 
     Retain and update the highest-fitness individual encountered so far.
@@ -113,7 +113,8 @@ def Elitist(sel: Selector[D]) -> Selector:
 
     def wrap_function(original_select_population:
                       Callable[[Selector[D], Population[D]],
-                               Population[D]]) -> Callable:
+                               Population[D]])\
+            -> Callable[[Selector[D], Population[D]], Population[D]]:
 
         @wraps(original_select_population)
         def wrapper(self: Selector[D],

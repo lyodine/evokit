@@ -28,7 +28,10 @@ T = TypeVar("T")
 _EXPR_PARAM_PREFIX: str = "x"
 
 
-def _get_arity(fun: Callable | Expression | Symbol | Any) -> int:
+def _get_arity(fun: Callable[..., Any]
+               | Expression[Any]
+               | Symbol
+               | Any) -> int:
     """Return the arity of an object.
 
     If the argument is callable, return the length of its signature.
@@ -64,7 +67,7 @@ class Expression(Generic[T]):
                  arity: int,
                  value: T | Callable[..., T] | Symbol,
                  children: list[Expression[T]],
-                 factory: Optional[ExpressionFactory] = None):
+                 factory: Optional[ExpressionFactory[T]] = None):
         #: Arity of the expression node.
         self.arity: int = arity
         #: Value of the expression node.
@@ -257,7 +260,7 @@ class ExpressionFactory(Generic[T]):
     def build(self: Self,
               node_budget: int,
               layer_budget: int,
-              nullary_ratio: Optional[float] = None) -> Expression:
+              nullary_ratio: Optional[float] = None) -> Expression[T]:
         """Build an expression tree to specifications.
 
         The parameters ``node_budget`` and ``layer_budget`` are no constraints.
@@ -379,14 +382,14 @@ class ProgramFactory(Generic[T]):
     def build(self: Self,
               node_budget: int,
               layer_budget: int,
-              nullary_ratio: Optional[float] = None) -> Program:
+              nullary_ratio: Optional[float] = None) -> Program[T]:
         # new_deposit = [x.copy() for x in self.symbol_deposit]
         return Program(self.exprfactory.build(node_budget,
                                               layer_budget,
                                               nullary_ratio))
 
 
-class CrossoverSubtree(Variator[Program[float]]):
+class CrossoverSubtree(Variator[Program[T]]):
     """Crossover operator that randomly exchange subtrees of parents.
 
     Select an internal node from each parent. Then, select one
@@ -404,12 +407,12 @@ class CrossoverSubtree(Variator[Program[float]]):
         self.shuffle = shuffle
 
     def vary(self,
-             parents: Sequence[Program[float]]) -> tuple[Program[float], ...]:
+             parents: Sequence[Program[T]]) -> tuple[Program[T], ...]:
 
-        root1: Program = parents[0].copy()
-        root2: Program = parents[1].copy()
-        root1_pass: Program = parents[0].copy()
-        root2_pass: Program = parents[1].copy()
+        root1: Program[T] = parents[0].copy()
+        root2: Program[T] = parents[1].copy()
+        root1_pass: Program[T] = parents[0].copy()
+        root2_pass: Program[T] = parents[1].copy()
         internal_nodes_from_root_1 =\
             tuple(x for x in root1.genome.nodes() if len(x.children) > 0)
         internal_nodes_from_root_2 =\
@@ -434,8 +437,8 @@ class CrossoverSubtree(Variator[Program[float]]):
         return (root1, root2, root1_pass, root2_pass)
 
     @staticmethod
-    def _swap_children(expr1: Expression[float],
-                       expr2: Expression[float]) -> None:
+    def _swap_children(expr1: Expression[T],
+                       expr2: Expression[T]) -> None:
         r1_children = expr1.children
         r2_children = expr2.children
 
@@ -447,8 +450,8 @@ class CrossoverSubtree(Variator[Program[float]]):
         r1_children[r1_index_to_swap] = r2_index_hold.copy()
 
     @staticmethod
-    def _shuffle_children(expr1: Expression[float],
-                          expr2: Expression[float]) -> None:
+    def _shuffle_children(expr1: Expression[T],
+                          expr2: Expression[T]) -> None:
         child_nodes = list(expr1.children + expr2.children)
         random.shuffle(child_nodes)
 
@@ -459,7 +462,7 @@ class CrossoverSubtree(Variator[Program[float]]):
             expr2.children[i] = child_nodes[i].copy()
 
 
-class MutateNode(Variator[Program]):
+class MutateNode(Variator[Program[T]]):
     """Mutator that changes the primitive in a uniformly random node to
     a uniformly selected primitive of the same arity.
     """
@@ -467,7 +470,7 @@ class MutateNode(Variator[Program]):
         self.arity = 1
 
     def vary(self: Self,
-             parents: Sequence[Program]) -> tuple[Program, ...]:
+             parents: Sequence[Program[T]]) -> tuple[Program[T], ...]:
         """
         Args:
             parents: collection where the 0th item is the parent.
@@ -476,10 +479,8 @@ class MutateNode(Variator[Program]):
             ``ValueError`` if the parent's :attr:`Program.genome`
             does not have :attr:`Expression.factory` set.
         """
-        root1: Program = parents[0].copy()
-        if root1.genome.factory is None:
-            raise ValueError("")
-        root_pass: Program = parents[0].copy()
+        root1: Program[T] = parents[0].copy()
+        root_pass: Program[T] = parents[0].copy()
         random_node = random.choice(root1.genome.nodes())
         random_node.value = root1.genome.factory.primitive_by_arity(
             _get_arity(random_node.value))
@@ -490,7 +491,7 @@ class MutateNode(Variator[Program]):
         return (root1, root_pass)
 
 
-class MutateSubtree(Variator[Program]):
+class MutateSubtree(Variator[Program[T]]):
     """Mutation operator that randomly mutates subtrees.
 
     Uniformly select an internal node, then uniformly select a child of
@@ -508,11 +509,11 @@ class MutateSubtree(Variator[Program]):
         self.nullary_ratio = nullary_ratio
 
     def vary(self: Self,
-             parents: Sequence[Program]) -> tuple[Program, ...]:
+             parents: Sequence[Program[T]]) -> tuple[Program[T], ...]:
 
-        root1: Program = parents[0].copy()
-        root_pass: Program = parents[0].copy()
-        internal_nodes: tuple[Expression, ...] =\
+        root1: Program[T] = parents[0].copy()
+        root_pass: Program[T] = parents[0].copy()
+        internal_nodes: tuple[Expression[T], ...] =\
             tuple(x for x in root1.genome.nodes() if len(x.children) > 0)
 
         if (internal_nodes):
@@ -557,8 +558,8 @@ class SymbolicEvaluator(Evaluator[Program[float]]):
                             f"{self.arity}, first item in support has arity "
                             f"{support[0]}; they are not the same.")
 
-    def evaluate(self, program: Program[float]) -> tuple[float]:
-        return (-sum([abs(self.objective(*sup) - program.genome(*sup))
+    def evaluate(self, individual: Program[float]) -> tuple[float]:
+        return (-sum([abs(self.objective(*sup) - individual.genome(*sup))
                      for sup in self.support]),)
 
 
@@ -576,5 +577,5 @@ class PenaliseNodeCount(Evaluator[Program[float]]):
         """
         self.coefficient = coefficient
 
-    def evaluate(self, program: Program[float]) -> tuple[float]:
-        return (-(self.coefficient * len(program.genome.nodes())),)
+    def evaluate(self, individual: Program[float]) -> tuple[float]:
+        return (-(self.coefficient * len(individual.genome.nodes())),)
