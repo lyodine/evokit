@@ -13,7 +13,7 @@ author = 'Yiding Li'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 # Add path to source directory
-sys.path.append(os.path.abspath(os.path.join('..', '..', 'src')))
+sys.path.append(os.path.abspath(os.path.join('..', '..', 'evokit')))
 
 extensions = ['sphinx.ext.todo',
               'sphinx.ext.viewcode',
