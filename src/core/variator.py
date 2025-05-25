@@ -17,10 +17,6 @@ from .population import Individual, Population
 T = TypeVar("T", bound=Individual)
 
 
-class ArityException(Exception):
-    pass
-
-
 class Variator(ABC, Generic[T]):
     def __init__(self: Self,
                  arity: int,
@@ -46,7 +42,7 @@ class Variator(ABC, Generic[T]):
         #   that size. The "discarding" behaviour is implemented this way.
         parent_groups: Sequence[int]
         if self.arity is None:
-            raise ValueError("Variator does not specify arity,"
+            raise TypeError("Variator does not specify arity,"
                              "cannot create parent groups")
         else:
             parent_groups = tuple(zip(*(iter(population),) * self.arity))
