@@ -29,7 +29,6 @@ autoclass_content = 'class'
 autosummary_generate = True
 
 autodoc_default_options = {
-    'members': "__len__, __getitem__, __setitem__, __delitem__, __str__, __iter__, __next__",
     'undoc-members':     True,
     # Note: `autodoc_class_signature='separated'` causes `ClassDocumenter` to
     #   register both `__init__` and `__new__` as special members.
