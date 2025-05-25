@@ -138,6 +138,8 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all individuals.</span>
 
 <span class="sd">    Derive this class to create custom representations.</span>
+
+<span class="sd">    See :doc:`../guides/examples/onemax`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Individual.__new__">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.population.Individual.__new__">[docs]</a>
@@ -158,9 +160,7 @@
         <span class="c1">#: Fitness of the individual</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_fitness</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
         <span class="c1">#: Genotype of the individual. Subclasses should store</span>
-        <span class="c1">#  the representation in this attribute.</span>
-        <span class="c1"># TODO Think about a better way to put it, &quot;contained value&quot;?</span>
-        <span class="c1">#   surely &quot;value&quot; is too general.</span>
+        <span class="c1">#  the genotype in this attribute.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">genome</span><span class="p">:</span> <span class="n">R</span></div>
 
 
@@ -169,19 +169,18 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Fitness of an individual.</span>
 
 <span class="sd">        Writing to this property changes the fitness of the individual.</span>
-<span class="sd">        Reading this property may raise an exception, if a fitness has</span>
-<span class="sd">        not been assigned.</span>
+<span class="sd">        If this individual has yet to be assigned a fitness, reading </span>
+<span class="sd">        from this property raises an exception.</span>
+
+<span class="sd">        To determine if the individual has a fitness, call</span>
+<span class="sd">        :meth:`has_fitness`.</span>
 
 <span class="sd">        Return:</span>
 <span class="sd">            Fitness of the individual</span>
 
 <span class="sd">        Raise:</span>
-<span class="sd">            ValueError: if the current fitness is ``None``</span>
+<span class="sd">            :class:`ValueError`: if the current fitness is ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># TODO: Consider letting fitness return None if it is not assigned,</span>
-        <span class="c1">#   instead of raising an exception.</span>
-        <span class="c1"># There should be a limit to hand-holding the developer,</span>
-        <span class="c1">#   and this might be it.</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fitness</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Score is accessed but null&quot;</span><span class="p">)</span>
@@ -190,7 +189,9 @@
 
     <span class="nd">@fitness</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sphinx does not register docstrings on setters.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sphinx does not pick up docstrings on setters.</span>
+<span class="sd">        </span>
+<span class="sd">        This docstring should never be seen.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_fitness</span> <span class="o">=</span> <span class="n">value</span>
 
@@ -207,10 +208,10 @@
 <div class="viewcode-block" id="Individual.has_fitness">
 <a class="viewcode-back" href="../../../evokit.core.html#evokit.core.population.Individual.has_fitness">[docs]</a>
     <span class="k">def</span> <span class="nf">has_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return if the genome has a fitness value.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return if the individual has a fitness value.</span>
 
 <span class="sd">        Return:</span>
-<span class="sd">            ``False`` if the current :attr:`fitness` is ``None``, otherwise ``True``</span>
+<span class="sd">            ``False`` if the current :attr:`.fitness` is ``None``, otherwise ``True``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fitness</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
 

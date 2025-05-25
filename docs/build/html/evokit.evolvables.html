@@ -408,13 +408,13 @@ too much.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>node_budget</strong> – Total number of nodes in the tree</p></li>
-<li><p><strong>layer_budget</strong> – Depth of the tree</p></li>
-<li><p><strong>nullary_ratio</strong> – Probability of drawing a nullary node</p></li>
+<li><p><strong>node_budget</strong> – Total number of nodes in the tree.</p></li>
+<li><p><strong>layer_budget</strong> – Depth of the tree.</p></li>
+<li><p><strong>nullary_ratio</strong> – Probability of drawing a nullary node.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError` if nullary_ratio lies outside</strong><strong> of </strong><strong>range ``</strong><strong>[</strong><strong>0</strong><strong>,</strong><strong>1</strong><strong>]</strong><strong>`</strong> – </p>
+<dd class="field-even"><p><strong>ValueError` if nullary_ratio lies outside</strong><strong> of </strong><strong>range</strong><strong> [</strong><strong>0</strong><strong>,</strong><strong>1</strong><strong>]</strong> – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -625,8 +625,31 @@ incur a penalty of <code class="docutils literal notranslate"><span class="pre">
 </dd></dl>
 
 </section>
-<section id="evokit-evolvables-gp-visualiser-module">
-<h2>evokit.evolvables.gp_visualiser module<a class="headerlink" href="#evokit-evolvables-gp-visualiser-module" title="Link to this heading"></a></h2>
+<section id="module-evokit.evolvables.gp_visualiser">
+<span id="evokit-evolvables-gp-visualiser-module"></span><h2>evokit.evolvables.gp_visualiser module<a class="headerlink" href="#module-evokit.evolvables.gp_visualiser" title="Link to this heading"></a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="evokit.evolvables.gp_visualiser.ident">
+<span class="sig-prename descclassname"><span class="pre">evokit.evolvables.gp_visualiser.</span></span><span class="sig-name descname"><span class="pre">ident</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#evokit.evolvables.gp_visualiser.ident" title="Link to this definition"></a></dt>
+<dd><p>Global counter of the number of dispatched identifiers.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="evokit.evolvables.gp_visualiser.p2dot">
+<span class="sig-prename descclassname"><span class="pre">evokit.evolvables.gp_visualiser.</span></span><span class="sig-name descname"><span class="pre">p2dot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gp:</span> <span class="pre">~evokit.evolvables.gp.Program</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dispatcher:</span> <span class="pre">~typing.Callable[[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">_dispatch_ident&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Digraph</span></span></span><a class="reference internal" href="_modules/evokit/evolvables/gp_visualiser.html#p2dot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.evolvables.gp_visualiser.p2dot" title="Link to this definition"></a></dt>
+<dd><p>Visualise a tree-based genetic program.</p>
+<p>Return a <code class="xref py py-class docutils literal notranslate"><span class="pre">graphviz.Digraph</span></code> that represents the given tree-based
+genetic program.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gp</strong> – Genetic program to visualise.</p></li>
+<li><p><strong>dispatcher</strong> – <code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code> that should return a unique</p></li>
+<li><p><strong>called.</strong> (<em>identifier when</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="module-evokit.evolvables.lgp">
 <span id="evokit-evolvables-lgp-module"></span><h2>evokit.evolvables.lgp module<a class="headerlink" href="#module-evokit.evolvables.lgp" title="Link to this heading"></a></h2>
