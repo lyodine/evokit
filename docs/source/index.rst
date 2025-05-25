@@ -53,5 +53,5 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-.. [#] Example Derived from :doc:`guides/examples/onemax`
-.. [#] Technically 9 lines including the parenthesis and an empty line
+.. [#] Example derived from :doc:`guides/examples/onemax`
+.. [#] Technically 9 lines including parentheses and an empty line
