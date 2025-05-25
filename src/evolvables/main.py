@@ -89,44 +89,45 @@ class RandomBitMutator(Variator[Binary]):
                 newbits.toggle(i)
         return (binary, newbits)
 
-init_pop = Population[Binary]()
+if __name__ == "__main__":
+    init_pop = Population[Binary]()
 
-for i in range (0, 1):
-    init_pop.append(Binary.create_random(10))
+    for i in range (0, 1):
+        init_pop.append(Binary.create_random(10))
 
-evaluator = BitDistanceEvaluator()
-pselector = Elitist(SimpleSelector[Binary](10))
-cselector = Elitist(SimpleSelector[Binary](10))
-variator = RandomBitMutator()
+    evaluator = BitDistanceEvaluator()
+    pselector = Elitist(SimpleSelector[Binary](10))
+    cselector = Elitist(SimpleSelector[Binary](10))
+    variator = RandomBitMutator()
 
-ctrl = LinearController[Binary] (
-    population = init_pop,
-    evaluator = evaluator,
-    variator = variator,
-    offspring_selector = pselector,
-    parent_selector = cselector
-)
+    ctrl = LinearController[Binary] (
+        population = init_pop,
+        evaluator = evaluator,
+        variator = variator,
+        offspring_selector = pselector,
+        parent_selector = cselector
+    )
 
-dicts : typing.Dict[int, Optional[float]]= {}
+    dicts : typing.Dict[int, Optional[float]]= {}
 
-from core.accountant import Accountant
+    from core.accountant import Accountant
 
 
-# Ignore type checking. Because `Accountant` is defined for the
-#       `Controller` class, which does not necessarily have one
-#       `population`, type checkers report error on this line.\
-# Because an LinearController is registered with this `Accountant`,
-#       we can be _somewhat_ sure that the accountant's suject has
-#       a `.population`.
-#       
-acc = Accountant({"GENERATION_BEGIN": lambda x : len(x.population)}) # type:ignore
+    # Ignore type checking. Because `Accountant` is defined for the
+    #       `Controller` class, which does not necessarily have one
+    #       `population`, type checkers report error on this line.\
+    # Because an LinearController is registered with this `Accountant`,
+    #       we can be _somewhat_ sure that the accountant's suject has
+    #       a `.population`.
+    #       
+    acc = Accountant({"GENERATION_BEGIN": lambda x : len(x.population)}) # type:ignore
 
-ctrl.attach(acc)
+    ctrl.attach(acc)
 
-for i in range(0, 100):
-    ctrl.step()
-    dicts[i] = ctrl.population[0].score
+    for i in range(0, 100):
+        ctrl.step()
+        dicts[i] = ctrl.population[0].score
 
-print (dicts)
+    print (dicts)
 
-print(acc.publish())
+    print(acc.publish())
