@@ -9,7 +9,7 @@ from core.population import Individual, Population
 from core.selector import Elitist, SimpleSelector, NullSelector
 from core.variator import Variator
 
-from typing import Self, Any
+from typing import Self, Any, Sequence
 
 
 from random import getrandbits
@@ -55,7 +55,7 @@ class RandomBitMutator(Variator[BinaryString]):
                              f"Got: {mutation_rate}")
         self.mutation_rate = mutation_rate
 
-    def vary(self, parents: Tuple[BinaryString, ...]) -> Tuple[BinaryString, ...]:
+    def vary(self, parents: Sequence[BinaryString]) -> Tuple[BinaryString, ...]:
         offspring = parents[0].copy()
 
         for i in range(0, len(offspring.genome)):
