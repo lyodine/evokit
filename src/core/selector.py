@@ -26,7 +26,7 @@ class Selector(ABC, Generic[T]):
     def __init__(self: Self, budget: int):
         """
         Args:
-            budget: Number of genomes in the output.
+            budget: Number of individuals in the output.
         """
         self.budget = budget
 
@@ -78,7 +78,7 @@ class Selector(ABC, Generic[T]):
         """Selection strategy of the selector.
 
         All subclasses should override this method. The implementation should
-            return a tuple of genomes. Each item in the tuple should also
+            return a tuple of individuals. Each item in the tuple should also
             be a member of `population`.
 
         Args:
@@ -122,7 +122,7 @@ class ElitistSimpleSelector(SimpleSelector[T]):
     """
     def __init__(self: Self, budget: int):
         super().__init__(budget-1)
-        self.best_genome: Optional[T] = None
+        self.best_individual: Optional[T] = None
 
     def select_to_many(self, population: Population[T]) -> Tuple[T, ...]:
         """Context that implements elitism.
@@ -131,15 +131,15 @@ class ElitistSimpleSelector(SimpleSelector[T]):
             the current elite to the results.
         """
         results: Tuple[T, ...] = super().select_to_many(population)
-        best_genome: Optional[T] = self.best_genome
-        if best_genome is None:
-            best_genome = results[0]
+        best_individual: Optional[T] = self.best_individual
+        if best_individual is None:
+            best_individual = results[0]
         for x in results:
-            if x.score < best_genome.score:
-                best_genome = x
-        self.best_genome = best_genome
+            if x.score < best_individual.score:
+                best_individual = x
+        self.best_individual = best_individual
 
-        return (*results, self.best_genome)
+        return (*results, self.best_individual)
 
 import random
 
@@ -198,23 +198,23 @@ def Elitist(sel: Selector[T])-> Selector: #type:ignore
         # Python magic. Since super() cannot be used in this context,
         #   directly call select_to_many in the parent.
         results: Tuple[Individual[T]] = self.__class__.__mro__[1].select_to_many(self, population)
-        best_genome: Optional[Individual[T]] = self.best_genome
-        if best_genome is None:
-            best_genome = results[0]
+        best_individual: Optional[Individual[T]] = self.best_individual
+        if best_individual is None:
+            best_individual = results[0]
         for x in results:
-            if x.score > best_genome.score:
-                best_genome = x
-        self.best_genome = best_genome
+            if x.score > best_individual.score:
+                best_individual = x
+        self.best_individual = best_individual
 
-        if self.best_genome is None:
+        if self.best_individual is None:
             return (*results,)
         else:
-            return (*results, best_genome)
+            return (*results, best_individual)
 
     # Some say monkey patching is evil.
     # For others, _there is no good and evil, there is only power and those too weak to seek it.
     #       --  J.K. Rowling, Harry Potter and the Sorcerer's Stone_
     # This bad boy fails so many type checks.
-    setattr(sel, 'best_genome', None)
+    setattr(sel, 'best_individual', None)
     setattr(sel, 'select_to_many', MethodType(select_to_many, sel))
     return sel

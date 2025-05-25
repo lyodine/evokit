@@ -1,4 +1,4 @@
-# TODO Move Genome, GenomePool, and Population to separate files.
+# TODO Move Individual and Population to separate files.
 #   The Java thing is a good practice. One might even say, best practice.
 
 from __future__ import annotations
@@ -20,20 +20,20 @@ from typing import Generic, Tuple, TypeVar
 R = TypeVar('R')
 
 class Individual(ABC, Generic[R]):
-    """Base class for all genomes.
+    """Base class for all individuals.
 
     Representation of a solution. 
 
         Todo: find the right name, is it a representation, an individual,
-            a solution, a genome, or just the genotype (since it does not implement a behaviour)?
+            a solution, a individual, or just the genotype (since it does not implement a behaviour)?
     """
     def __init__(self) -> None:
-        # The genome has a score
+        # The individual has a score
         self._score: Optional[float] = None
 
     @property
     def score(self)-> float:
-        """Return the fitness that has been assigned to this genome.
+        """Return the fitness that has been assigned to this individual.
         
         Raise an NullScoreException if the score has not been assigned.
 
@@ -53,16 +53,16 @@ class Individual(ABC, Generic[R]):
 
     @score.setter
     def score(self, value: float)-> None:
-        """Set the fitness of the genome.
+        """Set the fitness of the individual.
         Args:
             value: new fitness.
         """
         self._score = value
 
     def descore(self)-> None:
-        """Reset the fitness of the genome.
+        """Reset the fitness of the individual.
 
-        Set the fitness of the genome to None, as if it has not been evaluated.
+        Set the fitness of the individual to None, as if it has not been evaluated.
         """
         self._score = None
 
@@ -75,7 +75,7 @@ class Individual(ABC, Generic[R]):
 
         All subclasses should override this method. The implementation should
             prevent changes made on the result from affecting the original
-            genome.
+            individual.
         """
 
 T = TypeVar('T', bound=Individual)
@@ -169,21 +169,21 @@ class AbstractCollection(ABC, Generic[R]):
                 return key
 
 class Population(AbstractCollection[T]):
-    """A flat collection of genomes.
+    """A flat collection of individuals.
     """
     def __init__(self, *args: T):
         super().__init__(*args)
 
     def copy(self) -> Self:
         """Returns an independent population.
-        TODO Following the issue raised in Genome: be sure to
+        TODO Following the issue raised in Individual: be sure to
             make explicit behaviours of this copy, and its guarantees.
         """
         return self.__class__(*[x.copy() for x in self._solutions])
 
     def sort(self: Self, ranker: Callable[[T], float] = lambda x : x.score)-> None:
         """Sort items in this report
-            TODO The process accesses _score_ in genomes, which may
+            TODO The process accesses _score_ in individuals, which may
             cause an error, according to the "current" implementation
             as of 2024-04-01.
             If the reporter is in _score_, then leave a try catch clause to
@@ -193,7 +193,7 @@ class Population(AbstractCollection[T]):
         self._solutions.sort(reverse=True, key=ranker)
 
     def descore(self: Self)-> None:
-        """Clean the score of all Genomes in the population.
+        """Clean the score of all Individuals in the population.
             TODO This behaviour exists in two places: in evaluators
                 (which is responsible for cleaning offspring)
                 and here. Discuss it.

@@ -28,7 +28,7 @@ class Variator(abc.ABC, Generic[T]):
     def vary(self, parents: Tuple[T, ...]) -> Tuple[T, ...]:
         """Appy the variator to a tuple of parents
 
-        Produce a tuple of genomes from a tuple of genomes.
+        Produce a tuple of individuals from a tuple of individuals.
         The input and output tuple sizes should match the arity and coarity of this selector, respectively.
             Implementation note: clear the score first.
         """
