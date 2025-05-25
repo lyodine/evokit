@@ -1,6 +1,7 @@
 import sys
 import os
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
+from typing import Any
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -47,7 +48,7 @@ autoclass_content = 'class'
 autosummary_generate = True
 
 napoleon_include_special_with_doc = True
-autodoc_default_options = {
+autodoc_default_options: dict[str, Any] = {
     'undoc-members': True,
     # Note: `autodoc_class_signature='separated'` causes `ClassDocumenter` to
     #   register both `__init__` and `__new__` as special members.
@@ -88,4 +89,6 @@ rst_prolog = """
 .. role:: arg(code)
   :class: highlight
 
+.. role:: strike
+  :class: strike
 """

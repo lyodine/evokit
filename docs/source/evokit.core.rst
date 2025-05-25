@@ -4,16 +4,6 @@ evokit.core package
 Submodules
 ----------
 
-evokit.core.accountant module
------------------------------
-.. inheritance-diagram:: evokit.core.accountant
-   :parts: 1
-
-.. automodule:: evokit.core.accountant
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 evokit.core.algorithm module
 ----------------------------
 .. inheritance-diagram:: evokit.core.algorithm

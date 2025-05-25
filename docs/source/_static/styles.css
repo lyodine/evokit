@@ -10,3 +10,6 @@ code.literal {
     max-width: fit-content;
     margin-left: 1em;
 }
+
+.strike {
+    text-decoration: line-through; }

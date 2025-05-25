@@ -65,7 +65,7 @@ Well Described
 .. literalinclude:: ../../evokit/core/algorithm.py
     :language: python
     :pyobject: Algorithm.step
-    :lines: 2, 3, 20-24
+    :lines: 2, 3, 20-23
 
 Transparent
 -----------

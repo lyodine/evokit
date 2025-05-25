@@ -12,9 +12,12 @@ Everything that form an algorithm derive from the following base classes:
 
 - Representations derive :class:`.Individual`; :class:`.Population` models a population.
 
-
 Getting Started
 ---------------
+
+The EvoKit source code, as well as all tutorials, are *heavily* typed and
+type checked with MyPy and Pylance in strict mode. Custom extensions
+do not need to practice this.
 
 * Custom representation, variator and evaluator for OneMax: :doc:`examples/onemax`
 
@@ -27,14 +30,14 @@ Representations
 
 * Genetic programming (WIP): :doc:`examples/gp`
 
-* Linear genetic programming (RIP): :doc:`examples/lgp`
+* :strike:`Linear genetic programming (RIP)`: :doc:`examples/lgp`
 
 Advanced Tutorials
 ------------------
 
-* Modify the behaviour of existing operators (WIP): :doc:`examples/interceptor`
+* :strike:`Modify the behaviour of existing operators (WIP)`: :doc:`examples/interceptor`
 
-* Collect runtime statistics with :class:`.Accountant` (WIP): :doc:`examples/accountant`.
+* Collect runtime statistics with :class:`.Accountant`: :doc:`examples/accountant`.
 
 .. toctree::
    :maxdepth: 2
