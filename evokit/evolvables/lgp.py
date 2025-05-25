@@ -21,6 +21,10 @@ from numpy.typing import NDArray
 from typing import TypeAlias
 from enum import Enum, auto
 
+from .._utils.addons import ensure_dependency
+
+ensure_dependency("numpy")
+
 T = TypeVar("T")
 
 
