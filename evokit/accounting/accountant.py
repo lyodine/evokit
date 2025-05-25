@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing import Generic
-from .algorithm import Algorithm
+from ..core.algorithm import Algorithm
 from typing import TypeVar
 from typing import NamedTuple
 from typing import override, overload

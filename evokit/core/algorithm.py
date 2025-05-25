@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from typing import Any
     from typing import Type
     from typing import Callable
-    from .accountant import Accountant
+    from ..accounting.accountant import Accountant
 
 from typing import TypeVar
 from typing import Generic
