@@ -1,12 +1,16 @@
-from typing import Self
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from typing import Self
+    from .population import Population
+
+from .population import Genome
 from typing import TypeVar
 from typing import Generic
 
 from abc import ABC
 from abc import ABCMeta
 from abc import abstractmethod
-from .population import Population
-from .population import Genome
 
 T = TypeVar("T", bound=Genome)
 

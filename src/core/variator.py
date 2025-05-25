@@ -1,15 +1,24 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from typing import Any
+    from .population import Tuple
+    from .population import GenomePool
+
 import abc
 from abc import abstractmethod
 
-import time
-from typing import TypeVar
-from typing import Generic
-from typing import Any
-from .globals import report, LogLevel
+
+    
+    
+    
 from .population import Population
 from .population import Genome
-from .population import Tuple
-from .population import GenomePool
+
+
+from typing import TypeVar
+from typing import Generic
+from .globals import report, LogLevel
 
 T = TypeVar("T", bound=Genome)
 
