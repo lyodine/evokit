@@ -12,7 +12,7 @@ Installation
 
 Overview
 - Operators
-- Using the interceptor
+- Using the interceptor (is this a good name?)
 
 Developer tutorials
 
