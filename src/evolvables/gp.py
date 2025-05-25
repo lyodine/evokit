@@ -1,38 +1,36 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from typing import Optional
+    from typing import Tuple
+    from typing import Dict
+    from typing import List
+    from typing import Any
+    from typing import Self
+    from typing import Callable
+
+from core import Controller
+from core import SimpleSelector
+from core import LogLevel
+from core import Elitist
+from core import report
+from core import Population
+from core import Evaluator
+from core import Variator
+from core import Genome
+
+
+from typing import Generic
+    
+
 import abc
 import typing
 import math
 import functools
 
-from typing import Optional
-from typing import Tuple
-from typing import Dict
-from typing import Generic
-from typing import Type
-from dataclasses import dataclass
-
-from typing import Union
-from typing import List
-from typing import Any
-from typing import Self
-from typing import Callable
 from inspect import signature
 
-from core import LogLevel
-from core import report
-from core import Variator
-from core import Elitist
-from core import SimpleSelector
-from core import Evaluator
-from core import Controller
-from core import Population
-from core import Genome
-
-
-
 import random
-
-
 
 import gymnasium as gym
 
@@ -394,8 +392,8 @@ node_budget = 20
 
 # The number of episodes for each evaluation. The actual score should be the mean of these scores.
 # The length of each episode is hard-coded to be 10 (see `evaluate_step`)
-step_bound = 25
-episode_bound = 25
+step_bound = 4
+episode_bound = 4
 
 
 # Build the population of ternary programs. The arity (4) should match the size of the observation space (4 for cartpole)
@@ -443,7 +441,7 @@ def score_keeper(best_scores, best_solutions, c: Controller[Program[T]]):
     best_scores = best_scores.append(c.population[0].score)
 
 from functools import partial
-for i in range(0, 20):
+for i in range(0, 2):
     # ctrl.step(partial(score_keeper, best_scores, best_solutions))
     ctrl.step()
 
