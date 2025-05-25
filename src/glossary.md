@@ -7,3 +7,8 @@ Special Modules
 
 Conditions:
     Output from selectors are descored
+
+Name these things:
+    Genome + Evaluator + Variator
+    Genome + Evaluator + Variator + Selector
+    
