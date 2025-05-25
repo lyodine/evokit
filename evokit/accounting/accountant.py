@@ -131,7 +131,7 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
                                          action(self._subject)))
 
     def report(self: Self,
-               scope: Optional[str | int]) -> list[AccountantRecord[T]]:
+               scope: Optional[str | int] = None) -> list[AccountantRecord[T]]:
         """Report collected records.
 
         Args:
