@@ -192,7 +192,7 @@ def Elitist(sel: Selector[T])-> Selector: #type:ignore
     Return:
         A selector
     """
-    def select_to_many(self, population: Population[T], budget: Optional[int] = None) -> Tuple[Individual[T], ...]:
+    def select_to_many(self, population: Population[T]) -> Tuple[Individual[T], ...]:
         """Context that implements elitism.
         """
         # Python magic. Since super() cannot be used in this context,
