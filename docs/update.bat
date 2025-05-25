@@ -1,1 +1,3 @@
-sphinx-apidoc -o ./source ../src
+sphinx-apidoc -f -o ./source ../src
+
+./make.bat html

@@ -14,7 +14,10 @@ author = 'Yiding Li'
 import sys, os
 sys.path.append(os.path.abspath(os.path.join('..', '..', 'src')))
 
-extensions = ['sphinx.ext.todo', 'sphinx.ext.viewcode', 'sphinx.ext.autodoc']
+extensions = ['sphinx.ext.todo',
+              'sphinx.ext.viewcode',
+              'sphinx.ext.autodoc',
+              'sphinx.ext.napoleon']
 
 templates_path = ['_templates']
 exclude_patterns = []
