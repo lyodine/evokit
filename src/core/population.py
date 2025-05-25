@@ -65,7 +65,8 @@ class Individual(ABC, Generic[R]):
         """
         # TODO: Consider letting fitness return None if it is not assigned,
         #   instead of raising an exception.
-        # There should be a limit to hand-holding the developer, and this might be it.
+        # There should be a limit to hand-holding the developer,
+        #   and this might be it.
 
         if (self._fitness is None):
             raise ValueError("Score is accessed but null")
@@ -234,7 +235,9 @@ class AbstractCollection(ABC, Sequence[R], Iterable[R]):
             raise RuntimeError("Values of key and pos changed during evaluation")
 
 
-class Population(AbstractCollection[Individual[R]], Sequence[Individual[R]], Iterable[Individual[R]]):
+class Population(AbstractCollection[Individual[R]],
+                 Sequence[Individual[R]],
+                 Iterable[Individual[R]]):
     """A flat collection of individuals.
     """
     def __init__(self, *args: Individual[R]):
