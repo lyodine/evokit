@@ -6,7 +6,6 @@ from core.evaluator import Evaluator
 from core.population import Genome
 from core.variator import Variator
 from core.population import Population
-from core.population import GenomePool
 from core.selector import Elitist
 from core.selector import SimpleSelector
 

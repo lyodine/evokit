@@ -15,7 +15,6 @@ from typing import Generic
 from typing import TypeVar
 from .population import Population
 from .population import Genome
-from .population import GenomePool
 
 T = TypeVar("T", bound=Genome)
 
@@ -31,33 +30,6 @@ class Selector(ABC, Generic[T]):
             budget: Number of genomes in the output.
         """
         self.budget = budget
-
-    def select_to_pool(self,
-                       population: Population[T],
-                       coarity: int) -> GenomePool[T]:
-        """As a parent selector, select from a population to a parent pool.
-
-        Args:
-            population: population to select from.
-            coarity: size of each parent tuple in the output.
-
-        Notes:
-            If the population cannot exactly fill tuples of a given size, discard the left-over genomes.
-
-        Todo:
-            the returned population is descored?
-            Not so sure about that - I cannot find the code that descores the population.
-        """
-        selected = self.select_to_many(population)
-
-        # Tuple magic. Zipping an iterable with itself extracts a tuple of that size. The "discarding" behaviour is implemented this way.
-        ai:Iterator[T] = iter(selected)
-        output_tuples:List[Tuple[T, ...]] = list(zip(*tuple(ai for i in range(coarity))))
-        pool = GenomePool[T](coarity)
-
-        for x in output_tuples:
-            pool.append(x)
-        return pool
 
     def select_to_population(self,
                              population: Population[T]) -> Population[T]:
@@ -219,20 +191,24 @@ def Elitist(sel: Selector[T])-> Selector: #type:ignore
     Return:
         A selector
     """
-    def select_to_many(self, population: Population[T], budget: Optional[int] = None) -> Tuple[T, ...]:
+    def select_to_many(self, population: Population[T], budget: Optional[int] = None) -> Tuple[Genome[T], ...]:
         """Context that implements elitism.
         """
         # Python magic. Since super() cannot be used in this context,
         #   directly call select_to_many in the parent.
-        results: Tuple[T, ...] = self.__class__.__mro__[1].select_to_many(self, population)
-        best_genome: Optional[T] = self.best_genome
+        results: Tuple[Genome[T]] = self.__class__.__mro__[1].select_to_many(self, population)
+        best_genome: Optional[Genome[T]] = self.best_genome
         if best_genome is None:
             best_genome = results[0]
         for x in results:
             if x.score > best_genome.score:
                 best_genome = x
         self.best_genome = best_genome
-        return (*results, self.best_genome)
+
+        if self.best_genome is None:
+            return (*results,)
+        else:
+            return (*results, best_genome)
 
     # Some say monkey patching is evil.
     # For others, _there is no good and evil, there is only power and those too weak to seek it.

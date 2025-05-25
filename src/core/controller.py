@@ -4,7 +4,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from typing import Self
-    from .population import GenomePool
     from .evaluator import Evaluator
     from .variator import Variator
     from .selector import Selector
@@ -71,13 +70,12 @@ class Controller(Generic[T]):
         self.update(ControllerEvent.PRE_PARENT_SELECTION)
         
         # Select from the population into the genome pool
-        parents: GenomePool = self.parent_selector.select_to_pool(self.population,
-                                                                  self.variator.arity)
+        parents: Population = self.parent_selector.select_to_population(self.population)
 
         self.update(ControllerEvent.PRE_VARIATION)
 
         # Vary the genome pool to create offspring
-        offspring = self.variator.vary_pool(parents, None)
+        offspring = self.variator.vary_population(parents)
 
         self.update(ControllerEvent.PRE_SURVIVOR_EVALUATION)
 
