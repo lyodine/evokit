@@ -1,6 +1,9 @@
 from __future__ import annotations
-
 from typing import TYPE_CHECKING
+from typing import Generic
+from .algorithm import Algorithm
+from typing import TypeVar
+from typing import NamedTuple
 
 if TYPE_CHECKING:
     from typing import Self
@@ -8,10 +11,6 @@ if TYPE_CHECKING:
     from typing import Callable
     from typing import Optional
 
-from typing import Generic
-from .algorithm import Algorithm
-from typing import TypeVar
-from typing import NamedTuple
 
 C = TypeVar("C", bound=Algorithm)
 
@@ -79,6 +78,8 @@ class Accountant(Generic[C]):
     def _subscribe(self: Self, subject: C) -> None:
         """Machinery.
 
+        :meta private:
+
         Subscribe for events in a :class:`.Algorithm`.
 
         Args:
@@ -89,6 +90,8 @@ class Accountant(Generic[C]):
 
     def _update(self: Self, event: str) -> None:
         """Machinery.
+
+        :meta private:
 
         When the attached :class:`.Algorithm` calls :meth:`.Algorithm.update`,
         it calls this method on every registered accountant.

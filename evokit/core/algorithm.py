@@ -20,10 +20,12 @@ from typing import Generic
 from .population import Individual
 
 
-class MetaAlgorithm(ABCMeta):
-    """Machinery. Implement special behaviours in :class:`Algorithm`.
+class _MetaAlgorithm(ABCMeta):
+    """Machinery.
 
     :meta private:
+
+    Implement special behaviours in :class:`Algorithm`.
     """
     def __new__(mcls: Type[Any], name: str, bases: tuple[type],
                 namespace: dict[str, Any]) -> Any:
@@ -53,7 +55,7 @@ class MetaAlgorithm(ABCMeta):
 T = TypeVar("T", bound=Individual)
 
 
-class Algorithm(ABC, Generic[T], metaclass=MetaAlgorithm):
+class Algorithm(ABC, Generic[T], metaclass=_MetaAlgorithm):
     """Base class for all evolutionary algorithms.
 
     Derive this class to create custom algorithms.
@@ -62,6 +64,8 @@ class Algorithm(ABC, Generic[T], metaclass=MetaAlgorithm):
     """
     def __new__(cls, *_: Any, **__: Any) -> Self:
         """Machinery.
+
+        :meta private:
 
         Implement managed attributes.
         """
