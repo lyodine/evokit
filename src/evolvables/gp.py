@@ -50,14 +50,16 @@ def _get_arity(fun: Any) -> int:
 
 
 class ArityMismatch(TypeError):
-    def __init__(self, expr, expected: Optional[int], given: Optional[int]):
+    def __init__(self, expr: Expression,
+                 expected: Optional[int],
+                 given: Optional[int]) -> None:
         super().__init__(f"function {str(expr)} expects "
                          f"{expected} arguments, got"
                          f"{given}.")
 
 
 class Expression(abc.ABC, typing.Generic[T]):
-    """Data structure of a program tree.
+    """Recursive data structure of a program tree.
     """
     def __init__(self, function: T | typing.Callable[..., T], *children: Expression[T]):
         self._function = function
