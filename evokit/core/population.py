@@ -41,10 +41,13 @@ class MetaGenome(ABCMeta):
             @wraps(custom_copy)
             def wrapper(self: Individual,
                         *args: Any, **kwargs: Any) -> Individual:
-                old_fitness = self.fitness
-                custom_copy_result: Individual = custom_copy(self, *args, **kwargs)
-                custom_copy_result.fitness = old_fitness
-
+                custom_copy_result: Individual
+                if self.has_fitness():
+                    old_fitness = self.fitness
+                    custom_copy_result = custom_copy(self, *args, **kwargs)
+                    custom_copy_result.fitness = old_fitness
+                else:
+                    custom_copy_result = custom_copy(self, *args, **kwargs)
                 return custom_copy_result
             return wrapper
 
