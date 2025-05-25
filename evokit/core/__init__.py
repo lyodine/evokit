@@ -1,7 +1,7 @@
 # flake8: noqa 
 """ Export modules from core.
 """
-from .controller import Controller, SimpleLinearController, LinearController
+from .algorithm import Algorithm, SimpleLinearAlgorithm, LinearAlgorithm
 from .evaluator import Evaluator, NullEvaluator
 from .population import Individual, Population
 from .selector import Selector, Elitist, SimpleSelector, NullSelector, TournamentSelector

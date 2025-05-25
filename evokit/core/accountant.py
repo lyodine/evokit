@@ -11,11 +11,11 @@ if TYPE_CHECKING:
     from typing import List
 
 from typing import Generic
-from .controller import Controller
+from .algorithm import Algorithm
 from typing import TypeVar
 from typing import NamedTuple
 
-C = TypeVar("C", bound=Controller)
+C = TypeVar("C", bound=Algorithm)
 
 
 class AccountantRecord(NamedTuple, Generic[C]):
@@ -37,19 +37,19 @@ class AccountantRecord(NamedTuple, Generic[C]):
 
 
 class Accountant(Generic[C]):
-    """Monitor and collect data from a running :class:`Controller`.
+    """Monitor and collect data from a running :class:`Algorithm`.
 
     Maintain a dictionary of `event : handler` mappings. Each time
-    `event` fires, `handler` collects data from the :class:`Controller`.
+    `event` fires, `handler` collects data from the :class:`Algorithm`.
 
-    Call :meth:`.Controller.register` to register an ``Accountant`` to
-    a :class:`Controller`.
+    Call :meth:`.Algorithm.register` to register an ``Accountant`` to
+    a :class:`Algorithm`.
 
     Example:
 
     .. code-block:: python
 
-        ctrl = SimpleLinearController(...)
+        ctrl = SimpleLinearAlgorithm(...)
         acc1 = Accountant(handlers={"POST_EVALUATION":
                                     lambda x: len(x.population)})
         ctrl.register(acc1)
@@ -66,7 +66,7 @@ class Accountant(Generic[C]):
         """
         Args:
             handlers: a dictionary of `event : handler` mappings. Each `handler`
-                should have the signature :python:`Controller -> Any`:
+                should have the signature :python:`Algorithm -> Any`:
         """
         #: Records collected by the ``Accountant``
         self.records: List[AccountantRecord] = []
@@ -74,16 +74,16 @@ class Accountant(Generic[C]):
         #: `Event - handler` pairs of the ``Accountant``
         self.handlers: Dict[str, Callable[[C], Any]] = handlers
 
-        #: The attached :class:`Controller`
+        #: The attached :class:`Algorithm`
         self.subject: Optional[C] = None
 
     def _subscribe(self: Self, subject: C) -> None:
         """Machinery.
 
-        Subscribe for events in a :class:`.Controller`.
+        Subscribe for events in a :class:`.Algorithm`.
 
         Args:
-            subject: the :class:`.Controller` whose events are monitored by
+            subject: the :class:`.Algorithm` whose events are monitored by
                 this accountant.
         """
         self.subject = subject
@@ -91,15 +91,15 @@ class Accountant(Generic[C]):
     def _update(self: Self, event: str) -> None:
         """Machinery.
 
-        When the attached :class:`.Controller` calls :meth:`.Controller.update`,
+        When the attached :class:`.Algorithm` calls :meth:`.Algorithm.update`,
         it calls this method on every registered accountant.
 
         When an event matches a key in :attr:`handlers`, call the corresponding
-        value with the attached Controller as argument. Store the result in
+        value with the attached Algorithm as argument. Store the result in
         :attr:`records`.
 
         Raise:
-            RuntimeError: If no :class:`Controller` is attached.
+            RuntimeError: If no :class:`Algorithm` is attached.
         """
         if self.subject is None:
             raise RuntimeError("Accountant updated without a subject.")
@@ -113,18 +113,18 @@ class Accountant(Generic[C]):
     def publish(self) -> List[AccountantRecord]:
         """Report collected data.
 
-        Each time an event fires in the attached :class`.Controller`,
+        Each time an event fires in the attached :class`.Algorithm`,
         if that event is registered in :attr:`handlers`, supply the
-        :class`.Controller` to the handler as argument then collect
+        :class`.Algorithm` to the handler as argument then collect
         the result in an :class:`AccountantRecord`. This method
         returns a list of all collected records.
         """
         if not self.is_registered():
-            raise ValueError("Accountant is not attached to a controller;"
+            raise ValueError("Accountant is not attached to an algorithm;"
                              " cannot publish.")
         return self.records
 
     def is_registered(self) -> bool:
-        """Return if this accountant is attached to a :class:Controller.
+        """Return if this accountant is attached to an :class:Algorithm.
         """
         return self.subject is not None

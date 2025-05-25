@@ -29,8 +29,8 @@ from .population import Individual
 T = TypeVar("T", bound=Individual)
 
 
-class MetaController(ABCMeta):
-    """Machinery. Implement special behaviours in :class:`Controller`.
+class MetaAlgorithm(ABCMeta):
+    """Machinery. Implement special behaviours in :class:`Algorithm`.
 
     :meta private:
     """
@@ -59,12 +59,12 @@ class MetaController(ABCMeta):
         return type.__new__(mcls, name, bases, namespace)
 
 
-class Controller(ABC, metaclass=MetaController):
+class Algorithm(ABC, metaclass=MetaAlgorithm):
     """Base class for all evolutionary algorithms.
 
     Derive this class to create custom algorithms.
 
-    Tutorial: :doc:`../guides/examples/controller`.
+    Tutorial: :doc:`../guides/examples/algorithm`.
     """
     def __new__(cls, *_: Any, **__: Any) -> Self:
         """Machinery.
@@ -94,7 +94,7 @@ class Controller(ABC, metaclass=MetaController):
         self.generation: int
         #: Registered :class:`Accountant` objects.
         self.accountants: List[Accountant]
-        #: Events that can be reported by this controller.
+        #: Events that can be reported by this algorithm.
         self.events: List[str]
 
     @abstractmethod
@@ -124,11 +124,11 @@ class Controller(ABC, metaclass=MetaController):
         pass
 
     def register(self: Self, accountant: Accountant) -> None:
-        """Attach an :class:`.Accountant` to this controller.
+        """Attach an :class:`.Accountant` to this algorithm.
 
         Args:
             accountant: An :class:`.Accountant` that observes and
-                collects data from this Controller.
+                collects data from this Algorithm.
         """
         self.accountants.append(accountant)
         accountant._subscribe(self)
@@ -145,13 +145,13 @@ class Controller(ABC, metaclass=MetaController):
             ValueError: if an reported event is not registered.
         """
         if event not in self.events:
-            raise ValueError(f"Controller fires unregistered event {event}."
-                             f"Add {event} to the controller's .events value")
+            raise ValueError(f"Algorithm fires unregistered event {event}."
+                             f"Add {event} to the algorithm's .events value")
         for acc in self.accountants:
             acc._update(event)
 
 
-class SimpleLinearController(Controller):
+class SimpleLinearAlgorithm(Algorithm):
     """A very simple evolutionary algorithm.
 
     An evolutionary algorithm that maintains one population and does not
@@ -201,7 +201,7 @@ class SimpleLinearController(Controller):
         self.update("POST_SELECTION")
 
 
-class LinearController(Controller):
+class LinearAlgorithm(Algorithm):
     """A simple evolutionary algorithm.
 
     An evolutionary algorithm that maintains one population and does not
