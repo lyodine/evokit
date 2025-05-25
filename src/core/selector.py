@@ -4,27 +4,32 @@
 #   TODO Are you sure evolearn is the package? Not core?
 #   Rethink your life choices, and how things came to this.
 
-import typing
-import abc
+
+from abc import ABC
+from abc import abstractmethod
+from typing import Generic
+from typing import TypeVar
 from typing import Tuple
 from typing import List
 from typing import Optional
 from typing import Iterator
-from core.globals import report
-from core.globals import LogLevel
-from core.population import Genome
-from core.population import Population
-from core.population import GenomePool
+from typing import Self
 
-T = typing.TypeVar("T", bound=Genome)
+from .globals import report
+from .globals import LogLevel
+from .population import Genome
+from .population import Population
+from .population import GenomePool
+
+T = TypeVar("T", bound=Genome)
 
 
-class Selector(abc.ABC, typing.Generic[T]):
+class Selector(ABC, Generic[T]):
     """!An abstract selector
         A selector that can be applied as a parent selector or a survivor selector.
     """
 
-    def __init__(self: typing.Self, coarity: int, budget: int):
+    def __init__(self: Self, coarity: int, budget: int):
         self.coarity = coarity
         self.budget = budget
 
@@ -92,7 +97,7 @@ class Selector(abc.ABC, typing.Generic[T]):
             budget_used = budget_used + len(selected_results)
         return tuple(return_list)
 
-    @abc.abstractmethod
+    @abstractmethod
     def select(self,
                parents: Population[T]) -> Tuple[T, ...]:
         """!Many-to-one selection strategy
@@ -104,7 +109,7 @@ class Selector(abc.ABC, typing.Generic[T]):
         pass
 
 class NullSelector(Selector[T]):
-    def __init__(self: typing.Self, coarity:int, budget: int):
+    def __init__(self: Self, coarity:int, budget: int):
         super().__init__(coarity, budget)
 
     def select_to_many(self, population: Population[T], budget: Optional[int] = None) -> Tuple[T, ...]:
@@ -112,7 +117,7 @@ class NullSelector(Selector[T]):
 
 
 class SimpleSelector(Selector[T]):
-    def __init__(self: typing.Self, coarity:int, budget: int):
+    def __init__(self: Self, coarity:int, budget: int):
         super().__init__(coarity, budget)
 
     def select(self,
@@ -127,7 +132,7 @@ class SimpleSelector(Selector[T]):
 
 
 class ElitistSimpleSelector(SimpleSelector[T]):
-    def __init__(self: typing.Self, coarity:int, budget: int):
+    def __init__(self: Self, coarity:int, budget: int):
         super().__init__(coarity, budget-1)
         self.best_genome: Optional[T] = None
 
@@ -148,7 +153,7 @@ class ElitistSimpleSelector(SimpleSelector[T]):
 
 import random
 class TournamentSelector(Selector[T]):
-    def __init__(self: typing.Self, coarity:int, budget: int, bracket_size:int = 2, probability:float = 1):
+    def __init__(self: Self, coarity:int, budget: int, bracket_size:int = 2, probability:float = 1):
         super().__init__(coarity, budget)
         self.bracket_size: int = bracket_size
         self.probability: float = min(2, max(probability, 0))

@@ -2,7 +2,9 @@ from typing import Self
 from typing import TypeVar
 from typing import Generic
 
-import abc
+from abc import ABC
+from abc import ABCMeta
+from abc import abstractmethod
 from .population import Population
 from .population import Genome
 
@@ -10,7 +12,7 @@ T = TypeVar("T", bound=Genome)
 
 
 
-class _MetaEvaluator(abc.ABCMeta):
+class _MetaEvaluator(ABCMeta):
     """Machineary for the evaluator.
         Because ABC (abstract base class) is also implemented with metaclasses,
             and a class cannot have two metaclasses, I must implement the following:
@@ -56,8 +58,7 @@ class _MetaEvaluator(abc.ABCMeta):
         # This is necessary. Because __new__ is 
         return type.__new__(mcls, name, bases, namespace)
 
-
-class Evaluator(abc.ABC, Generic[T]):
+class Evaluator(ABC, Generic[T]):
     """The evaluator evaluates the fitness of a Genome.
     """
     @staticmethod
@@ -77,7 +78,7 @@ class Evaluator(abc.ABC, Generic[T]):
                 return score
         return wrapper
 
-    @abc.abstractmethod
+    @abstractmethod
     def evaluate(self: Self, s1: T)-> float:
         """!Evaluate an individual and return the score.
             Higher scores are better.
