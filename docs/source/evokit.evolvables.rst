@@ -6,6 +6,8 @@ Submodules
 
 evokit.evolvables.algorithms module
 -----------------------------------
+.. inheritance-diagram:: evokit.evolvables.algorithms
+   :parts: 1
 
 .. automodule:: evokit.evolvables.algorithms
    :members:
@@ -14,6 +16,8 @@ evokit.evolvables.algorithms module
 
 evokit.evolvables.binstring module
 ----------------------------------
+.. inheritance-diagram:: evokit.evolvables.binstring
+   :parts: 1
 
 .. automodule:: evokit.evolvables.binstring
    :members:
@@ -22,6 +26,8 @@ evokit.evolvables.binstring module
 
 evokit.evolvables.funcs module
 ------------------------------
+.. inheritance-diagram:: evokit.evolvables.funcs
+   :parts: 1
 
 .. automodule:: evokit.evolvables.funcs
    :members:
@@ -30,6 +36,8 @@ evokit.evolvables.funcs module
 
 evokit.evolvables.gp module
 ---------------------------
+.. inheritance-diagram:: evokit.evolvables.gp
+   :parts: 1
 
 .. automodule:: evokit.evolvables.gp
    :members:
@@ -38,6 +46,8 @@ evokit.evolvables.gp module
 
 evokit.evolvables.gp\_visualiser module
 ---------------------------------------
+.. inheritance-diagram:: evokit.evolvables.gp_visualiser
+   :parts: 1
 
 .. automodule:: evokit.evolvables.gp_visualiser
    :members:
@@ -46,6 +56,8 @@ evokit.evolvables.gp\_visualiser module
 
 evokit.evolvables.lgp module
 ----------------------------
+.. inheritance-diagram:: evokit.evolvables.lgp
+   :parts: 1
 
 .. automodule:: evokit.evolvables.lgp
    :members:
@@ -54,6 +66,8 @@ evokit.evolvables.lgp module
 
 evokit.evolvables.selectors module
 ----------------------------------
+.. inheritance-diagram:: evokit.evolvables.selectors
+   :parts: 1
 
 .. automodule:: evokit.evolvables.selectors
    :members:
