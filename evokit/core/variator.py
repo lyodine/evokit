@@ -7,6 +7,8 @@ if TYPE_CHECKING:
     from typing import Sequence
     from typing import Tuple
     from typing import Self
+    from typing import Type
+    from typing import Any
 
 from abc import abstractmethod
 from abc import ABC
@@ -19,15 +21,23 @@ D = TypeVar("D", bound=Individual)
 
 
 class Variator(ABC, Generic[D]):
-    def __init__(self: Self,
-                 arity: int,
-                 coarity: Optional[int] = None) -> None:
-        self.arity: Optional[int] = arity
-        self.coarity: Optional[int] = coarity
+    def __new__(cls: Type[Self], *args: Any, **kwargs: Any) -> Self:
+        """Machinery. Implement managed attributes.
+
+        :meta private:
+        """
+        instance: Self = super().__new__(cls)
+        instance.arity = None
+        instance.coarity = None
+        return instance
+    
+    def __init__(self: Self) -> None:
+        self.arity: Optional[int]
+        self.coarity: Optional[int]
 
     @abstractmethod
     def vary(self, parents: Sequence[D]) -> Tuple[D, ...]:
-        """Appy the variator to a tuple of parents
+        """Apply the variator to a tuple of parents
 
         Produce a tuple of individuals from a tuple of individuals.
         The input and output tuple sizes should match the arity and coarity of
@@ -66,7 +76,8 @@ class DefaultVariator(Variator[D]):
     """Variator that does not change anything
     """
     def __init__(self) -> None:
-        super().__init__(1, 1)
+        self.arity = 1
+        self.coarity = 1
 
     @override
     def vary(self, parents: Sequence[D]) -> Tuple[D, ...]:
