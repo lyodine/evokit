@@ -8,17 +8,12 @@ if TYPE_CHECKING:
 import abc
 from abc import abstractmethod
 
-
-    
-    
-    
 from .population import Population
 from .population import Genome
 
 
 from typing import TypeVar
 from typing import Generic
-from .globals import report, LogLevel
 
 T = TypeVar("T", bound=Genome)
 
@@ -46,15 +41,6 @@ class Variator(abc.ABC, Generic[T]):
             Inspecting this field instead of evaluating the solution may save cost.
             @TODO This heuristic has caused several problems in implementation. One more moving piece.
         """
-        parent_pool_arity = pool.arity
-        empiricalparent_pool_arity = len(pool[0])
-        my_arity = len(pool[0])
-        
-        if (parent_pool_arity != empiricalparent_pool_arity):
-            report(LogLevel.WRN, f"Parent pool arity inconsistent with empirical arity. ({parent_pool_arity}) <> ({empiricalparent_pool_arity})")
-        if (my_arity != empiricalparent_pool_arity):
-            report(LogLevel.WRN, f"Selector arity inconsistent with empirical arity. ({my_arity}) <> ({empiricalparent_pool_arity})")
-        
         new_population = Population[T]()
         for pair in pool:
             results = self.vary(pair)
