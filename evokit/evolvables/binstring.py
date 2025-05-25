@@ -183,10 +183,10 @@ class MutateBits(Variator[BinaryString]):
         return (offspring,)
 
 
-if __name__ == "__main__":
-    BINSTRING_LENGTH: int = 1000
+def trial_run() -> None:
+    BINSTRING_LENGTH: int = 20
     POPULATION_SIZE: int = 10
-    GENERATION_COUNT: int = 100
+    GENERATION_COUNT: int = 10
     init_pop = Population[BinaryString]()
 
     for i in range(0, POPULATION_SIZE):
@@ -194,7 +194,7 @@ if __name__ == "__main__":
 
     evaluator = CountBits()
     selector = Elitist(SimpleSelector[BinaryString](1))
-    variator = MutateBits(0.1)
+    variator = MutateBits(0.05)
 
     ctrl: SimpleLinearAlgorithm = SimpleLinearAlgorithm(
         population=init_pop,
@@ -207,7 +207,11 @@ if __name__ == "__main__":
 
     for i in range(GENERATION_COUNT):
         ctrl.step()
-        dicts[i] = ctrl.population[-1].fitness
-        print(ctrl.population)
+        dicts[i] = ctrl.population.best()
 
-    print(dicts)
+    for best_individual in dicts.values():
+        print(best_individual.fitness)
+
+
+if __name__ == "__main__":
+    trial_run()
