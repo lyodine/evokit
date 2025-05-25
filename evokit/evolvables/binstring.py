@@ -2,7 +2,7 @@ from __future__ import annotations
 
 
 from dataclasses import dataclass
-from typing import Optional, Tuple, TypeVar, Literal
+from typing import Tuple, TypeVar, Literal
 
 from ..core import SimpleLinearAlgorithm
 from ..core import Evaluator
@@ -203,11 +203,13 @@ def trial_run() -> None:
         selector=selector,
     )
 
-    dicts: dict[int, Optional[tuple[float, ...]]] = {}
+    dicts: dict[int, BinaryString] = {}
 
     for i in range(GENERATION_COUNT):
         ctrl.step()
-        dicts[i] = ctrl.population.best()
+        dicts[i] = ctrl.population.best()  # type: ignore[assignment]
+        # Because algorithms are not generic, the type of the population
+        #   is not preserved.
 
     for best_individual in dicts.values():
         print(best_individual.fitness)
