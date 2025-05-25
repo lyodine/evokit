@@ -73,7 +73,6 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
         instance = super().__new__(cls)
         instance.generation = 0
         instance.accountants = []
-        instance.events = []
         return instance
 
     @abstractmethod
@@ -90,14 +89,12 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
         self.generation: int
         #! Registered :class:`Accountant` objects.
         self.accountants: list[Accountant[Any, Any]]
-        #! Events that are automatically fired.
-        self.automatic_events: list[str]
 
     #! Events that can be reported by this algorithm.
-    events: list[str]
+    events: list[str] = []
 
     #! Events that are automatically reported by this algorithm.
-    automatic_events = ["STEP_BEGIN", "STEP_END"]
+    automatic_events: list[str] = ["STEP_BEGIN", "STEP_END"]
 
     @abstractmethod
     def step(self) -> None:
@@ -115,19 +112,30 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
             Calling :meth:`.step` automatically fires two events via
             :meth:`.update`: "STEP_BEGIN" before and "STEP_END" after.
             This behaviour cannot be suppressed. For more on events,
-            see :class:`accounting.accountant.Accountant`.
+            see :class:`accounting.Accountant`. Be advised that
+            these automatic events are fired just like any other event --
+            nothing prevents you from firing them inside :meth:`step`.
+            The :attr:`automatic_events` class attribute reports these
+            events, like how :attr:`events` reports regular events.
         """
         pass
 
     def register(self: Self, accountant: Accountant[Any, Any]) -> None:
         """Attach an :class:`.Accountant` to this algorithm.
 
+        Do nothing if :arg:`accountant` is already in
+        :attr:`accountants`.
+
         Args:
             accountant: An :class:`.Accountant` that observes and
                 collects data from this Algorithm.
+
+        Effect:
+            Register a new :class:`.Accountant`, or do nothing.
         """
-        self.accountants.append(accountant)
-        accountant.subscribe(self)
+        if accountant not in self.accountants:
+            self.accountants.append(accountant)
+            accountant.subscribe(self)
 
     def update(self, event: str) -> None:
         """Report an event to all attached :class:`.Accountant` objects.
@@ -142,7 +150,8 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
             :attr:`events` and is not an automatically reported
             event in :attr:`automatic_events`.
         """
-        if event not in self.events and event not in self.automatic_events:
+        if event not in self.events\
+                and event not in self.automatic_events:
             raise ValueError(f"Algorithm fires unregistered event {event}."
                              f"Add {event} to the algorithm's list of"
                              "`.events`.")

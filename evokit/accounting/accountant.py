@@ -13,27 +13,18 @@ if TYPE_CHECKING:
     from typing import Self
     from typing import Callable
     from typing import Optional
-    from typing import Iterable
     from collections.abc import Container
 
 from typing import Sequence
 C = TypeVar("C", bound=Algorithm)
 
-T = TypeVar("T")
+T = TypeVar("T", covariant=True)
 
 
 @dataclass(frozen=True)
 class AccountantRecord(Generic[T]):
-    """A value collected by an :class:`Accountant`; also contains the context
-    in which that value is collected.
-
-    AccountantRecord
-
-    Warn:
-        Attributes of an :class:`AccountantRecord` can be changed.
-        Because the :meth:`.Accountant` reports the same record that
-        it stores, changing attributes of its record will affect
-        all future reports by the accountant.
+    """A record collected by an :class:`Accountant` from an :class:`Algorithm`.
+    Also records the generation count and time of collection.
     """
     # TODO Sphinx somehow collects `__new__`, which should not be documented.
     # Spent 1 hour on this to no avail, will leave it be for the interest
@@ -52,44 +43,49 @@ class AccountantRecord(Generic[T]):
     time: float = field(default_factory=time.perf_counter)
 
 
-type AccountantHandler[C, T] =\
-    tuple[Container[str], Callable[[C], T]]
-
-
 class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
     """Monitor and collect data from a running :class:`Algorithm`.
-    Each event handler is recorded as an `event : callable` pair:
-    when the `event` fires, the `handler` collects data from
-    the algorithm.
+
+    The :class:`Accountant` should be registered to an
+    :class:`Algorithm`. Then, when an event fires in the algorithm,
+    if that event is in :attr:`events`, then :attr:`handler` will
+    be called with that algorithm as argument.
+    Results are collected as a sequence of :class:`AccountantRecord`.
 
     Call :meth:`.Algorithm.register` to register an :class:`Accountant` to
-    a :class:`Algorithm`. Collected data can be retrieved as a sequence of
-    :class:`AccountantRecord` s.
+    a :class:`Algorithm`. Call :meth:`report` to retrieve collected records.
 
-    For type checking, the :class:`Accountant` has two
+    For type checking purposes, the :class:`Accountant` has two
     type parameter ``C`` and ``T``. ``C`` is the type of the observed
     :class:`Algorithm`; ``T`` is the type of `.value` in the reported
-    :class:`AccountantRecord`. EvoKit does not use or require them.
+    :class:`AccountantRecord`.
 
     Tutorial: :doc:`../guides/examples/accountant`.
-
     """
     def __init__(self: Self,
-                 handlers: Iterable[AccountantHandler[C, T]]):
+                 events: Container[str],
+                 handler: Callable[[C], T],
+                 watch_automatic_events: bool = False):
         """
         Args:
-            handlers: a dictionary of `event : handler` mappings.
-                Each `handler` should have the signature
-                :python:`Algorithm -> Any`:
+            events: Events that trigger the :arg:`handler`.
+
+            handler: Callable that takes the attached algorithm as input.
+
+            watch_automatic_events: If ``True``, also call
+                :attr:`handler` on :attr:`Algorithm.automatic_events`.
         """
-        #: Records collected by the ``Accountant``
+        #: Records collected by the :class:`Accountant`.
         self._records: list[AccountantRecord[T]] = []
 
-        #: `Event - handler` pairs of the ``Accountant``
-        self.handlers: Iterable[AccountantHandler[C, T]] = handlers
+        self.events: Container[str] = events
 
-        #: The attached :class:`Algorithm`
+        self.handler: Callable[[C], T] = handler
+
+        #: The attached :class:`Algorithm`.
         self._subject: Optional[C] = None
+
+        self.watch_automatic_events = watch_automatic_events
 
     def subscribe(self: Self, subject: C) -> None:
         """Machinery.
@@ -110,7 +106,8 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
         :meta private:
 
         When the attached :class:`.Algorithm` calls :meth:`.Algorithm.update`,
-        it calls this method on every registered accountant.
+        the latter calls this method on every accountant registered to the
+        algorithm.
 
         When an event matches a key in :attr:`handlers`, call the corresponding
         value with the attached Algorithm as argument. Store the result in
@@ -122,26 +119,29 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
         if self._subject is None:
             raise RuntimeError("Accountant updated without a subject.")
         else:
-            for (trigger, action) in self.handlers:
-                print(2)
-                if event in trigger:
-                    self._records.append(
-                        AccountantRecord(event,
-                                         self._subject.generation,
-                                         action(self._subject)))
+            if event in self.events\
+                    or (self.watch_automatic_events
+                        and (event in self._subject.automatic_events)):
+                self._records.append(
+                    AccountantRecord(event,
+                                     self._subject.generation,
+                                     self.handler(self._subject)))
 
     def report(self: Self,
                scope: Optional[str | int] = None) -> list[AccountantRecord[T]]:
         """Report collected records.
 
         Args:
-            scope: Option to filter which records to report.
-            * If :arg:`scope` is an :class:`int` : report record
-              only if :python:`record.generation==scope`.
-            * If :arg:`scope` is an :class:`str` : report record
-              only if :python:`record.event==scope`.
-            * Otherwise, of if (by default) ``scope==None``,
-              report all records.
+            scope: Option to filter which records to report:
+
+                * If :arg:`scope` is an :class:`int` : report record
+                  only if :python:`record.generation==scope`.
+
+                * If :arg:`scope` is an :class:`str` : report record
+                  only if :python:`record.event==scope`.
+
+                * Otherwise, of if (by default) ``scope==None``,
+                  report all records.
 
         Each time an event fires in the attached :class:`.Algorithm`,
         if that event is registered in :attr:`handlers`, supply the
@@ -165,6 +165,14 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
         """Return if this accountant is attached to an :class:`.Algorithm`.
         """
         return self._subject is not None
+
+    def purge(self: Self) -> None:
+        """Remove all collected records.
+
+        Effect:
+            Reset collected records to an empty list.
+        """
+        self._records = []
 
     @override
     def __len__(self: Self) -> int:

@@ -10,12 +10,25 @@ from typing import TypeVar
 from typing import Any
 from typing import override
 from typing import Generic
+from typing import Self
+from abc import ABC
 
 
 T = TypeVar("T", bound=Individual[Any])
 
 
-class SimpleLinearAlgorithm(Algorithm, Generic[T]):
+class HomogeneousAlgorithm(Algorithm, ABC, Generic[T]):
+    """An algorithm with one population. Exists primarily
+    for typing purposes.
+
+    Algorithms that use one homogeneous population should
+    derive this class.
+    """
+    def __init__(self: Self) -> None:
+        self.population: Population[T]
+
+
+class SimpleLinearAlgorithm(HomogeneousAlgorithm[T]):
     """A very simple evolutionary algorithm.
 
     An evolutionary algorithm that maintains one population and
@@ -32,7 +45,7 @@ class SimpleLinearAlgorithm(Algorithm, Generic[T]):
         #. `event`: ``POST_SELECTION``
     """
     @override
-    def __init__(self,
+    def __init__(self: Self,
                  population: Population[T],
                  evaluator: Evaluator[T],
                  selector: Selector[T],
@@ -50,7 +63,7 @@ class SimpleLinearAlgorithm(Algorithm, Generic[T]):
               "POST_SELECTION"]
 
     @override
-    def step(self) -> None:
+    def step(self: Self) -> None:
         self.population = self.variator.vary_population(self.population)
         self.update("POST_VARIATION")
 
@@ -61,8 +74,8 @@ class SimpleLinearAlgorithm(Algorithm, Generic[T]):
         self.update("POST_SELECTION")
 
 
-class LinearAlgorithm(Algorithm, Generic[T]):
-    """A general evolutionary algorithm [SIMPLE_GA].
+class LinearAlgorithm(HomogeneousAlgorithm[T]):
+    """A general evolutionary algorithm [SIMPLE_GA]_.
 
     An evolutionary algorithm that maintains one population. Each
     step includes two rounds of selection.
@@ -85,7 +98,7 @@ class LinearAlgorithm(Algorithm, Generic[T]):
        A. E. Eiben and J. E. Smith (2015), Fig 3.1
     """
     @override
-    def __init__(self,
+    def __init__(self: Self,
                  population: Population[T],
                  parent_evaluator: Evaluator[T],
                  parent_selector: Selector[T],
@@ -134,7 +147,7 @@ class LinearAlgorithm(Algorithm, Generic[T]):
         self.update("POST_OFFSPRING_SELECTION")
 
 
-class CanonicalGeneticAlgorithm(Algorithm, Generic[T]):
+class CanonicalGeneticAlgorithm(HomogeneousAlgorithm[T]):
     """The canonical genetic algorithm [CANON_GA]_.
 
     An evolutionary algorithm that consecutively apply
@@ -156,7 +169,7 @@ class CanonicalGeneticAlgorithm(Algorithm, Generic[T]):
        Holland (1975)
     """
     @override
-    def __init__(self,
+    def __init__(self: Self,
                  population: Population[T],
                  evaluator: Evaluator[T],
                  selector: Selector[T],
@@ -174,7 +187,7 @@ class CanonicalGeneticAlgorithm(Algorithm, Generic[T]):
               "POST_EVALUATION", "POST_SELECTION"]
 
     @override
-    def step(self) -> None:
+    def step(self: Self) -> None:
         self.population = self.variator1.vary_population(self.population)
         self.update("POST_VARIATION_1")
 
