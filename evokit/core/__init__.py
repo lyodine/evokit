@@ -1,6 +1,6 @@
 """ Export modules from core.
 """
-from .controller import Controller, LinearController
+from .controller import Controller, SimpleLinearController, LinearController
 from .evaluator import Evaluator, NullEvaluator
 from .population import Individual, Population
 from .selector import Elitist, SimpleSelector, NullSelector, TournamentSelector
