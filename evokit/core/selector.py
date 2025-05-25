@@ -4,8 +4,10 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing import Self
+    from typing import Sequence
+    from typing import Iterable
 
-from abc import ABC, abstractmethod
+from abc import ABC
 from typing import Generic, TypeVar
 from .population import Individual, Population
 
@@ -24,83 +26,70 @@ class Selector(ABC, Generic[D]):
     def __init__(self: Self, budget: int):
         """
         Args:
-            budget: Number of individuals in the output.
+            budget: Number of individuals to select.
+
+        Note:
+            Implementations that select a variable number of
+            individuals may ignore :attr:`budget`.
         """
         self.budget = budget
 
-    def select_to_population(self,
-                             population: Population[D]) -> Population[D]:
+    def select_population(self: Self,
+                          from_population: Population[D]) -> Population[D]:
         """Select from a population to a population.
 
-        Invoke :meth:`select_to_many`, then shape the result into a
-        :class:`.Population`.
+        The default implementation calls :meth:`select` on
+        :arg:`from_population` and collects the results.
+
+        All subclasses should override either this method or :meth:`.select`.
+        Consider overriding this method if selection requires information
+        about the whole population. Example: fitness proportionate selection.
 
         Args:
-            population: population to select from.
+            from_population: population to select from.
 
-        Returns:
-            A new population with selected individuals.
-
-        Effect:
-            Remove all items from the original ``population`` (from
-            :meth:`select_to_many`).
+        Warn:
+            The default implementation calls :meth:`select` as long as
+            the number of selected individuals is less than :attr:`budget`.
+            As such, if :meth:`.select` can return multiple individuals, then
+            the last call may return more individuals than what the budget
+            permits.
         """
-        selected = self.select_to_many(population)
-        new_population = Population[D]()
-        for x in selected:
-            new_population.append(x)
-        return new_population
+        # The budget must not exceed the population size.
+        # The cap is the minimum of ``self.budget`` and ``len(population)``.
+        budget_cap = min(self.budget, len(from_population))
 
-    def select_to_many(self, population: Population[D]) -> tuple[D, ...]:
-        """Context of :attr:`select`.
+        def _generate_results() -> Iterable[D]:
+            """Local function.
 
-        Repeatedly apply select() to create a collection of solutions. Each
-        application removes an item in the original population.
+            While the number of selected individuals is less than
+            ``budget_cap``, :meth:`select` from ``population`` and
+            accumulate the results.
+            """
 
-        A subclass may override this method to implement behaviours that
-        require access to the entire selection process.
+            budget_used: int = 0
+
+            while budget_used < budget_cap:
+                selected_results: tuple[D, ...] = self.select(from_population)
+                budget_used += len(selected_results)
+                yield from selected_results
+
+        return Population(*_generate_results())
+
+    def select(self: Self, from_pool: Sequence[D]) -> tuple[D, ...]:
+        """Select individuals from a sequence of individuals.
+
+        All subclasses should override either this method or
+        :meth:`select_population`.
 
         Args:
-            population: population to select from.
+            from_pool: tuple of individuals to select from.
 
-        Returns:
-            A tuple of selected individuals.
+        Note:
+            Each item in the returned tuple must be in :arg:`from_pool`.
 
-        Effect:
-            Remove all items from ``population``.
+        Raise:
+            NotImplementedError: If the subclass does not override this
+                method.
         """
-        return_list: list[D] = []
-        old_population: Population[D] = population
-
-        # Determine the appropriate budget.
-        # The budget cannot exceed the population size. Take the minimum of two
-        #   values: (a) `self.budget` and (b) `len(population)`.
-        budget_cap = min(self.budget, len(old_population))
-
-        # Iteratively apply the selection strategy, as long as
-        #   `budget_used` does not exceed `budget_cap`.
-        budget_used: int = 0
-        while budget_used < budget_cap:
-            selected_results = self.select(old_population)
-            for x in selected_results:
-                population.draw(x)
-            return_list.append(*selected_results)
-            budget_used = budget_used + len(selected_results)
-        return tuple(return_list)
-
-    @abstractmethod
-    def select(self,
-               population: Population[D]) -> tuple[D, ...]:
-        """Selection strategy.
-
-        All subclasses should override this method. The implementation should
-        return a tuple of individuals. Each item in the tuple should also
-        be a member of ``population``.
-
-        Args:
-            population: population to select from.
-
-        Return:
-            A tuple of selected individuals.
-        """
-        pass
+        raise NotImplementedError("This method is not implemented.")
