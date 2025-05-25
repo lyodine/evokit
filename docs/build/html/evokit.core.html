@@ -60,7 +60,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="guides/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">Introduction</a></li>
 </ul>
 
         </div>
@@ -764,6 +764,9 @@ the current elite to the results.</p>
 <dt class="sig sig-object py" id="evokit.core.selector.Elitist">
 <span class="sig-prename descclassname"><span class="pre">evokit.core.selector.</span></span><span class="sig-name descname"><span class="pre">Elitist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#evokit.core.selector.Selector" title="evokit.core.selector.Selector"><span class="pre">Selector</span></a><span class="p"><span class="pre">[</span></span><span class="pre">D</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#evokit.core.selector.Selector" title="evokit.core.selector.Selector"><span class="pre">Selector</span></a></span></span><a class="reference internal" href="_modules/evokit/core/selector.html#Elitist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evokit.core.selector.Elitist" title="Link to this definition"></a></dt>
 <dd><p>Decorator that adds elitism to a selector.</p>
+<p>Retain and update the highest-fitness individual encountered so far.
+Each time the selector is called, append that individual to the end
+of the output population.</p>
 <dl class="simple">
 <dt>Modify <cite>select_to_many</cite> of <cite>sel</cite> to use elitism. If <cite>sel</cite> already</dt><dd><p>overrides <cite>select_to_many</cite>, that implementation is destroyed.</p>
 </dd>

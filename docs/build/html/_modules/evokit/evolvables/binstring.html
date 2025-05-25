@@ -46,7 +46,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">evokit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../guides/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Introduction</a></li>
 </ul>
 
         </div>
@@ -80,7 +80,7 @@
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Annotated</span>
 
-<span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="n">LinearController</span>
+<span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="n">SimpleLinearController</span>
 <span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="n">Evaluator</span>
 <span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="n">Individual</span><span class="p">,</span> <span class="n">Population</span>
 <span class="kn">from</span> <span class="nn">..core</span> <span class="kn">import</span> <span class="n">Elitist</span><span class="p">,</span> <span class="n">SimpleSelector</span><span class="p">,</span> <span class="n">NullSelector</span>
@@ -106,7 +106,7 @@
 
 <div class="viewcode-block" id="BinaryString">
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.binstring.BinaryString">[docs]</a>
-<span class="k">class</span> <span class="nc">BinaryString</span><span class="p">(</span><span class="n">Individual</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]):</span>
+<span class="k">class</span> <span class="nc">BinaryString</span><span class="p">(</span><span class="n">Individual</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A string of bits.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="BinaryString.__init__">
@@ -161,9 +161,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_assert_pos_out_of_bound</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">genome</span> <span class="o">&gt;&gt;</span> <span class="n">pos</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">result</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Anything to make MyPy happy&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">result</span></div>
+        <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span> <span class="c1"># To make mypy happy</span></div>
 
 
 <div class="viewcode-block" id="BinaryString.set">
@@ -264,6 +262,8 @@
         <span class="k">if</span> <span class="p">(</span><span class="n">mutation_rate</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">mutation_rate</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mutation rate must be between 0 and 1.&quot;</span>
                              <span class="sa">f</span><span class="s2">&quot;Got: </span><span class="si">{</span><span class="n">mutation_rate</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arity</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coarity</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mutation_rate</span> <span class="o">=</span> <span class="n">mutation_rate</span></div>
 
 
@@ -283,25 +283,22 @@
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">BINSTRING_LENGTH</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span>
-    <span class="n">POPULATION_SIZE</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">POPULATION_SIZE</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
     <span class="n">GENERATION_COUNT</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
     <span class="n">init_pop</span> <span class="o">=</span> <span class="n">Population</span><span class="p">[</span><span class="n">BinaryString</span><span class="p">]()</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">POPULATION_SIZE</span><span class="p">):</span>
         <span class="n">init_pop</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">BinaryString</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">BINSTRING_LENGTH</span><span class="p">))</span>
 
-    <span class="n">evaluator</span> <span class="o">=</span> <span class="n">BitDistanceEvaluator</span><span class="p">()</span>
-    <span class="n">pselector</span> <span class="o">=</span> <span class="n">Elitist</span><span class="p">(</span><span class="n">SimpleSelector</span><span class="p">[</span><span class="n">BinaryString</span><span class="p">](</span><span class="mi">10</span><span class="p">))</span>
-    <span class="n">cselector</span> <span class="o">=</span> <span class="n">Elitist</span><span class="p">(</span><span class="n">SimpleSelector</span><span class="p">[</span><span class="n">BinaryString</span><span class="p">](</span><span class="mi">10</span><span class="p">))</span>
-    <span class="n">variator</span> <span class="o">=</span> <span class="n">RandomBitMutator</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">evaluator</span> <span class="o">=</span> <span class="n">CountBits</span><span class="p">()</span>
+    <span class="n">selector</span> <span class="o">=</span> <span class="n">Elitist</span><span class="p">(</span><span class="n">SimpleSelector</span><span class="p">[</span><span class="n">BinaryString</span><span class="p">](</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">variator</span> <span class="o">=</span> <span class="n">MutateBits</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
 
-    <span class="n">ctrl</span><span class="p">:</span> <span class="n">LinearController</span> <span class="o">=</span> <span class="n">LinearController</span><span class="p">(</span>
+    <span class="n">ctrl</span><span class="p">:</span> <span class="n">SimpleLinearController</span> <span class="o">=</span> <span class="n">SimpleLinearController</span><span class="p">(</span>
         <span class="n">population</span><span class="o">=</span><span class="n">init_pop</span><span class="p">,</span>
-        <span class="n">parent_evaluator</span><span class="o">=</span><span class="n">NullEvaluator</span><span class="p">(),</span>
-        <span class="n">parent_selector</span><span class="o">=</span><span class="n">NullSelector</span><span class="p">(),</span>
         <span class="n">variator</span><span class="o">=</span><span class="n">variator</span><span class="p">,</span>
-        <span class="n">survivor_evaluator</span><span class="o">=</span><span class="n">evaluator</span><span class="p">,</span>
-        <span class="n">survivor_selector</span><span class="o">=</span><span class="n">cselector</span><span class="p">,</span>
+        <span class="n">evaluator</span><span class="o">=</span><span class="n">evaluator</span><span class="p">,</span>
+        <span class="n">selector</span><span class="o">=</span><span class="n">selector</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">dicts</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -321,7 +318,8 @@
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">GENERATION_COUNT</span><span class="p">):</span>
         <span class="n">ctrl</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-        <span class="n">dicts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">population</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">fitness</span>
+        <span class="n">dicts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">population</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">fitness</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">ctrl</span><span class="o">.</span><span class="n">population</span><span class="p">)</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="n">dicts</span><span class="p">)</span>
 

@@ -46,7 +46,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">evokit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../guides/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Introduction</a></li>
 </ul>
 
         </div>
@@ -127,9 +127,6 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        fun: An object</span>
-
-<span class="sd">    Return:</span>
-<span class="sd">        The arity of `fun`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">callable</span><span class="p">(</span><span class="n">fun</span><span class="p">)):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">fun</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
@@ -193,6 +190,9 @@
 <span class="sd">        Recursively evaluate expression nodes in :attr:`children`. Then,</span>
 <span class="sd">        apply :attr:`value` to the results, in the same order as the</span>
 <span class="sd">        :attr:`children` they are resolved from.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *args: Arguments to the program.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">self_arity</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arity</span>
         <span class="n">params_arity</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
@@ -698,7 +698,7 @@
 <div class="viewcode-block" id="SymbolicEvaluator.__init__">
 <a class="viewcode-back" href="../../../evokit.evolvables.html#evokit.evolvables.gp.SymbolicEvaluator.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">objective</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+                 <span class="n">objective</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
                  <span class="n">support</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="o">...</span><span class="p">]):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
@@ -710,8 +710,8 @@
 <span class="sd">            TypeError if the first item in ``support`` does not</span>
 <span class="sd">            match the arity of ``objective``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">objective</span> <span class="o">=</span> <span class="n">objective</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">support</span> <span class="o">=</span> <span class="n">support</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objective</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">objective</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">support</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">support</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">arity</span> <span class="o">=</span> <span class="n">_get_arity</span><span class="p">(</span><span class="n">objective</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">arity</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">support</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
