@@ -6,6 +6,8 @@ from typing import TypeVar
 from typing import NamedTuple
 from typing import override, overload
 
+import time
+
 if TYPE_CHECKING:
     from typing import Self
     from typing import Any
@@ -21,6 +23,8 @@ T = TypeVar("T")
 class AccountantRecord(NamedTuple, Generic[T]):
     """A value collected by an :class:`Accountant`; also contains the context
     in which that value is collected.
+
+    AccountantRecord
 
     Warn:
         Attributes of an :class:`AccountantRecord` can be changed.
@@ -41,10 +45,8 @@ class AccountantRecord(NamedTuple, Generic[T]):
     #: Data collected in :attr:`generation` after :attr:`event`.
     value: T
 
-    def __copy__(self: Self) -> AccountantRecord[T]:
-        return AccountantRecord(event=self.event,
-                                generation=self.generation,
-                                value=self.value)
+    #: Time when the event :attr:`event` occurs.
+    time: float = time.process_time()
 
 
 class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
@@ -58,7 +60,9 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
     :class:`AccountantRecord` s.
 
     For type checking, the :class:`Accountant` has two
-    type parameter ``C`` and ``T``.
+    type parameter ``C`` and ``T``. ``C`` is the type of the observed
+    :class:`Algorithm`; ``T`` is the type of `.value` in the reported
+    :class:`AccountantRecord`. EvoKit does not use or require them.
 
     Tutorial: :doc:`../guides/examples/accountant`.
 
@@ -157,13 +161,11 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
     def __len__(self: Self) -> int:
         return len(self._records)
 
-    @override
     @overload
     def __getitem__(self: Self,
                     index: int) -> AccountantRecord[T]:
         pass
 
-    @override
     @overload
     def __getitem__(self: Self,
                     index: slice) -> Sequence[AccountantRecord[T]]:
