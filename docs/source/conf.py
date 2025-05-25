@@ -75,3 +75,19 @@ rst_prolog = """
 .. role:: arg(code)
 
 """
+
+# Add the following docs to the TOC tree:
+# - introduction to main (binstring) (done)
+# - gp module? (done)
+
+
+# Build your own algorithm! (island model)
+
+# - Guide to analytics (accountant_)
+
+# - ~~lgp module?~~
+
+# - Build your own selector
+
+# - Build your own interceptor
+

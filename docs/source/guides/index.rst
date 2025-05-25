@@ -27,3 +27,11 @@ The evolutionary algorithm (is that the right term?) is generic, and so is the s
 The Genome Suite
 ~~~~~~~~~~~~~~~~
 As the variator and the evaluator depend on the individual, the variator, the evaluator, and the individual consist of the `genome suite`. Each module in `evolvables` includes one representation and related variators and evaluators.
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   examples/e_gp.ipynb
+   
