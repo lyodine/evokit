@@ -1,116 +1,91 @@
-import random
+from __future__ import annotations
+
 import typing
-from typing import Optional, Tuple, TypeVar
+from typing import Optional, Tuple, TypeVar, List
 
 from core.controller import LinearController
 from core.evaluator import Evaluator
 from core.population import Individual, Population
-from core.selector import Elitist, SimpleSelector
+from core.selector import Elitist, SimpleSelector, NullSelector
 from core.variator import Variator
 
+from typing import Self, Any
 
-class IllegalVariation(Exception):
-    def __init__(self):
-        super().__init__("Given index out of bound!")
+
+from random import getrandbits
+from random import random
 
 
 T = TypeVar('T', bound=Individual)
 
 
-class Binary(Individual[T]):
-    def __init__(self, len: int, value: typing.Optional[int] = None) -> None:
-        super().__init__()
-        self.length = len
-        if (value is None):
-            self._value = 0
-        else:
-            self._value = value
+class BinaryString(Individual[List[int]]):
+    def __init__(self, value: List[int]) -> None:
+        self.genome: List[int] = value
 
-    def _assert_index_is_valid(self, pos: int):
-        if pos >= self.length:
-            raise IllegalVariation
+    @staticmethod
+    def random(len: int) -> BinaryString:
+        return BinaryString(
+            (len * [0] +
+                [int(digit) for digit in bin(getrandbits(len))[2:]])[-len:]
+        )
 
-    # def set(self, pos: int):
-    #     self._assert_index_is_valid(pos)
-    #     self._value = self._value | (1 << pos)
+    def copy(self: Self) -> Self:
+        return type(self)(self.genome.copy())
 
-    # def clear(self, pos: int):
-    #     self._assert_index_is_valid(pos)
-    #     self._value =  self._value & ~(1 << pos)
-
-    # def get (self, pos: int)-> int :
-    #     self._assert_index_is_valid(pos)
-    #     return (self._value >> pos) & 1
-
-    def toggle(self, pos: int):
-        self._assert_index_is_valid(pos)
-        self._value = (self._value ^ (1 << (pos)))
-
-    def __len__(self) -> int:
-        return self.length
-
-    @classmethod
-    def create_random(cls, len: int) -> typing.Self:
-        bin = cls(len)
-        for i in range(0, len):
-            if (bool(random.getrandbits(1))):
-                bin.toggle(i)
-        return bin
-
-    @property
-    def value(self):
-        return self._value
-
-    def copy(self) -> typing.Self:
-        new_copy = self.__class__(self.length, self.value)
-        return new_copy
-
-    __deepcopy__ = copy
-    __copy__ = copy
-
-    def __str__(self):
-        # return str(bin(self._value))[2:].ljust(self.length, '0')
-        return str(bin(self._value))[2:].rjust(self.length, '0')
+    def __str__(self: Self) -> str:
+        return str(self.genome)
 
 
-class BitDistanceEvaluator(Evaluator[Binary]):
-    def evaluate(self, s1: Binary) -> float:
-        return s1._value.bit_count()
+class BitDistanceEvaluator(Evaluator[BinaryString]):
+    def evaluate(self, s1: BinaryString) -> float:
+        return sum(s1.genome)
 
 
-class RandomBitMutator(Variator[Binary]):
-    def __init__(self):
-        super().__init__(1, 2)
+class NullEvaluator(Evaluator):
+    def evaluate(self, s1: Any) -> float:
+        return 0
 
-    def vary(self, parents: Tuple[Binary, ...], **kwargs) -> Tuple[Binary, ...]:
-        binary = parents[0].copy()
-        newbits = parents[0].copy()
 
-        for i in range(0, len(binary)):  # Somehow cannot properly implement __len__
-            if (random.random() < 0.001):
-                binary.toggle(i)
-                newbits.toggle(i)
-        return (binary, newbits)
+class RandomBitMutator(Variator[BinaryString]):
+    def __init__(self, mutation_rate: float):
+        super().__init__(1)
+        if (mutation_rate < 0 or mutation_rate > 1):
+            raise ValueError(f"Mutation rate must be within {0} and {1}."
+                             f"Got: {mutation_rate}")
+        self.mutation_rate = mutation_rate
+
+    def vary(self, parents: Tuple[BinaryString, ...]) -> Tuple[BinaryString, ...]:
+        offspring = parents[0].copy()
+
+        for i in range(0, len(offspring.genome)):
+            if (random() < self.mutation_rate):
+                offspring.genome[i] = 1 if offspring.genome[i] == 0 else 1
+
+        return (offspring,)
 
 
 if __name__ == "__main__":
-    init_pop = Population[Binary]()
+    BINSTRING_LENGTH: int = 20
+    POPULATION_SIZE: int = 20
+    GENERATION_COUNT: int = 100
+    init_pop = Population[BinaryString]()
 
-    for i in range(0, 1):
-        init_pop.append(Binary.create_random(10))
+    for i in range(0, POPULATION_SIZE):
+        init_pop.append(BinaryString.random(BINSTRING_LENGTH))
 
     evaluator = BitDistanceEvaluator()
-    pselector = Elitist(SimpleSelector[Binary](10))
-    cselector = Elitist(SimpleSelector[Binary](10))
-    variator = RandomBitMutator()
+    pselector = Elitist(SimpleSelector[BinaryString](10))
+    cselector = Elitist(SimpleSelector[BinaryString](10))
+    variator = RandomBitMutator(0.1)
 
     ctrl: LinearController = LinearController(
         population=init_pop,
         parent_evaluator=evaluator,
         parent_selector=pselector,
         variator=variator,
-        survivor_evaluator=evaluator,
-        survivor_selector=cselector,
+        survivor_evaluator=NullEvaluator(),
+        survivor_selector=NullSelector(),
     )
 
     dicts: typing.Dict[int, Optional[float]] = {}
@@ -128,7 +103,7 @@ if __name__ == "__main__":
 
     ctrl.register(acc)
 
-    for i in range(0, 100):
+    for i in range(GENERATION_COUNT):
         ctrl.step()
         dicts[i] = ctrl.population[0].fitness
 
