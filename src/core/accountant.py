@@ -35,7 +35,7 @@ class Accountant:
     def update(self: Self, event: ControllerEvent):
         for trigger, action in self.handlers.items():
             if event == trigger:
-                self.records.append(AccountantRecord(1, event, action(self.subject)))
+                self.records.append(AccountantRecord(self.subject.generation, event, action(self.subject)))
 
     def publish(self)-> Sequence[AccountantRecord]:
         if not self.attached:
