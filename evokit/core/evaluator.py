@@ -98,6 +98,9 @@ class Evaluator(ABC, Generic[D], metaclass=MetaEvaluator):
         A subclass may override this method to implement behaviours that
         require access to the entire population.
 
+        Effect:
+            For each item in :arg:`pop`, set its :attr:`.fitness .Individual.fitness`.
+
         Note:
             This method must **never** return a value. It must assign to
             :attr:`.fitness` for each :class:`.Individual` in the
