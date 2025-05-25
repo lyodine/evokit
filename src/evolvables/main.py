@@ -110,12 +110,10 @@ ctrl = Controller[Binary] (
 dicts : typing.Dict[int, Optional[float]]= {}
 
 from core.accountant import Accountant
-from core.controller import ControllerEvent
 
-acc = Accountant({ControllerEvent.GENERATION_BEGIN: lambda x : len(x.population)})
+acc = Accountant({"GENERATION_BEGIN": lambda x : len(x.population)})
 
 ctrl.attach(acc)
-
 
 for i in range(0, 100):
     ctrl.step()
