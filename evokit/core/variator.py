@@ -72,7 +72,7 @@ class Variator(ABC, Generic[D]):
         return next_population
 
 
-class DefaultVariator(Variator[D]):
+class NullVariator(Variator[D]):
     """Variator that does not change anything
     """
     def __init__(self) -> None:

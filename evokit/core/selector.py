@@ -252,22 +252,37 @@ def Elitist(sel: Selector[D]) -> Selector:
             """
             # Define an attribute that retains the best individual.
             #   Avoid name collision.
-            UBER_SECRET_BEST_INDIVIDIAUL_NAME = "__best_individual"
+            
 
-            # If the ``UBER_SECRET_BEST_INDIVIDIAUL_NAME`` has not been set, set it.
-            # Then, collect the best individual from the population, make a copy of
-            #   it.
-            if not hasattr(self, UBER_SECRET_BEST_INDIVIDIAUL_NAME):
-                setattr(self, UBER_SECRET_BEST_INDIVIDIAUL_NAME, None)
+            
+            population_best: D = population.best()
+            my_best: D
+            
+            # Monkey-patch an attribute onto the selector. If the 
+            # Current name is taken from a randomly generated SSH pubkey.
+            #   Nobody else will use a name *this* absurd.
+            UBER_SECRET_BEST_INDIVIDUAL_NAME = "___g1AfoA2NMh8ZZCmRJbwFcne4jS1f3Y2TRPIvBmVXQP"
+            if not hasattr(self, UBER_SECRET_BEST_INDIVIDUAL_NAME):
+                setattr(self, UBER_SECRET_BEST_INDIVIDUAL_NAME, population_best.copy())
 
-            best_individual: D = population.best().copy()
+            hof_individual: D
+            my_best = getattr(self, UBER_SECRET_BEST_INDIVIDUAL_NAME)
+
+            if my_best.fitness > population_best.fitness:
+                hof_individual = my_best
+                print("use my best", end="")
+            else:
+                hof_individual = population_best
+                setattr(self, UBER_SECRET_BEST_INDIVIDUAL_NAME, population_best.copy())
+                print("use population best", end="")
+            print(f", {str(hof_individual)}score is m{my_best.fitness} > p{population_best.fitness}")
 
             # Acquire results of the original selector
             results: Tuple[D, ...] = \
                 original_select_to_many(self, population, *args, **kwargs)
 
             # Append the best individual to results
-            return (*results, best_individual)
+            return (*results, hof_individual.copy())
         return wrapper
 
     setattr(sel, 'select_to_many',

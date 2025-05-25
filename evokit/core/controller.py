@@ -203,15 +203,20 @@ class LinearController(Controller):
         # Update the population after each event. This ensures that
         #   the :class:`Accountant` always has access to the most
         #   up-to-date information.
+        # print(f"POP PE is {[x.fitness for x in self.population]}")
         self.population = \
             self.parent_selector.select_to_population(self.population)
         self.update("POST_PARENT_SELECTION")
-
+        # print(f"POP PS is {[x.fitness for x in self.population]}")
+        
         self.population = self.variator.vary_population(self.population)
         self.update("POST_VARIATION")
+        # print(f"POP VAR is {[x.fitness for x in self.population]}")
 
         self.survivor_evaluator.evaluate_population(self.population)
         self.update("POST_SURVIVOR_EVALUATION")
+        # print(f"POP SE is {[x.fitness for x in self.population]}")
 
         self.population = self.survivor_selector.select_to_population(self.population)
         self.update("POST_SURVIVOR_SELECTION")
+        # print(f"POP SS is {[x.fitness for x in self.population]}")
