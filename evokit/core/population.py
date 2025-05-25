@@ -1,6 +1,3 @@
-# TODO Move Individual and Population to separate files.
-#   The Java thing is a good practice. One might even say, best practice.
-
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -21,7 +18,6 @@ from typing import overload
 from typing import Iterable
 from typing import Sequence
 
-import itertools
 from abc import ABC, abstractmethod, ABCMeta
 from typing import Generic, TypeVar
 
@@ -107,7 +103,9 @@ class Individual(ABC, Generic[R], metaclass=MetaGenome):
         """
 
         if (self._fitness is None):
-            raise ValueError("Score is accessed but null")
+            raise ValueError("Fitness is accessed but null.\n"
+                             "   Call `.has_fitness` to "
+                             "check if the fitness is defined.")
         else:
             return self._fitness
 
@@ -125,15 +123,14 @@ class Individual(ABC, Generic[R], metaclass=MetaGenome):
     def reset_fitness(self) -> None:
         """Reset the fitness of the individual.
 
-        Set the :attr:`.fitness` of the individual to ``None``.
-
         Effect:
-            The `.fitness` of this individual becomes ``None``.
+            The :attr:`.fitness` of this individual becomes ``None``.
         """
         self._fitness = None
 
     def has_fitness(self) -> bool:
-        """Return if the individual has a fitness value.
+        """Return `True` if :attr:`.fitness` is not None.
+            Otherwise, return `False`.
         """
         return self._fitness is not None
 
@@ -204,15 +201,16 @@ class AbstractCollection(ABC, Generic[R], Sequence[R], Iterable[R]):
         # TODO value is a really bad name
         self._items.append(value)
 
-    def extend(self, values: Iterable[R]) -> None:
-        """Append all items from another collection to this collection
+    def join(self, values: Iterable[R]) -> Self:
+        """Produce a new collection with items from :arg:`self` and
+        :arg:`values`.
 
         Args:
             values: Collection whose values are appended to this collection.
         """
         # TODO Inefficient list comprehension. Looks awesome though.
         # Improve at my own convenience.
-        self._items = list(itertools.chain(self._items, values))
+        return self.__class__(*self, *values)
 
     def populate(self, new_data: Iterable[R]) -> None:
         """Replace items in this population with items in :arg:`new_data`.

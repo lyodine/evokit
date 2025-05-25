@@ -197,7 +197,7 @@ def trial_run() -> None:
 
     evaluator = CountBits()
     selector = Elitist(TruncationSelector[BinaryString](1))
-    variator = MutateBits(0.05)
+    variator = MutateBits(0.1)
 
     ctrl: SimpleLinearAlgorithm[BinaryString] = SimpleLinearAlgorithm(
         population=init_pop,

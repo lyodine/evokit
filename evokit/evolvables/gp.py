@@ -309,13 +309,13 @@ class ExpressionFactory(Generic[T]):
 
         Args:
             nullary_ratio: probability of drawing terminals. If set,
-            non-terminals are drawn with probability
-            (:python:`1-nullary_ratio`).
+                non-terminals are drawn with probability
+                (:python:`1-nullary_ratio`).
 
             free_draw: if ``True``, then the call does not affect or respect
-            constraints on node counts. For example, it can still draw
-            non-terminal nodes, even while exceeding node count and depth
-            constraints.
+                constraints on node counts. For example, it can still draw
+                non-terminal nodes, even while exceeding node count and depth
+                constraints.
         """
         if (self._build_is_node_overbudget() and not free_draw):
             nullary_ratio = 1

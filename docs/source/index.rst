@@ -10,14 +10,14 @@
 EvoKit Documentation
 ====================
 
-**EvoKit** is an evolutionary computation framework written in Python. The framework can implement a large range of interoperating representations and operators.
+**EvoKit** is an evolutionary computation framework written in Python. See :doc:`why` for what sets it apart.
 
 Using EvoKit is easy! With all operators defined, you can run an evolutionary algorithm in just 7 lines! [#]_ [#]_
 
 .. code-block:: python
    :linenos:
 
-   ctrl: TruncationLinearController = SimpleLinearAlgorithm(
+   ctrl: SimpleLinearAlgorithm = SimpleLinearAlgorithm(
       population=init_pop,
       variator=RandomBitMutator(0.1),
       selector=Elitist(TruncationSelector[BinaryString](POPULATION_SIZE)),
@@ -35,7 +35,7 @@ Using EvoKit is easy! With all operators defined, you can run an evolutionary al
    :caption: Getting Started:
 
    why
-   install-and-built
+   install-and-build
    guides/index
 
 .. toctree::

@@ -3,7 +3,6 @@ from __future__ import annotations
 from abc import ABC, ABCMeta, abstractmethod
 from typing import TYPE_CHECKING, Generic, TypeVar
 from functools import wraps
-from typing import override
 
 from .population import Individual
 
@@ -112,9 +111,3 @@ class Evaluator(ABC, Generic[D], metaclass=MetaEvaluator):
         """
         for x in pop:
             x.fitness = self.evaluate(x)
-
-
-class NullEvaluator(Evaluator[Any]):
-    @override
-    def evaluate(self: Self, _: Any) -> tuple[float]:
-        return (0,)
