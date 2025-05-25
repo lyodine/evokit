@@ -16,21 +16,18 @@ T = TypeVar("T", bound=Individual)
 class SimpleLinearAlgorithm(Algorithm[T]):
     """A very simple evolutionary algorithm.
 
-    An evolutionary algorithm that maintains one population and does not
-    take advantage of parallelism. Individuals in the population should
-    have the same type.
+    An evolutionary algorithm that maintains one population and
+    performs one round of selection in each step.
 
-    The algorithm applies its operators in the following order:
-
-        #. fire event ``GENERATION_BEGIN``
-        #. **evaluate** for selection
-        #. fire event ``POST_VARIATION``
-        #. select for **survivors**
-        #. update :attr:`population`
-        #. fire event ``POST_EVALUATION``
-        #. **vary** parents
-        #. update :attr:`population`
-        #. fire event ``POST_SELECTION``
+    Each step includes the following operations:
+        #. `evaluate` :attr:`population`
+        #. `event`: ``POST_VARIATION``
+        #. `select` from :attr:`population`
+            #. `update` :attr:`population` with result
+        #. `event`: ``POST_EVALUATION``
+        #. `vary` :attr:`population`
+            #. `update` :attr:`population` with result
+        #. `event`: ``POST_SELECTION``
     """
     @override
     def __init__(self,
@@ -45,15 +42,12 @@ class SimpleLinearAlgorithm(Algorithm[T]):
         self.accountants: list[Accountant] = []
         # Each event name informs what action has taken place.
         #   This should be easier to understand, compared to "PRE_...".
-        self.events: list[str] = ["GENERATION_BEGIN",
-                                  "POST_VARIATION",
-                                  "POST_EVALUATION",
-                                  "POST_SELECTION"]
+        self.events = ["POST_VARIATION",
+                       "POST_EVALUATION",
+                       "POST_SELECTION"]
 
     @override
     def step(self) -> None:
-        self.update("GENERATION_BEGIN")
-
         self.population = self.variator.vary_population(self.population)
         self.update("POST_VARIATION")
 
@@ -65,27 +59,27 @@ class SimpleLinearAlgorithm(Algorithm[T]):
 
 
 class LinearAlgorithm(Algorithm[T]):
-    """A simple evolutionary algorithm.
+    """A general evolutionary algorithm [SIMPLE_GA].
 
-    An evolutionary algorithm that maintains one population and does not
-    take advantage of parallelism. Individuals in the population should
-    have the same type.
+    An evolutionary algorithm that maintains one population. Each
+    step includes two rounds of selection.
 
-    The algorithm applies its operators in the following order:
+    Each step includes the following operations:
+        #. evaluate :attr:`population`
+        #. `event`: ``POST_PARENT_EVALUATION``
+        #. select parents from :attr:`population`
+            #. `update` :attr:`population` with result
+        #. `event`: ``POST_PARENT_SELECTION``
+        #. vary :attr:`population`
+        #. `event`: ``POST_VARIATION``
+        #. evaluate :attr:`population`
+        #. `event`: ``POST_OFFSPRING_EVALUATION``
+        #. select survivors from :attr:`population`
+            #. `update` :attr:`population` with result
+        #. `event`: ``POST_OFFSPRING_SELECTION``
 
-        #. fire event ``"GENERATION_BEGIN"``
-        #. **evaluate** for parent selection
-        #. fire event ``POST_PARENT_EVALUATION``
-        #. select for **parents**
-        #. update :attr:`population`
-        #. fire event ``POST_PARENT_SELECTION``
-        #. **vary** parents
-        #. fire event ``POST_VARIATION``
-        #. **evaluate** for survivor selection
-        #. fire event ``POST_SURVIVOR_EVALUATION``
-        #. select for **survivors**
-        #. update :attr:`population`
-        #. fire event ``POST_SURVIVOR_SELECTION``
+    .. [SIMPLE_GA] Introduction to Evolutionary Computing [2nd ed.],
+       A. E. Eiben and J. E. Smith (2015), Fig 3.1
     """
     @override
     def __init__(self,
@@ -107,16 +101,14 @@ class LinearAlgorithm(Algorithm[T]):
         self.accountants: list[Accountant] = []
         # Each event name informs what action has taken place.
         #   This should be easier to understand, compared to "PRE_...".
-        self.events: list[str] = ["GENERATION_BEGIN",
-                                  "POST_PARENT_EVALUATION",
-                                  "POST_PARENT_SELECTION",
-                                  "POST_VARIATION",
-                                  "POST_SURVIVOR_EVALUATION",
-                                  "POST_SURVIVOR_SELECTION"]
+        self.events = ["POST_PARENT_EVALUATION",
+                       "POST_PARENT_SELECTION",
+                       "POST_VARIATION",
+                       "POST_OFFSPRING_EVALUATION",
+                       "POST_OFFSPRING_SELECTION"]
 
     @override
     def step(self) -> None:
-        self.update("GENERATION_BEGIN")
         self.parent_evaluator.evaluate_population(self.population)
         self.update("POST_PARENT_EVALUATION")
         # Update the population after each event. This ensures that
@@ -130,25 +122,34 @@ class LinearAlgorithm(Algorithm[T]):
         self.update("POST_VARIATION")
 
         self.survivor_evaluator.evaluate_population(self.population)
-        self.update("POST_SURVIVOR_EVALUATION")
+        self.update("POST_OFFSPRING_EVALUATION")
 
         self.population = self.survivor_selector.select_population(
             self.population)
 
-        self.update("POST_SURVIVOR_SELECTION")
+        self.update("POST_OFFSPRING_SELECTION")
 
 
 class CanonicalGeneticAlgorithm(Algorithm[T]):
-    """The canonical genetic algorithm.
+    """The canonical genetic algorithm [CANON_GA]_.
 
-    An evolutionary algorithm that performs crossover followed
-    by mutation. The name comes from its first application and
-    widespread use.
+    An evolutionary algorithm that consecutively apply
+    two variators. In Holland's foundational algorithm,
+    these are crossover followed by mutation.
 
-    This generalised algorithm consecutively performs two variations
-    of any kind.
+    Each step includes the following operations:
+        #. vary :attr:`population` with :attr:`variator1`
+        #. `event`: ``POST_VARIATION_1``
+        #. vary :attr:`population` with :attr:`variator2`
+        #. `event`: ``POST_VARIATION_2``
+        #. evaluate :attr:`population`
+        #. `event`: ``POST_EVALUATION``
+        #. select survivors from :attr:`population`
+            #. `update` :attr:`population` with result
+        #. `event`: ``POST_SELECTION``
 
-    The algorithm does not fire events.
+    .. [CANON_GA] Adaptation in Natural and Artificial Systems,
+       Holland (1975)
     """
     @override
     def __init__(self,
@@ -163,14 +164,19 @@ class CanonicalGeneticAlgorithm(Algorithm[T]):
         self.variator1 = variator1
         self.variator2 = variator2
         self.accountants: list[Accountant] = []
+        self.events = ["POST_VARIATION_1", "POST_VARIATION_2",
+                       "POST_EVALUATION", "POST_SELECTION"]
 
     @override
     def step(self) -> None:
-
         self.population = self.variator1.vary_population(self.population)
+        self.update("POST_VARIATION_1")
 
         self.population = self.variator2.vary_population(self.population)
+        self.update("POST_VARIATION_2")
 
         self.evaluator.evaluate_population(self.population)
+        self.update("POST_EVALUATION")
 
         self.population = self.selector.select_population(self.population)
+        self.update("POST_SELECTION")
