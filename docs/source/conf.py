@@ -13,10 +13,9 @@ author = 'Yiding Li'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 # Add path to source directory
-print(f"--------------------------------------------------{os.path.abspath(os.path.join('..', '..'))}---------------")
+print(f"Add path: {os.path.abspath(os.path.join('..', '..'))}")
 
 sys.path.append(os.path.abspath(os.path.join('..', '..')))
-
 
 
 extensions = ['nbsphinx',
@@ -34,7 +33,7 @@ autoclass_content = 'class'
 autosummary_generate = True
 
 autodoc_default_options = {
-    'undoc-members':     True,
+    'undoc-members': True,
     # Note: `autodoc_class_signature='separated'` causes `ClassDocumenter` to
     #   register both `__init__` and `__new__` as special members.
     # This overrides the default behaviour of not documenting private
