@@ -76,7 +76,6 @@ class Binary(Genome[T]):
         # return str(bin(self._value))[2:].ljust(self.length, '0')
         return str(bin(self._value))[2:].rjust(self.length, '0')
 
-
 class BitDistanceEvaluator(Evaluator[Binary]):
     def evaluate(self, s1: Binary) -> float:
         return s1._value.bit_count()
