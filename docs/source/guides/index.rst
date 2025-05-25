@@ -1,47 +1,37 @@
-Introduction
-============
+Guides
+======
 
-All algorithms in EvoKit derive from the following base classes:
+Base Classes
+------------
 
+Everything that form an algorithm derive from the following base classes:
 
+All algorithms in EvoKit derive from the following base classes: :class:`.Selector`, :class:`.Evaluator`, and :class:`.Variator`.
 
-`This is the hard part: How do I write it?`
+The :class:`.Controller` represents an algorithm.
 
-EvoKit represents evolutionary operators with classes `Individual`, `Evaluator`, `Selector`, `Variator`, and `Controller`. Components of a concrete algorithm derive from these classes.
-
-- `Individual` represents an individual. The individual encapsulates a genome and represents additional capabilities, such as being copied and _recording information of their ancestors.
-
-- `Evaluator` receives an individual, then assigns to it a fitness.
-
-- `Selector` represnets both parent selection and survivor selection (replacement).
-
-- `Variator` represents a mutator (a unary operator), a crossover operator (a binary operator), and a _I'll loook at the doc for that.
-
-- `Controller` represents an algorithm that incorporates operators.
-
-The user can define custom operators, or use existing ones.
+The :class:`.Individual` represents an individual, many individuals form a :class:`.Population`
 
 
-Designing novel algorithms: :doc:`examples/controller`
+
 
 Getting Started
-............
+---------------
 
-Genetic programming: :doc:`examples/gp`
+   * Begin with the OneMax Problem: :doc:`examples/onemax`
 
-Begin with the OneMax Problem: :doc:`examples/onemax`
+   * Genetic programming: :doc:`examples/gp`
 
-Implementing custom selectors: :doc:`examples/selector`
+   * Custom selectors: :doc:`examples/selector`
+
+   * Custom algorithms: :doc:`examples/controller`
 
 Advanced Tutorials
-..................
+------------------
 
-Modifying the behaviour of existing operators: :doc:`examples/interceptor`
+   * Modifying the behaviour of existing operators: :doc:`examples/interceptor`
 
-Collecting runtime statistics using the :doc:`Accountant examples/accountant`
-
-
-:doc:`examples/accountant`
+   * :doc:`examples/accountant` Collecting runtime statistics using the.
 
 .. toctree::
    :maxdepth: 2
