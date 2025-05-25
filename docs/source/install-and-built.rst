@@ -26,7 +26,7 @@ or update it by running the following script:
 Install from source
 ~~~~~~~~~~~~~~~~~~~
 
-Navigate to ``evoframe/``, then run
+Navigate to the root directory, then run
 
 .. code-block:: bash
 
@@ -35,7 +35,7 @@ Navigate to ``evoframe/``, then run
 Build a source distribution
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Navigate to ``evoframe/``, then run
+Navigate to the root directory, then run
 
 .. code-block:: bash
 
@@ -44,7 +44,7 @@ Navigate to ``evoframe/``, then run
 Build a built distribution (wheel)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Navigate to ``evoframe/``, then run
+Navigate to the root directory, then run
 
 .. code-block:: bash
 
@@ -53,7 +53,7 @@ Navigate to ``evoframe/``, then run
 Build Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-The directory ``evoframe/docs/`` contains everything related to building documentations.
+The directory ``docs/`` contains everything related to building documentations.
 
 * Run ``make.bat`` to rebuild the documentation.
    
