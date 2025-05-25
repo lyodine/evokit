@@ -1,4 +1,5 @@
-""" The controller is an iterative optimizer that receives various evolutionary operators.
+""" The controller is an iterative optimizer that receives various
+    evolutionary operators.
 """
 from __future__ import annotations
 
@@ -6,6 +7,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing import Self
+    from typing import List
     from .evaluator import Evaluator
     from .variator import Variator
     from .selector import Selector
@@ -17,7 +19,8 @@ from typing import Generic, TypeVar
 
 from .population import Individual
 
-T = TypeVar("T", bound = Individual)
+T = TypeVar("T", bound=Individual)
+
 
 class ControllerEvent(Flag):
     INITIALISATION = auto()
@@ -28,23 +31,28 @@ class ControllerEvent(Flag):
     PRE_SURVIVOR_SELECTION = POST_SURVIVOR_EVALUATION = auto()
     GENERATION_END = POST_SURVIVOR_SELECTION = auto()
 
+
 class Controller(Generic[T]):
     """Controller that manages the learning process.
     """
     def __init__(self,
-            population: Population[T],
-            evaluator: Evaluator[T],
-            parent_selector: Selector[T],
-            variator: Variator[T],
-            offspring_selector: Selector[T],
-    ) -> None:
+                 population: Population[T],
+                 evaluator: Evaluator[T],
+                 parent_selector: Selector[T],
+                 variator: Variator[T],
+                 offspring_selector: Selector[T]) -> None:
         """
         Args:
-            population: The initial population
-            evaluator: The evaluator acts on an individual to determine its fitness.
-            parent_selector: The parent selector applies to the population before variation. The range of the parent selector must match the domain of the variator.
-            variator: The variator receives a collection of elements and outputs a list of individuals. These individuals are deposited into the population.
-            offspring_selector: The parent selector that is applied before variation.
+            population: initial population.
+
+            evaluator: operator that evaluate the fitness of an individual.
+
+            parent_selector: operator that selects individuals for variation.
+
+            variator: operator that creates new individuals from existing
+            ones.
+
+            offspring_selector: operator that selects to the next generation.
         """
         self.population = population
         self.evaluator = evaluator
@@ -52,7 +60,7 @@ class Controller(Generic[T]):
         self.variator = variator
         self.offspring_selector = offspring_selector
         self.generation = 0
-        self.accountants = []
+        self.accountants: List[Accountant] = []
 
     def step(self) -> Self:
         """Advance the population by one generation.
@@ -61,16 +69,17 @@ class Controller(Generic[T]):
         # The generation count begins at 0. Before the first generation,
         #   increment the count to 1.
         self.generation = self.generation + 1
-        
+
         self.update(ControllerEvent.GENERATION_BEGIN)
 
         # Evaluate the population
         self.evaluator.evaluate_population(self.population)
 
         self.update(ControllerEvent.PRE_PARENT_SELECTION)
-        
+
         # Select from the population into a new population
-        parents: Population = self.parent_selector.select_to_population(self.population)
+        parents: Population[T] = self.parent_selector.select_to_population(
+            self.population)
 
         self.update(ControllerEvent.PRE_VARIATION)
 
@@ -94,14 +103,15 @@ class Controller(Generic[T]):
 
         # Returning self allows chaining multiple calls to `step`
         return self
-    
-    def attach(self,accountant: Accountant):
+
+    def attach(self: Self, accountant: Accountant)-> None:
         self.accountants.append(accountant)
         accountant.register(self)
 
-    def update(self, event: ControllerEvent):
-        for acc in self.accountants: acc.update(event)
-    
+    def update(self, event: ControllerEvent) -> None:
+        for acc in self.accountants:
+            acc.update(event)
+
 
 # One main problem is that some members are unavailable at some points:
 #   for example, the population is dry after parent selection.

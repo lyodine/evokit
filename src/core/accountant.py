@@ -8,6 +8,8 @@ if TYPE_CHECKING:
     from typing import Any
     from typing import Callable
     from typing import Sequence
+    from typing import Optional
+    from typing import List
     from .controller import Controller
 
 from typing import NamedTuple
@@ -27,19 +29,20 @@ class Accountant:
         and so on.
     """
     def __init__(self: Self, handlers: Dict[ControllerEvent, Callable[[Controller], Any]]):
-        self.records = []
-        self.handlers = handlers
-        self.subject = None
+        self.records: List[AccountantRecord] = []
+        self.handlers: Dict[ControllerEvent, Callable[[Controller], Any]] = handlers
+        self.subject: Optional[Controller] = None
 
-    def register(self: Self, subject: Controller):
+    def register(self: Self, subject: Controller)-> None:
         self.subject = subject
 
-    def update(self: Self, event: ControllerEvent):
+    def update(self: Self, event: ControllerEvent)-> None:
         if self.subject == None:
             raise ValueError("This accountant is updated without an attached controller; this should not happen")
-        for trigger, action in self.handlers.items():
-            if event == trigger:
-                self.records.append(AccountantRecord(self.subject.generation, event, action(self.subject)))
+        else:
+            for trigger, action in self.handlers.items():
+                if event == trigger:
+                    self.records.append(AccountantRecord(self.subject.generation, event, action(self.subject)))
 
     def publish(self)-> Sequence[AccountantRecord]:
         if not self.attached:
@@ -47,5 +50,5 @@ class Accountant:
         return self.records
     
     @property
-    def attached(self):
+    def attached(self)-> bool:
         return self.subject is not None

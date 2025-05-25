@@ -6,7 +6,6 @@ if TYPE_CHECKING:
     from typing import Tuple
     from typing import List
     from typing import Optional
-    from typing import Iterator
     from typing import Self
 
 from abc import ABC, abstractmethod
@@ -14,8 +13,10 @@ from types import MethodType
 from typing import Generic, TypeVar
 
 from .population import Individual, Population
+import random
 
 T = TypeVar("T", bound=Individual)
+
 
 class Selector(ABC, Generic[T]):
     """Base class for all selectors.
@@ -41,6 +42,7 @@ class Selector(ABC, Generic[T]):
         new_population = Population[T]()
         for x in selected:
             new_population.append(x)
+
         return new_population
 
     def select_to_many(self, population: Population[T]) -> Tuple[T, ...]:
@@ -67,7 +69,8 @@ class Selector(ABC, Generic[T]):
         budget_used: int = 0
         while budget_used < budget_cap:
             selected_results = self.select(old_population)
-            for x in selected_results: population.draw(x)
+            for x in selected_results:
+                population.draw(x)
             return_list.append(*selected_results)
             budget_used = budget_used + len(selected_results)
         return tuple(return_list)
@@ -86,6 +89,7 @@ class Selector(ABC, Generic[T]):
         """
         pass
 
+
 class NullSelector(Selector[T]):
     """Selector that does nothing.
 
@@ -94,6 +98,7 @@ class NullSelector(Selector[T]):
         """Select every item in the population.
         """
         return tuple(x for x in population)
+
 
 class SimpleSelector(Selector[T]):
     """Simple selector that select the highest-fitness individual.
@@ -104,14 +109,15 @@ class SimpleSelector(Selector[T]):
         super().__init__(budget)
 
     def select(self,
-               population: Population[T])-> Tuple[T]:
+               population: Population[T]) -> Tuple[T]:
         """Greedy selection.
 
         Select the item in the population with highest fitness.
         """
-        population.sort(lambda x : x.score)
+        population.sort(lambda x: x.score)
         selected_solution = population[0]
         return (selected_solution,)
+
 
 class ElitistSimpleSelector(SimpleSelector[T]):
     """Elitist selector that select the highest-fitness individual.
@@ -141,21 +147,20 @@ class ElitistSimpleSelector(SimpleSelector[T]):
 
         return (*results, self.best_individual)
 
-import random
-
 
 class TournamentSelector(Selector[T]):
     """Tournament selector.
     """
-    def __init__(self: Self, budget: int, bracket_size:int = 2, probability:float = 1):
+    def __init__(self: Self, budget: int, bracket_size: int = 2,
+                 probability: float = 1):
         super().__init__(budget)
         self.bracket_size: int = bracket_size
         self.probability: float = min(2, max(probability, 0))
 
     def select(self,
-               population: Population[T])-> Tuple[T]:
+               population: Population[T]) -> Tuple[T]:
         """Tournament selection.
-        
+
         Select a uniform sample, then select the best member in that sample.
         """
         # Do not select if
@@ -166,7 +171,7 @@ class TournamentSelector(Selector[T]):
             sample = list(population)
         else:
             sample = random.sample(tuple(population), self.bracket_size)
-        sample.sort(key = lambda x : x.score, reverse=True)
+        sample.sort(key=lambda x: x.score, reverse=True)
 
         # If nothing is selected stochastically, select the last element
         selected_solution: T = sample[-1]
@@ -180,7 +185,8 @@ class TournamentSelector(Selector[T]):
 
         return (selected_solution,)
 
-def Elitist(sel: Selector[T])-> Selector: #type:ignore
+
+def Elitist(sel: Selector[T]) -> Selector:  # type:ignore
     """Decorator that adds elitism to a selector.
 
     Modify `select_to_many` of `sel` to use elitism. If `sel` already
@@ -192,12 +198,14 @@ def Elitist(sel: Selector[T])-> Selector: #type:ignore
     Return:
         A selector
     """
-    def select_to_many(self, population: Population[T]) -> Tuple[Individual[T], ...]:
+    def select_to_many(self,
+                       population: Population[T]) -> Tuple[Individual[T], ...]:
         """Context that implements elitism.
         """
         # Python magic. Since super() cannot be used in this context,
         #   directly call select_to_many in the parent.
-        results: Tuple[Individual[T]] = self.__class__.__mro__[1].select_to_many(self, population)
+        results: Tuple[Individual[T]] = self.__class__.__mro__[1].\
+            select_to_many(self, population)  # type: ignore
         best_individual: Optional[Individual[T]] = self.best_individual
         if best_individual is None:
             best_individual = results[0]
@@ -212,7 +220,8 @@ def Elitist(sel: Selector[T])-> Selector: #type:ignore
             return (*results, best_individual)
 
     # Some say monkey patching is evil.
-    # For others, _there is no good and evil, there is only power and those too weak to seek it.
+    # For others, _there is no good and evil, there is only power and those
+    #   too weak to seek it.
     #       --  J.K. Rowling, Harry Potter and the Sorcerer's Stone_
     # This bad boy fails so many type checks.
     setattr(sel, 'best_individual', None)
