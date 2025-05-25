@@ -2,14 +2,15 @@ from __future__ import annotations
 
 
 from dataclasses import dataclass
-from typing import Tuple, TypeVar, Literal
+from typing import TypeVar
+from typing import Literal
 
-from ..core import SimpleLinearAlgorithm
 from ..core import Evaluator
 from ..core import Individual, Population
-from ..core import Elitist, SimpleSelector
 from ..core import Variator
 
+from .algorithms import SimpleLinearAlgorithm
+from .selectors import Elitist, TruncationSelector
 from typing import Self, Sequence
 
 import random
@@ -173,7 +174,7 @@ class MutateBits(Variator[BinaryString]):
         self.coarity = 1
         self.mutation_rate = mutation_rate
 
-    def vary(self, parents: Sequence[BinaryString]) -> Tuple[BinaryString, ...]:
+    def vary(self, parents: Sequence[BinaryString]) -> tuple[BinaryString, ...]:
         offspring = parents[0].copy()
 
         for i in range(0, offspring.size):
@@ -193,10 +194,10 @@ def trial_run() -> None:
         init_pop.append(BinaryString.random(BINSTRING_LENGTH))
 
     evaluator = CountBits()
-    selector = Elitist(SimpleSelector[BinaryString](1))
+    selector = Elitist(TruncationSelector[BinaryString](1))
     variator = MutateBits(0.05)
 
-    ctrl: SimpleLinearAlgorithm = SimpleLinearAlgorithm(
+    ctrl: SimpleLinearAlgorithm[BinaryString] = SimpleLinearAlgorithm(
         population=init_pop,
         variator=variator,
         evaluator=evaluator,
@@ -207,7 +208,7 @@ def trial_run() -> None:
 
     for i in range(GENERATION_COUNT):
         ctrl.step()
-        dicts[i] = ctrl.population.best()  # type: ignore[assignment]
+        dicts[i] = ctrl.population.best()
         # Because algorithms are not generic, the type of the population
         #   is not preserved.
 
