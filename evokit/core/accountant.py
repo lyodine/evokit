@@ -9,14 +9,17 @@ if TYPE_CHECKING:
     from typing import Callable
     from typing import Optional
     from typing import List
+    from typing import TypeVar
+    from typing import Generic
     from .controller import Controller
 
 from typing import NamedTuple
 
+C = TypeVar("C", bound=Controller)
 
-class AccountantRecord(NamedTuple):
-    """A value collected by an :class:`Accountant`, with the context
-    in which it is collected.
+class AccountantRecord(NamedTuple, Generic[C]):
+    """A value collected by an :class:`Accountant`; also contains the context
+    in which that value is collected.
     """
     # TODO Sphinx somehow collects `__new__`, which should not be documented.
     # Spent 1 hour on this to no avail, will leave it be for the interest
@@ -32,7 +35,7 @@ class AccountantRecord(NamedTuple):
     value: Any
 
 
-class Accountant:
+class Accountant(Generic[C]):
     """Monitor and collect data from a running :class:`Controller`.
 
     Maintain a dictionary of `event : handler` mappings. When
@@ -41,9 +44,13 @@ class Accountant:
 
     The accountant subscribes to a :class:`.Controller`,
     the :class:`.Controller` registers an accountant.
+
+    ```
+
+    ```
     """
     # TODO is this langauge good
-    def __init__(self: Self, handlers: Dict[str, Callable[[Controller], Any]]):
+    def __init__(self: Self, handlers: Dict[str, Callable[[C], Any]]):
         """
         Args:
             handlers: a dictionary of `event : handler` mappings. Each `handler`
@@ -59,12 +66,12 @@ class Accountant:
         #   directly accessed though ... should I make it possible to
         #   change the handlers once they are declared?
         # Meditating on how to do it.
-        self.handlers: Dict[str, Callable[[Controller], Any]] = handlers
+        self.handlers: Dict[str, Callable[[C], Any]] = handlers
 
         #: The attached :class:`Controller`
-        self.subject: Optional[Controller] = None
+        self.subject: Optional[C] = None
 
-    def subscribe(self: Self, subject: Controller) -> None:
+    def subscribe(self: Self, subject: C) -> None:
         """Machinery.
 
         Subscribe for events in a :class:`.Controller`.
