@@ -1,12 +1,17 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+from concurrent.futures import ProcessPoolExecutor
+import copy
+
+import dill  # type: ignore[import-untyped]
 
 if TYPE_CHECKING:
     from typing import Optional
     from typing import Sequence
     from typing import Self
     from typing import Type
+    from typing import Iterator
 
 from abc import abstractmethod
 from abc import ABC
@@ -34,26 +39,71 @@ class Variator(ABC, Generic[D]):
         """
         instance: Self = super().__new__(cls)
 
-        #: Size of input to :meth:`vary`
         instance.arity = None
+        instance.processes = None
+        instance.share_self = False
 
         return instance
 
-    def __init__(self: Self) -> None:
+    def __init__(self: Self, *,
+                 processes: Optional[int | ProcessPoolExecutor] = None,
+                 share_self: bool = False) -> None:
+        """
+        Args:
+            processes: Option that decides how may processes to use.
+                Can be an :class:`int`, a :class:`ProcessPoolExecutor`,
+                or :python:`None`.
+
+                * If :arg:`processes` is an :class:`int`: create a new
+                  :class:`ProcessPoolExecutor` with :arg:`processes` workers,
+                  then use it to execute the task. On Windows, it must be at
+                  most 61.
+
+                * If :arg:`processes` is a :class:`ProcessPoolExecutor`:
+                  use it to execute the task.
+
+                * If (by default) ``processes==None``: Do not parallelise.
+
+                To use all available processors, set :arg:`processes`
+                to :meth:`os.process_cpu_count`.
+
+            share_self: If :python:`True`, share a deep copy
+                of ``self`` to each worker process.
+                Non-serialisable attributes are replaced with
+                :python:`None` instead.
+
+                If :arg:`processes` is :python:`None`, then this argument has
+                no effect.
+
+                Unfortunately, it is `not possible` to share an
+                arbitrary :arg:`self` without knowing its attributes.
+                The fact that all of this must be done in the
+                variator itself, which is to be shared, compounds the
+                problem.
+        """
+
         #: Size of input to :meth:`vary`
         self.arity: Optional[int]
 
+        #: Multiprocessing capabilities. See :meth:`__init__`.
+        self.processes = processes
+
+        """If attributes of this object will be shared when
+        multiprocessing. See :meth:`__init__`.
+        """
+        self.share_self = share_self
+
     @abstractmethod
-    def vary(self, parents: Sequence[D]) -> tuple[D, ...]:
+    def vary(self: Self, parents: Sequence[D]) -> tuple[D, ...]:
         """Apply the variator to a tuple of parents
 
         Produce a tuple of individuals from a sequence of individuals.
 
-        The length :arg:`.parents` is at most :attr:`.arity`.
+        The length of :arg:`.parents` is at most :attr:`.arity`.
         """
         pass
 
-    def _group_to_parents(self,
+    def _group_to_parents(self: Self,
                           population: Population[D])\
             -> Sequence[Sequence[D]]:
         """Machinery.
@@ -80,6 +130,9 @@ class Variator(ABC, Generic[D]):
         of size `.arity`, call `.vary` with each group as argument,
         then collect and returns the result.
 
+        Args:
+            population: Population to vary.
+
         Note:
             The default implementation calls :meth:`.Individual.reset_fitness`
             on each offspring to clear its fitness. Any implementation that
@@ -88,12 +141,70 @@ class Variator(ABC, Generic[D]):
         next_population = Population[D]()
         parent_groups: Sequence[Sequence[D]] =\
             self._group_to_parents(population)
-        for group in parent_groups:
-            results = self.vary(group)
-            for individual in results:
-                individual.reset_fitness()
-                next_population.append(individual)
+
+        processes = self.processes
+        share_self = self.share_self
+
+        if processes is None:
+            for group in parent_groups:
+                results = self.vary(group)
+                for individual in results:
+                    individual.reset_fitness()
+                    next_population.append(individual)
+        else:
+            executor: ProcessPoolExecutor
+
+            if isinstance(processes, int):
+                executor = ProcessPoolExecutor(
+                    max_workers=processes,
+                )
+            else:
+                assert isinstance(processes, ProcessPoolExecutor)
+                executor = processes
+
+            our_selves: list[object] = []
+
+            if share_self:
+                our_selves = [copy.deepcopy(self)
+                              for _ in range(len(parent_groups))]
+            else:
+                our_selves = [None for _ in range(len(parent_groups))]
+
+            nested_results: Iterator[tuple[D, ...]] =\
+                executor.map(type(self).vary,
+                             our_selves,
+                             parent_groups,
+                             timeout=None,
+                             chunksize=1)
+
+            next_population = Population(list(sum(nested_results, ())))
+
         return next_population
+
+    def __deepcopy__(self, memo: dict[int, Any]):
+        """Machinery.
+
+        :meta private:
+
+        Ensure that when this object is shared by processes,
+        its non-serialisable members are not copied.
+        """
+        new_self = type(self).__new__(type(self))
+        # Making sure nothing is copied for more than once.
+        memo[id(self)] = new_self
+        for key, value in self.__dict__.items():
+            can_pickle_this: bool
+            try:
+                can_pickle_this =\
+                    dill.pickles(value)   # type: ignore[TypeError]
+            except Exception:
+                # If an exception arises when determining if the
+                #   object can be pickled .. probably not.
+                can_pickle_this = False
+            setattr(new_self, key, copy.deepcopy(
+                value if can_pickle_this else None, memo))
+
+        return new_self
 
 
 class NullVariator(Variator[D]):

@@ -17,6 +17,11 @@ from typing import Self, Sequence
 
 import random
 
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from typing import Optional
+    from concurrent.futures import ProcessPoolExecutor
+
 
 @dataclass
 class ValueRange:
@@ -195,7 +200,10 @@ class MutateBits(Variator[BinaryString]):
     1-to-1 variator for :class:`.BinaryString`. At each bit in the parent,
     flip it with probability :arg:`mutation_rate``.
     """
-    def __init__(self, mutation_rate: float):
+    def __init__(self,
+                 mutation_rate: float, *,
+                 processes: Optional[int | ProcessPoolExecutor] = None,
+                 share_self: bool = False):
         """
         Args:
             mutation_rate: Probability to flip each bit in the parent.
@@ -208,6 +216,8 @@ class MutateBits(Variator[BinaryString]):
                              f"Got: {mutation_rate}")
         self.arity = 1
         self.mutation_rate = mutation_rate
+        self.processes = processes
+        self.share_self = share_self
 
     def vary(self: Self,
              parents: Sequence[BinaryString]) -> tuple[BinaryString, ...]:
