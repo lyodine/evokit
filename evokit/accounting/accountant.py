@@ -132,7 +132,8 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
         """Report collected records.
 
         Args:
-            scope: Option to filter which records to report:
+            scope: Option to filter which records to report. Can be
+                an :class:`int`, a :class:`str`, or :python:`None`:
 
                 * If :arg:`scope` is an :class:`int` : report record
                   only if :python:`record.generation==scope`.
