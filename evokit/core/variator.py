@@ -1,17 +1,17 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from concurrent.futures import ProcessPoolExecutor
 import copy
-
 import dill  # type: ignore[import-untyped]
+
+from .accelerator import parallelise_task
 
 if TYPE_CHECKING:
     from typing import Optional
     from typing import Sequence
     from typing import Self
     from typing import Type
-    from typing import Iterator
+    from concurrent.futures import ProcessPoolExecutor
 
 from abc import abstractmethod
 from abc import ABC
@@ -138,46 +138,24 @@ class Variator(ABC, Generic[D]):
             on each offspring to clear its fitness. Any implementation that
             overrides this method should do the same.
         """
-        next_population = Population[D]()
         parent_groups: Sequence[Sequence[D]] =\
             self._group_to_parents(population)
+
+        for group in parent_groups:
+            for individual in group:
+                individual.reset_fitness()
 
         processes = self.processes
         share_self = self.share_self
 
-        if processes is None:
-            for group in parent_groups:
-                results = self.vary(group)
-                for individual in results:
-                    individual.reset_fitness()
-                    next_population.append(individual)
-        else:
-            executor: ProcessPoolExecutor
+        nested_results: Sequence[tuple[D, ...]] =\
+            parallelise_task(fn=type(self).vary,
+                             self=self,
+                             iterable=parent_groups,
+                             processes=processes,
+                             share_self=share_self)
 
-            if isinstance(processes, int):
-                executor = ProcessPoolExecutor(
-                    max_workers=processes,
-                )
-            else:
-                assert isinstance(processes, ProcessPoolExecutor)
-                executor = processes
-
-            our_selves: list[object] = []
-
-            if share_self:
-                our_selves = [copy.deepcopy(self)
-                              for _ in range(len(parent_groups))]
-            else:
-                our_selves = [None for _ in range(len(parent_groups))]
-
-            nested_results: Iterator[tuple[D, ...]] =\
-                executor.map(type(self).vary,
-                             our_selves,
-                             parent_groups,
-                             timeout=None,
-                             chunksize=1)
-
-            next_population = Population(list(sum(nested_results, ())))
+        next_population = Population(list(sum(nested_results, ())))
 
         return next_population
 
