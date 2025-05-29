@@ -13,6 +13,7 @@ if TYPE_CHECKING:
     from typing import Type
     from concurrent.futures import ProcessPoolExecutor
 
+from logging import warning
 from abc import abstractmethod
 from abc import ABC
 from typing import Any
@@ -111,6 +112,10 @@ class Variator(ABC, Generic[D]):
         """
         parent_groups: Sequence[Sequence[D]] =\
             self._group_to_parents(population)
+
+        if len(parent_groups) == 0:
+            warning("Something is wrong. Population has fewer"
+                    " individuals than what is necessary to procreate.")
 
         for group in parent_groups:
             for individual in group:
