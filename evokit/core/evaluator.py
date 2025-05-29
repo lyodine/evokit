@@ -10,10 +10,16 @@ if TYPE_CHECKING:
     from typing import Self
     from typing import Type
     from typing import Callable
+    from typing import Sequence
     from .population import Population
+    from typing import Optional
+    from concurrent.futures import ProcessPoolExecutor
 
 from typing import Any
 
+import dill
+import copy
+from .accelerator import parallelise_task
 
 D = TypeVar("D", bound=Individual[Any])
 
@@ -72,11 +78,21 @@ class Evaluator(ABC, Generic[D], metaclass=_MetaEvaluator):
         instance.retain_fitness = False
         return instance
 
-    def __init__(self: Self) -> None:
+    def __init__(self: Self, *,
+                 processes: Optional[int | ProcessPoolExecutor] = None,
+                 share_self: bool = False) -> None:
+        """
+        See :class:`Variator` for parameters :arg:`processes`
+        and :arg:`share_self`.
+        """
         self.retain_fitness: bool
         """ If this evaluator should re-evaluate an :class:`Individual` whose
         :attr:`.fitness` is already set.
         """
+
+        self.processes = processes
+
+        self.share_self = share_self
 
     @abstractmethod
     def evaluate(self: Self, individual: D) -> tuple[float, ...]:
@@ -112,5 +128,39 @@ class Evaluator(ABC, Generic[D], metaclass=_MetaEvaluator):
             :attr:`.fitness` for each :class:`.Individual` in the
             :class:`.Population`.
         """
-        for x in pop:
-            x.fitness = self.evaluate(x)
+
+        fitnesses: Sequence[tuple[float, ...]] = parallelise_task(
+            fn=type(self).evaluate,
+            self=self,
+            iterable=pop,
+            processes=self.processes,
+            share_self=self.share_self
+        )
+
+        for (individual, fitness) in zip(pop, fitnesses):
+            individual.fitness = fitness
+
+    def __deepcopy__(self, memo: dict[int, Any]):
+        """Machinery.
+
+        :meta private:
+
+        Ensure that when this object is shared by processes,
+        its non-serialisable members are not copied.
+        """
+        new_self = type(self).__new__(type(self))
+        # Making sure nothing is copied for more than once.
+        memo[id(self)] = new_self
+        for key, value in self.__dict__.items():
+            can_pickle_this: bool
+            try:
+                can_pickle_this =\
+                    dill.pickles(value)   # type: ignore[TypeError]
+            except Exception:
+                # If an exception arises when determining if the
+                #   object can be pickled .. probably not.
+                can_pickle_this = False
+            setattr(new_self, key, copy.deepcopy(
+                value if can_pickle_this else None, memo))
+
+        return new_self

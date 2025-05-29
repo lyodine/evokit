@@ -49,37 +49,8 @@ class Variator(ABC, Generic[D]):
                  processes: Optional[int | ProcessPoolExecutor] = None,
                  share_self: bool = False) -> None:
         """
-        Args:
-            processes: Option that decides how may processes to use.
-                Can be an :class:`int`, a :class:`ProcessPoolExecutor`,
-                or :python:`None`.
-
-                * If :arg:`processes` is an :class:`int`: create a new
-                  :class:`ProcessPoolExecutor` with :arg:`processes` workers,
-                  then use it to execute the task. On Windows, it must be at
-                  most 61.
-
-                * If :arg:`processes` is a :class:`ProcessPoolExecutor`:
-                  use it to execute the task.
-
-                * If (by default) ``processes==None``: Do not parallelise.
-
-                To use all available processors, set :arg:`processes`
-                to :meth:`os.process_cpu_count`.
-
-            share_self: If :python:`True`, share a deep copy
-                of ``self`` to each worker process.
-                Non-serialisable attributes are replaced with
-                :python:`None` instead.
-
-                If :arg:`processes` is :python:`None`, then this argument has
-                no effect.
-
-                Unfortunately, it is `not possible` to share an
-                arbitrary :arg:`self` without knowing its attributes.
-                The fact that all of this must be done in the
-                variator itself, which is to be shared, compounds the
-                problem.
+        See :class:`Variator` for parameters :arg:`processes`
+        and :arg:`share_self`.
         """
 
         #: Size of input to :meth:`vary`
