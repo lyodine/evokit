@@ -21,9 +21,9 @@ from numpy.typing import NDArray
 from typing import TypeAlias
 from enum import Enum, auto
 
-from .._utils.addons import ensure_dependency
+from .._utils.addons import ensure_installed
 
-ensure_dependency("numpy", None)
+ensure_installed("numpy")
 
 T = TypeVar("T")
 

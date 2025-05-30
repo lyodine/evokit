@@ -7,9 +7,9 @@ from typing import Sequence
 from typing import Any
 import matplotlib.pyplot as plt
 
-from .._utils.addons import ensure_dependency
+from .._utils.addons import ensure_installed
 
-ensure_dependency("numpy", None, "accounting_visualise")
+ensure_installed("numpy")
 
 
 def plot(records: Sequence[AccountantRecord[tuple[float, ...]]],
