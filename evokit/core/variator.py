@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-import copy
-import dill  # type: ignore[import-untyped]
 
 from .accelerator import parallelise_task
+
+from .accelerator.parallelisers import __getstate__
+from .accelerator.parallelisers import __deepcopy__
 
 if TYPE_CHECKING:
     from typing import Optional
@@ -135,30 +136,8 @@ class Variator(ABC, Generic[D]):
 
         return next_population
 
-    def __deepcopy__(self, memo: dict[int, Any]):
-        """Machinery.
-
-        :meta private:
-
-        Ensure that when this object is shared by processes,
-        its non-serialisable members are not copied.
-        """
-        new_self = type(self).__new__(type(self))
-        # Making sure nothing is copied for more than once.
-        memo[id(self)] = new_self
-        for key, value in self.__dict__.items():
-            can_pickle_this: bool
-            try:
-                can_pickle_this =\
-                    dill.pickles(value)   # type: ignore[TypeError]
-            except Exception:
-                # If an exception arises when determining if the
-                #   object can be pickled .. probably not.
-                can_pickle_this = False
-            setattr(new_self, key, copy.deepcopy(
-                value if can_pickle_this else None, memo))
-
-        return new_self
+    __getstate__ = __getstate__
+    __deepcopy__ = __deepcopy__
 
 
 class NullVariator(Variator[D]):

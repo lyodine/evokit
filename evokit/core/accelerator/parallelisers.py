@@ -3,6 +3,7 @@ from typing import TypeVar
 from typing import Callable
 from typing import Sequence
 from typing import Optional
+from typing import Any
 from concurrent.futures.process import BrokenProcessPool
 
 from ..._utils.addons import is_installed
@@ -214,6 +215,37 @@ def _execute_with_pool[S, A, B](processes: Pool | int,
 
     return results
 
+
+def __getstate__(self: object) -> dict[str, Any]:
+    self_dict = self.__dict__.copy()
+    del self_dict['processes']
+    return self_dict
+
+
+def __deepcopy__(self: object, memo: dict[int, Any]):
+    """Machinery.
+
+    :meta private:
+
+    Ensure that when this object is shared by processes,
+    its non-serialisable members are not copied.
+    """
+    new_self = type(self).__new__(type(self))
+    # Making sure nothing is copied for more than once.
+    memo[id(self)] = new_self
+    for key, value in self.__dict__.items():
+        can_pickle_this: bool
+        try:
+            can_pickle_this =\
+                dill.pickles(value)   # type: ignore[TypeError]
+        except Exception:
+            # If an exception arises when determining if the
+            #   object can be pickled .. probably not.
+            can_pickle_this = False
+        setattr(new_self, key, copy.deepcopy(
+            value if can_pickle_this else None, memo))
+
+    return new_self
 # def _execute_tasks[S, A, B](pool: Pool,
 #                             fn: Callable[[S, A], B],
 #                             self: S,
