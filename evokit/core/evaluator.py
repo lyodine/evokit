@@ -4,6 +4,7 @@ from abc import ABC, ABCMeta, abstractmethod
 from typing import TYPE_CHECKING, Generic, TypeVar
 from functools import wraps
 
+import dill
 from .accelerator import parallelise_task
 
 from .population import Individual
@@ -141,6 +142,11 @@ class Evaluator(ABC, Generic[D], metaclass=_MetaEvaluator):
         for (individual, fitness) in zip(pop, fitnesses):
             individual.fitness = fitness
 
+    def __getstate__(self: Self) -> dict[str, Any]:
+        self_dict = self.__dict__.copy()
+        del self_dict['processes']
+        return self_dict
+
     def __deepcopy__(self, memo: dict[int, Any]):
         """Machinery.
 
@@ -155,16 +161,13 @@ class Evaluator(ABC, Generic[D], metaclass=_MetaEvaluator):
         for key, value in self.__dict__.items():
             can_pickle_this: bool = True
             try:
-                if key == "processes":
-                    can_pickle_this = False
-
-                # can_pickle_this =\
-                #     dill.pickles(value)   # type: ignore[TypeError]
+                can_pickle_this =\
+                    dill.pickles(value)   # type: ignore[TypeError]
             except Exception:
                 # If an exception arises when determining if the
                 #   object can be pickled .. probably not.
                 # can_pickle_this = False
-                pass
+                can_pickle_this = False
             setattr(new_self, key, copy.deepcopy(
                 value if can_pickle_this else None, memo))
 

@@ -193,23 +193,19 @@ def _execute_with_pool[S, A, B](processes: Pool | int,
                                 share_self: bool) -> Sequence[B]:
     # First, execute a task to see what happens
 
-    our_selves: Sequence[S] | Sequence[None] =\
-        _duplicate_self(self, share_self, iterable)
-
     results: Sequence[B]
 
     if isinstance(processes, int):
         with Pool(processes) as pool:
             futures = [pool.apply_async(func=fn,
-                                        args=[sf, it]) for sf, it
-                       in zip(our_selves, iterable)]
+                                        args=[self, it])
+                       for it in iterable]
 
             results = [*[fut.get() for fut in futures]]
 
     else:
         results = processes.starmap(
-            fn,
-            [[sf, it] for sf, it in zip(our_selves, iterable)]
+            fn, [[self, it] for it in iterable]
         )
         # futures = [processes.apply_async(func=fn,
         #                                  args=[sf, it]) for sf, it
