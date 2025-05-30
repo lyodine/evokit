@@ -43,6 +43,8 @@ gp_visualise = ["graphviz>=0.20.3"]
 test = ["pytest>=8.2.0", "nbmake>=1.5.4"]
 # To visualise accounting records
 accounting_visualise = ["numpy>=1.26.4", "matplotlib>=3.10.1"]
+multiprocess = ["multiprocess>=0.70.18"]
+
 
 
 [build-system]
@@ -52,6 +54,9 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 packages = ["evokit"]
+
+[tool.pyright]
+reportUnknownMemberType = false
 
 [project.urls]
 Homepage = "https://yidingli.com/evokit/"
