@@ -26,7 +26,7 @@ Prefix commit messages with one of the following labels[^1].
 |build: | Change build system, change external dependencies |
 |meta: | Work that does not fall into the categories above |
 
-Optionally, suffix the label with the component that is changed. For breaking changes, append an exclaimation mark `!` to the component.
+Optionally, suffix the label with the component that is changed. For breaking changes, append an exclamation mark `!` to the component.
 
 Optionally, suffix the label with an issue ID.
 
