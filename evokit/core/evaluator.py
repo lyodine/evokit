@@ -4,7 +4,13 @@ from abc import ABC, ABCMeta, abstractmethod
 from typing import TYPE_CHECKING, Generic, TypeVar
 from functools import wraps
 
+from .accelerator import parallelise_task
+
 from .population import Individual
+
+import copy
+
+from typing import Any
 
 if TYPE_CHECKING:
     from typing import Self
@@ -15,11 +21,6 @@ if TYPE_CHECKING:
     from typing import Optional
     from concurrent.futures import ProcessPoolExecutor
 
-from typing import Any
-
-import dill
-import copy
-from .accelerator import parallelise_task
 
 D = TypeVar("D", bound=Individual[Any])
 
@@ -128,7 +129,7 @@ class Evaluator(ABC, Generic[D], metaclass=_MetaEvaluator):
             :attr:`.fitness` for each :class:`.Individual` in the
             :class:`.Population`.
         """
-
+        print("I am", self.processes)
         fitnesses: Sequence[tuple[float, ...]] = parallelise_task(
             fn=type(self).evaluate,
             self=self,
@@ -152,14 +153,18 @@ class Evaluator(ABC, Generic[D], metaclass=_MetaEvaluator):
         # Making sure nothing is copied for more than once.
         memo[id(self)] = new_self
         for key, value in self.__dict__.items():
-            can_pickle_this: bool
+            can_pickle_this: bool = True
             try:
-                can_pickle_this =\
-                    dill.pickles(value)   # type: ignore[TypeError]
+                if key == "processes":
+                    can_pickle_this = False
+
+                # can_pickle_this =\
+                #     dill.pickles(value)   # type: ignore[TypeError]
             except Exception:
                 # If an exception arises when determining if the
                 #   object can be pickled .. probably not.
-                can_pickle_this = False
+                # can_pickle_this = False
+                pass
             setattr(new_self, key, copy.deepcopy(
                 value if can_pickle_this else None, memo))
 
