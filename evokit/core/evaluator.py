@@ -131,7 +131,6 @@ class Evaluator(ABC, Generic[D], metaclass=_MetaEvaluator):
             :attr:`.fitness` for each :class:`.Individual` in the
             :class:`.Population`.
         """
-        print("I am", self.processes)
         fitnesses: Sequence[tuple[float, ...]] = parallelise_task(
             fn=type(self).evaluate,
             self=self,
