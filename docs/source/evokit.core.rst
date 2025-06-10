@@ -1,6 +1,14 @@
 evokit.core package
 ===================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   evokit.core.accelerator
+
 Submodules
 ----------
 
