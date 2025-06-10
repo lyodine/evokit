@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from typing import Any
     from typing import Type
     from typing import Callable
-    from ..accounting.accountant import Accountant
+    from ..accounting import Accountant
 
 
 class _MetaAlgorithm(ABCMeta):
@@ -105,7 +105,7 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
         events for data collection mechanisms such as
         :class:`accountant.Accountant`.
 
-        Note:
+        .. note::
             The :attr:`generation` attribute increments by 1 _after_
             :meth:`step` is called. Do not manually increment
             :attr:`generation`. This property is automatically managed.
@@ -122,7 +122,11 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
         pass
 
     def register(self: Self, accountant: Accountant[Any, Any]) -> None:
+        """Attach an :class:`Accountant` to this algorithm.
 
+        Args:
+            accountant: The accountant to attach.
+        """
         if accountant not in self.accountants:
             self.accountants.append(accountant)
             accountant.subscribe(self)
