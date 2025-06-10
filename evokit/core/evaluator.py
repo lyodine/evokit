@@ -103,7 +103,7 @@ class Evaluator(ABC, Generic[D], metaclass=_MetaEvaluator):
 
         Subclasses should override this method.
 
-        Note:
+        .. note::
             "Better" individuals should have higher fitness.
 
             :class:`.Selector` should prefer individuals with higher fitness.
@@ -126,7 +126,7 @@ class Evaluator(ABC, Generic[D], metaclass=_MetaEvaluator):
         Effect:
             For each item in :arg:`pop`, set its :attr:`Individual.fitness`.
 
-        Note:
+        .. note::
             This method must **never** return a value. It must assign to
             :attr:`.fitness` for each :class:`.Individual` in the
             :class:`.Population`.

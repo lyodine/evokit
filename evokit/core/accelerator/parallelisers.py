@@ -35,16 +35,16 @@ def parallelise_task[S, A, B](
     Default implementations in :meth:`Variator.vary_population`
     and :meth:`Evaluator.evaluate_population` use this method.
 
-    Warn:
+    .. warning::
         Consider installing `multiprocess` (by the author
         of `dill`) if you run into any trouble with multiprocessing.
 
         Do not give :class:`multiprocessing.pool.Pool`
         in :arg:`processes`. Instead, consider using either
-        an integer, or a `multiprocess.pool.Pool`, or
+        an integer, or a :class:`multiprocess.pool.Pool`, or
         a :class:`concurrent.futures.ProcessPoolExecutor`.
 
-        :module:`multiprocessing`, which is part of the
+        The :mod:`multiprocessing` module, which is part of the
         standard library, uses pickle. This means a `self`,
         which contains lambdas, complex objects, and most
         complex objects created in a Jupyter notebook,
@@ -71,14 +71,15 @@ def parallelise_task[S, A, B](
             or :python:`None`.
 
             * If :arg:`processes` is an :class:`int`: create a new
-                :class:`ProcessPoolExecutor` with :arg:`processes` workers,
-                then use it to execute the task. On Windows, it must be at
-                most 61.
+              :class:`ProcessPoolExecutor` with :arg:`processes` workers,
+              then use it to execute the task. On Windows, it must be at
+              most 61.
 
             * If :arg:`processes` is a :class:`ProcessPoolExecutor`:
-                use it to execute the task.
+              use it to execute the task.
 
-            * If (by default) ``processes==None``: Do not parallelise.
+            * If (by default) ``processes==None``:
+              Do not parallelise.
 
             To use all available processors, set :arg:`processes`
             to :meth:`os.process_cpu_count`.
@@ -90,12 +91,6 @@ def parallelise_task[S, A, B](
 
             If :arg:`processes` is :python:`None`, then this argument has
             no effect.
-
-            Unfortunately, it is `not possible` to share an
-            arbitrary :arg:`self` without knowing its attributes.
-            The fact that all of this must be done in the
-            variator itself, which is to be shared, compounds the
-            problem.
     """
 
     if processes is None:
@@ -217,6 +212,14 @@ def _execute_with_pool[S, A, B](processes: Pool | int,
 
 
 def __getstate__(self: object) -> dict[str, Any]:
+    """Machinery.
+
+    :meta private:
+
+    Ensure that when this object is pickled, its process pool,
+    if any is defined (see :meth:`Variator.processes` and
+    `Evaluator.processes`), is not pickled.
+    """
     self_dict = self.__dict__.copy()
     del self_dict['processes']
     return self_dict

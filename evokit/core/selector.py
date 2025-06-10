@@ -28,7 +28,7 @@ class Selector(ABC, Generic[D]):
         Args:
             budget: Number of individuals to select.
 
-        Note:
+        .. note::
             Implementations that select a variable number of
             individuals may ignore :attr:`.budget`.
         """
@@ -87,7 +87,7 @@ class Selector(ABC, Generic[D]):
         Args:
             from_pool: tuple of individuals to select from.
 
-        Note:
+        .. note::
             Each item in the returned tuple must be in :arg:`from_pool`.
 
             The selector should treat higher fitness as "better".

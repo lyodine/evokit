@@ -65,7 +65,7 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
     The individual can information outside of the genotype, such as a
         `.fitness`, a reference to the parent, and strategy parameter(s).
 
-    Note:
+    .. note::
         Implementation should store the genotype in :attr:`.genome`.
 
     Tutorial: :doc:`../guides/examples/onemax`.
@@ -149,7 +149,7 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
         In addition to duplicating :attr:`.genome`, the implementation should
         decide whether to retain other fields such as :attr:`.fitness`.
 
-        Note:
+        .. note::
             Ensure that changes made to the returned value do not affect
             the original value.
         """

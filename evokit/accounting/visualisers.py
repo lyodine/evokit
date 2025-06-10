@@ -38,7 +38,7 @@ def plot(records: Sequence[AccountantRecord[tuple[float, ...]]],
 
         kwargs: Passed to :meth:`matplotlib.plot`.
 
-    Info:
+    .. note::
         The parameter :arg:`use_line` is provided for convenience.
         Since some values might be ``nan``, plotting and connecting
         only available data points could produce misleading plots.

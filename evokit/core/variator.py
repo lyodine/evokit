@@ -106,7 +106,7 @@ class Variator(ABC, Generic[D]):
         Args:
             population: Population to vary.
 
-        Note:
+        .. note::
             The default implementation calls :meth:`.Individual.reset_fitness`
             on each offspring to clear its fitness. Any implementation that
             overrides this method should do the same.
