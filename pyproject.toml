@@ -1,7 +1,7 @@
 [project]
 
 name = "evokit"
-version = "0.3"
+version = "0.3.1"
 description = "The EvoKit framework, experiment build 2.1"
 requires-python = ">= 3.12.0"
 
@@ -52,8 +52,9 @@ multiprocess = ["multiprocess>=0.70.18"]
 requires = ["setuptools >= 70.1.1"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-packages = ["evokit"]
+[tool.setuptools.packages]
+# packages = ["evokit"]
+find = {}
 
 [tool.pyright]
 reportUnknownMemberType = false
