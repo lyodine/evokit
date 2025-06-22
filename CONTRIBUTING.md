@@ -33,6 +33,42 @@ Optionally, suffix the label with an issue ID.
 
 ![](media/commit-style.svg)
 
+# Versioning
+
+Because the EvoKit seeks to capture discipline
+of evolutionary computing, it might receive
+breaking changes 
+
+For transparency, mark changes that substantially
+affect EvoKit's "machinery" as breaking. To commit
+such changes, prefix the label with a question
+mark `?` (instead of `!`).
+
+|Position|Name|Description|
+|`X._._`|Major release|Significant change to how EvoKit should be used.|
+|`_.Y._`|Minor release|Significant change to features that facilitates a use case.|
+|`_._.Z`|Patch|Backward-compatible bug fixes.|
+
+If a version includes changes in several
+categories, use the highest in the list. For
+example, use `X._._` over `_.Y._` if both
+are applicable.
+
+To update the version, commit a change to `pyproject.toml` and tag that commit with a brief
+changelog. Document changes in the following format:
+
+* **New**: Introduction of a new feature.
+
+* **Change**: Change to an existing feature.
+
+* **Fix**: Bugfix.
+
+* **Remove**: Removal of a feature.
+
+At this point, there is no label for deprecation.
+Features may be deprecated and removed in the
+same commit.
+
 # Issues
 
 ## Writing Issues
