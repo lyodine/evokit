@@ -47,7 +47,7 @@ except PackageNotFoundError:
 
 def is_installed(name: str) -> bool:
     return importlib.util.find_spec(
-        "multiprocess") is not None  # type: ignore[attr-defined]
+        name) is not None  # type: ignore[attr-defined]
 
 
 def query_option(name: str) -> str:
