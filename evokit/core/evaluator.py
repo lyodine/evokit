@@ -81,9 +81,11 @@ class Evaluator(ABC, Generic[D], metaclass=_MetaEvaluator):
         instance.retain_fitness = False
         return instance
 
-    def __init__(self: Self, *,
+    def __init__(self: Self,
+                 *args,
                  processes: Optional[int | ProcessPoolExecutor] = None,
-                 share_self: bool = False) -> None:
+                 share_self: bool = False,
+                 **kwargs) -> None:
         """
         See :class:`Variator` for parameters :arg:`processes`
         and :arg:`share_self`.
@@ -98,7 +100,10 @@ class Evaluator(ABC, Generic[D], metaclass=_MetaEvaluator):
         self.share_self = share_self
 
     @abstractmethod
-    def evaluate(self: Self, individual: D) -> tuple[float, ...]:
+    def evaluate(self: Self,
+                 individual: D,
+                 *args: Any,
+                 **kwargs: Any) -> tuple[float, ...]:
         """Evaluation strategy. Return the fitness of an individual.
 
         Subclasses should override this method.
@@ -113,7 +118,9 @@ class Evaluator(ABC, Generic[D], metaclass=_MetaEvaluator):
         """
 
     def evaluate_population(self: Self,
-                            pop: Population[D]) -> None:
+                            pop: Population[D],
+                            *args: Any,
+                            **kwargs: Any) -> None:
         """Context of :meth:`evaluate`.
 
         Iterate individuals in a population. For each individual, compute its

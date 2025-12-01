@@ -23,7 +23,10 @@ class Selector(ABC, Generic[D]):
     Tutorial: :doc:`../guides/examples/selector`.
     """
 
-    def __init__(self: Self, budget: int):
+    def __init__(self: Self,
+                 budget: int,
+                 *args: Any,
+                 **kwargs: Any,):
         """
         Args:
             budget: Number of individuals to select.
@@ -36,7 +39,9 @@ class Selector(ABC, Generic[D]):
         self.budget = budget
 
     def select_population(self: Self,
-                          from_population: Population[D]) -> Population[D]:
+                          from_population: Population[D],
+                          *args: Any,
+                          **kwargs: Any) -> Population[D]:
         """Select from a population to a population.
 
         The default implementation calls :meth:`select` on
@@ -78,7 +83,10 @@ class Selector(ABC, Generic[D]):
 
         return Population(list(_generate_results()))
 
-    def select(self: Self, from_pool: Sequence[D]) -> tuple[D, ...]:
+    def select(self: Self,
+               from_pool: Sequence[D],
+               *args: Any,
+               **kwargs: Any) -> tuple[D, ...]:
         """Select individuals from a sequence of individuals.
 
         All subclasses should override either this method or

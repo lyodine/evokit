@@ -61,7 +61,7 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
 
     Tutorial: :doc:`../guides/examples/algorithm`.
     """
-    def __new__(cls, *_: Any, **__: Any) -> Self:
+    def __new__(cls: Type[Self], *_: Any, **__: Any) -> Self:
         """Machinery.
 
         :meta private:
@@ -76,7 +76,7 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
         return instance
 
     @abstractmethod
-    def __init__(self) -> None:
+    def __init__(self: Self, *args: Any, **kwargs: Any) -> None:
         """
         Subclasses should override this method.
 
@@ -97,7 +97,7 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
     automatic_events: list[str] = ["STEP_BEGIN", "STEP_END"]
 
     @abstractmethod
-    def step(self) -> None:
+    def step(self: Self, *args: Any, **kwargs: Any) -> None:
         """Advance the population by one generation.
 
         Subclasses should override this method. Use operators to update
@@ -131,7 +131,7 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
             self.accountants.append(accountant)
             accountant.subscribe(self)
 
-    def update(self, event: str) -> None:
+    def update(self: Self, event: str) -> None:
         """Report an event to all attached :class:`Accountant` objects.
 
         If the event is not in :attr:`events`, raise an exception.

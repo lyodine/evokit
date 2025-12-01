@@ -47,9 +47,11 @@ class Variator(ABC, Generic[D]):
 
         return instance
 
-    def __init__(self: Self, *,
+    def __init__(self: Self,
+                 *args: Any,
                  processes: Optional[int | ProcessPoolExecutor] = None,
-                 share_self: bool = False) -> None:
+                 share_self: bool = False,
+                 **kwargs: Any) -> None:
         """
         See :class:`Variator` for parameters :arg:`processes`
         and :arg:`share_self`.
@@ -67,7 +69,10 @@ class Variator(ABC, Generic[D]):
         self.share_self = share_self
 
     @abstractmethod
-    def vary(self: Self, parents: Sequence[D]) -> tuple[D, ...]:
+    def vary(self: Self,
+             parents: Sequence[D],
+             *args: Any,
+             **kwargs: Any) -> tuple[D, ...]:
         """Apply the variator to a tuple of parents
 
         Produce a tuple of individuals from a sequence of individuals.
@@ -96,7 +101,9 @@ class Variator(ABC, Generic[D]):
         return parent_groups
 
     def vary_population(self: Self,
-                        population: Population[D]) -> Population[D]:
+                        population: Population[D],
+                        *args: Any,
+                        **kwargs: Any) -> Population[D]:
         """Vary the population.
 
         The default implementation separates ``population`` into groups
@@ -143,9 +150,9 @@ class Variator(ABC, Generic[D]):
 class NullVariator(Variator[D]):
     """Variator that does not change anything
     """
-    def __init__(self) -> None:
+    def __init__(self: Self) -> None:
         self.arity = 1
 
     @override
-    def vary(self, parents: Sequence[D]) -> tuple[D, ...]:
+    def vary(self: Self, parents: Sequence[D]) -> tuple[D, ...]:
         return tuple(parents)

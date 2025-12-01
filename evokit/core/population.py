@@ -82,7 +82,7 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
         return instance
 
     @abstractmethod
-    def __init__(self) -> None:
+    def __init__(self: Self) -> None:
         #: Fitness of the individual.
         self._fitness: Optional[tuple[float, ...]]
 
@@ -90,7 +90,7 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
         self.genome: R
 
     @property
-    def fitness(self) -> tuple[float, ...]:
+    def fitness(self: Self) -> tuple[float, ...]:
         """Fitness of an individual.
 
         Writing to this property changes the fitness of the individual.
@@ -115,7 +115,7 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
             return self._fitness
 
     @fitness.setter
-    def fitness(self, value: tuple[float, ...]) -> None:
+    def fitness(self: Self, value: tuple[float, ...]) -> None:
         """Sphinx does not pick up docstrings on setters.
 
         This docstring should never be seen.
@@ -161,7 +161,7 @@ D = TypeVar("D", bound=Individual[Any])
 class Population(UserList[D], Generic[D]):
     """A flat collection of individuals.
     """
-    def __init__(self,
+    def __init__(self: Self,
                  initlist: Optional[Sequence[D]] | Iterable[D] = None):
         """
         Args:
