@@ -6,7 +6,7 @@ description = "The EvoKit framework, experiment build 2.1"
 requires-python = ">= 3.12.0"
 
 authors = [
-    {name = "Yiding Li", email = "redacted@example.ca"},
+    {name = "Yiding Li", email = "commit@lyodine.com"},
 ]
 
 readme = "README.md"
