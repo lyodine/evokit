@@ -133,7 +133,7 @@ class Variator(ABC, Generic[D]):
         share_self = self.share_self
 
         nested_results: Sequence[tuple[D, ...]] =\
-            parallelise_task(fn=type(self).vary,
+            parallelise_task(fn=self.vary.__func__,  # type: ignore
                              self=self,
                              iterable=parent_groups,
                              processes=processes,

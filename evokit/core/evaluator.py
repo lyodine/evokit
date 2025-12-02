@@ -139,7 +139,7 @@ class Evaluator(ABC, Generic[D], metaclass=_MetaEvaluator):
             :class:`.Population`.
         """
         fitnesses: Sequence[tuple[float, ...]] = parallelise_task(
-            fn=type(self).evaluate,
+            fn=self.evaluate.__func__,  # type: ignore
             self=self,
             iterable=pop,
             processes=self.processes,
