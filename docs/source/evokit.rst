@@ -9,6 +9,7 @@ Subpackages
 
    evokit.accounting
    evokit.core
+   evokit.diversity
    evokit.evolvables
 
 Module contents
