@@ -39,12 +39,15 @@ class _MetaGenome(ABCMeta):
             def wrapper(self: Individual[Any],
                         *args: Any, **kwargs: Any) -> Individual[Any]:
                 custom_copy_result: Individual[Any]
-                if self.has_fitness():
-                    old_fitness = self.fitness
-                    custom_copy_result = custom_copy(self, *args, **kwargs)
-                    custom_copy_result.fitness = old_fitness
-                else:
-                    custom_copy_result = custom_copy(self, *args, **kwargs)
+                custom_copy_result = custom_copy(self, *args, **kwargs)
+                # Commented out because inheriting fitness is an undocumented
+                #   feature that also takes control away from the user.
+                # if self.has_fitness():
+                #     old_fitness = self.fitness
+                #     custom_copy_result = custom_copy(self, *args, **kwargs)
+                #     custom_copy_result.fitness = old_fitness
+                # else:
+                #     custom_copy_result = custom_copy(self, *args, **kwargs)
 
                 custom_copy_result.parents = self.parents
                 return custom_copy_result
