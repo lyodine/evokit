@@ -3,7 +3,7 @@
 
 """
 
-from ..core import Population, Individual
+from ...core import Population, Individual
 from typing import Callable
 import numpy as np
 
