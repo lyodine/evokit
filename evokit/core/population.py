@@ -45,6 +45,8 @@ class _MetaGenome(ABCMeta):
                     custom_copy_result.fitness = old_fitness
                 else:
                     custom_copy_result = custom_copy(self, *args, **kwargs)
+
+                custom_copy_result.parents = self.parents
                 return custom_copy_result
             return wrapper
 
@@ -79,12 +81,15 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
         """
         instance: Self = super().__new__(cls)
         instance._fitness = None
+        instance.parents = None
         return instance
 
     @abstractmethod
-    def __init__(self: Self) -> None:
-        #: Fitness of the individual.
+    def __init__(self: Self,) -> None:
         self._fitness: Optional[tuple[float, ...]]
+
+        #: Parents of the individual, registered with :meth:`inherit`.
+        self.parents: Optional[tuple[Self, ...]]
 
         #: Genotype of the individual.
         self.genome: R
@@ -152,7 +157,42 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
         .. note::
             Ensure that changes made to the returned value do not affect
             the original value.
+
+            The :attr:`.parents` attribute is copied on automatically.
         """
+
+    def set_parent(self: Self,
+                   parent: tuple[Self, ...],
+                   max_parents: int):
+        """Register :arg:`parent` as the parent to :arg:`self`.
+
+        Also unlink the :arg:`max_parents`\\ :sup:`th`
+        :attr:`.Individual.parent`,
+        if one exists, of this individual. Consequently, the parent
+        of an individual is unlinked if that individual ever becomes
+        first in a long chain of parents.
+
+        This approach is not perfect, but does well to save memory.
+        The alternative is to preserve the parent of an individual
+        if it is part of a _short_ chain of parents.
+        """
+        # I have considered an alternative approach of
+        #   maintaining a deque of parents.
+        # This is a horrible idea. Making a deque for each
+        #   individual is incredibly costly.
+        self.parents = parent
+
+        _disinherit_me: tuple[Self, ...] = (self,)
+        for _ in range(max_parents):
+            # A monster of a comprehension.
+            _disinherit_me = tuple(
+                (x for _pelops in _disinherit_me
+                 if _pelops.parents is not None
+                 for x in _pelops.parents))
+
+        if _disinherit_me is not None:
+            for _iphigenia in _disinherit_me:
+                _iphigenia.parents = None
 
 
 D = TypeVar("D", bound=Individual[Any])
