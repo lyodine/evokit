@@ -1,1 +1,1 @@
-Please see [here](https://yidingli.com/evokit/docs/) for documentation.
+Please see [here](https://yidingli.com/projects/evokit/docs/) for documentation.
