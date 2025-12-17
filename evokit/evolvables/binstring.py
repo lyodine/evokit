@@ -307,7 +307,7 @@ def trial_run() -> list[BinaryString]:
 
     for _ in range(GENERATION_COUNT):
         ctrl.step()
-        bests.append(ctrl.population.best())
+        bests.append(ctrl.population.best().copy())
         # Because algorithms are not generic, the type of the population
         #   is not preserved.
 
