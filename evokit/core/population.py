@@ -40,16 +40,29 @@ class _MetaGenome(ABCMeta):
                         *args: Any, **kwargs: Any) -> Individual[Any]:
                 custom_copy_result: Individual[Any]
                 custom_copy_result = custom_copy(self, *args, **kwargs)
-                # Commented out because inheriting fitness is an undocumented
-                #   feature that also takes control away from the user.
-                # if self.has_fitness():
-                #     old_fitness = self.fitness
-                #     custom_copy_result = custom_copy(self, *args, **kwargs)
-                #     custom_copy_result.fitness = old_fitness
-                # else:
-                #     custom_copy_result = custom_copy(self, *args, **kwargs)
+                # Previously commented out because inheriting fitness
+                #   was an undocumented feature that also takes control
+                #   away from the user. This change has been rolled back.
+                # Turns out that this feature was rather useful.
+                #   Automatically inheriting fitnesses means that, for
+                #   example, a copied-then-archived individual does not
+                #   need to be evaluated again.
+                if self.can_copy_fitness and self.has_fitness():
+                    old_fitness = self.fitness
+                    custom_copy_result = custom_copy(self, *args, **kwargs)
+                    custom_copy_result.fitness = old_fitness
+                else:
+                    custom_copy_result = custom_copy(self, *args, **kwargs)
 
-                custom_copy_result.parents = self.parents
+                if self.can_copy_parents:
+                    # Be vary cautious that this assignment
+                    #   bypasses :meth:`.set_parents`.
+                    # This hack ensures that just copying an
+                    #   individual does not accidentally expunge
+                    #   its ancestors.
+                    # Still, some caution is warranted.
+                    custom_copy_result.parents = self.parents
+
                 return custom_copy_result
             return wrapper
 
@@ -85,6 +98,8 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
         instance: Self = super().__new__(cls)
         instance._fitness = None
         instance.parents = None
+        instance.can_copy_fitness = True
+        instance.can_copy_parents = True
         return instance
 
     @abstractmethod
@@ -96,6 +111,12 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
 
         #: Genotype of the individual.
         self.genome: R
+
+        #: If True, :meth:`.copy` copies :attr:`.fitness`. Default is True.
+        self.can_copy_fitness: bool
+
+        #: If True, :meth:`.copy` copies :attr:`.parents`. Default is True.
+        self.can_copy_parents: bool
 
     @property
     def fitness(self: Self) -> tuple[float, ...]:
@@ -155,18 +176,21 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
 
         Operations on in this individual should not affect the new individual.
         In addition to duplicating :attr:`.genome`, the implementation should
-        decide whether to retain other fields such as :attr:`.fitness`.
+        decide whether to retain other fields.
 
         .. note::
             Ensure that changes made to the returned value do not affect
             the original value.
 
-            The :attr:`.parents` attribute is copied on automatically.
+            Two fields :attr:`.fitness` and :attr:`.parents` are
+            copied automatically. To override this behaviour,
+            change :attr:`.should_copy_fitness`
+            and :attr:`.should_copy_parents`.
         """
 
-    def set_parent(self: Self,
-                   parent: tuple[Self, ...],
-                   max_parents: int):
+    def set_parents(self: Self,
+                    parents: tuple[Self, ...],
+                    max_parents: int):
         """Register :arg:`parent` as the parent to :arg:`self`.
 
         Also unlink the :arg:`max_parents`\\ :sup:`th`
@@ -183,7 +207,7 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
         #   maintaining a deque of parents.
         # This is a horrible idea. Making a deque for each
         #   individual is incredibly costly.
-        self.parents = parent
+        self.parents = parents
 
         _disinherit_me: tuple[Self, ...] = (self,)
         for _ in range(max_parents):
