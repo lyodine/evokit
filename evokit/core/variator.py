@@ -139,6 +139,10 @@ class Variator(ABC, Generic[D]):
                              processes=processes,
                              share_self=share_self)
 
+        for group in nested_results:
+            for individual in group:
+                individual.reset_fitness()
+
         next_population = Population(list(sum(nested_results, ())))
 
         return next_population
