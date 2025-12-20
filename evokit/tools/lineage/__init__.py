@@ -27,7 +27,7 @@ class VarySignature(Protocol, Generic[D]):
 
 
 def TrackParents(var: Variator[D],
-                 max_parents: int = 0) -> Variator[D]:
+                 max_parents: int = 5) -> Variator[D]:
     """Decorator that lets a variator track the lineage
     of an offspring.
 
