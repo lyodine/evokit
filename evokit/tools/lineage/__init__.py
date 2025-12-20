@@ -59,7 +59,7 @@ def TrackParents(var: Variator[D],
                 custom_vary(me, parents, *args, **kwargs)
 
             for res in results:
-                res.set_parent(tuple(parents), max_parents)
+                res.set_parents(tuple(parents), max_parents)
 
             return results
         return wrapper
