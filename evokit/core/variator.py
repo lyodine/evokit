@@ -125,13 +125,8 @@ class Variator(ABC, Generic[D]):
             warning("Something is wrong. Population has fewer"
                     " individuals than what is necessary to procreate.")
 
-        for group in parent_groups:
-            for individual in group:
-                individual.reset_fitness()
-
         processes = self.processes
         share_self = self.share_self
-
         nested_results: Sequence[tuple[D, ...]] =\
             parallelise_task(fn=self.vary.__func__,  # type: ignore
                              self=self,
