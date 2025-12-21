@@ -28,15 +28,15 @@ Please see [documentation](https://yidingli.com/projects/evokit/docs/install-and
 
 The library have the following modules:
 
-| Component                                      | Description                                              |
-| ---------------------------------------------- | -------------------------------------------------------- |
-| [core](./evokit/core/)                         | Interfaces for custom evolutionary operators             |
-| [core.accelerator](./evokit/core/accelerator/) | Performance-boosting utilities; parallelisation          |
-| [accounting](./evokit/accounting/)             | Monitor and report algorithms at runtime                 |
-| [core.accelerator](./evokit/evolvables/)       | Custom evolutionary operators, including representations |
-| [tools.diversity](./evokit/tools/diversity/)   | Diversity maintenance                                    |
-| [core.lineage](./evokit/tools/lineage/)        | Lineage tracing                                          |
-
+| Component                                                    | Description                                              |
+| ------------------------------------------------------------ | -------------------------------------------------------- |
+| [core](./evokit/core/)                                       | Interfaces for custom evolutionary operators             |
+| [core.accelerator](./evokit/core/accelerator/)               | Performance-boosting utilities; parallelisation          |
+| [accounting](./evokit/accounting/)                           | Monitor and report algorithms at runtime                 |
+| [core.accelerator](./evokit/evolvables/)                     | Custom evolutionary operators, including representations |
+| [tools.diversity](./evokit/tools/diversity/)                 | Diversity maintenance                                    |
+| [core.lineage](./evokit/tools/lineage/)                      | Lineage tracing                                          |
+| `save`, `load` in [core.population](./evokit/core/population.py) | Saving and loading individuals and populations           |
 
 
 
