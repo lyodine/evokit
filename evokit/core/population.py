@@ -225,17 +225,24 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
         #   individual is incredibly costly.
         self.parents = parents
 
+        # Initialise `_disinherit_me` to self. Then,
+        #   for `max_parents` times, trace up the parent tree.
         _disinherit_me: tuple[Self, ...] = (self,)
         for _ in range(max_parents):
             # A monster of a comprehension.
+            # For each individual in _disinherit_me,
+            #   take its parents. Comprehend everything
+            #   into a tuple.
             _disinherit_me = tuple(
                 (x for _pelops in _disinherit_me
                  if _pelops.parents is not None
                  for x in _pelops.parents))
 
-        if _disinherit_me is not None:
-            for _iphigenia in _disinherit_me:
-                _iphigenia.parents = None
+        for _iphigenia in _disinherit_me:
+            _iphigenia.expunge_parents()
+
+    def expunge_parents(self: Self) -> None:
+        self.parents = None
 
 
 D = TypeVar("D", bound=Individual[Any])
