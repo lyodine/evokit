@@ -18,6 +18,8 @@ from typing import Any
 from collections import UserList as UserList
 from typing import Sequence, Iterable
 
+from logging import warning
+
 R = TypeVar('R')
 
 
@@ -98,6 +100,7 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
         instance: Self = super().__new__(cls)
         instance._fitness = None
         instance.parents = None
+        instance._uid = None
         instance.can_copy_fitness = True
         instance.can_copy_parents = True
         return instance
@@ -114,6 +117,9 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
 
         #: Genotype of the individual.
         self.genome: R
+
+        #: Unique identifier, `id` of this individual at initialisation.
+        self._uid: Optional[int]
 
         #: If True, :meth:`.copy` copies :attr:`.fitness`. Default is True.
         self.can_copy_fitness: bool
@@ -202,6 +208,7 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
         Good for keeping lineage intact for older individuals.
         """
         result: Self = self.copy()
+        result.uid = self.uid
         if result.parents is not None:
             result.parents = tuple(parent.archive()
                                    for parent in result.parents)
@@ -247,6 +254,25 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
     def expunge_parents(self: Self) -> None:
         self.parents = None
 
+    @property
+    def uid(self: Self) -> int:
+        """Unique identifier of this individual. Useful
+        for tracking identity when one is copied or
+        moves out of memory.
+        """
+        if self._uid is not None:
+            return self._uid
+        else:
+            return id(self)
+
+    @uid.setter
+    def uid(self: Self, new_id: int) -> None:
+        if self._uid is not None\
+                and self._uid != new_id:
+            warning("Individual has a different uid."
+                    " Resetting it now.")
+        self._uid = new_id
+
 
 D = TypeVar("D", bound=Individual[Any])
 
@@ -278,6 +304,9 @@ class Population(UserList[D], Generic[D]):
     def archive(self) -> Self:
         """Returns a population wherein each individual
         is obtained by calling :meth:`.Individual.archive`.
+
+        Also preserves the :attr:`.Individual.uid`, so that
+        the individual's identity remains.
 
         Warning:
             With a population of size :math:`N`, assuming that

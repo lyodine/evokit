@@ -95,7 +95,7 @@ def register_parents[D](source_target_links: dict[str, tuple[str, set[str]]],
 
 def graph_lineage(individuals: Sequence[Individual],
                   identifier: Callable[[Individual],
-                                       str] = lambda x: str(id(x)))\
+                                       str] = lambda x: str(x.uid))\
         -> graphviz.Digraph:
     """Graph the lineage of an individual. This information
     can be accessed as :attr:`.Individual.parents`.
