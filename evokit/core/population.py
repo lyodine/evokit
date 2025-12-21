@@ -106,6 +106,9 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
     def __init__(self: Self,) -> None:
         self._fitness: Optional[tuple[float, ...]]
 
+        # Allowing parents to be None (instead of an
+        #   empty tuple) removes a lot of tuples floating
+        #   around in memory.
         #: Parents of the individual, registered with :meth:`inherit`.
         self.parents: Optional[tuple[Self, ...]]
 
