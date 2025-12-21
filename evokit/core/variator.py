@@ -122,8 +122,11 @@ class Variator(ABC, Generic[D]):
             self._group_to_parents(population)
 
         if len(parent_groups) == 0:
-            warning("Something is wrong. Population has fewer"
-                    " individuals than what is necessary to procreate.")
+            warning(f"Cannot procreate. Population has"
+                    f" {len(population)} individuals,"
+                    f" grouped into {len(parent_groups)}"
+                    f" sets of parents (each has size {self.arity})."
+                    f" Too few to procreate.")
 
         processes = self.processes
         share_self = self.share_self
