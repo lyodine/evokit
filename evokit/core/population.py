@@ -188,6 +188,22 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
             and :attr:`.should_copy_parents`.
         """
 
+    def archive(self: Self) -> Self:
+        """Return an identical copy of the individual. Same as
+        :meth:`.copy`, except that this method also copies all
+        :attr:`parent`\\ s, direct or indirect.
+
+        Cost-wise, this method calls :meth:`.copy` once for
+        everything found in this individual's lineage tree.
+
+        Good for keeping lineage intact for older individuals.
+        """
+        result: Self = self.copy()
+        if result.parents is not None:
+            result.parents = tuple(parent.archive()
+                                   for parent in result.parents)
+        return result
+
     def set_parents(self: Self,
                     parents: tuple[Self, ...],
                     max_parents: int):
@@ -248,6 +264,20 @@ class Population(UserList[D], Generic[D]):
         these values.
         """
         return self.__class__([x.copy() for x in self])
+
+    def archive(self) -> Self:
+        """Returns a population wherein each individual
+        is obtained by calling :meth:`.Individual.archive`.
+
+        Warning:
+            With a population of size :math:`N`, assuming that
+            the variator tracks :math:`P` generations of parents
+            and each individual is produced from :math:`F` parents,
+            calling this method will call :meth:`.Individual.copy`
+            a total of :meth:`N\\times P \\times F` times.
+            Be very careful.
+        """
+        return type(self)([x.archive() for x in self])
 
     def reset_fitness(self: Self) -> None:
         """Remove fitness values of all Individuals in the population.
