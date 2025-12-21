@@ -19,6 +19,12 @@ from collections import UserList as UserList
 from typing import Sequence, Iterable
 
 from logging import warning
+from .._utils.addons import ensure_installed, is_installed
+from pathlib import Path
+# Let's ifndef! Or something.
+if is_installed("dill"):
+    import dill
+
 
 R = TypeVar('R')
 
@@ -350,6 +356,32 @@ class Population(UserList[D], Generic[D]):
         return "[" + ", ".join(str(item) for item in self) + "]"
 
     __repr__ = __str__
+
+
+def save(popi: Population | Individual,
+         file_path: str | Path) -> None:
+    """Produce an :meth:`.Individual.archive` of :arg:`popi`,
+    pickle it with :module:`dill`, then dump the result to
+    :arg:`file_path`.
+
+    Preserves, among other things, :attr:`.Individual.uid`.
+
+    Effect:
+        The file :arg:`file` is created or overwritten.
+    """
+    ensure_installed("dill")
+    with open(file_path, mode='wb') as file:
+        dill.dump(popi.archive(), file)  # type: ignore
+
+
+def load(file_path: str | Path) -> Individual | Population:
+    """Load either an individual or a population
+    from :arg:`file_path`. Return the result.
+    """
+    ensure_installed("dill")
+
+    with open(file_path, mode='rb') as file:
+        return dill.load(file)  # type: ignore
 
     # @override
     # def __add__(self: Self, other: Iterable[D]) -> Population[D]:
