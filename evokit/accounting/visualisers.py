@@ -1,4 +1,4 @@
-from .accountant import AccountantRecord
+from .watcher import WatcherRecord
 from typing import Sequence
 # Hello Any my old friend.
 # Pyright made me talk with you again.
@@ -12,18 +12,18 @@ from .._utils.addons import ensure_installed
 ensure_installed("numpy")
 
 
-def plot(records: Sequence[AccountantRecord[tuple[float, ...]]],
+def plot(records: Sequence[WatcherRecord[tuple[float, ...]]],
          track_generation: bool = False,
          use_line: bool = False,
          *args: Any,
          **kwargs: Any):
-    """Plot a sequence of :class:`AccountantRecord`s. Plot
-    :attr:`AccountantRecord.value` against :attr:`AccountantRecord.time`.
+    """Plot a sequence of :class:`WatcherRecord`s. Plot
+    :attr:`WatcherRecord.value` against :attr:`WatcherRecord.time`.
     Also set the X axis label.
 
     Args:
         records: Sequence of records. Each
-            :attr:`AccountantRecord.value` must only hold either
+            :attr:`WatcherRecord.value` must only hold either
             :class:`float` or a 1-tuple of type `tuple[float]`.
 
         track_generation: If ``True``, then also plot values collected

@@ -22,8 +22,8 @@ T = TypeVar("T", covariant=True)
 
 
 @dataclass(frozen=True)
-class AccountantRecord(Generic[T]):
-    """A record collected by an :class:`Accountant` from an :class:`Algorithm`.
+class WatcherRecord(Generic[T]):
+    """A record collected by an :class:`Watcher` from an :class:`Algorithm`.
     Also records the generation count and time of collection.
     """
     # TODO Sphinx somehow collects `__new__`, which should not be documented.
@@ -43,24 +43,24 @@ class AccountantRecord(Generic[T]):
     time: float = field(default_factory=time.perf_counter)
 
 
-class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
-    """Monitor and collect data from a running :class:`Algorithm`.
+class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
+    """Observes and collect data from a running :class:`Algorithm`.
 
-    The :class:`Accountant` should be registered to an
+    The :class:`Watcher` should be registered to an
     :class:`Algorithm`. Then, when an event fires in the algorithm,
     if that event is in :attr:`events`, then :attr:`handler` will
     be called with that algorithm as argument.
-    Results are collected as a sequence of :class:`AccountantRecord`.
+    Results are collected as a sequence of :class:`WatcherRecord`.
 
-    Call :meth:`.Algorithm.register` to register an :class:`Accountant` to
+    Call :meth:`.Algorithm.register` to register an :class:`Watcher` to
     a :class:`Algorithm`. Call :meth:`report` to retrieve collected records.
 
-    For type checking purposes, the :class:`Accountant` has two
+    For type checking purposes, the :class:`Watcher` has two
     type parameter ``C`` and ``T``. ``C`` is the type of the observed
     :class:`Algorithm`; ``T`` is the type of `.value` in the reported
-    :class:`AccountantRecord`.
+    :class:`WatcherRecord`.
 
-    Tutorial: :doc:`../guides/examples/accountant`.
+    Tutorial: :doc:`../guides/examples/watcher`.
     """
     def __init__(self: Self,
                  events: Container[str],
@@ -75,8 +75,8 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
             watch_automatic_events: If ``True``, also call
                 :attr:`handler` on :attr:`Algorithm.automatic_events`.
         """
-        #: Records collected by the :class:`Accountant`.
-        self._records: list[AccountantRecord[T]] = []
+        #: Records collected by the :class:`Watcher`.
+        self._records: list[WatcherRecord[T]] = []
 
         self.events: Container[str] = events
 
@@ -95,8 +95,8 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
         Subscribe for events in a :class:`.Algorithm`.
 
         Args:
-            subject: the :class:`.Algorithm` whose events are monitored by
-                this accountant.
+            subject: the :class:`.Algorithm` whose events are seen by
+                this watcher.
         """
         self._subject = subject
 
@@ -106,7 +106,7 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
         :meta private:
 
         When the attached :class:`.Algorithm` calls :meth:`.Algorithm.update`,
-        the latter calls this method on every accountant registered to the
+        the latter calls this method on every watcher registered to the
         algorithm.
 
         When an event matches a key in :attr:`handlers`, call the corresponding
@@ -117,18 +117,18 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
             RuntimeError: If no :class:`Algorithm` is attached.
         """
         if self._subject is None:
-            raise RuntimeError("Accountant updated without a subject.")
+            raise RuntimeError("Watcher updated without a subject.")
         else:
             if event in self.events\
                     or (self.watch_automatic_events
                         and (event in self._subject.automatic_events)):
                 self._records.append(
-                    AccountantRecord(event,
-                                     self._subject.generation,
-                                     self.handler(self._subject)))
+                    WatcherRecord(event,
+                                  self._subject.generation,
+                                  self.handler(self._subject)))
 
     def report(self: Self,
-               scope: Optional[str | int] = None) -> list[AccountantRecord[T]]:
+               scope: Optional[str | int] = None) -> list[WatcherRecord[T]]:
         """Report collected records.
 
         Args:
@@ -147,11 +147,11 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
         Each time an event fires in the attached :class:`.Algorithm`,
         if that event is registered in :attr:`handlers`, supply the
         :class:`.Algorithm` to the handler as argument then collect
-        the result in an :class:`.AccountantRecord`. This method
+        the result in an :class:`.WatcherRecord`. This method
         returns a list of all collected records.
         """
         if not self.is_registered():
-            raise ValueError("Accountant is not attached to an algorithm;"
+            raise ValueError("Watcher is not attached to an algorithm;"
                              " cannot publish.")
         if isinstance(scope, int):
             return [r for r in self._records
@@ -163,7 +163,7 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
             return self._records
 
     def is_registered(self: Self) -> bool:
-        """Return if this accountant is attached to an :class:`.Algorithm`.
+        """Return if this watcher is attached to an :class:`.Algorithm`.
         """
         return self._subject is not None
 
@@ -181,16 +181,16 @@ class Accountant(Generic[C, T], Sequence[AccountantRecord[T]]):
 
     @overload
     def __getitem__(self: Self,
-                    index: int) -> AccountantRecord[T]:
+                    index: int) -> WatcherRecord[T]:
         pass
 
     @overload
     def __getitem__(self: Self,
-                    index: slice) -> Sequence[AccountantRecord[T]]:
+                    index: slice) -> Sequence[WatcherRecord[T]]:
         pass
 
     @override
     def __getitem__(self: Self,
                     index: int | slice)\
-            -> AccountantRecord[T] | Sequence[AccountantRecord[T]]:
+            -> WatcherRecord[T] | Sequence[WatcherRecord[T]]:
         return self._records[index]

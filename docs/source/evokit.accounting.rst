@@ -4,22 +4,22 @@ evokit.accounting package
 Submodules
 ----------
 
-evokit.accounting.accountant module
+evokit.accounting.watcher module
 -----------------------------------
-.. inheritance-diagram:: evokit.accounting.accountant
+.. inheritance-diagram:: evokit.accounting.watcher
    :parts: 1
 
-.. automodule:: evokit.accounting.accountant
+.. automodule:: evokit.accounting.watcher
    :members:
    :undoc-members:
    :show-inheritance:
 
-evokit.accounting.accountants module
+evokit.accounting.watchers module
 ------------------------------------
-.. inheritance-diagram:: evokit.accounting.accountants
+.. inheritance-diagram:: evokit.accounting.watchers
    :parts: 1
 
-.. automodule:: evokit.accounting.accountants
+.. automodule:: evokit.accounting.watchers
    :members:
    :undoc-members:
    :show-inheritance:

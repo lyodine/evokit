@@ -1,4 +1,4 @@
-from .accountant import Accountant  # type: ignore
-from .accountant import AccountantRecord  # type: ignore
+from .watcher import Watcher  # type: ignore
+from .watcher import WatcherRecord  # type: ignore
 
-__all__ = ["Accountant", "AccountantRecord"]
+__all__ = ["Watcher", "WatcherRecord"]

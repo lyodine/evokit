@@ -37,14 +37,14 @@ Advanced Tutorials
 
 * :strike:`Modify the behaviour of existing operators (WIP)`: :doc:`examples/interceptor`
 
-* Collect runtime statistics with :class:`.Accountant`: :doc:`examples/accountant`.
+* Collect runtime statistics with :class:`.Watcher`: :doc:`examples/watcher`.
 
 .. toctree::
    :maxdepth: 2
    :caption: What:
    :hidden:
 
-   examples/accountant.ipynb
+   examples/watcher.ipynb
    examples/algorithm.ipynb
    examples/gp.ipynb
    examples/lgp.ipynb

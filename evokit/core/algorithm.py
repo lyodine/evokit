@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from typing import Any
     from typing import Type
     from typing import Callable
-    from ..accounting import Accountant
+    from ..accounting import Watcher
 
 
 class _MetaAlgorithm(ABCMeta):
@@ -72,7 +72,7 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
         #   It is therefore necessary to repeat them in :meth:`__init__`.
         instance = super().__new__(cls)
         instance.generation = 0
-        instance.accountants = []
+        instance.watchers = []
         return instance
 
     @abstractmethod
@@ -87,8 +87,8 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
 
         #! Number of elapsed generations.
         self.generation: int
-        #! Registered :class:`Accountant` objects.
-        self.accountants: list[Accountant[Any, Any]]
+        #! Registered :class:`Watcher` objects.
+        self.watchers: list[Watcher[Any, Any]]
 
     #! Events that can be reported by this algorithm.
     events: list[str] = []
@@ -103,7 +103,7 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
         Subclasses should override this method. Use operators to update
         the population (or populations). Call :meth:`update` to fire
         events for data collection mechanisms such as
-        :class:`accountant.Accountant`.
+        :class:`watcher.Watcher`.
 
         .. note::
             The :attr:`generation` attribute increments by 1 _after_
@@ -113,7 +113,7 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
             Calling :meth:`step` automatically fires two events via
             :meth:`.update`: "STEP_BEGIN" before and "STEP_END" after.
             This behaviour cannot be suppressed. For more on events,
-            see :class:`accountant.Accountant`. Be advised that
+            see :class:`watcher.Watcher`. Be advised that
             these automatic events are fired just like any other event --
             nothing prevents you from firing them inside :meth:`step`.
             The :attr:`automatic_events` class attribute reports these
@@ -121,18 +121,18 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
         """
         pass
 
-    def register(self: Self, accountant: Accountant[Any, Any]) -> None:
-        """Attach an :class:`Accountant` to this algorithm.
+    def register(self: Self, watcher: Watcher[Any, Any]) -> None:
+        """Attach an :class:`Watcher` to this algorithm.
 
         Args:
-            accountant: The accountant to attach.
+            watcher: The watcher to attach.
         """
-        if accountant not in self.accountants:
-            self.accountants.append(accountant)
-            accountant.subscribe(self)
+        if watcher not in self.watchers:
+            self.watchers.append(watcher)
+            watcher.subscribe(self)
 
     def update(self: Self, event: str) -> None:
-        """Report an event to all attached :class:`Accountant` objects.
+        """Report an event to all attached :class:`Watcher` objects.
 
         If the event is not in :attr:`events`, raise an exception.
 
@@ -149,5 +149,5 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
             raise ValueError(f"Algorithm fires unregistered event {event}."
                              f"Add {event} to the algorithm's list of"
                              "`.events`.")
-        for acc in self.accountants:
+        for acc in self.watchers:
             acc.update(event)

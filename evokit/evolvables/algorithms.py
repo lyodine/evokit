@@ -1,4 +1,4 @@
-from ..core import Accountant
+from ..core import Watcher
 from ..core import Evaluator
 from ..core import Variator
 from ..core import Selector
@@ -54,7 +54,7 @@ class SimpleLinearAlgorithm(HomogeneousAlgorithm[T]):
         self.evaluator = evaluator
         self.selector = selector
         self.variator = variator
-        self.accountants: list[Accountant[SimpleLinearAlgorithm[T], Any]] = []
+        self.watchers: list[Watcher[SimpleLinearAlgorithm[T], Any]] = []
         # Each event name informs what action has taken place.
         #   This should be easier to understand, compared to "PRE_...".
 
@@ -114,7 +114,7 @@ class LinearAlgorithm(HomogeneousAlgorithm[T]):
         self.variator = variator
         self.survivor_evaluator = survivor_evaluator
         self.survivor_selector = survivor_selector
-        self.accountants: list[Accountant[LinearAlgorithm[T], Any]] = []
+        self.watchers: list[Watcher[LinearAlgorithm[T], Any]] = []
         # Each event name informs what action has taken place.
         #   This should be easier to understand, compared to "PRE_...".
 
@@ -129,7 +129,7 @@ class LinearAlgorithm(HomogeneousAlgorithm[T]):
         self.parent_evaluator.evaluate_population(self.population)
         self.update("POST_PARENT_EVALUATION")
         # Update the population after each event. This ensures that
-        #   the :class:`Accountant` always has access to the most
+        #   the :class:`Watcher` always has access to the most
         #   up-to-date information.
         self.population = \
             self.parent_selector.select_population(self.population)
@@ -180,8 +180,8 @@ class CanonicalGeneticAlgorithm(HomogeneousAlgorithm[T]):
         self.selector = selector
         self.variator1 = variator1
         self.variator2 = variator2
-        self.accountants: list[
-            Accountant[CanonicalGeneticAlgorithm[T], Any]] = []
+        self.watchers: list[
+            Watcher[CanonicalGeneticAlgorithm[T], Any]] = []
 
     events = ["POST_VARIATION_1", "POST_VARIATION_2",
               "POST_EVALUATION", "POST_SELECTION"]

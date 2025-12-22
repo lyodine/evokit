@@ -160,3 +160,36 @@ def Elitist(sel: Selector[D]) -> Selector[D]:
                 wrap_function(sel.select_population.__func__),  # type:ignore
                 sel))
     return sel
+
+
+# class SimulatedAnnealingSelector(Selector[D]):
+#     """Select an individual by simulated annealing.
+
+#     Simulated annealing might
+
+#     .. math::
+
+#         sss
+
+#     #. Iterate through the population, keeping track of one
+#        "best" individual. Mark the first individual encountered
+#        as best; then for each individual:
+
+#        #. If that individual has higher fitness than the current
+#           best, mark that individual as best.
+
+#        #. Otherwise, mark that individual as best with probability
+
+
+#     """
+#     def __init__(self: Self, budget: int, p: float = 1):
+#         super().__init__(budget)
+#         self.p: float = min(2, max(p, 0))
+
+#     @override
+#     def select(self, from_pool: Sequence[D], t: float) -> tuple[D]:
+#         """Tournament selection.
+
+#         Select a uniform sample, then select the best member in that sample.
+#         """
+#         pass
