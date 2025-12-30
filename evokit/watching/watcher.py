@@ -131,7 +131,7 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
                     or (self.watch_automatic_events
                         and (event in self._subject.automatic_events)):
                 self._passed_since_last_update += 1
-                if self._passed_since_last_update <= self.stride:
+                if self._passed_since_last_update >= self.stride:
                     self._records.append(
                         WatcherRecord(event,
                                       self._subject.generation,
