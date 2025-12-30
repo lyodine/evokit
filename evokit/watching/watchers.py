@@ -9,9 +9,9 @@ N = TypeVar("N", bound=float)
 
 
 def fitness_watcher(events: list[str],
-                       watch_automatic_events: bool = False)\
+                    watch_automatic_events: bool = False)\
         -> Watcher[HomogeneousAlgorithm[Individual[Any]],
-                      tuple[float, ...]]:
+                   tuple[float, ...]]:
     """Return an :class:`Watcher` that collects the
     :attr:`.Individual.fitness` of the best individual in the
     population in the algorithm.
@@ -34,7 +34,7 @@ def fitness_watcher(events: list[str],
 
 
 def size_watcher(events: list[str],
-                    watch_automatic_events: bool = False)\
+                 watch_automatic_events: bool = False)\
         -> Watcher[HomogeneousAlgorithm[Any], int]:
     """Return an :class:`Watcher` that collects the
     length of the population in the algorithm.
