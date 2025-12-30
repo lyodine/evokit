@@ -7,7 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   evokit.accounting
+   evokit.watching
    evokit.core
    evokit.diversity
    evokit.evolvables

@@ -1,35 +1,35 @@
-evokit.accounting package
+evokit.watching package
 =========================
 
 Submodules
 ----------
 
-evokit.accounting.watcher module
+evokit.watching.watcher module
 -----------------------------------
-.. inheritance-diagram:: evokit.accounting.watcher
+.. inheritance-diagram:: evokit.watching.watcher
    :parts: 1
 
-.. automodule:: evokit.accounting.watcher
+.. automodule:: evokit.watching.watcher
    :members:
    :undoc-members:
    :show-inheritance:
 
-evokit.accounting.watchers module
+evokit.watching.watchers module
 ------------------------------------
-.. inheritance-diagram:: evokit.accounting.watchers
+.. inheritance-diagram:: evokit.watching.watchers
    :parts: 1
 
-.. automodule:: evokit.accounting.watchers
+.. automodule:: evokit.watching.watchers
    :members:
    :undoc-members:
    :show-inheritance:
 
-evokit.accounting.visualisers module
+evokit.watching.visualisers module
 ------------------------------------
-.. inheritance-diagram:: evokit.accounting.visualisers
+.. inheritance-diagram:: evokit.watching.visualisers
    :parts: 1
 
-.. automodule:: evokit.accounting.visualisers
+.. automodule:: evokit.watching.visualisers
    :members:
    :undoc-members:
    :show-inheritance:
@@ -37,7 +37,7 @@ evokit.accounting.visualisers module
 Module contents
 ---------------
 
-.. automodule:: evokit.accounting
+.. automodule:: evokit.watching
    :members:
    :undoc-members:
    :show-inheritance:

@@ -1,4 +1,4 @@
-pytest --nbmake ./docs/source/guides/examples/accountant.ipynb
+pytest --nbmake ./docs/source/guides/examples/watcher.ipynb
 
 pytest --nbmake ./docs/source/guides/examples/algorithm.ipynb
 
