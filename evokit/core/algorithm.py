@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from typing import Any
     from typing import Type
     from typing import Callable
-    from ..accounting import Watcher
+    from ..watching import Watcher
 
 
 class _MetaAlgorithm(ABCMeta):
