@@ -65,12 +65,16 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
     def __init__(self: Self,
                  events: Container[str],
                  handler: Callable[[C], T],
+                 stride: int = 1,
                  watch_automatic_events: bool = False):
         """
         Args:
             events: Events that trigger the :arg:`handler`.
 
             handler: Callable that takes the attached algorithm as input.
+
+            stride: Collection interval. Only :arg:`stride` :sup:`th`
+                event triggers :attr:`handler`.
 
             watch_automatic_events: If ``True``, also call
                 :attr:`handler` on :attr:`Algorithm.automatic_events`.
@@ -86,6 +90,10 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
         self._subject: Optional[C] = None
 
         self.watch_automatic_events = watch_automatic_events
+
+        self._passed_since_last_update = 0
+
+        self.stride = stride
 
     def subscribe(self: Self, subject: C) -> None:
         """Machinery.
@@ -122,10 +130,13 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
             if event in self.events\
                     or (self.watch_automatic_events
                         and (event in self._subject.automatic_events)):
-                self._records.append(
-                    WatcherRecord(event,
-                                  self._subject.generation,
-                                  self.handler(self._subject)))
+                self._passed_since_last_update += 1
+                if self._passed_since_last_update <= self.stride:
+                    self._records.append(
+                        WatcherRecord(event,
+                                      self._subject.generation,
+                                      self.handler(self._subject)))
+                    self._passed_since_last_update = 0
 
     def report(self: Self,
                scope: Optional[str | int] = None) -> list[WatcherRecord[T]]:
