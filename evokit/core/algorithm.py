@@ -24,8 +24,9 @@ class _MetaAlgorithm(ABCMeta):
 
         * After step is called, :attr:`Algorithm.generation`
           increments by ``1``.
-        * Fire event "STEP_BEGIN" before calling :meth:`Algorithm.step`,
-          fire event "STEP_END" after calling :meth:`Algorithm.step`.
+        * Fire event "STEP_BEGIN" only once, at the beginning.
+          After that, fire "STEP_END" after each call to
+          :meth:`Algorithm.step`.
     """
     def __new__(mcls: Type[Any], name: str, bases: tuple[type],
                 namespace: dict[str, Any]) -> Any:
@@ -39,8 +40,9 @@ class _MetaAlgorithm(ABCMeta):
             # Return type is None, because `wrapper` returns
             #   the output of the wrapped function: :meth:`step` returns None.
             def wrapper(*args: Any, **kwargs: Any) -> None:
-                self = args[0]
-                self.update("STEP_BEGIN")
+                self: Algorithm = args[0]
+                if self.generation < 1:
+                    self.update("STEP_BEGIN")
                 custom_step(*args, **kwargs)
                 self.update("STEP_END")
                 self.generation += 1
@@ -110,8 +112,9 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
             :meth:`step` is called. Do not manually increment
             :attr:`generation`. This property is automatically managed.
 
-            Calling :meth:`step` automatically fires two events via
-            :meth:`.update`: "STEP_BEGIN" before and "STEP_END" after.
+            Calling :meth:`step` automatically fires two events:
+            :meth:`.update`: "STEP_BEGIN" before the first call
+            and "STEP_END" after each call.
             This behaviour cannot be suppressed. For more on events,
             see :class:`watcher.Watcher`. Be advised that
             these automatic events are fired just like any other event --
