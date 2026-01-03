@@ -47,10 +47,11 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
     """Observes and collect data from a running :class:`Algorithm`.
 
     The :class:`Watcher` should be registered to an
-    :class:`Algorithm`. Then, when an event fires in the algorithm,
-    if that event is in :attr:`events`, then :attr:`handler` will
-    be called with that algorithm as argument.
-    Results are collected as a sequence of :class:`WatcherRecord`.
+    :class:`Algorithm`, which then becomes the watcher's
+    :attr:`subject`. When an event fires in the subject,
+    if that event is in the watcher's :attr:`events`,
+    then the :attr:`handler` will be called with the subject as argument.
+    Results are collected as a sequence of :class:`WatcherRecord`\\ s.
 
     Call :meth:`.Algorithm.register` to register an :class:`Watcher` to
     a :class:`Algorithm`. Call :meth:`report` to retrieve collected records.
@@ -87,7 +88,7 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
         self.handler: Callable[[C], T] = handler
 
         #: The attached :class:`Algorithm`.
-        self._subject: Optional[C] = None
+        self.subject: Optional[C] = None
 
         self.watch_automatic_events = watch_automatic_events
 
@@ -106,36 +107,35 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
             subject: the :class:`.Algorithm` whose events are seen by
                 this watcher.
         """
-        self._subject = subject
+        self.subject = subject
 
     def update(self: Self, event: str) -> None:
         """Machinery.
 
         :meta private:
 
-        When the attached :class:`.Algorithm` calls :meth:`.Algorithm.update`,
-        the latter calls this method on every watcher registered to the
-        algorithm.
+        When the :attr:`subject` calls :meth:`.Algorithm.update`,
+        the subject calls this method on every watcher registered to it.
 
-        When an event matches a key in :attr:`handlers`, call the corresponding
-        value with the attached Algorithm as argument. Store the result in
-        :attr:`records`.
+        When an event matches a key in :attr:`handlers`, call the
+        corresponding value with the subject as argument. Store the
+        result in :attr:`records`.
 
         Raise:
             RuntimeError: If no :class:`Algorithm` is attached.
         """
-        if self._subject is None:
+        if self.subject is None:
             raise RuntimeError("Watcher updated without a subject.")
         else:
             if event in self.events\
                     or (self.watch_automatic_events
-                        and (event in self._subject.automatic_events)):
+                        and (event in self.subject.automatic_events)):
                 self._passed_since_last_update += 1
                 if self._passed_since_last_update >= self.stride:
                     self._records.append(
                         WatcherRecord(event,
-                                      self._subject.generation,
-                                      self.handler(self._subject)))
+                                      self.subject.generation,
+                                      self.handler(self.subject)))
                     self._passed_since_last_update = 0
 
     def report(self: Self,
@@ -162,7 +162,7 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
         returns a list of all collected records.
         """
         if not self.is_registered():
-            raise ValueError("Watcher is not attached to an algorithm;"
+            raise ValueError("Watcher is not observing an algorithm;"
                              " cannot publish.")
         if isinstance(scope, int):
             return [r for r in self._records
@@ -174,9 +174,9 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
             return self._records
 
     def is_registered(self: Self) -> bool:
-        """Return if this watcher is attached to an :class:`.Algorithm`.
+        """Return if this watcher is observing an :class:`.Algorithm`.
         """
-        return self._subject is not None
+        return self.subject is not None
 
     def purge(self: Self) -> None:
         """Remove all collected records.
