@@ -69,6 +69,8 @@ def plot(records: Sequence[WatcherRecord[tuple[float, ...]]],
         gen_values = tuple(r.value[0] for r in gen_records)
         plt.scatter(gen_times,  # type: ignore[reportUnknownMemberType]
                     gen_values, s=90, color=last_color,
-                    marker="*")  # type: ignore[reportArgumentType]
+                    marker=".",  # type: ignore[reportArgumentType]
+                    label="Generation Barrier")
 
+    plt.legend()
     plt.xlabel("Time (sec)")  # type: ignore[reportUnknownMemberType]
