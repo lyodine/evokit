@@ -47,29 +47,35 @@ def plot(records: Sequence[WatcherRecord[tuple[float, ...]]],
     records = sorted(records, key=lambda x: x.time)
     start_time: float = records[0].time
 
-    valid_records = [r for r in records if r.value[0] != float('nan')]
+    valid_records = [r for r in records
+                     if (not any(x != x for x in r.value))]
 
     valid_times = tuple(r.time - start_time for r in valid_records)
     valid_values = tuple(r.value[0] for r in valid_records)
 
-    last_plot: Any = None  # type: ignore
-
     if use_line:
-        last_plot = plt.plot(  # type: ignore[reportUnknownMemberType]
+        plt.plot(  # type: ignore[reportUnknownMemberType]
             valid_times, valid_values, *args, **kwargs)
     else:
-        last_plot = plt.scatter(  # type: ignore[reportUnknownMemberType]
+        plt.scatter(  # type: ignore[reportUnknownMemberType]
             valid_times, valid_values, *args, **kwargs)
 
     if track_generation:
-        last_color = last_plot[0].get_color()
         gen_records = [r for r in valid_records
                        if r.event == "STEP_BEGIN" or r.event == "STEP_END"]
         gen_times = tuple(r.time - start_time for r in gen_records)
-        gen_values = tuple(r.value[0] for r in gen_records)
-        plt.scatter(gen_times,  # type: ignore[reportUnknownMemberType]
-                    gen_values, s=90, color=last_color,
-                    marker=".",  # type: ignore[reportArgumentType]
+        print(min(valid_values))
+        print(max(valid_values))
+        plt.vlines(gen_times,
+                   ymin=min(valid_values),
+                   ymax=max(valid_values),
+                   colors="#696969",  # type: ignore[reportArgumentType]
+                   linestyles="dashed",
+                   linewidth=0.5)
+
+        plt.scatter([], [], s=80,
+                    color="#696969",
+                    marker="|",  # type: ignore[reportArgumentType]
                     label="Generation Barrier")
 
     plt.legend()
