@@ -15,6 +15,7 @@ ensure_installed("numpy")
 def plot(records: Sequence[WatcherRecord[tuple[float, ...]]],
          track_generation: bool = False,
          use_line: bool = False,
+         legend: bool = True,
          *args: Any,
          **kwargs: Any):
     """Plot a sequence of :class:`WatcherRecord`s. Plot
@@ -78,5 +79,6 @@ def plot(records: Sequence[WatcherRecord[tuple[float, ...]]],
                     marker="|",  # type: ignore[reportArgumentType]
                     label="Generation Barrier")
 
-    plt.legend()
+    if legend:
+        plt.legend()
     plt.xlabel("Time (sec)")  # type: ignore[reportUnknownMemberType]
