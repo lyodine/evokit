@@ -15,10 +15,10 @@ _TRACK_PARENTS_MAX_PARENTS_DEFAULT: int =\
      if para.name == "max_parents"][0]
 
 
-def make_algo(ind_size: int,
-              pop_size: int,
-              mutate_p: float,
-              max_parents=_TRACK_PARENTS_MAX_PARENTS_DEFAULT)\
+def make_onemax(ind_size: int,
+                pop_size: int,
+                mutate_p: float,
+                max_parents=_TRACK_PARENTS_MAX_PARENTS_DEFAULT)\
         -> SimpleLinearAlgorithm[BinaryString]:
     """Create a simple elitist onemax algorithm that tracks
     5 generations of parents.
