@@ -65,8 +65,6 @@ def plot(records: Sequence[WatcherRecord[tuple[float, ...]]],
         gen_records = [r for r in valid_records
                        if r.event == "POST_STEP"]
         gen_times = tuple(r.time - start_time for r in gen_records)
-        print(min(valid_values))
-        print(max(valid_values))
         plt.vlines(gen_times,
                    ymin=min(valid_values),
                    ymax=max(valid_values),
