@@ -28,7 +28,7 @@ def plot(records: Sequence[WatcherRecord[tuple[float, ...]]],
             :class:`float` or a 1-tuple of type `tuple[float]`.
 
         track_generation: If ``True``, then also plot values collected
-            at ``"STEP_BEGIN"`` and ``"STEP_END"`` as bigger (``s=50``),
+            at ``"STEP_BEGIN"`` and ``"POST_STEP"`` as bigger (``s=50``),
             special (``marker="*"``) markers. Otherwise,
             plot them as any other values.
 
@@ -63,7 +63,7 @@ def plot(records: Sequence[WatcherRecord[tuple[float, ...]]],
 
     if track_generation:
         gen_records = [r for r in valid_records
-                       if r.event == "STEP_BEGIN" or r.event == "STEP_END"]
+                       if r.event == "POST_STEP"]
         gen_times = tuple(r.time - start_time for r in gen_records)
         print(min(valid_values))
         print(max(valid_values))

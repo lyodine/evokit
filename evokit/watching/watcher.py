@@ -67,7 +67,8 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
                  events: Container[str],
                  handler: Callable[[C], T],
                  stride: int = 1,
-                 watch_automatic_events: bool = False):
+                 *,
+                 watch_post_step: bool = False):
         """
         Args:
             events: Events that trigger the :arg:`handler`.
@@ -77,8 +78,9 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
             stride: Collection interval. Only :arg:`stride` :sup:`th`
                 event triggers :attr:`handler`.
 
-            watch_automatic_events: If ``True``, also call
-                :attr:`handler` on :attr:`Algorithm.automatic_events`.
+            watch_post_step: If ``True``, also watch the ``POST_STEP``
+                event. This event fires automatically after
+                :meth:`Algorithm.step`.
         """
         #: Records collected by the :class:`Watcher`.
         self._records: list[WatcherRecord[T]] = []
@@ -90,7 +92,7 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
         #: The attached :class:`Algorithm`.
         self.subject: Optional[C] = None
 
-        self.watch_automatic_events = watch_automatic_events
+        self.watch_post_step = watch_post_step
 
         self._passed_since_last_update = 0
 
@@ -128,8 +130,8 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
             raise RuntimeError("Watcher updated without a subject.")
         else:
             if event in self.events\
-                    or (self.watch_automatic_events
-                        and (event in self.subject.automatic_events)):
+                    or (self.watch_post_step
+                        and (event == "POST_STEP")):
                 self._passed_since_last_update += 1
                 if self._passed_since_last_update >= self.stride:
                     self._records.append(

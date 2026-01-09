@@ -24,9 +24,7 @@ class _MetaAlgorithm(ABCMeta):
 
         * After step is called, :attr:`Algorithm.generation`
           increments by ``1``.
-        * Fire event "STEP_BEGIN" only once, at the beginning.
-          After that, fire "STEP_END" after each call to
-          :meth:`Algorithm.step`.
+        * Fire "POST_STEP" after each call to :meth:`Algorithm.step`.
     """
     def __new__(mcls: Type[Any], name: str, bases: tuple[type],
                 namespace: dict[str, Any]) -> Any:
@@ -41,10 +39,8 @@ class _MetaAlgorithm(ABCMeta):
             #   the output of the wrapped function: :meth:`step` returns None.
             def wrapper(*args: Any, **kwargs: Any) -> None:
                 self: Algorithm = args[0]
-                if self.generation < 1:
-                    self.update("STEP_BEGIN")
                 custom_step(*args, **kwargs)
-                self.update("STEP_END")
+                self.update("POST_STEP")
                 self.generation += 1
 
             return wrapper
@@ -96,7 +92,8 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
     events: list[str] = []
 
     #! Events that are automatically reported by this algorithm.
-    automatic_events: list[str] = ["STEP_BEGIN", "STEP_END"]
+    automatic_events: tuple[str, ...] = \
+        ("POST_STEP",)
 
     @abstractmethod
     def step(self: Self, *args: Any, **kwargs: Any) -> None:
@@ -108,19 +105,14 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
         :class:`watcher.Watcher`.
 
         .. note::
-            The :attr:`generation` attribute increments by 1 _after_
-            :meth:`step` is called. Do not manually increment
-            :attr:`generation`. This property is automatically managed.
+            After this method is called, but before control is
+            returned to the caller, two things happen automatically:
 
-            Calling :meth:`step` automatically fires two events:
-            :meth:`.update`: "STEP_BEGIN" before the first call
-            and "STEP_END" after each call.
-            This behaviour cannot be suppressed. For more on events,
-            see :class:`watcher.Watcher`. Be advised that
-            these automatic events are fired just like any other event --
-            nothing prevents you from firing them inside :meth:`step`.
-            The :attr:`automatic_events` class attribute reports these
-            events, like how :attr:`events` reports regular events.
+            #. The :attr:`generation` of the algorithm increments by 1.
+
+            #. The algorithm fires an ``"POST_STEP"`` event to all attached
+               watchers. For more on events and watchers,
+               see :class:`watcher.Watcher`.
         """
         pass
 
