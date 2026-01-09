@@ -39,8 +39,8 @@ class WatcherRecord(Generic[T]):
     #: Data collected in :attr:`generation` after :attr:`event`.
     value: T
 
-    #: Time (by :meth:`time.perf_counter`) when the event :attr:`event` occurs.
-    time: float = field(default_factory=time.perf_counter)
+    #: Time (by :meth:`time.process_time`) when the event :attr:`event` occurs.
+    time: float = field(default_factory=time.process_time)
 
 
 class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
