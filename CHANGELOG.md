@@ -1,6 +1,6 @@
 ## Version 0.5.0
 
-* `(+)` Add module `lineage` (ef5d30f) and a way to archive the entire lineage (c10df1f)
+* `(+)` Add module `lineage` (c10df1f) and a way to archive the entire lineage (c10df1f)
 
 * `(+)` Add module `diversity` (d2e391d)
 
