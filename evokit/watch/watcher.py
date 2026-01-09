@@ -63,6 +63,9 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
 
     Tutorial: :doc:`../guides/examples/watcher`.
     """
+
+    MANUAL_EVENT: str = "MANUAL_TRIGGER"
+
     def __init__(self: Self,
                  events: Container[str],
                  handler: Callable[[C], T],

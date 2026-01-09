@@ -44,14 +44,14 @@ Advanced Tutorials
    :caption: What:
    :hidden:
 
-   examples/watcher.ipynb
+   examples/watch.ipynb
    examples/algorithm.ipynb
    examples/gp.ipynb
    examples/lgp.ipynb
    examples/interceptor.ipynb
    examples/onemax.ipynb
    examples/selector.ipynb
-   
+
 
    
    

@@ -1,35 +1,35 @@
-evokit.watching package
+evokit.watch package
 =========================
 
 Submodules
 ----------
 
-evokit.watching.watcher module
+evokit.watch.watcher module
 -----------------------------------
-.. inheritance-diagram:: evokit.watching.watcher
+.. inheritance-diagram:: evokit.watch.watcher
    :parts: 1
 
-.. automodule:: evokit.watching.watcher
+.. automodule:: evokit.watch.watcher
    :members:
    :undoc-members:
    :show-inheritance:
 
-evokit.watching.watchers module
+evokit.watch.watchers module
 ------------------------------------
-.. inheritance-diagram:: evokit.watching.watchers
+.. inheritance-diagram:: evokit.watch.watchers
    :parts: 1
 
-.. automodule:: evokit.watching.watchers
+.. automodule:: evokit.watch.watchers
    :members:
    :undoc-members:
    :show-inheritance:
 
-evokit.watching.visualisers module
+evokit.watch.visualisers module
 ------------------------------------
-.. inheritance-diagram:: evokit.watching.visualisers
+.. inheritance-diagram:: evokit.watch.visualisers
    :parts: 1
 
-.. automodule:: evokit.watching.visualisers
+.. automodule:: evokit.watch.visualisers
    :members:
    :undoc-members:
    :show-inheritance:
@@ -37,7 +37,7 @@ evokit.watching.visualisers module
 Module contents
 ---------------
 
-.. automodule:: evokit.watching
+.. automodule:: evokit.watch
    :members:
    :undoc-members:
    :show-inheritance:
