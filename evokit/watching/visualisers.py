@@ -8,8 +8,8 @@ from typing import Any
 import matplotlib.pyplot as plt
 
 from .._utils.addons import ensure_installed
+ensure_installed("matplotlib")
 
-ensure_installed("numpy")
 
 
 def plot(records: Sequence[WatcherRecord[tuple[float, ...]]],
