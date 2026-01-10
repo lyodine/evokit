@@ -20,7 +20,7 @@ Using EvoKit is easy! With all operators defined, you can run an evolutionary al
    ctrl: SimpleLinearAlgorithm = SimpleLinearAlgorithm(
       population=init_pop,
       variator=RandomBitMutator(0.1),
-      selector=Elitist(TruncationSelector[BinaryString](POPULATION_SIZE)),
+      selector=Elitist(TruncationSelector[BitString](POPULATION_SIZE)),
       evaluator = BitDistanceEvaluator()
    )
 

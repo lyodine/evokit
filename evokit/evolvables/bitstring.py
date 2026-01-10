@@ -40,7 +40,7 @@ class ValueRange:
 T = TypeVar('T', bound=Individual[Any])
 
 
-class BinaryString(Individual[int]):
+class BitString(Individual[int]):
     """A string of bits.
 
     Tutorial: :doc:`../guides/examples/onemax`.
@@ -56,7 +56,7 @@ class BinaryString(Individual[int]):
         self.size: int = size
 
     @staticmethod
-    def random(size: int) -> BinaryString:
+    def random(size: int) -> BitString:
         """Return a random binary string.
 
         Each item in the returned value may be either 1 or 0 with equal
@@ -65,7 +65,7 @@ class BinaryString(Individual[int]):
         Args:
             size: Size of the generated binary string.
         """
-        return BinaryString(
+        return BitString(
             random.getrandbits(size),
             size
         )
@@ -149,9 +149,9 @@ class BinaryString(Individual[int]):
                               for digit in bin(self.genome)[2:]])[-size:]
 
     @classmethod
-    def from_bit_list(cls: Type[BinaryString],
-                      bit_list: list[int]) -> BinaryString:
-        """Return a :class:`.BinaryString` whose :attr:`.genome`
+    def from_bit_list(cls: Type[BitString],
+                      bit_list: list[int]) -> BitString:
+        """Return a :class:`.BitString` whose :attr:`.genome`
         is the value of bit_list parsed as binary.
 
         Args:
@@ -169,8 +169,8 @@ class BinaryString(Individual[int]):
         for bit in bit_list:
             genome = (genome << 1) | bit
 
-        return BinaryString(value=genome,
-                            size=len(bit_list))
+        return BitString(value=genome,
+                         size=len(bit_list))
 
     def _assert_pos_out_of_bound(self: Self, pos: int) -> None:
         """Assert that an index is within bound of this bit string.
@@ -186,20 +186,20 @@ class BinaryString(Individual[int]):
                              f"string of length {self.size}")
 
 
-class CountBits(Evaluator[BinaryString]):
+class CountBits(Evaluator[BitString]):
     """Count the number of ``1`` s.
 
-    Evaluator for :class:`BinaryString`. For each ``1`` in the binary string,
+    Evaluator for :class:`BitString`. For each ``1`` in the binary string,
     incur a reward of 1.
     """
-    def evaluate(self, individual: BinaryString) -> tuple[float,]:
+    def evaluate(self, individual: BitString) -> tuple[float,]:
         return (individual.genome.bit_count(),)
 
 
-class MutateBits(Variator[BinaryString]):
+class MutateBits(Variator[BitString]):
     """Randomly flip each bit in the parent.
 
-    1-to-1 variator for :class:`.BinaryString`. At each bit in the parent,
+    1-to-1 variator for :class:`.BitString`. At each bit in the parent,
     flip it with probability :arg:`mutation_rate``.
 
     ..note::
@@ -226,7 +226,7 @@ class MutateBits(Variator[BinaryString]):
         self.share_self = share_self
 
     def vary(self: Self,
-             parents: Sequence[BinaryString]) -> tuple[BinaryString, ...]:
+             parents: Sequence[BitString]) -> tuple[BitString, ...]:
         offspring = parents[0].copy()
 
         if is_installed("numpy"):
@@ -245,10 +245,10 @@ class MutateBits(Variator[BinaryString]):
         return (offspring,)
 
 
-class OnePointCrossover(Variator[BinaryString]):
+class OnePointCrossover(Variator[BitString]):
     """Split and recombine parents.
 
-    2-to-1 variator for :class:`.BinaryString`. Split parents at position
+    2-to-1 variator for :class:`.BitString`. Split parents at position
     `k`, then interleave the segments.
     """
     def __init__(self, crossover_probability: float):
@@ -264,7 +264,7 @@ class OnePointCrossover(Variator[BinaryString]):
         self.crossover_probability = crossover_probability
 
     def vary(self: Self,
-             parents: Sequence[BinaryString]) -> tuple[BinaryString, ...]:
+             parents: Sequence[BitString]) -> tuple[BitString, ...]:
 
         should_perform_crossover: float = random.random()
 
@@ -283,8 +283,8 @@ class OnePointCrossover(Variator[BinaryString]):
             c1_genome = (p1_genome & head_mask) | (p2_genome & tail_mask)
             c2_genome = (p2_genome & head_mask) | (p1_genome & tail_mask)
 
-            c1 = BinaryString(c1_genome, size=size)
-            c2 = BinaryString(c2_genome, size=size)
+            c1 = BitString(c1_genome, size=size)
+            c2 = BitString(c2_genome, size=size)
             return (c1, c2)
         else:
             return (parents[0].copy(),
@@ -300,25 +300,25 @@ class OnePointCrossover(Variator[BinaryString]):
 #     return p1_head | p2_tail
 
 
-def trial_run() -> list[BinaryString]:
+def trial_run() -> list[BitString]:
     BINSTRING_LENGTH: int = 5
     POPULATION_SIZE: int = 100
     GENERATION_COUNT: int = 100
 
-    init_pop = Population[BinaryString](
-        [BinaryString.random(BINSTRING_LENGTH)
+    init_pop = Population[BitString](
+        [BitString.random(BINSTRING_LENGTH)
          for _ in range(POPULATION_SIZE)]
     )
 
-    ctrl: CanonicalGeneticAlgorithm[BinaryString] = CanonicalGeneticAlgorithm(
+    ctrl: CanonicalGeneticAlgorithm[BitString] = CanonicalGeneticAlgorithm(
         population=init_pop,
         variator1=OnePointCrossover(0.8),
         variator2=MutateBits(0.1),
         evaluator=CountBits(),
-        selector=Elitist(TruncationSelector[BinaryString](POPULATION_SIZE)),
+        selector=Elitist(TruncationSelector[BitString](POPULATION_SIZE)),
     )
 
-    bests: list[BinaryString] = []
+    bests: list[BitString] = []
 
     for _ in range(GENERATION_COUNT):
         ctrl.step()

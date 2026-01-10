@@ -8,7 +8,7 @@ Define only what matters, let the framework automate wht it can.
 
 The stock OneMax evaluator is written just in 3 lines! [#]_
 
-.. literalinclude:: ../../evokit/evolvables/binstring.py
+.. literalinclude:: ../../evokit/evolvables/bitstring.py
     :language: python
     :pyobject: CountBits
     :lines: 1, 7-8

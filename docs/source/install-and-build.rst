@@ -64,14 +64,14 @@ After installing the package, check if it is working by running
 
 .. code-block:: bash
 
-   python -m evokit.evolvables.binstring
+   python -m evokit.evolvables.bitstring
 
 or, inside a Python program or an interactive Python terminal, run
 
 .. code-block:: python
 
-   import evokit.evolvables.binstring as binstring
-   binstring.trial_run()
+   import evokit.evolvables.bitstring as bitstring
+   bitstring.trial_run()
 
 The output should be a string of tuples with non-decreasing (and hopefully
 increasing) values. A sample of the output follows.

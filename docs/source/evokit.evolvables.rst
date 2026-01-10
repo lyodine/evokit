@@ -14,12 +14,12 @@ evokit.evolvables.algorithms module
    :undoc-members:
    :show-inheritance:
 
-evokit.evolvables.binstring module
+evokit.evolvables.bitstring module
 ----------------------------------
-.. inheritance-diagram:: evokit.evolvables.binstring
+.. inheritance-diagram:: evokit.evolvables.bitstring
    :parts: 1
 
-.. automodule:: evokit.evolvables.binstring
+.. automodule:: evokit.evolvables.bitstring
    :members:
    :undoc-members:
    :show-inheritance:

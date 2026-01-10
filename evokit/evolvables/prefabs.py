@@ -1,7 +1,7 @@
 from evokit.core import Population
 from evokit.evolvables.algorithms import SimpleLinearAlgorithm
 from evokit.evolvables.selectors import TruncationSelector, Elitist
-from evokit.evolvables.binstring import BinaryString, CountBits, MutateBits
+from evokit.evolvables.bitstring import BitString, CountBits, MutateBits
 from evokit.tools.lineage import TrackParents
 from inspect import signature
 
@@ -19,14 +19,14 @@ def make_onemax(pop_size: int,
                 ind_size: int,
                 mutate_p: float,
                 max_parents=_TRACK_PARENTS_MAX_PARENTS_DEFAULT)\
-        -> SimpleLinearAlgorithm[BinaryString]:
+        -> SimpleLinearAlgorithm[BitString]:
     """Create a simple elitist onemax algorithm that tracks
     5 generations of parents.
 
     Useful for playing around with features.
     """
-    pop: Population[BinaryString] = Population(
-        BinaryString.random(ind_size) for _ in range(pop_size))
+    pop: Population[BitString] = Population(
+        BitString.random(ind_size) for _ in range(pop_size))
     return SimpleLinearAlgorithm(population=pop,
                                  variator=TrackParents(
                                      MutateBits(mutate_p),
