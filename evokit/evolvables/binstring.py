@@ -15,6 +15,8 @@ from .algorithms import CanonicalGeneticAlgorithm
 from .selectors import Elitist, TruncationSelector
 from typing import Self, Sequence
 
+from .._utils.addons import is_installed
+
 import random
 
 from typing import TYPE_CHECKING
@@ -199,6 +201,10 @@ class MutateBits(Variator[BinaryString]):
 
     1-to-1 variator for :class:`.BinaryString`. At each bit in the parent,
     flip it with probability :arg:`mutation_rate``.
+
+    ..note::
+        This operator can use Numpy (if installed) to speed up
+        bit flips by orders of magnitude.
     """
     def __init__(self,
                  mutation_rate: float, *,
@@ -223,9 +229,18 @@ class MutateBits(Variator[BinaryString]):
              parents: Sequence[BinaryString]) -> tuple[BinaryString, ...]:
         offspring = parents[0].copy()
 
-        for i in range(0, offspring.size):
-            if (random.random() < self.mutation_rate):
-                offspring.flip(i)
+        if is_installed("numpy"):
+            import numpy as np
+            flip_mask: int =\
+                int((np.random.rand(offspring.size) < 0.7)
+                    .astype(int)
+                    .astype('S1').view(f'S{offspring.size}')[0],
+                    base=2)
+            offspring.genome ^= flip_mask
+        else:
+            for i in range(0, offspring.size):
+                if (random.random() < self.mutation_rate):
+                    offspring.flip(i)
 
         return (offspring,)
 
