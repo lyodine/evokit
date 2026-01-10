@@ -1,4 +1,4 @@
-from ..core import Watcher
+from ..watch import Watcher
 from ..core import Evaluator
 from ..core import Variator
 from ..core import Selector
