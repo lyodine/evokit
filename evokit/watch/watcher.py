@@ -143,40 +143,10 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
                                       self.handler(self.subject)))
                     self._passed_since_last_update = 0
 
-    def report(self: Self,
-               scope: Optional[str | int] = None) -> list[WatcherRecord[T]]:
+    def report(self: Self) -> list[WatcherRecord[T]]:
         """Report collected records.
-
-        Args:
-            scope: Option to filter which records to report. Can be
-                an :class:`int`, a :class:`str`, or :python:`None`:
-
-                * If :arg:`scope` is an :class:`int` : report record
-                  only if :python:`record.generation==scope`.
-
-                * If :arg:`scope` is an :class:`str` : report record
-                  only if :python:`record.event==scope`.
-
-                * Otherwise, of if (by default) ``scope==None``,
-                  report all records.
-
-        Each time an event fires in the attached :class:`.Algorithm`,
-        if that event is registered in :attr:`handlers`, supply the
-        :class:`.Algorithm` to the handler as argument then collect
-        the result in an :class:`.WatcherRecord`. This method
-        returns a list of all collected records.
         """
-        if not self.is_registered():
-            raise ValueError("Watcher is not observing an algorithm;"
-                             " cannot publish.")
-        if isinstance(scope, int):
-            return [r for r in self._records
-                    if r.generation == scope]
-        if isinstance(scope, str):
-            return [r for r in self._records
-                    if r.event == scope]
-        else:
-            return self._records
+        return self._records
 
     def is_registered(self: Self) -> bool:
         """Return if this watcher is observing an :class:`.Algorithm`.
