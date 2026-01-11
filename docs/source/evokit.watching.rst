@@ -24,12 +24,12 @@ evokit.watch.watchers module
    :undoc-members:
    :show-inheritance:
 
-evokit.watch.visualisers module
+evokit.watch.visual module
 ------------------------------------
-.. inheritance-diagram:: evokit.watch.visualisers
+.. inheritance-diagram:: evokit.watch.visual
    :parts: 1
 
-.. automodule:: evokit.watch.visualisers
+.. automodule:: evokit.watch.visual
    :members:
    :undoc-members:
    :show-inheritance:
