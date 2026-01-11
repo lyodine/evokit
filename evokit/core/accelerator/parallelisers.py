@@ -6,7 +6,7 @@ from typing import Optional
 from typing import Any
 from concurrent.futures.process import BrokenProcessPool
 
-from ..._utils.addons import is_installed
+from ..._utils.dependency import is_installed
 
 import copy
 

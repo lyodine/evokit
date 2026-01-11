@@ -15,7 +15,7 @@ from .algorithms import CanonicalGeneticAlgorithm
 from .selectors import Elitist, TruncationSelector
 from typing import Self, Sequence
 
-from .._utils.addons import is_installed
+from .._utils.dependency import is_installed
 
 import random
 

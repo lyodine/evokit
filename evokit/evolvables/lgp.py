@@ -21,7 +21,7 @@ from numpy.typing import NDArray
 from typing import TypeAlias
 from enum import Enum, auto
 
-from .._utils.addons import ensure_installed
+from .._utils.dependency import ensure_installed
 
 ensure_installed("numpy")
 

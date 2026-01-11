@@ -8,7 +8,7 @@ from typing import Any, Optional
 from collections.abc import Collection
 import matplotlib.pyplot as plt
 from typing import NamedTuple
-from .._utils.addons import ensure_installed
+from .._utils.dependency import ensure_installed
 ensure_installed("matplotlib")
 
 

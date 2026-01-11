@@ -19,7 +19,7 @@ from collections import UserList as UserList
 from typing import Sequence, Iterable
 
 from logging import warning
-from .._utils.addons import ensure_installed, is_installed
+from .._utils.dependency import ensure_installed, is_installed
 from pathlib import Path
 # Let's ifndef! Or something.
 if is_installed("dill"):
@@ -290,7 +290,7 @@ class Population(UserList[D], Generic[D]):
                  initlist: Optional[Sequence[D]] | Iterable[D] = None):
         """
         Args:
-            args: Initial items in the population
+            args: The callable to inspect.
         """
         super().__init__(initlist)
 

@@ -6,7 +6,7 @@ from .gp import Expression
 from typing import Callable
 from typing import Any
 from .gp import Program
-from .._utils.addons import ensure_installed
+from .._utils.dependency import ensure_installed
 
 #: Global counter of the number of dispatched identifiers.
 ident = 0
