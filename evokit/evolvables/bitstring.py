@@ -231,11 +231,14 @@ class MutateBits(Variator[BitString]):
 
         if is_installed("numpy"):
             import numpy as np
-            flip_mask: int =\
-                int((np.random.rand(offspring.size) < self.mutation_rate)
-                    .astype(int)
-                    .astype('S1').view(f'S{offspring.size}')[0],
-                    base=2)
+            flip_mask: int = int.from_bytes(
+                np.packbits(np.random.rand(offspring.size)
+                            < self.mutation_rate))
+            # \ # This is old code
+            #     int(()
+            #         .astype(int)
+            #         .astype('S1').view(f'S{offspring.size}')[0],
+            #         base=2)
             offspring.genome ^= flip_mask
         else:
             for i in range(0, offspring.size):
