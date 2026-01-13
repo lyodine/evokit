@@ -5,8 +5,9 @@ from evokit.evolvables.bitstring import BitString, CountBits, MutateBits
 from evokit.tools.lineage import TrackParents
 from evokit._utils.inspect import get_default_value
 from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from typing import Optional
+from typing import Optional
+
+if TYPE_CHECKING:    
     from concurrent.futures import ProcessPoolExecutor
 
 
@@ -20,14 +21,14 @@ making it a function so that I can do it again.
 _TRACK_PARENTS_MAX_PARENTS_DEFAULT: int =\
     get_default_value(TrackParents, "max_parents")
 
-_BITSTRING_PROCESSES_DEFAULT: Optional[int | ProcessPoolExecutor] =\
-    get_default_value(BitString, "processes")
+_BITSTRING_PROCESSES_DEFAULT: "Optional[int | ProcessPoolExecutor]" =\
+    get_default_value(MutateBits, "processes")
 
 
 def make_onemax(pop_size: int,
                 ind_size: int,
                 mutate_p: float,
-                processes: Optional[int | ProcessPoolExecutor] =
+                processes: "Optional[int | ProcessPoolExecutor]" =
                 _BITSTRING_PROCESSES_DEFAULT,
                 max_parents=_TRACK_PARENTS_MAX_PARENTS_DEFAULT)\
         -> SimpleLinearAlgorithm[BitString]:

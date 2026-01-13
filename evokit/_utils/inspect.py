@@ -1,10 +1,8 @@
 from inspect import signature
 
-from typing import TYPE_CHECKING
 from typing import Any
 
-if TYPE_CHECKING:
-    from typing import Callable
+from typing import Callable
 
 
 def get_default_value(func: Callable,
@@ -14,8 +12,8 @@ def get_default_value(func: Callable,
     ``callable.parameter_name``.
 
     If no such default value is found (whether :arg:`callable`
-    does not have a parameter by name :arg:`parameter_name`) or
-    :arg:`parameter_name` does not have a default value, raise
+    does not have a parameter by name :arg:`parameter_name` or
+    :arg:`parameter_name` does not have a default value), raise
     an exception.
 
     Args:
@@ -39,4 +37,4 @@ def get_default_value(func: Callable,
     if len(default_val_list) > 1:
         raise ValueError("Somehow ")
 
-    return default_val_list
+    return default_val_list[0]
