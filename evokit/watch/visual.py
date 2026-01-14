@@ -75,8 +75,12 @@ def plot(records: Sequence[WatcherRecord[tuple[float, ...]]]
     printable_records = sorted(printable_records, key=lambda x: x.time)
     start_time: float = records[0].time
 
-    valid_records = [r for r in printable_records
-                     if (not any(x != x for x in r.value))]
+    # Line plots make nans obvious; no need to filter them out in this case
+    if use_line:
+        valid_records = printable_records
+    else:
+        valid_records = [r for r in printable_records
+                         if (not any(x != x for x in r.value))]
 
     valid_times = tuple(r.time - start_time for r in valid_records)
 
@@ -84,9 +88,14 @@ def plot(records: Sequence[WatcherRecord[tuple[float, ...]]]
     all_valid_values_maxs: set[float] = set()
 
     for i in range(len(valid_records[0].value)):
-        valid_values = tuple(r.value[i] for r in valid_records)
-        all_valid_values_mins.add(min(valid_values))
-        all_valid_values_maxs.add(max(valid_values))
+        valid_values = [r.value[i] for r in valid_records]
+        # Due to the decision to allow nans for line plots,
+        #   there is now need to filter them out.
+        # Using the passive voice to shirk responsibility.
+        valid_values_no_nan = [x for x in valid_values if x == x]
+        if len(valid_values_no_nan) > 0:
+            all_valid_values_mins.add(min(valid_values_no_nan))
+            all_valid_values_maxs.add(max(valid_values_no_nan))
 
         if use_line:
             axes.plot(  # type: ignore[reportUnknownMemberType]
@@ -134,9 +143,13 @@ def plot_dict(records: Sequence[WatcherRecord[dict[Any, float]]],
 
     start_time: float = records[0].time
 
-    valid_records: tuple[WatcherRecord[dict[Any, float]], ...] =\
-        tuple(r for r in records
-              if (not any(x != x for x in r.value.values())))
+    # Line plots make nans obvious; no need to filter them out in this case
+    if use_line:
+        valid_records = tuple(records)
+    else:
+        valid_records: tuple[WatcherRecord[dict[Any, float]], ...] =\
+            tuple(r for r in records
+                  if (not any(x != x for x in r.value.values())))
 
     valid_times: tuple[float, ...] = tuple(r.time - start_time
                                            for r in valid_records)
@@ -148,8 +161,13 @@ def plot_dict(records: Sequence[WatcherRecord[dict[Any, float]]],
 
     for key in keys:
         data: tuple[float, ...] = tuple(v[key] for v in valid_values)
-        all_y_mins.add(min(data))
-        all_y_maxs.add(max(data))
+        # Due to the decision to allow nans for line plots,
+        #   there is now need to filter them out.
+        # Using the passive voice to shirk responsibility.
+        data_no_nan = [x for x in data if x == x]
+        if len(data_no_nan) > 0:
+            all_y_mins.add(min(data_no_nan))
+            all_y_maxs.add(max(data_no_nan))
 
         if use_line:
             axes.plot(  # type: ignore[reportUnknownMemberType]
