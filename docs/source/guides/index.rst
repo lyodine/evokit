@@ -37,7 +37,7 @@ Advanced Tutorials
 
 * :strike:`Modify the behaviour of existing operators (WIP)`: :doc:`examples/interceptor`
 
-* Collect runtime statistics with :class:`.Watcher`: :doc:`examples/watcher`.
+* Collect runtime statistics with :class:`.Watcher`: :doc:`examples/watch`.
 
 .. toctree::
    :maxdepth: 2
