@@ -5,7 +5,6 @@ from ..core.algorithm import Algorithm
 from typing import TypeVar
 from typing import override, overload
 from dataclasses import dataclass
-from dataclasses import field
 
 import time
 
@@ -40,7 +39,10 @@ class WatcherRecord(Generic[T]):
     value: T
 
     #: Time (by :meth:`time.process_time`) when the event :attr:`event` occurs.
-    time: float = field(default_factory=time.process_time)
+    time: float
+    # Removed when timing is offloaded to the :class:`Watcher`.
+    # Preserved because I somewhat like what I did there.
+    # = field(default_factory=time.process_time)
 
 
 class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
@@ -71,7 +73,8 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
                  handler: Callable[[C], T],
                  stride: int = 1,
                  *,
-                 watch_post_step: bool = False):
+                 watch_post_step: bool = False,
+                 timer: Callable[[], float] = time.process_time):
         """
         Args:
             events: Events that trigger the :arg:`handler`.
@@ -100,6 +103,8 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
         self._passed_since_last_update = 0
 
         self.stride = stride
+
+        self.timer = timer
 
     def subscribe(self: Self, subject: C) -> None:
         """Machinery.
@@ -153,7 +158,8 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
             self._records.append(
                 WatcherRecord(event,
                               self.subject.generation,
-                              self.handler(self.subject)))
+                              self.handler(self.subject),
+                              time=self.timer()))
 
     def report(self: Self) -> list[WatcherRecord[T]]:
         """Report collected records.
