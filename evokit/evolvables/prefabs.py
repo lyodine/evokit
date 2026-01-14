@@ -7,7 +7,7 @@ from evokit._utils.inspect import get_default_value
 from typing import TYPE_CHECKING
 from typing import Optional
 
-if TYPE_CHECKING:    
+if TYPE_CHECKING:
     from concurrent.futures import ProcessPoolExecutor
 
 
