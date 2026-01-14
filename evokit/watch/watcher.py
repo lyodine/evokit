@@ -115,16 +115,34 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
         self.subject = subject
 
     def update(self: Self, event: str) -> None:
-        """Machinery.
-
-        :meta private:
-
-        When the :attr:`subject` calls :meth:`.Algorithm.update`,
+        """When the :attr:`subject` calls :meth:`.Algorithm.update`,
         the subject calls this method on every watcher registered to it.
 
         When an event matches a key in :attr:`handlers`, call the
         corresponding value with the subject as argument. Store the
         result in :attr:`records`.
+
+        To trigger collections, call :meth:`manual_update` instead
+        of this method.
+
+        Raise:
+            RuntimeError: If no :class:`Algorithm` is attached.
+        """
+        if event in self.events\
+                or (self.watch_post_step
+                    and (event == "POST_STEP")):
+            self._passed_since_last_update += 1
+            if self._passed_since_last_update >= self.stride:
+                self.force_update(event)
+                self._passed_since_last_update = 0
+
+    def force_update(self: Self,
+                     event: str = "MANUAL_EVENT") -> None:
+        """Manually trigger :meth:`update`, bypassing all checks of
+        whether event is observed.
+
+        Args:
+            event: Name of an event. Defaults to ``MANUAL_EVENT``.
 
         Raise:
             RuntimeError: If no :class:`Algorithm` is attached.
@@ -132,16 +150,10 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
         if self.subject is None:
             raise RuntimeError("Watcher updated without a subject.")
         else:
-            if event in self.events\
-                    or (self.watch_post_step
-                        and (event == "POST_STEP")):
-                self._passed_since_last_update += 1
-                if self._passed_since_last_update >= self.stride:
-                    self._records.append(
-                        WatcherRecord(event,
-                                      self.subject.generation,
-                                      self.handler(self.subject)))
-                    self._passed_since_last_update = 0
+            self._records.append(
+                WatcherRecord(event,
+                              self.subject.generation,
+                              self.handler(self.subject)))
 
     def report(self: Self) -> list[WatcherRecord[T]]:
         """Report collected records.
