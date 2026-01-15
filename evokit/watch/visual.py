@@ -36,7 +36,7 @@ def plot(records: Sequence[WatcherRecord[tuple[float, ...]]]
          | Sequence[WatcherRecord[float]],
          track_generation: bool = False,
          use_line: bool = False,
-         legend: bool = True,
+         show_legend: bool = True,
          axes: Optional[plt.Axes] = None,
          *args: Any,
          **kwargs: Any):
@@ -117,7 +117,7 @@ def plot(records: Sequence[WatcherRecord[tuple[float, ...]]]
                     zorder=-1)
         _plot_generation_barrier_legend(axes)
 
-    if legend:
+    if show_legend:
         axes.legend()
     axes.set_xlabel("Time (sec)")  # type: ignore[reportUnknownMemberType]
 
@@ -125,7 +125,7 @@ def plot(records: Sequence[WatcherRecord[tuple[float, ...]]]
 def plot_dict(records: Sequence[WatcherRecord[dict[Any, float]]],
               keys: Optional[Collection[Any]] = None,
               track_generation: bool = False,
-              legend: bool = True,
+              show_legend: bool = True,
               use_line: bool = False,
               axes: Optional[plt.Axes] = None,
               *args: Any,
