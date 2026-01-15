@@ -39,11 +39,14 @@ Advanced Tutorials
 
 * Collect runtime statistics with :class:`.Watcher`: :doc:`examples/watch`.
 
+* Profile algorithm performance: :doc:`examples/profile`.
+
 .. toctree::
    :maxdepth: 2
    :caption: What:
    :hidden:
 
+   examples/profile.ipynb
    examples/watch.ipynb
    examples/algorithm.ipynb
    examples/gp.ipynb
