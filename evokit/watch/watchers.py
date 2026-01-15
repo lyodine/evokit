@@ -2,6 +2,9 @@ from .watcher import Watcher
 from ..evolvables.algorithms import HomogeneousAlgorithm
 from ..core import Individual
 from typing import Any
+from typing import Callable
+import time
+import psutil
 
 from typing import TypeVar
 
@@ -9,45 +12,94 @@ N = TypeVar("N", bound=float)
 
 
 def fitness_watcher(events: list[str],
-                    watch_automatic_events: bool = False)\
+                    stride: int = 1,
+                    *,
+                    watch_post_step: bool = False,
+                    timer: Callable[[], float] = time.process_time)\
         -> Watcher[HomogeneousAlgorithm[Individual[Any]],
                    tuple[float, ...]]:
     """Return an :class:`Watcher` that collects the
-    :attr:`.Individual.fitness` of the best individual in the
-    population in the algorithm.
+    best :attr:`.Individual.fitness` of a
+    :attr:`HomogeneousAlgorithm.population`.
 
-    Arg:
-        events: Events that trigger the watcher.
-        See :attr:`.Watcher.events`.
+    See :meth:`Watcher.__init__` for parameters.
+    """
 
-        watch_automatic_events: If ``True``, then automatic
-        events also trigger the watcher. See :meth:`.Algorithm.step`
+    return Watcher(
+        events=events,
+        stride=stride,
+        handler=lambda x: x.population.best().fitness,
+        watch_post_step=watch_post_step,
+        timer=timer
+    )
+
+
+def size_watcher(events: list[str],
+                 stride: int = 1,
+                 *,
+                 watch_post_step: bool = False,
+                 timer: Callable[[], float] = time.process_time)\
+        -> Watcher[HomogeneousAlgorithm[Individual[Any]],
+                   int]:
+    """Return an :class:`Watcher` that collects the
+    size of the population.
+
+    See :meth:`Watcher.__init__` for parameters.
+    """
+
+    return Watcher(
+        events=events,
+        stride=stride,
+        handler=lambda x: len(x.population),
+        watch_post_step=watch_post_step,
+        timer=timer
+    )
+
+
+def cpu_watcher(events: list[str],
+                stride: int = 1,
+                *,
+                watch_post_step: bool = False,
+                timer: Callable[[], float] = time.process_time)\
+        -> Watcher[HomogeneousAlgorithm[Individual[Any]],
+                   float]:
+    """Return an :class:`Watcher` that collects the
+    CPU time of the process.
+
+    See :meth:`Watcher.__init__` for parameters.
+    """
+
+    return Watcher(
+        events=events,
+        stride=stride,
+        handler=lambda _: psutil.Process().cpu_percent(),
+        watch_post_step=watch_post_step,
+        timer=timer
+    )
+
+
+def memory_watcher(events: list[str],
+                   stride: int = 1,
+                   *,
+                   watch_post_step: bool = False,
+                   timer: Callable[[], float] = time.process_time)\
+        -> Watcher[HomogeneousAlgorithm[Individual[Any]],
+                   dict[str, float]]:
+    """Return an :class:`Watcher` that collects the
+    memory usage of an algorithm.
+
+    Returns records of (vms, rss) tuples.
+
+    See :meth:`Watcher.__init__` for parameters.
     """
     # "of the best individual in the population in the algorithm."
     # Certifiably, a mouthful.
 
     return Watcher(
         events=events,
-        handler=lambda x: x.population.best().fitness,
-        watch_automatic_events=watch_automatic_events
-    )
-
-
-def size_watcher(events: list[str],
-                 watch_automatic_events: bool = False)\
-        -> Watcher[HomogeneousAlgorithm[Any], int]:
-    """Return an :class:`Watcher` that collects the
-    length of the population in the algorithm.
-
-    Arg:
-        events: Events that trigger the watcher.
-        See :attr:`.Watcher.events`.
-
-        watch_automatic_events: If ``True``, then automatic
-        events also trigger the watcher. See :meth:`.Algorithm.step`
-    """
-    return Watcher(
-        events=events,
-        handler=lambda x: len(x.population),
-        watch_automatic_events=watch_automatic_events
+        stride=stride,
+        handler=lambda _: {"rss": psutil.Process().memory_info().rss,
+                           "vms": psutil.Process().memory_info().vms},
+        watch_post_step=watch_post_step,
+        timer=timer
     )
