@@ -78,17 +78,15 @@ def create_cpu_watcher(events: list[str],
     )
 
 
-def create_memory_watcher(events: list[str],
-                          stride: int = 1,
-                          *,
-                          watch_post_step: bool = False,
-                          timer: Callable[[], float] = time.process_time)\
+def create_rss_watcher(events: list[str],
+                       stride: int = 1,
+                       *,
+                       watch_post_step: bool = False,
+                       timer: Callable[[], float] = time.process_time)\
         -> Watcher[HomogeneousAlgorithm[Individual[Any]],
-                   dict[str, float]]:
+                   float]:
     """Return an :class:`Watcher` that collects the
-    memory usage of an algorithm.
-
-    Returns records of (vms, rss) tuples.
+    memory usage (RSS) of an algorithm.
 
     See :meth:`Watcher.__init__` for parameters.
     """
@@ -98,8 +96,7 @@ def create_memory_watcher(events: list[str],
     return Watcher(
         events=events,
         stride=stride,
-        handler=lambda _: {"rss": psutil.Process().memory_info().rss,
-                           "vms": psutil.Process().memory_info().vms},
+        handler=lambda _: psutil.Process().memory_info().rss,
         watch_post_step=watch_post_step,
         timer=timer
     )
