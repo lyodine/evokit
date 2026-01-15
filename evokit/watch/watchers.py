@@ -11,11 +11,11 @@ from typing import TypeVar
 N = TypeVar("N", bound=float)
 
 
-def fitness_watcher(events: list[str],
-                    stride: int = 1,
-                    *,
-                    watch_post_step: bool = False,
-                    timer: Callable[[], float] = time.process_time)\
+def create_fitness_watcher(events: list[str],
+                           stride: int = 1,
+                           *,
+                           watch_post_step: bool = False,
+                           timer: Callable[[], float] = time.process_time)\
         -> Watcher[HomogeneousAlgorithm[Individual[Any]],
                    tuple[float, ...]]:
     """Return an :class:`Watcher` that collects the
@@ -34,11 +34,11 @@ def fitness_watcher(events: list[str],
     )
 
 
-def size_watcher(events: list[str],
-                 stride: int = 1,
-                 *,
-                 watch_post_step: bool = False,
-                 timer: Callable[[], float] = time.process_time)\
+def create_size_watcher(events: list[str],
+                        stride: int = 1,
+                        *,
+                        watch_post_step: bool = False,
+                        timer: Callable[[], float] = time.process_time)\
         -> Watcher[HomogeneousAlgorithm[Individual[Any]],
                    int]:
     """Return an :class:`Watcher` that collects the
@@ -56,11 +56,11 @@ def size_watcher(events: list[str],
     )
 
 
-def cpu_watcher(events: list[str],
-                stride: int = 1,
-                *,
-                watch_post_step: bool = False,
-                timer: Callable[[], float] = time.process_time)\
+def create_cpu_watcher(events: list[str],
+                       stride: int = 1,
+                       *,
+                       watch_post_step: bool = False,
+                       timer: Callable[[], float] = time.process_time)\
         -> Watcher[HomogeneousAlgorithm[Individual[Any]],
                    float]:
     """Return an :class:`Watcher` that collects the
@@ -78,11 +78,11 @@ def cpu_watcher(events: list[str],
     )
 
 
-def memory_watcher(events: list[str],
-                   stride: int = 1,
-                   *,
-                   watch_post_step: bool = False,
-                   timer: Callable[[], float] = time.process_time)\
+def create_memory_watcher(events: list[str],
+                          stride: int = 1,
+                          *,
+                          watch_post_step: bool = False,
+                          timer: Callable[[], float] = time.process_time)\
         -> Watcher[HomogeneousAlgorithm[Individual[Any]],
                    dict[str, float]]:
     """Return an :class:`Watcher` that collects the
