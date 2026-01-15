@@ -116,15 +116,16 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
         """
         pass
 
-    def register(self: Self, watcher: Watcher[Any, Any]) -> None:
+    def register(self: Self, *watchers: Watcher[Any, Any]) -> None:
         """Attach an :class:`Watcher` to this algorithm.
 
         Args:
             watcher: The watcher to attach.
         """
-        if watcher not in self.watchers:
-            self.watchers.append(watcher)
-            watcher.subscribe(self)
+        for watcher in watchers:
+            if watcher not in self.watchers:
+                self.watchers.append(watcher)
+                watcher.subscribe(self)
 
     def update(self: Self, event: str) -> None:
         """Report an event to all attached :class:`Watcher` objects.
