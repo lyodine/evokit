@@ -21,15 +21,20 @@ making it a function so that I can do it again.
 _TRACK_PARENTS_MAX_PARENTS_DEFAULT: int =\
     get_default_value(TrackParents, "max_parents")
 
-_BITSTRING_PROCESSES_DEFAULT: "Optional[int | ProcessPoolExecutor]" =\
-    get_default_value(MutateBits, "processes")
+_MUTATEBITS_PROCESSES_DEFAULT: "Optional[int | ProcessPoolExecutor]" =\
+    get_default_value(MutateBits.__init__, "processes")
+
+_COUNTBITS_PROCESSES_DEFAULT: "Optional[int | ProcessPoolExecutor]" =\
+    get_default_value(CountBits.__init__, "processes")
 
 
 def make_onemax(pop_size: int,
                 ind_size: int,
                 mutate_p: float,
-                processes: "Optional[int | ProcessPoolExecutor]" =
-                _BITSTRING_PROCESSES_DEFAULT,
+                variator_processes: "Optional[int | ProcessPoolExecutor]" =
+                _MUTATEBITS_PROCESSES_DEFAULT,
+                evaluator_processes: "Optional[int | ProcessPoolExecutor]" =
+                _COUNTBITS_PROCESSES_DEFAULT,
                 max_parents=_TRACK_PARENTS_MAX_PARENTS_DEFAULT)\
         -> SimpleLinearAlgorithm[BitString]:
     """Create a simple elitist onemax algorithm that tracks
@@ -41,8 +46,11 @@ def make_onemax(pop_size: int,
         BitString.random(ind_size) for _ in range(pop_size))
     return SimpleLinearAlgorithm(population=pop,
                                  variator=TrackParents(
-                                     MutateBits(mutate_p, processes=processes),
+                                     MutateBits(
+                                         mutate_p,
+                                         processes=variator_processes),
                                      max_parents=max_parents),
-                                 evaluator=CountBits(),
+                                 evaluator=CountBits(
+                                     processes=evaluator_processes),
                                  selector=Elitist(
                                      TruncationSelector(pop_size)))
