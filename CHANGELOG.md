@@ -1,3 +1,13 @@
+## Version 1.0.0
+
+* `(+)` Improve `watch.visualiser` (e.g. 95fa603)
+
+* `(+)` Add several profiling watchers (57dea18)
+
+* `(+)` Add tutorials for profiling (7d3d62c, aafed0f)
+
+* `(+)` Add module `prefabs` (78b3cc4)
+
 ## Version 0.5.0
 
 * `(+)` Add module `lineage` (c10df1f) and a way to archive the entire lineage (c10df1f)

@@ -1,7 +1,7 @@
 [project]
 
 name = "evokit"
-version = "0.5.0"
+version = "1.0.0"
 description = "A evolutionary computing framework"
 requires-python = ">= 3.12.0"
 
