@@ -34,7 +34,7 @@ def _printabify(records: Sequence[WatcherRecord[tuple[float, ...]]]
 
 def plot(records: Sequence[WatcherRecord[tuple[float, ...]]]
          | Sequence[WatcherRecord[float]],
-         track_generation: bool = False,
+         show_generation: bool = False,
          use_line: bool = False,
          show_legend: bool = True,
          axes: Optional[plt.Axes] = None,
@@ -49,7 +49,7 @@ def plot(records: Sequence[WatcherRecord[tuple[float, ...]]]
             :attr:`WatcherRecord.value` must only hold either
             :class:`float` or a 1-tuple of type `tuple[float]`.
 
-        track_generation: If ``True``, then also plot values collected
+        show_generation: If ``True``, then also plot values collected
             at ``"STEP_BEGIN"`` and ``"POST_STEP"`` as bigger (``s=50``),
             special (``marker="*"``) markers. Otherwise,
             plot them as any other values.
@@ -104,7 +104,7 @@ def plot(records: Sequence[WatcherRecord[tuple[float, ...]]]
             axes.scatter(  # type: ignore[reportUnknownMemberType]
                 valid_times, valid_values, *args, **kwargs)
 
-    if track_generation:
+    if show_generation:
         gen_records = [r for r in valid_records
                        if r.event == "POST_STEP"]
         gen_times = tuple(r.time - start_time for r in gen_records)
@@ -124,7 +124,7 @@ def plot(records: Sequence[WatcherRecord[tuple[float, ...]]]
 
 def plot_dict(records: Sequence[WatcherRecord[dict[Any, float]]],
               keys: Optional[Collection[Any]] = None,
-              track_generation: bool = False,
+              show_generation: bool = False,
               show_legend: bool = True,
               use_line: bool = False,
               axes: Optional[plt.Axes] = None,
@@ -176,7 +176,7 @@ def plot_dict(records: Sequence[WatcherRecord[dict[Any, float]]],
             axes.scatter(  # type: ignore[reportUnknownMemberType]
                 valid_times, data, *args, **kwargs, label=key)
 
-    if track_generation:
+    if show_generation:
         gen_records = [r for r in valid_records
                        if r.event == "POST_STEP"]
         gen_times = tuple(r.time - start_time for r in gen_records)
