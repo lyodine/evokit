@@ -5,7 +5,7 @@ from typing import Any
 from typing import Callable
 import time
 import psutil
-
+from typing import Generator
 from typing import TypeVar
 
 N = TypeVar("N", bound=float)
@@ -69,10 +69,18 @@ def create_cpu_watcher(events: list[str],
     See :meth:`Watcher.__init__` for parameters.
     """
 
+    def watch_cpu() -> Generator[float, None, None]:
+        this_process = psutil.Process()
+
+        while True:
+            yield this_process.cpu_percent()
+
+    cpu_cost_yielder = watch_cpu()
+
     return Watcher(
         events=events,
         stride=stride,
-        handler=lambda _: psutil.Process().cpu_percent(),
+        handler=lambda _: next(cpu_cost_yielder),
         watch_post_step=watch_post_step,
         timer=timer
     )
