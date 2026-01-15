@@ -43,6 +43,7 @@ gp_visualise = ["graphviz>=0.20.3"]
 test = ["pytest>=8.2.0", "nbmake>=1.5.4"]
 # To visualise watcher records
 watch_visualise = ["matplotlib>=3.10.1"]
+numpy = ["numpy>=1.26.4"]
 multiprocess = ["multiprocess>=0.70.18"]
 pickling = ["dill>=0.4.0"]
 watch_memory = ["guppy>=3.1.5", "pympler>=1.1"]

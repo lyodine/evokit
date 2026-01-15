@@ -5,6 +5,9 @@
 
 from ...core import Population, Individual
 from typing import Callable
+
+from ..._utils.dependency import ensure_installed
+ensure_installed("numpy")
 import numpy as np
 
 
