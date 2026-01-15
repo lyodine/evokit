@@ -119,6 +119,25 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
         """
         self.subject = subject
 
+    def unsubscribe(self: Self) -> None:
+        """Unsubscribe this watcher from the :attr:`subject`.
+        Reset this watcher to be registered with another algorithm.
+
+        Effect:
+            Reset the :attr:`subject`
+
+            Reset the accumulated ``stride``
+
+            Reset all collected records
+
+            Remove ``self`` from :attr:`subject`\\ 's
+                :attr:`Algorithm.watchers`
+        """
+
+        self.subject: Optional[C] = None
+        self._passed_since_last_update = 0
+        self._records = []
+
     def update(self: Self, event: str) -> None:
         """When the :attr:`subject` calls :meth:`.Algorithm.update`,
         the subject calls this method on every watcher registered to it.
