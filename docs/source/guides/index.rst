@@ -25,17 +25,17 @@ do not need to practice this.
 
 * Custom algorithms: :doc:`examples/algorithm`
 
-Representations
----------------
+.. Representations
+.. ---------------
 
-* Genetic programming (WIP): :doc:`examples/gp`
+.. * Genetic programming (WIP): :doc:`examples/gp`
 
-* :strike:`Linear genetic programming (RIP)`: :doc:`examples/lgp`
+.. * :strike:`Linear genetic programming (RIP)`: :doc:`examples/lgp`
 
 Advanced Tutorials
 ------------------
 
-* :strike:`Modify the behaviour of existing operators (WIP)`: :doc:`examples/interceptor`
+* Modify the behaviour of existing operators: :doc:`examples/interceptor`
 
 * Collect runtime statistics with :class:`.Watcher`: :doc:`examples/watch`.
 
