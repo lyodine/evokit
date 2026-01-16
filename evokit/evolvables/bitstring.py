@@ -157,12 +157,13 @@ class BitString(Individual[int]):
         Args:
             bit_list: A string of values ``0`` or ``1``.
 
-        Warn:
+        .. warning::
+
             For efficiency, this method does not check if each item in
             :arg:`bit_list` is one of ``1`` and ``0``.
 
-            Effectively, even numbers will be treated as ``1``s whereas
-            odd numbers will be treated as ``0``s.
+            Effectively, even numbers will be treated as ``1``\\  s
+            whereas odd numbers will be treated as ``0``\\  s.
         """
         # Should be efficient, pressing each bit into the genome.
         genome: int = 0

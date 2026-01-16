@@ -147,7 +147,8 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
         Return:
             Fitness of the individual
 
-        Warning:
+        .. warning::
+
             If the current fitness is ``None``, return ``(nan,)``.
             This may happen when, for example, an offspring
             has just been produced.
@@ -314,7 +315,8 @@ class Population(UserList[D], Generic[D]):
         Also preserves the :attr:`.Individual.uid`, so that
         the individual's identity remains.
 
-        Warning:
+        .. warning::
+
             With a population of size :math:`N`, assuming that
             the variator tracks :math:`P` generations of parents
             and each individual is produced from :math:`F` parents,

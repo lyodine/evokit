@@ -147,7 +147,8 @@ class While(StructureType):
     A control structure with this type repeats its body
     until :arg:`conditional` is satisfied.
 
-    Warning:
+    .. warning::
+
         This control structure may execute indefinitely. To prevent
         this, the class variable :attr:`.loop_cap` imposes a bound
         to how many times a while loop may be repeated for.

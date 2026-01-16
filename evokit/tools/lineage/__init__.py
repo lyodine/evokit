@@ -35,7 +35,8 @@ def TrackParents(var: Variator[D],
     the :attr:`.Individual.parents` of all offspring to
     its inputs.
 
-    Warn:
+    .. warning::
+
         To save cost, the :attr:`.Individual.parents` is reset to
         :python:`None` after an individual ever becomes the
         :attr:`max_parents` \\ :sup:`th` parent of another individual.

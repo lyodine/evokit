@@ -54,7 +54,8 @@ class Selector(ABC, Generic[D]):
         Args:
             from_population: population to select from.
 
-        Warning:
+        .. warning::
+
             The default implementation calls :meth:`.select` as long as
             the number of selected individuals is less than :attr:`.budget`.
 
