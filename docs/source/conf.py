@@ -27,7 +27,11 @@ extensions = ['nbsphinx',
               'sphinx.ext.napoleon',
               'sphinx.ext.autosummary',
               'sphinx.ext.graphviz',
-              'sphinx.ext.inheritance_diagram']
+              'sphinx.ext.inheritance_diagram',
+              'sphinx.ext.imgmath']
+
+imgmath_latex_preamble = '\\usepackage{array}'
+imgmath_image_format = 'svg'
 
 """ To generate inheritance diagrams, add this to
 `site-packages/sphinx/templates/apidoc/package.rst_t`:
