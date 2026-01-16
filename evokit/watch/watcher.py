@@ -63,7 +63,7 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
     :class:`Algorithm`; ``T`` is the type of `.value` in the reported
     :class:`WatcherRecord`.
 
-    Tutorial: :doc:`../guides/examples/watcher`.
+    Tutorial: :doc:`../guides/examples/watch`.
     """
 
     MANUAL_EVENT: str = "MANUAL_TRIGGER"
