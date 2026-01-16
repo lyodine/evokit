@@ -25,33 +25,36 @@ The stock OneMax evaluator is written just in 3 lines. [#]_
 
 Operators of the same type are interchangeable:
 
-   * All evaluators and variators of the same representation are interchangeable;
-     all selectors are interchangeable; all 
+   * All evaluators and variators of the same representation are
+     interchangeable; all selectors are interchangeable; all algorithms
+     work with all compatible configurations of operators.
 
-   * All wrappers work with everything they can wrap. For example,
-     :meth:`Elitist` can make every selector an elitist one and
-     :meth:`TrackParents` lets every variator preserve lineage information.
+   * All wrappers work with everything they can wrap.
+     For example, :meth:`.selectors.Elitist` can make every
+     selector an elitist one and :meth:`.lineage.TrackParents`
+     lets every variator preserve lineage information.
 
-   * All operators -- variators, evaluators, and selectors -- can be parallelised.
+   * All operators -- variators, evaluators, and selectors
+     -- can be parallelised.
 
    * All profilers work with all algorithms they are designed for.
 
 See :doc:`guides/examples/profile` for how everything falls together:
 
-    * Several stock profilers in :mod:`watch.profile` record
+    * Several stock profilers in :mod:`.watch.profile` record
       the memory usage of an algorithm.
     
     * The algorithm is a simple onemax algorithm where...
     
         * ...every operator is parallelised with 5 worker processes,
         
-        * the selector is made elitist with :meth:`Elitist` and,
+        * the selector is made elitist with :meth:`.selectors.Elitist` and,
 
         * the variator preserves several generations of parents
-          with :meth:`TrackParents`.
+          with :meth:`.lineage.TrackParents`.
 
     * Collected statistics are plotted, against time and generation,
-      with :mod:`watch.profile.visual`.
+      with :mod:`.watch.profile.visual`.
 
 You can swap in and out absolutely anything you want. Profit!
 

@@ -257,7 +257,8 @@ class OnePointCrossover(Variator[BitString]):
     """
     def __init__(self, crossover_probability: float):
         """
-        Arg:
+        Args:
+
             crossover_probability: Probability that crossover is performed.
         """
         self.arity = 2

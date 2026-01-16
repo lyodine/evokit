@@ -35,8 +35,7 @@ def p2dot(gp: Program[Any],
         gp: Genetic program to visualise.
 
         dispatcher: :class:`Callable` that should return a unique
-
-        identifier when called.
+            identifier when called.
     """
     expr: Expression[Any] = gp.genome
     my_name: str = expr.value.__name__ if callable(expr.value)\
@@ -67,7 +66,7 @@ def _p2dot_recurse(expr: Expression[Any],
         parent_ident: Identifier of the parent node
 
         dispatcher: :class:`Callable` that should return a unique
-        identifier when called.
+            identifier when called.
     """
     my_name: str = expr.value.__name__ if callable(expr.value)\
         else str(expr.value)

@@ -4,13 +4,20 @@ Guides
 Base Classes
 ------------
 
-Everything that form an algorithm derive from the following base classes:
+Everything that form an algorithm derive from the following
+base classes:
 
-- Operators derive :class:`.Selector`, :class:`.Evaluator`, and :class:`.Variator`.
+- Operators derive :class:`.Selector`, :class:`.Evaluator`,
+  and :class:`.Variator`.
 
 - Algorithms derive :class:`.Algorithm`.
 
-- Representations derive :class:`.Individual`; :class:`.Population` models a population.
+- Representations derive :class:`.Individual`; :class:`.Population`
+  models a population.
+
+You can find an example of how these work together in
+:class:`.HomogeneousAlgorithm`. The guides below give more
+detailed instructions.
 
 Getting Started
 ---------------

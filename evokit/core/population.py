@@ -165,8 +165,8 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
 
         This docstring should never be seen.
 
-        Arg:
-            Whatever.
+        Args:
+            Whatever. Sphinx will not see this, and neither should you.
         """
         self._fitness = value
 

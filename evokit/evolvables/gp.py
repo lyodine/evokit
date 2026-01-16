@@ -58,8 +58,9 @@ def _get_arity(fun: Callable[..., Any]
 class Expression(Generic[T]):
     """A node in an expression tree.
 
-    Recursive data structure that implements program trees. An ``Expression``
-    is also a :class:`Callable` that only accepts arguments passed by position.
+    Recursive data structure that implements program trees.
+    An :class:`Expression` is also a :class:`Callable` that
+    only accepts arguments passed by position.
 
     The attribute :attr:`.value`
     """
@@ -131,7 +132,7 @@ class Expression(Generic[T]):
     def copy(self: Self) -> Self:
         """Return a deep copy.
 
-        Call the `python`:copy(self, ...): method on :attr:`value`,
+        Call the :python:`copy(self, ...)` method on :attr:`value`,
         each item in :attr:`children`, and :attr:`value` (if :attr:`value`
         implements a method named ``copy``). Use the results to create
         a new :class:`Expression`
@@ -178,9 +179,9 @@ class Expression(Generic[T]):
 
 class Symbol():
     """Dummy object used by :class:`.ExpressionFactory`.
-
-    See:
-        ??? TODO
+    This object represents a positional argument, as
+    opposed to, for example, a constant value or an expression
+    that evaluates to a value.
     """
     __slots__ = ['pos']
 
@@ -206,7 +207,7 @@ class ExpressionFactory(Generic[T]):
         If ``arity = 0``, then ``primitives`` must include at least one
         literal.
         Otherwise, the tree cannot be built, as no terminal node can be drawn.
-
+primitive_pool
     See:
         :attr:`Expression.factory`
     """
@@ -215,9 +216,9 @@ class ExpressionFactory(Generic[T]):
                  arity: int):
         """
         Args:
-            primitives: instructions and terminals that occupy nodes of the
-            expression tree. Listing a primitive more than once increases its
-            chance of being selected.
+            primitives: instructions and terminals that occupy nodes
+                of the expression tree. Listing a primitive more than
+                once increases its chance of being selected.
 
             arity: arity of constructed :class:`Expression` instances.
 
@@ -308,7 +309,7 @@ class ExpressionFactory(Generic[T]):
                        nullary_ratio: Optional[float] = None,
                        free_draw: bool = False) -> \
             T | Callable[..., T] | Symbol:
-        """Return an item from :attr:`primitive_pool`
+        """Return an item from :attr:`.primitive_pool`
 
         Args:
             nullary_ratio: probability of drawing terminals. If set,
@@ -369,9 +370,9 @@ class Program(Individual[Expression[T]]):
 class ProgramFactory(Generic[T]):
     """Convenience factory class for :class:`Program`.
 
-    Contain an :class`ExpressionFactory` instance. Delete storage of
+    Contain an :class:`ExpressionFactory` instance. Delete storage of
     hyperparameters and :meth:`ProgramFactory.build` to the internal
-    :class`ExpressionFactory`.
+    :class:`ExpressionFactory`.
     """
     def __init__(self: Self,
                  primitives: tuple[T | Callable[..., T], ...],
@@ -400,8 +401,8 @@ class CrossoverSubtree(Variator[Program[T]]):
         """
         Args:
             shuffle: If ``True``: collect all child nodes of both
-            internal nodes into one list, shuffle that list, then assign
-            items back to respective parents.
+                internal nodes into one list, shuffle that list, then assign
+                items back to respective parents.
         """
         self.arity = 2
         self.shuffle = shuffle
@@ -541,13 +542,14 @@ class SymbolicEvaluator(Evaluator[Program[float]]):
                  support: tuple[tuple[float, ...], ...]):
         """
         Args:
-            objective: function that
-            support: collection of points on which the program
-            is compared against ``objective``.
+            objective: Function to compare against.
+
+            support: Collection of points on which the program
+                is compared against ``objective``.
 
         Raise:
-            TypeError if the first item in ``support`` does not
-            match the arity of ``objective``.
+            TypeError: if the first item in ``support`` does not
+                match the arity of ``objective``.
         """
         self.objective: Callable[..., float] = objective
         self.support: tuple[tuple[float, ...], ...] = support

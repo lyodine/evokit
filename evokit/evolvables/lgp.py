@@ -159,7 +159,7 @@ class While(StructureType):
 
     def __init__(self: Self, conditional: Condition):
         """
-        Arg:
+        Args:
             conditional: Condition that, if satisfied, ends the structures.
         """
         self.conditional = conditional
@@ -403,9 +403,9 @@ class LinearProgram():
         advances the execution pointer by 1; running control structures may
         skip more lines.
 
-        Arg:
-            instruction: Instruction to run.
+        Args:
             instructions: Sequence of instruction to run :arg:`instruction` in.
+
             pos: Position of current execution pointer.
 
         """
