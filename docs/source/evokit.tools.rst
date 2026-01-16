@@ -1,5 +1,5 @@
-evokit package
-==============
+evokit.tools package
+====================
 
 Subpackages
 -----------
@@ -7,15 +7,13 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   evokit.core
-   evokit.evolvables
-   evokit.tools
-   evokit.watch
+   evokit.tools.diversity
+   evokit.tools.lineage
 
 Module contents
 ---------------
 
-.. automodule:: evokit
+.. automodule:: evokit.tools
    :members:
    :undoc-members:
    :show-inheritance:
