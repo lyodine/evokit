@@ -32,16 +32,23 @@ def share_fitness(pop: Population,
     where
 
     .. math::
-        \\mathrm{sh}\\,(k) = \\left\\{
-            \\begin{array}{l}
-                1 - (k / \\sigma_{\\mathrm{share}})^{\\alpha}
-                    & \\mathrm{if}~k \\le \\sigma_{\\mathrm{share}} &\\\\
-                0 & \\mathrm{otherwise} \\\\
-            \\end{array}
+        :nowrap:
+
+        \\[
+        \\mathrm{sh}\\,(k) =
+        \\left\\{
+        \\begin{array}{ll}
+            1 - (k / \\sigma_{\\mathrm{share}})^{\\alpha}
+                & \\mathrm{if}~k \\le \\sigma_{\\mathrm{share}} \\\\
+            0 & \\mathrm{otherwise.}
+        \\end{array}
         \\right.
+        \\]
 
     .. [#] *Genetic Algorithms with Sharing for
         Multi-Modal Function Optimization*
+    """
+    """
     """
     def sh(k: float, sigma_share: float, alpha: float):
         return 1 - (k / sigma_share)**alpha \
