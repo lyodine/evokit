@@ -361,7 +361,7 @@ class Population(UserList[D], Generic[D]):
 def save(popi: Population | Individual,
          file_path: str | Path) -> None:
     """Produce an :meth:`.Individual.archive` of :arg:`popi`,
-    pickle it with :module:`dill`, then dump the result to
+    pickle it with :mod:`dill`, then dump the result to
     :arg:`file_path`.
 
     Preserves, among other things, :attr:`.Individual.uid`.
