@@ -9,7 +9,7 @@ authors = [
     {name = "Yiding Li", email = "commit@lyodine.com"},
 ]
 
-readme = "README.md"
+readme = "README_PYPI.md"
 
 license-files = ["LICENSE.txt"]
 
