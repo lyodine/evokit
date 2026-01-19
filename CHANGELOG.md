@@ -1,3 +1,9 @@
+## Version 1.1.0
+
+* `(+)` Add optional dependency ``full`` (6ad3e21)
+
+* `(+)` Overhaul documentation (fee21ef)
+
 ## Version 1.0.0
 
 * `(+)` Improve `watch.visualiser` (e.g. 95fa603)

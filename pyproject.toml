@@ -1,8 +1,8 @@
 [project]
 
 name = "evokit"
-version = "1.0.0"
-description = "A evolutionary computing framework"
+version = "1.1.0"
+description = "An evolutionary computing framework."
 requires-python = ">= 3.12.0"
 
 authors = [
@@ -17,7 +17,7 @@ keywords = ["Machine Learning", "Evolutionary Computing", "Framework"]
 
 # Overtagging
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 5 - Production/Stable",
 
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
@@ -63,8 +63,8 @@ find = {}
 reportUnknownMemberType = false
 
 [project.urls]
-Documentation = "https://yidingli.com/evokit/docs/"
-Repository = "https://yidingli.com/evokit/"
+Documentation = "https://yidingli.com/docs/evokit/"
+Repository = "https://yidingli.com/projects/evokit/"
 
 # [tools.setuptools.packages.find]
 # where = ["src"]
