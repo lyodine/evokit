@@ -1,3 +1,3 @@
-sphinx-apidoc -f -E -a --implicit-namespaces -o ./source ../evokit
+sphinx-apidoc -f -E -o ./source ../evokit
 
 %~dp0\make.bat html
