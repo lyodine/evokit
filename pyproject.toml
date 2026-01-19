@@ -24,9 +24,6 @@ classifiers = [
 
     "Programming Language :: Python :: 3.12",
 
-    "Natural Language :: English",
-
-    "Topic :: Documentation :: Sphinx",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Topic :: Scientific/Engineering :: Artificial Life",
     "Topic :: Software Development :: Libraries :: Python Modules",
@@ -66,9 +63,8 @@ find = {}
 reportUnknownMemberType = false
 
 [project.urls]
-Homepage = "https://yidingli.com/evokit/"
 Documentation = "https://yidingli.com/evokit/docs/"
-Repository = "https://gitlab.com/evokit/evokit"
+Repository = "https://yidingli.com/evokit/"
 
 # [tools.setuptools.packages.find]
 # where = ["src"]
