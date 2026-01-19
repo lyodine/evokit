@@ -32,7 +32,7 @@ The library have the following modules:
 | ------------------------------------------------------------ | -------------------------------------------------------- |
 | [core](./evokit/core/)                                       | Interfaces for custom evolutionary operators             |
 | [core.accelerator](./evokit/core/accelerator/)               | Performance-boosting utilities; parallelisation          |
-| [watch](./evokit/watch/)                           | Observe and report algorithms at runtime                 |
+| [watch](./evokit/watch/)                           | Utilities to observe and report algorithms at runtime. Also includes performance profilers. |
 | [core.accelerator](./evokit/evolvables/)                     | Custom evolutionary operators, including representations |
 | [tools.diversity](./evokit/tools/diversity/)                 | Diversity maintenance                                    |
 | [core.lineage](./evokit/tools/lineage/)                      | Lineage tracing                                          |
