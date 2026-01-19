@@ -18,6 +18,9 @@ type Name = str
 type Extra = str
 type RequirementText = str
 
+"""A dictionary of form {package_name: dependency_name}.
+Ignores ``full`` and ``all``.
+"""
 optional_dependencies: dict[Name,
                             Extra] = {}
 
@@ -31,7 +34,8 @@ try:
             each_split: str = each.split("; ")
             name: str = Requirement(each_split[0]).name
             extra: str = each_split[1].split("extra == ")[1].strip("\"")
-            optional_dependencies[name] = extra
+            if extra != "full" and extra != "all":
+                optional_dependencies[name] = extra
 
 except PackageNotFoundError:
     print("EvoKit is not installed ... how?"
