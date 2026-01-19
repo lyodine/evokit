@@ -2,18 +2,20 @@ Why EvoKit?
 ===========
 
 Since its conception in 2024, EvoKit has grown to implement
-a wide range of features. Please take a look at the
-(:doc:`guides/index`) page for some tutorials.
+a wide range of features. Please take a look at
+:doc:`guides/index` for some tutorials.
 
 EvoKit is designed to several software qualities, with
-research in mind:
+researchers in mind:
 
 Simple Operators
 ----------------
 
-Define only what matters and the framework will handle everything else.
+Define only what matters and the framework will
+handle the rest.
 
-The stock OneMax evaluator is written just in 3 lines. [#]_
+The stock OneMax evaluator, for example, is written just
+in 3 lines: [#]_
 
 .. literalinclude:: ../../evokit/evolvables/bitstring.py
     :language: python
@@ -23,23 +25,25 @@ The stock OneMax evaluator is written just in 3 lines. [#]_
 (Really) Great Interoperability
 -------------------------------
 
-Operators of the same type are interchangeable:
+Everything are interoperable and most
+things are interchangeable:
 
    * All evaluators and variators of the same representation are
      interchangeable; all selectors are interchangeable; all algorithms
      work with all compatible configurations of operators.
 
-   * All wrappers work with everything they can wrap.
-     For example, :meth:`.selectors.Elitist` can make every
-     selector an elitist one and :meth:`.lineage.TrackParents`
-     lets every variator preserve lineage information.
+   * All wrappers of the same operator type are interchangeable.
+     For example, :meth:`.selectors.Elitist` works with every
+     selector and :meth:`.lineage.TrackParents` works
+     with every variator.
 
    * All operators -- variators, evaluators, and selectors
      -- can be parallelised.
 
-   * All profilers work with all algorithms they are designed for.
+   * All profilers work with all algorithms of the right type.
 
-See :doc:`guides/examples/profile` for how everything falls together:
+See :doc:`guides/examples/profile` for how these pieces
+falls together. Here:
 
     * Several stock profilers in :mod:`.watch.profile` record
       the memory usage of an algorithm.
@@ -64,7 +68,7 @@ Completely Documented
 All public members are documented. All private members
 are documented. Absolutely everything is documented.
 
-See [:doc:`modules`] for the API documentation.
+See :doc:`modules` for the API documentation.
 
 Transparent
 -----------
@@ -103,9 +107,8 @@ Furthermore, EvoKit describes exactly what it does:
 Portable
 -----------
 
-The `core` module has no third-party dependency and can be run on any
-platform that supports Python. All dependency are optional and can be
-installed later.
+EvoKit has no mandatory dependency. All dependencies are
+optional and can be installed later, only when you need them.
 
 Reproducible
 ------------

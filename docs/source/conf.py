@@ -52,7 +52,7 @@ language = 'en-uk'
 autoclass_content = 'class'
 autosummary_generate = True
 
-napoleon_include_special_with_doc = True
+
 autodoc_default_options: dict[str, Any] = {
     'undoc-members': True,
     # Note: `autodoc_class_signature='separated'` causes `ClassDocumenter` to
@@ -65,6 +65,9 @@ autodoc_default_options: dict[str, Any] = {
     'exclude-members': '__new__',
 
 }
+# Turns out this setting right there overrides and
+#   bypasses 'exclude-members': '__new__'.
+# napoleon_include_special_with_doc = True
 
 
 autodoc_class_signature = 'separated'

@@ -83,15 +83,15 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
         parameters associated with the learning process as a whole.
         """
 
-        #! Number of elapsed generations.
+        #: Number of already elapsed generations.
         self.generation: int
-        #! Registered :class:`Watcher` objects.
+        #: Registered :class:`Watcher`\ s.
         self.watchers: list[Watcher[Any, Any]]
 
-    #! Events that can be reported by this algorithm.
+    #: Events that can be reported by this algorithm.
     events: list[str] = []
 
-    #! Events that are automatically reported by this algorithm.
+    #: Events that are automatically reported by this algorithm.
     automatic_events: tuple[str, ...] = \
         ("POST_STEP",)
 
@@ -102,7 +102,7 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
         Subclasses should override this method. Use operators to update
         the population (or populations). Call :meth:`update` to fire
         events for data collection mechanisms such as
-        :class:`watcher.Watcher`.
+        :class:`.Watcher`.
 
         .. note::
             After this method is called, but before control is
@@ -110,14 +110,14 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
 
             #. The :attr:`generation` of the algorithm increments by 1.
 
-            #. The algorithm fires an ``"POST_STEP"`` event to all attached
+            #. The algorithm fires an ``POST_STEP`` event to all attached
                watchers. For more on events and watchers,
-               see :class:`watcher.Watcher`.
+               see :class:`.Watcher`.
         """
         pass
 
     def register(self: Self, *watchers: Watcher[Any, Any]) -> None:
-        """Attach an :class:`Watcher` to this algorithm.
+        """Attach an :class:`.Watcher` to this algorithm.
 
         Args:
             watcher: The watcher to attach.
@@ -128,7 +128,8 @@ class Algorithm(ABC, metaclass=_MetaAlgorithm):
                 watcher.subscribe(self)
 
     def update(self: Self, event: str) -> None:
-        """Report an event to all attached :class:`Watcher` objects.
+        """Report an event to all attached :class:`.Watcher`\\ s in
+        :attr:`.watchers`.
 
         If the event is not in :attr:`events`, raise an exception.
 

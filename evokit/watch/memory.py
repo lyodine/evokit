@@ -67,7 +67,7 @@ class MemoryWatcher(Watcher[C,
     supported_metrics: set[MemoryWatcherMetric] = \
         set(MemoryWatcherMetric)
 
-    #: Maps each
+    #: Map from each :class:`MemoryWatcherMetric` to a handler.
     metric_to_measure: dict[MemoryWatcherMetric,
                             Callable[[Algorithm,
                                       'MemoryWatcher'],

@@ -10,9 +10,9 @@
 EvoKit Documentation
 ====================
 
-**EvoKit** is an evolutionary computation framework written in Python. See :doc:`why` for what sets it apart.
+EvoKit is an evolutionary computation framework written in Python. See :doc:`why` for a detailed list of features.
 
-Using EvoKit is easy! With all operators defined, you can run an evolutionary algorithm in just 7 lines! [#]_ [#]_
+Using EvoKit is easy! With all operators defined, you can run an evolutionary algorithm in just 7 lines. [#]_
 
 .. code-block:: python
    :linenos:
@@ -21,9 +21,7 @@ Using EvoKit is easy! With all operators defined, you can run an evolutionary al
       population=init_pop,
       variator=RandomBitMutator(0.1),
       selector=Elitist(TruncationSelector[BitString](POPULATION_SIZE)),
-      evaluator = BitDistanceEvaluator()
-   )
-
+      evaluator = BitDistanceEvaluator())
    for _ in range(GENERATION_COUNT):
       ctrl.step()
 
@@ -54,4 +52,3 @@ Indices and tables
 * :ref:`search`
 
 .. [#] Example derived from :doc:`guides/examples/onemax`
-.. [#] Technically 9 lines including parentheses and an empty line

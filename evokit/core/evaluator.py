@@ -87,11 +87,12 @@ class Evaluator(ABC, Generic[D], metaclass=_MetaEvaluator):
                  share_self: bool = False,
                  **kwargs) -> None:
         """
-        See :class:`Variator` for parameters :arg:`processes`
-        and :arg:`share_self`.
+        Args:
+            processes: See :class:`.Variator`.
+            share_self: See :class:`.Variator`.
         """
         self.retain_fitness: bool
-        """ If this evaluator should re-evaluate an :class:`Individual` whose
+        """ If this evaluator should re-evaluate an :class:`.Individual` whose
         :attr:`.fitness` is already set.
         """
 
@@ -114,7 +115,7 @@ class Evaluator(ABC, Generic[D], metaclass=_MetaEvaluator):
             :class:`.Selector` should prefer individuals with higher fitness.
 
         Args:
-            individual: individual to evaluate
+            individual: The individual to evaluate.
         """
 
     def evaluate_population(self: Self,
@@ -131,12 +132,11 @@ class Evaluator(ABC, Generic[D], metaclass=_MetaEvaluator):
         require access to the entire population.
 
         Effect:
-            For each item in :arg:`pop`, set its :attr:`Individual.fitness`.
+            For each item in :arg:`pop`, set its :attr:`.Individual.fitness`.
 
         .. note::
-            This method must **never** return a value. It must assign to
-            :attr:`.fitness` for each :class:`.Individual` in the
-            :class:`.Population`.
+            Overrides of this method must **never** return a value.
+            It does its work through effects.
         """
         fitnesses: Sequence[tuple[float, ...]] = parallelise_task(
             fn=self.evaluate.__func__,  # type: ignore

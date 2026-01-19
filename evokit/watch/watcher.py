@@ -114,7 +114,7 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
         Subscribe for events in a :class:`.Algorithm`.
 
         Args:
-            subject: the :class:`.Algorithm` whose events are seen by
+            subject: The :class:`.Algorithm` whose events are seen by
                 this watcher.
         """
         self.subject = subject

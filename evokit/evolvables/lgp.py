@@ -213,8 +213,8 @@ class StateVectorType(Enum):
 
 
 #: Tuple that locates an item in a state vector.
-#: The first item (:class:`StateVectorType`) specifies the state vector, then
-#:      the second item (:class:`int`) gives the index.
+#: The first item (:class:`StateVectorType`) specifies the
+#: state vector, then the second item (:class:`int`) gives the index.
 CellSpecifier: TypeAlias = tuple[StateVectorType,
                                  Annotated[int, ValueRange(0, float('inf'))]]
 
@@ -312,7 +312,7 @@ class LinearProgram():
                 a sequence, then its length must match :arg:`s`.
             constants: The constant vector.
 
-        Note:
+        .. note::
             Both constants and registers are indexed by integers.
 
             * Indices for registers begin at 0. Examples: 0, 1, 2, ...

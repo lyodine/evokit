@@ -51,10 +51,12 @@ class TruncationSelector(Selector[D]):
 class TournamentSelector(Selector[D]):
     """Tournament selector:
 
-    #. From the population, select uniform sample of size :arg:`bracket_size`.
+    #. From the population, select uniform sample of size
+       :attr:`.bracket_size`.
 
     #. Iterate through the sample, stop when a selection is made.
-       At index ``i``, select that item with probability :math:`p * (1- p)^i`.
+       At index ``i``, select that item with probability
+       :math:`p * (1- p)^i` (where :math:`p` is :attr:`.p`).
        If no selection is made when reaching the end of the sample, select
        the last item.
 
@@ -63,7 +65,9 @@ class TournamentSelector(Selector[D]):
     def __init__(self: Self, budget: int, bracket_size: int = 2,
                  p: float = 1):
         super().__init__(budget)
+        #: Size of a tournament bracket.
         self.bracket_size: int = bracket_size
+        #: Selection probability.
         self.p: float = min(2, max(p, 0))
 
     @override
@@ -97,18 +101,15 @@ class TournamentSelector(Selector[D]):
 def Elitist(sel: Selector[D]) -> Selector[D]:
     """Decorator that adds elitism to a selector.
 
-    Retain and update the highest-fitness individual encountered so far.
-    Each time the selector is called, append that individual to the end
-    of the output population.
+    Wrap `sel.select_population`, so that the
+    selector becomes elitist.
 
-    Modify `select_population` of `sel` to use elitism. If `sel` already
-    overrides `select_population`, that implementation is destroyed.
+    An elitist selector retains (and updates) the highest-fitness
+    individual encountered so far, and always deposits that individual
+    to the selected pool.
 
     Args:
-        sel: A selector
-
-    Return:
-        A selector
+        sel: A selector.
     """
 
     def wrap_function(original_select_population:

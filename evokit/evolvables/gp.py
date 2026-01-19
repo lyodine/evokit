@@ -62,7 +62,7 @@ class Expression(Generic[T]):
     An :class:`Expression` is also a :class:`Callable` that
     only accepts arguments passed by position.
 
-    The attribute :attr:`.value`
+    The attribute :attr:`.value` is the value of this node.
     """
     def __init__(self: Self,
                  arity: int,
@@ -84,6 +84,7 @@ class Expression(Generic[T]):
 
         The :class:`.ExpressionFactory` maintains hyperparameters that
         instruct the construction of this object.
+
         """
         if self._factory is not None:
             return self._factory
@@ -203,11 +204,11 @@ class ExpressionFactory(Generic[T]):
     Please see :mod:`.evolvables.funcs` for a set of primitives, or
     define custom functions.
 
-    Note:
+    .. note::
         If ``arity = 0``, then ``primitives`` must include at least one
         literal.
         Otherwise, the tree cannot be built, as no terminal node can be drawn.
-primitive_pool
+
     See:
         :attr:`Expression.factory`
     """
@@ -220,7 +221,7 @@ primitive_pool
                 of the expression tree. Listing a primitive more than
                 once increases its chance of being selected.
 
-            arity: arity of constructed :class:`Expression` instances.
+            arity: Arity of constructed :class:`Expression` instances.
 
         Raise:
             ValueError if ``arity=0`` and ``primitives`` does not contain
@@ -312,7 +313,7 @@ primitive_pool
         """Return an item from :attr:`.primitive_pool`
 
         Args:
-            nullary_ratio: probability of drawing terminals. If set,
+            nullary_ratio: Probability of drawing terminals. If set,
                 non-terminals are drawn with probability
                 (:python:`1-nullary_ratio`).
 
@@ -474,7 +475,7 @@ class MutateNode(Variator[Program[T]]):
              parents: Sequence[Program[T]]) -> tuple[Program[T], ...]:
         """
         Args:
-            parents: collection where the 0th item is the parent.
+            parents: Collection where the 0:sup:`th` item is the parent.
 
         Raise:
             ``ValueError`` if the parent's :attr:`Program.genome`

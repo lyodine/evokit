@@ -2,19 +2,21 @@ Installing
 ==========
 
 EvoKit can be installed with |PIPMOD|_.
-If an error occurs during installation, update ``pip`` then try again.
+If an error occurs during installation, please
+update ``pip`` then try again.
 
 .. |PIPMOD| replace:: ``pip``
 .. _PIPMOD: https://docs.python.org/3/installing/
 
 
-If you do not wish to install EvoKit globally, please consider using
+If you do not wish to install EvoKit globally, consider using
 a virtual environment. An official tutorial can be found `here <https://
 packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-
 environments/>`_.
 
-The build script uses the |BUILDMOD|_ module. Please install the module
-or update it by running the following script:
+The build script uses the |BUILDMOD|_ module.
+Please install this module or update it by
+running the following script:
 
 .. |BUILDMOD| replace:: ``build``
 .. _BUILDMOD: https://pypi.org/project/build/
@@ -35,21 +37,35 @@ To install EvoKit directly from |EVOKIT_ON_PIPY|_, run the following command:
 
    pip install evokit
 
+To install all optional dependencies, run the
+following command:
+
+.. code-block:: bash
+
+   pip install evokit[full]
 
 Install from Source
 -------------------
 
-To install EvoKit directly from source, run the following command at
-the root directory:
+To install EvoKit directly from source, run
+the following command at the root directory:
 
 .. code-block:: bash
 
    pip install .
 
+To install all optional dependencies, run the
+following command:
+
+.. code-block:: bash
+
+   pip install '.[full]'
+
 Build Documentation
 -------------------
 
-The directory ``docs/`` contains everything related to building documentations.
+The ``docs/`` directory has everything
+that build the documentation:
 
 * Run ``make.bat`` to rebuild the documentation.
    
@@ -57,43 +73,31 @@ The directory ``docs/`` contains everything related to building documentations.
 
 * ``source/`` contains all configuration files, including ``conf.py``.
 
-Trial Run
----------
+Quick Start
+-----------
 
-After installing the package, check if it is working by running
+After installing the package, you can run
+a simple OneMax experiment to see if it works.
+
+Command line:
 
 .. code-block:: bash
 
    python -m evokit.evolvables.bitstring
 
-or, inside a Python program or an interactive Python terminal, run
+Python code:
 
 .. code-block:: python
 
    import evokit.evolvables.bitstring as bitstring
    bitstring.trial_run()
 
-The output should be a string of tuples with non-decreasing (and hopefully
-increasing) values. A sample of the output follows.
+The output should be a string of tuples with
+non-decreasing (and hopefully increasing) values:
 
    - If the values are non-decreasing, then the elitist selector
-     has not failed to retain the best individual. Otherwise, the
-     elitist selector is not behaving expected: either the package
-     or the installation is erroneous.
+     has successfully retained the best individual.
 
    - If the values are increasing, then the variator has successfully
      improved the population. If this does not happen, try rerunning the
-     program a few times.
-
-.. code-block:: python
-
-   (15,)
-   (15,)
-   (15,)
-   (15,)
-   (17,)
-   (17,)
-   (17,)
-   (17,)
-   (17,)
-   (17,)
+     program times.

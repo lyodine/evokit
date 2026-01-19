@@ -35,7 +35,7 @@ class Selector(ABC, Generic[D]):
             Implementations that select a variable number of
             individuals may ignore :attr:`.budget`.
         """
-        #: Declared size of the output population
+        #: Declared size of the output population.
         self.budget = budget
 
     def select_population(self: Self,
@@ -52,7 +52,7 @@ class Selector(ABC, Generic[D]):
         about the whole population. Example: fitness proportionate selection.
 
         Args:
-            from_population: population to select from.
+            from_population: Population to select from.
 
         .. warning::
 
@@ -94,15 +94,14 @@ class Selector(ABC, Generic[D]):
         :meth:`select_population`.
 
         Args:
-            from_pool: tuple of individuals to select from.
+            from_pool: Tuple of individuals to select from.
 
         .. note::
             Each item in the returned tuple must be in :arg:`from_pool`.
 
             The selector should treat higher fitness as "better".
-
-            :class:`.Evaluator` should assign higher fitness to
-                "better" individuals.
+            Assume that :class:`.Evaluator`\\ s assign higher
+            fitness to better individuals.
 
         Raise:
             NotImplementedError: If the subclass does not override this

@@ -105,12 +105,13 @@ def graph_lineage(individuals: Sequence[Individual],
     enables lineage tracking in a variator.
 
     Args:
-        individuals: individuals to plot.
+        individuals: Individuals to plot.
 
         identifier: A function to convert an individual to
             a unique identifier. The default :meth:`id` is
             efficient but might not work with individual
-            that have moved out of memory (for example, )
+            that have moved out of memory (for example, ones
+            that have been :meth:`.Individual.load`\\ ed)
     """
     dot = graphviz.Digraph()
 

@@ -11,7 +11,7 @@ from ..core import Evaluator
 from ..core import Individual, Population
 from ..core import Variator
 
-from .algorithms import CanonicalGeneticAlgorithm
+from .algorithms import SimpleLinearAlgorithm
 from .selectors import Elitist, TruncationSelector
 from typing import Self, Sequence
 
@@ -306,21 +306,22 @@ class OnePointCrossover(Variator[BitString]):
 
 
 def trial_run() -> list[BitString]:
-    BINSTRING_LENGTH: int = 5
-    POPULATION_SIZE: int = 100
-    GENERATION_COUNT: int = 100
+    BINSTRING_LENGTH: int = 10
+    POPULATION_SIZE: int = 10
+    GENERATION_COUNT: int = 10
 
     init_pop = Population[BitString](
         [BitString.random(BINSTRING_LENGTH)
          for _ in range(POPULATION_SIZE)]
     )
 
-    ctrl: CanonicalGeneticAlgorithm[BitString] = CanonicalGeneticAlgorithm(
-        population=init_pop,
-        variator1=OnePointCrossover(0.8),
-        variator2=MutateBits(0.1),
-        evaluator=CountBits(),
-        selector=Elitist(TruncationSelector[BitString](POPULATION_SIZE)),
+    ctrl: SimpleLinearAlgorithm[BitString] =\
+        SimpleLinearAlgorithm(
+            population=init_pop,
+            variator=MutateBits(0.2),
+            evaluator=CountBits(),
+            selector=Elitist(
+                TruncationSelector[BitString](POPULATION_SIZE)),
     )
 
     bests: list[BitString] = []

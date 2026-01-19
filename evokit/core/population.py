@@ -88,11 +88,13 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
     The individual stores the encoding (:attr:`.genome`)
     and fitness (:attr:`.fitness`) of a representation.
 
-    The individual can information outside of the genotype, such as a
-        `.fitness`, a reference to the parent, and strategy parameter(s).
+    The individual can carry information other than
+    the genotype, such as a :attr:`.fitness`,
+    :attr:`.parents`, and strategy parameter(s).
 
     .. note::
-        Implementation should store the genotype in :attr:`.genome`.
+        Implementation should store the genotype in
+        :attr:`.genome`.
 
     Tutorial: :doc:`../guides/examples/onemax`.
     """
@@ -234,7 +236,7 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
 
         This approach is not perfect, but does well to save memory.
         The alternative is to preserve the parent of an individual
-        if it is part of a _short_ chain of parents.
+        if it is part of a *short* chain of parents.
         """
         # I have considered an alternative approach of
         #   maintaining a deque of parents.
@@ -259,6 +261,11 @@ class Individual(ABC, Generic[R], metaclass=_MetaGenome):
             _iphigenia.expunge_parents()
 
     def expunge_parents(self: Self) -> None:
+        """Reset :attr:`.parents`.
+
+        Effect:
+            Set :attr:`.parents` to None.
+        """
         self.parents = None
 
     @property
@@ -291,7 +298,8 @@ class Population(UserList[D], Generic[D]):
                  initlist: Optional[Sequence[D]] | Iterable[D] = None):
         """
         Args:
-            args: The callable to inspect.
+            initlist: If provided, an iterable of initial
+                members.
         """
         super().__init__(initlist)
 
@@ -321,7 +329,7 @@ class Population(UserList[D], Generic[D]):
             the variator tracks :math:`P` generations of parents
             and each individual is produced from :math:`F` parents,
             calling this method will call :meth:`.Individual.copy`
-            a total of :meth:`N\\times P \\times F` times.
+            a total of :math:`N\\times P \\times F` times.
             Be very careful.
         """
         return type(self)([x.archive() for x in self])
@@ -331,7 +339,7 @@ class Population(UserList[D], Generic[D]):
 
         Effect:
             For each item in this population, set
-            its :attr:`.fitness Individual.fitness` to ``None``.
+            its :attr:`Individual.fitness` to ``None``.
         """
         for x in self:
             x.reset_fitness()
@@ -369,7 +377,7 @@ def save(popi: Population | Individual,
     Preserves, among other things, :attr:`.Individual.uid`.
 
     Effect:
-        The file :arg:`file` is created or overwritten.
+        The file :arg:`file_path` is created or overwritten.
     """
     ensure_installed("dill")
     with open(file_path, mode='wb') as file:

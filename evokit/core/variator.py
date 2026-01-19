@@ -57,7 +57,7 @@ class Variator(ABC, Generic[D]):
         and :arg:`share_self`.
         """
 
-        #: Size of input to :meth:`vary`
+        #: Size of input to :meth:`vary`.
         self.arity: Optional[int]
 
         #: Multiprocessing capabilities. See :meth:`__init__`.
