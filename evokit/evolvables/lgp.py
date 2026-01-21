@@ -347,8 +347,8 @@ class LinearProgram():
         """
         Args:
             registers: Variable registers, registers for short.
-            constants: Constant registers. Banzhaf called these constants
-                and I like short names.
+            constants: Constant registers. Someone once called
+                these constants and I wholeheartedly agree with that.
             verbose: If ``True``, then evaluating each operation or
                 condition also prints to STDOUT.
 
