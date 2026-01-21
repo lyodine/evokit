@@ -7,18 +7,18 @@ from __future__ import annotations
 #   anywhere that matters, so it's probably no big deal.
 # On well.
 from abc import ABC
-from typing import Annotated, Any, Sequence, Literal, Optional
-
-import numpy as np
-
 from abc import abstractmethod
 from dataclasses import dataclass
-from typing import Self, TypeVar, override
+
+from typing import Annotated
+from typing import Any
+from typing import Sequence
+from typing import Literal
+from typing import Optional
+from typing import Concatenate
+from typing import Self, override
 from typing import Iterable
 from typing import Callable
-
-from numpy import float64
-from numpy.typing import NDArray
 
 from typing import TypeAlias
 from enum import Enum, auto
@@ -26,8 +26,6 @@ from enum import Enum, auto
 from .._utils.dependency import ensure_installed
 
 ensure_installed("numpy")
-
-T = TypeVar("T")
 
 
 class Instruction():
@@ -268,8 +266,11 @@ def _operation_to_text(function: Callable,
         + f'{function.__name__}({", ".join(operands_str)})'
 
 
+type Endofunction[R] = Callable[Concatenate[R, ...], R]
+
+
 @dataclass
-class Operation(Instruction):
+class Operation[R](Instruction):
     """An operation.
 
     Executing this operation calls :arg:`function`
@@ -278,7 +279,7 @@ class Operation(Instruction):
     variable register.
     """
     def __init__(self: Self,
-                 function: Callable[..., float],
+                 function: Endofunction[R],
                  target: int,
                  operands: tuple[CellSpecifier, ...]):
         """
@@ -287,7 +288,7 @@ class Operation(Instruction):
             target: A position in the variable register.
             operands: Arguments to :arg:`function`.
         """
-        self.function: Callable[..., float] = function
+        self.function: Endofunction[R] = function
         self.target: int = target
         self.operands: tuple[CellSpecifier, ...] = operands
 
@@ -316,14 +317,14 @@ class Operation(Instruction):
     __repr__ = __str__
 
 
-class Condition():
+class Condition[R]():
     """Base class for predicates, or conditions.
 
     Conditions are used by conditional control structures, such as
     :class:`If` and :class:`While`.
     """
     def __init__(self: Self,
-                 function: Callable[..., bool],
+                 function: Callable[Concatenate[R, ...], bool],
                  args: tuple[CellSpecifier, ...]):
         """
         Args:
@@ -334,15 +335,25 @@ class Condition():
         self.args = args
 
 
-class LinearProgram():
+class LinearProgram[R]:
     """Context for executing linear programs.
 
-    A :class:`LinearProgram` stores states (such as registers and constants) of
-    the program.
+    A context stores states of a program. These states
+    include constant and variable registers. Call methods
+    of the context to run instructions in this state.
+
+    This context is generic, and as such works with
+    all endofunctions in its type argument [#]_.
+
+    .. [#] Yes, you read that right. *Numbers*
+        are so vanilla. Want to evolve programs
+        in functions? Graphs? INI files?
+        What about makeup tutorials? Yes to all
+        the above. EvoKit got you back.
     """
     def __init__(self: Self,
-                 registers: Iterable[float],
-                 constants: Iterable[float],
+                 registers: Iterable[R],
+                 constants: Iterable[R],
                  verbose: bool = False):
         """
         Args:
@@ -351,47 +362,33 @@ class LinearProgram():
                 these constants and I wholeheartedly agree with that.
             verbose: If ``True``, then evaluating each operation or
                 condition also prints to STDOUT.
-
-        .. note::
-            Both constants and registers are indexed by integers.
-
-            * Indices for registers begin at 0. Examples: 0, 1, 2, ...
-
-            * Indices for constants begin at -1. Examples: -1, -2, -3, ...
         """
         #: The register vector stores mutable state variables.
         #: Set with :meth:`.set_register`.
-        self.registers: NDArray[np.float64]
+        self.registers: list[R]
         self.set_registers(registers)
 
         #: The constant vector stores immutable state variables.
         #: Set with :meth:`.set_constants`.
-        self.constants: NDArray[np.float64]
+        self.constants: tuple[R, ...]
         self.set_constants(constants)
 
         #: If ``True``, then each operation also
         #: prints what it does.
         self.verbose = verbose
 
-    def set_registers(self: Self, registers: Iterable[float]) -> None:
+    def set_registers(self: Self, registers: Iterable[R]) -> None:
         """Update the register vector with :arg:`registers`.
         """
-        self.registers = np.fromiter(registers, dtype=float64)
+        self.registers = list(registers)
 
-    def set_constants(self: Self, constants: Iterable[float]) -> None:
+    def set_constants(self: Self, constants: Iterable[R]) -> None:
         """Update the constant vector with :arg:`constants`.
         """
-        self.constants = np.fromiter(constants, dtype=float64)
-        self.constants.flags.writeable = False
-
-    def set_inputs(self: Self, inputs: Iterable[float]) -> None:
-        """Update the input vector with :arg:`inputs`.
-        """
-        self.inputs = np.fromiter(inputs, dtype=float64)
-        self.inputs.flags.writeable = False
+        self.constants = tuple(constants)
 
     def get_cell_value(self: Self,
-                       cellspecifier: CellSpecifier) -> np.float64:
+                       cellspecifier: CellSpecifier) -> R:
         """Return the state vector specified by :arg:`cellspec`.
         """
 
@@ -400,7 +397,7 @@ class LinearProgram():
 
     def get_state_vector(self: Self,
                          celltype: StateVectorType)\
-            -> NDArray[np.float64]:
+            -> Sequence[R]:
         """Return the state vector specified by :arg:`cellspec`.
         """
         match celltype:
