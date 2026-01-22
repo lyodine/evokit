@@ -225,7 +225,7 @@ def name_cell_specifier(spec: CellSpecifier) -> str:
     if spec[0] == StateVectorType.register:
         return f"r[{spec[1]}]"
     else:
-        return f"c[{abs(spec[1])}]"
+        return f"c[{spec[1]}]"
 
 
 def cell(pos: int) -> CellSpecifier:
@@ -259,8 +259,7 @@ def _operation_to_text(function: Callable,
     """Return the string representation of an operation
     """
     operands_str: list[str] = [
-        f"c[{spec[1]}]" if spec[0] == StateVectorType.constant
-        else f"r[{spec[1]}]" for spec in operands
+        name_cell_specifier(spec) for spec in operands
     ]
     return (f'r[{target}] := ' if target is not None else "")\
         + f'{function.__name__}({", ".join(operands_str)})'
@@ -416,9 +415,8 @@ class LinearProgram[R]:
         current_line: int = 0
 
         while current_line < len(instructions):
-            current_line += self.run_instruction(instructions[current_line],
-                                                 instructions,
-                                                 current_line)
+            current_line += self._run_instruction(instructions,
+                                                  current_line)
 
     def check_condition(self: Self, cond: Condition) -> bool:
         """Execute a condition in the current context, return the result.
@@ -432,12 +430,9 @@ class LinearProgram[R]:
                                            cond.args)} -> {result}")
         return result
 
-    def run_instruction(self: Self, instruction: Instruction,
-                        instructions: Sequence[Instruction],
-                        pos: int) -> int:
-
-        # Let's check - is it always the case that
-        # instructions[pos] is instruction?
+    def _run_instruction(self: Self,
+                         instructions: Sequence[Instruction],
+                         pos: int) -> int:
         """Execute an instruction.
 
         Execute the instruction :arg:`instruction`
@@ -454,6 +449,7 @@ class LinearProgram[R]:
             pos: Position of current execution pointer.
 
         """
+        instruction: Instruction = instructions[pos]
         match instruction:
             case Operation():
                 return self._run_operation(instruction)
@@ -470,7 +466,7 @@ class LinearProgram[R]:
                                                     instructions,
                                                     pos)
             case Label():
-                return self._run_label()
+                return self._run_label(instruction)
             case _:
                 raise ValueError("Instruction type"
                                  f" {type(instruction).__name__}"
@@ -500,7 +496,8 @@ class LinearProgram[R]:
                                          instruction.target,))
         return 1
 
-    def _run_struct_over_lines(self: Self, instruction: StructOverLines,
+    def _run_struct_over_lines(self: Self,
+                               instruction: StructOverLines,
                                instructions: Sequence[Instruction],
                                pos: int) -> int:
         if self.verbose:
@@ -527,7 +524,8 @@ class LinearProgram[R]:
 
         return num_of_steps + 1
 
-    def _run_struct_next_line(self: Self, instruction: StructNextLine,
+    def _run_struct_next_line(self: Self,
+                              instruction: StructNextLine,
                               instructions: Sequence[Instruction],
                               pos: int) -> int:
         if self.verbose:
