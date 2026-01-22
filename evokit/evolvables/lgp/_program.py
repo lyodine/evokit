@@ -130,7 +130,9 @@ class For(StructureType):
     :attr:`.count` times. Not really a for loop, since it does
     not use a condition.
     """
-    def __init__(self: Self, count: int):
+    def __init__(self: Self,
+                 count: int
+                 | CellSpecifier):
         #: Number of times the body executes for.
         self.count = count
 
@@ -138,7 +140,14 @@ class For(StructureType):
     def __call__(self: Self,
                  lgp: LinearProgram,
                  instructions: Sequence[Instruction]) -> None:
-        for _ in range(self.count):
+        loop_count: int
+        match self.count:
+            case int():
+                loop_count = self.count
+            case _:
+                loop_count = lgp.get_cell_value(self.count)
+
+        for _ in range(loop_count):
             lgp.run(instructions)
 
 
