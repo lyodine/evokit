@@ -179,7 +179,7 @@ class While(StructureType):
     #: Maximum number of iterations a :class:`While` loop can run for.
     loop_cap = 20
 
-    def __init__(self: Self, condition: Condition):
+    def __init__(self: Self, condition: Condition | bool):
         """
         Args:
             condition: Condition that, if satisfied, ends the structures.
@@ -192,10 +192,12 @@ class While(StructureType):
                  lgp: LinearProgram,
                  instructions: Sequence[Instruction]) -> None:
         for _ in range(While.loop_cap):
-            if (lgp.check_condition(self.condition)):
-                lgp.run(instructions)
+            if isinstance(self.condition, bool):
+                if self.condition:
+                    lgp.run(instructions)
             else:
-                break
+                if (lgp.check_condition(self.condition)):
+                    lgp.run(instructions)
 
 
 class If(StructureType):
@@ -205,15 +207,19 @@ class If(StructureType):
     once if :arg:`condition` evaluates to ``True``.
     Otherwise, the structure is skipped and does nothing.
     """
-    def __init__(self: Self, condition: Condition):
+    def __init__(self: Self, condition: Condition | bool):
         self.condition = condition
 
     @override
     def __call__(self: Self,
                  lgp: LinearProgram,
                  instructions: Sequence[Instruction]) -> None:
-        if (lgp.check_condition(self.condition)):
-            lgp.run(instructions)
+        if isinstance(self.condition, bool):
+            if self.condition:
+                lgp.run(instructions)
+        else:
+            if (lgp.check_condition(self.condition)):
+                lgp.run(instructions)
 
 
 @dataclass
@@ -460,6 +466,7 @@ class LinearProgram[R]:
         if self.verbose:
             print(f"?? {_operation_to_text(cond.function,
                                            cond.args)} -> {result}")
+
         return result
 
     def _run_instruction(self: Self,
@@ -555,8 +562,8 @@ class LinearProgram[R]:
         # Somehow changing `pos + 1` to `pos` works. Investigate later.
         current_pos: int = pos + 1
 
-        num_of_steps: int = min(len(instructions) - current_pos,
-                                get_number(instruction.line_count))
+        num_of_steps: int = min([len(instructions) - current_pos,
+                                 get_number(instruction.line_count)])
 
         if self.verbose:
             print("Collect command into structure:")
