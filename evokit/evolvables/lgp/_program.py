@@ -76,14 +76,17 @@ class StructureScope(ABC, Instruction):
 class StructOverLines(StructureScope):
     """Control structure that spans a number of lines.
     """
-    def __init__(self: Self, stype: StructureType, line_count: int) -> None:
+    def __init__(self: Self,
+                 stype: StructureType,
+                 line_count: int
+                 | CellSpecifier) -> None:
         """
         Args:
             stype: Type of the control structure.
             line_count: Number of lines that the control structure spans.
         """
         self.stype: StructureType = stype
-        self.line_count: int = line_count
+        self.line_count: int | CellSpecifier = line_count
 
 
 class StructUntilLabel(StructureScope):
@@ -123,6 +126,20 @@ class Label():
         self.text = text
 
 
+def get_number(n: int | float | CellSpecifier)\
+        -> Annotated[int, ValueRange(0, float("inf"))]:
+    """Get a number out of :arg:`n`.
+
+    If :arg:`n` is a number, return ``int(n)``. Otherwise,
+    return the location of the cell.
+    """
+    match n:
+        case int() | float():
+            return int(n)
+        case _:
+            return n[1]
+
+
 class For(StructureType):
     """"For" loop.
 
@@ -140,12 +157,7 @@ class For(StructureType):
     def __call__(self: Self,
                  lgp: LinearProgram,
                  instructions: Sequence[Instruction]) -> None:
-        loop_count: int
-        match self.count:
-            case int():
-                loop_count = self.count
-            case _:
-                loop_count = lgp.get_cell_value(self.count)
+        loop_count: int = get_number(self.count)
 
         for _ in range(loop_count):
             lgp.run(instructions)
@@ -543,8 +555,8 @@ class LinearProgram[R]:
         # Somehow changing `pos + 1` to `pos` works. Investigate later.
         current_pos: int = pos + 1
 
-        num_of_steps: int = min([len(instructions) - current_pos,
-                                 instruction.line_count])
+        num_of_steps: int = min(len(instructions) - current_pos,
+                                get_number(instruction.line_count))
 
         if self.verbose:
             print("Collect command into structure:")
