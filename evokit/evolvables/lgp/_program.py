@@ -113,7 +113,7 @@ class StructNextLine(StructureScope):
         self.stype: StructureType = stype
 
 
-class Label():
+class Label[T](Instruction[T]):
     """Text label.
 
     Use with :class:`StructUntilLabel`.

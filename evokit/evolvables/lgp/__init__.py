@@ -17,6 +17,8 @@ from ._program import Operation
 from ._program import Condition
 from ._program import LinearProgram
 
+from ._check import check_all
+
 
 __all__ = [
     "Instruction",
@@ -37,4 +39,5 @@ __all__ = [
     "Operation",
     "Condition",
     "LinearProgram",
+    "check_all"
 ]
