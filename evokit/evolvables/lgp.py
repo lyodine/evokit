@@ -1,11 +1,5 @@
 from __future__ import annotations
 
-# It's just so appropriate here.
-# I'm coming back to this comment and have no idea
-#   what it means.
-# Luckily I have stuck to the principle of not joking
-#   anywhere that matters, so it's probably no big deal.
-# On well.
 from abc import ABC
 from abc import abstractmethod
 from dataclasses import dataclass
@@ -28,17 +22,21 @@ from .._utils.dependency import ensure_installed
 ensure_installed("numpy")
 
 
-class Instruction():
-    pass
+class Instruction[R]():
+    """Base class for all instructions.
+
+    An instruction is a "line" in the program.
+    """
+    ...
 
 
 class StructureType(ABC):
     """Base class for all control structure types.
 
-    The :class:`.StructureType` decides how many times
-    a control structure is executed: whether once
-    (:class:`.If`), for a number of times (:class:`.For`),
-    or until an expression evaluates to ``True`` (:class:`.While`).
+    The type of a control structure decides how many times
+    its body is executed: whether once (:class:`.If`),
+    for a number of times (:class:`.For`), or until an
+    expression evaluates to ``True`` (:class:`.While`).
 
     Derive this class to create custom structure types.
     """
@@ -57,10 +55,10 @@ class StructureType(ABC):
 class StructureScope(ABC, Instruction):
     """Base class for all control structure scopes.
 
-    The scope decides decides how many lines following the
-    current line become part of the structure (its _body_).
+    The scope of a control structure decides how many
+    lines following it become part of its body.
     The scope also contains a :class:`.StructureScope`,
-    which decides how many times the body is executed.
+    which decides how many times this body is executed.
 
     Derive this class to create custom scopes.
     """
@@ -126,10 +124,11 @@ class Label():
 
 
 class For(StructureType):
-    """Simple "for" loop.
+    """"For" loop.
 
     A control structure with this type repeats its body for
-    :attr:`.count` times.
+    :attr:`.count` times. Not really a for loop, since it does
+    not use a condition.
     """
     def __init__(self: Self, count: int):
         #: Number of times the body executes for.
@@ -147,7 +146,7 @@ class While(StructureType):
     """While loop.
 
     A control structure with this type repeats its body
-    until :attr:`.condition` is satisfied or
+    until :attr:`.condition` evaluates to ``True`` or
     :attr:`.loop_cap` loops have elapsed.
 
     .. info::
@@ -159,13 +158,13 @@ class While(StructureType):
     #: Maximum number of iterations a :class:`While` loop can run for.
     loop_cap = 20
 
-    def __init__(self: Self, conditional: Condition):
+    def __init__(self: Self, condition: Condition):
         """
         Args:
-            conditional: Condition that, if satisfied, ends the structures.
+            condition: Condition that, if satisfied, ends the structures.
         """
         #: Condition that must be satisfied for the structure to stop.
-        self.condition = conditional
+        self.condition = condition
 
     @override
     def __call__(self: Self,
@@ -179,19 +178,20 @@ class While(StructureType):
 
 
 class If(StructureType):
-    """Structure with conditional execution.
+    """Structure with condition execution.
 
-    A control structure with this type executes once if :arg:`conditional`
-    is satisfied. Otherwise, the structure is skipped and does nothing.
+    A control structure with this type executes
+    once if :arg:`condition` evaluates to ``True``.
+    Otherwise, the structure is skipped and does nothing.
     """
-    def __init__(self: Self, conditional: Condition):
-        self.conditional = conditional
+    def __init__(self: Self, condition: Condition):
+        self.condition = condition
 
     @override
     def __call__(self: Self,
                  lgp: LinearProgram,
                  instructions: Sequence[Instruction]) -> None:
-        if (lgp.check_condition(self.conditional)):
+        if (lgp.check_condition(self.condition)):
             lgp.run(instructions)
 
 
@@ -204,10 +204,9 @@ class ValueRange:
 class StateVectorType(Enum):
     """Type of a state vector.
 
-    A linear program stores three state vectors:
-    the input vector :attr:`.LinearProgram.inputs`,
-    the mutable register :attr:`.LinearProgram.registers`, and
-    the constant register :attr:`.LinearProgram.constants`,
+    A linear program stores two state vectors.
+    Here, :attr:`.LinearProgram.registers` are mutable;
+    :attr:`.LinearProgram.constants` are immutable.
     """
     register = auto()
     constant = auto()
@@ -222,6 +221,10 @@ CellSpecifier: TypeAlias = tuple[StateVectorType,
 
 
 def name_cell_specifier(spec: CellSpecifier) -> str:
+    """Map a :class:`.CellSpecifier` to a name:
+    *. Cells in a variable register become ``r[i]``.
+    *. Cells in a constant register become ``c[i]``.
+    """
     if spec[0] == StateVectorType.register:
         return f"r[{spec[1]}]"
     else:
@@ -229,11 +232,12 @@ def name_cell_specifier(spec: CellSpecifier) -> str:
 
 
 def cell(pos: int) -> CellSpecifier:
-    """Convenience function for creating a :class:`.CellSpecifier`.
+    """Convenience function for creating a
+    :class:`.CellSpecifier`.
 
     Arg:
         pos: If :arg:`pos>=0`, specify the :arg:`pos`\\ :sup:`th`
-            register. Otherwise, specify the  :arg:`abs(pos)-1`
+            register. Otherwise, specify the :arg:`abs(pos)-1`
             :sup:`th` constant.
     """
     if pos >= 0:
@@ -265,16 +269,25 @@ def _operation_to_text(function: Callable,
         + f'{function.__name__}({", ".join(operands_str)})'
 
 
+#: Type for an endofunction.
 type Endofunction[R] = Callable[Concatenate[R, ...], R]
+# Technically this type means functions that take
+#   one R as argument as minimum -- it doesn't care what
+#   arguments come next.
+# This is because to my knowledge, Python has no facility
+#   for this -- typing it variadic would preclude,
+#   for example, functions such ``add(a, b)`` that
+#   are not variadic. Some features are "left to future PEPs";
+#   I suspect what I want is among those.
 
 
 @dataclass
-class Operation[R](Instruction):
+class Operation[R](Instruction[R]):
     """An operation.
 
     Executing this operation calls :arg:`function`
     with :attr:`.operands` as arguments. The result
-    is then deposited into the :attr:`.target`\\ s
+    should then be deposited into the :attr:`.target`\\ s
     variable register.
     """
     def __init__(self: Self,
@@ -293,8 +306,6 @@ class Operation[R](Instruction):
 
         # Check if all operands are constants. A bad thing
         #   according to the B&B LGP book.
-        # Do not, however, check if the target is a register, because
-        #   :attr:`.inputs` and :attr:`.constants` are already immutable.
         has_register_operand: bool
         has_register_operand = any(opr[0] == StateVectorType.register
                                    for opr in operands)
@@ -319,7 +330,7 @@ class Operation[R](Instruction):
 class Condition[R]():
     """Base class for predicates, or conditions.
 
-    Conditions are used by conditional control structures, such as
+    Conditions are used by condition control structures, such as
     :class:`If` and :class:`While`.
     """
     def __init__(self: Self,
@@ -377,27 +388,27 @@ class LinearProgram[R]:
         self.verbose = verbose
 
     def set_registers(self: Self, registers: Iterable[R]) -> None:
-        """Update the register vector with :arg:`registers`.
+        """Set the register vector to :arg:`registers`.
         """
         self.registers = list(registers)
 
     def set_constants(self: Self, constants: Iterable[R]) -> None:
-        """Update the constant vector with :arg:`constants`.
+        """Set the constant vector to :arg:`constants`.
         """
         self.constants = tuple(constants)
 
     def get_cell_value(self: Self,
-                       cellspecifier: CellSpecifier) -> R:
-        """Return the state vector specified by :arg:`cellspec`.
+                       spec: CellSpecifier) -> R:
+        """Return the value in the cell specified by
+        :arg:`spec`.
         """
-
         return self.get_state_vector(
-            cellspecifier[0])[cellspecifier[1]]
+            spec[0])[spec[1]]
 
     def get_state_vector(self: Self,
                          celltype: StateVectorType)\
             -> Sequence[R]:
-        """Return the state vector specified by :arg:`cellspec`.
+        """Return the state vector specified by :arg:`celltype`.
         """
         match celltype:
             case StateVectorType.register:
@@ -409,8 +420,8 @@ class LinearProgram[R]:
         """Execute :arg:`instructions` in this context.
 
         Effect:
-            Instructions, for example :class:`Operation` s, may alter
-            the state of this context.
+            Executing an :class:`Operation` updates
+            :attr:`.registers`.
         """
         current_line: int = 0
 
@@ -435,8 +446,8 @@ class LinearProgram[R]:
                          pos: int) -> int:
         """Execute an instruction.
 
-        Execute the instruction :arg:`instruction`
-        in sequence :arg:`instructions` at position :arg:`pos`.
+        Execute the :arg:`pos`\\ :sup:`th` instruction
+        in :arg:`instructions`.
 
         Return the number of lines advanced as a result.
         Running a single operation advances the execution
@@ -444,7 +455,8 @@ class LinearProgram[R]:
         skip more lines.
 
         Args:
-            instructions: Sequence of instruction to run :arg:`instruction` in.
+            instructions: A sequence of instructions. This is the
+                actual executable program.
 
             pos: Position of current execution pointer.
 
@@ -473,6 +485,10 @@ class LinearProgram[R]:
                                  " not recognised.")
 
     def _run_label(self: Self, instruction: Label) -> Literal[1]:
+        """Execute a label, which does nothing.
+
+        Return the number of lines executed (always 1).
+        """
         if self.verbose:
             print(f"{instruction.text}: (label)")
         return 1
@@ -480,7 +496,8 @@ class LinearProgram[R]:
     def _run_operation(self: Self,
                        instruction: Operation) -> Literal[1]:
         """Execute :arg:`instruction` in this context.
-        Returns the number of lines executed, which is always 1.
+
+        Return the number of lines executed  (always 1).
         """
         if instruction.target < 0:
             raise ValueError("Malformed instruction: assignment to"
@@ -500,6 +517,15 @@ class LinearProgram[R]:
                                instruction: StructOverLines,
                                instructions: Sequence[Instruction],
                                pos: int) -> int:
+        """Execute a structure over several lines.
+
+        Return the number of lines actually executed.
+        This is the smaller of two values:
+
+        * The number of lines left in the program.
+
+        * The size of the body plus one.
+        """
         if self.verbose:
             print(f"Running {type(instruction.stype).__name__}"
                   f" over next {instruction.line_count} lines.")
@@ -527,7 +553,11 @@ class LinearProgram[R]:
     def _run_struct_next_line(self: Self,
                               instruction: StructNextLine,
                               instructions: Sequence[Instruction],
-                              pos: int) -> int:
+                              pos: int) -> Literal[1] | Literal[2]:
+        """Execute a structure over the next line.
+
+        Returns the number of lines executed (1 or 2).
+        """
         if self.verbose:
             print(f"Running {type(instruction.stype).__name__}"
                   " with next line.")
@@ -535,19 +565,23 @@ class LinearProgram[R]:
         collected_lines: list[Instruction] = []
         current_pos: int = pos + 1
 
-        num_of_steps: int = min([len(instructions) - current_pos, 1])
+        num_of_steps: int = 0 if len(instructions) == current_pos else 1
 
         for _ in range(num_of_steps):
             collected_lines.append(instructions[current_pos])
             current_pos += 1
         instruction.stype(self, collected_lines)
 
-        return num_of_steps
+        return num_of_steps + 1
 
     def _run_struct_until_label(self: Self,
                                 instruction: StructUntilLabel,
                                 instructions: Sequence[Instruction],
                                 pos: int) -> int:
+        """Continue executing until a label is found.
+
+        Return 1 if `instructions` is exhausted; otherwise return 2.
+        """
         if self.verbose:
             print(f"Running {type(instruction.stype).__name__}"
                   f" with until label {instruction.label}.")
@@ -557,8 +591,13 @@ class LinearProgram[R]:
 
         num_of_steps: int = len(instructions) - current_pos
 
+        if self.verbose:
+            print("Collect command into structure:")
+
         for _ in range(num_of_steps):
             current_instruction: Instruction = instructions[current_pos]
+            if self.verbose:
+                print(f"> {current_instruction}")
 
             if (isinstance(current_instruction, Label)
                     and current_instruction.text == instruction.label):
