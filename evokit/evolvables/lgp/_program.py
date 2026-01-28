@@ -102,7 +102,7 @@ class StructUntilLabel(StructureScope):
         self.label: str = label
 
 
-class StructNextLine(StructureScope):
+class StructNextLine(StructOverLines):
     """Control structure that spans one line.
     """
     def __init__(self: Self, stype: StructureType):
@@ -110,7 +110,8 @@ class StructNextLine(StructureScope):
         Args:
             stype: Type of the control structure.
         """
-        self.stype: StructureType = stype
+        super().__init__(stype=stype,
+                         line_count=1)
 
 
 class Label[T](Instruction[T]):
@@ -493,10 +494,6 @@ class LinearProgram[R]:
         match instruction:
             case Operation():
                 return self._run_operation(instruction)
-            case StructNextLine():
-                return self._run_struct_next_line(instruction,
-                                                  instructions,
-                                                  pos)
             case StructOverLines():
                 return self._run_struct_over_lines(instruction,
                                                    instructions,
@@ -572,30 +569,6 @@ class LinearProgram[R]:
             if self.verbose:
                 print(f"> {instructions[current_pos]}")
 
-            collected_lines.append(instructions[current_pos])
-            current_pos += 1
-        instruction.stype(self, collected_lines)
-
-        return num_of_steps + 1
-
-    def _run_struct_next_line(self: Self,
-                              instruction: StructNextLine,
-                              instructions: Sequence[Instruction],
-                              pos: int) -> Literal[1] | Literal[2]:
-        """Execute a structure over the next line.
-
-        Returns the number of lines executed (1 or 2).
-        """
-        if self.verbose:
-            print(f"Running {type(instruction.stype).__name__}"
-                  " with next line.")
-
-        collected_lines: list[Instruction] = []
-        current_pos: int = pos + 1
-
-        num_of_steps: int = 0 if len(instructions) == current_pos else 1
-
-        for _ in range(num_of_steps):
             collected_lines.append(instructions[current_pos])
             current_pos += 1
         instruction.stype(self, collected_lines)
