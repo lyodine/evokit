@@ -13,6 +13,8 @@ from typing import Concatenate
 from typing import Self, override
 from typing import Iterable
 from typing import Callable
+from typing import Type
+from typing import overload
 
 from typing import TypeAlias
 from enum import Enum, auto
@@ -127,18 +129,56 @@ class Label[T](Instruction[T]):
         self.text = text
 
 
-def get_number(n: int | float | CellSpecifier)\
+@overload
+def get_number(n: int | float | CellSpecifier,
+               lgp: LinearProgram,
+               number_constructor: Type[int])\
         -> Annotated[int, ValueRange(0, float("inf"))]:
-    """Get a number out of :arg:`n`.
+    pass
 
-    If :arg:`n` is a number, return ``int(n)``. Otherwise,
-    return the location of the cell.
+
+@overload
+def get_number(n: int | float | CellSpecifier,
+               lgp: LinearProgram,
+               number_constructor: Type[float])\
+        -> Annotated[float, ValueRange(0, float("inf"))]:
+    pass
+
+
+def get_number(n: int | float | CellSpecifier,
+               lgp: LinearProgram,
+               number_constructor: Type[int] | Type[float])\
+        -> Annotated[int, ValueRange(0, float("inf"))] |\
+        Annotated[float, ValueRange(0, float("inf"))]:
+    """Get a number of type :arg:`number_constructor`
+    out of :arg:`n`. The process goes as follows:
+
+    * If :arg:`n` is a number, convert it to the appropriate type.
+
+    * Otherwise, :arg:`n` is a :class:`.CellSpecifier`.
+        Attempt to convert the value stored in the specified cell
+        into a number, then return that number.
+
+        * If this does not succeed, return the index of :arg:`n`.
+
+    Arg:
+        n: A number of a specifier for a register that
+            contains a number.
+
+        lgp: The program to resolve :arg:`n` with,
+            in the case that :arg:`n` is not a number.
+
+        number_constructor: Either :code:`int` or
+            :code:`float`.
     """
     match n:
         case int() | float():
-            return int(n)
+            return number_constructor(n)
         case _:
-            return n[1]
+            try:
+                return lgp.get_cell_value(n)
+            except ValueError:
+                return n[1]
 
 
 class For(StructureType):
@@ -158,7 +198,7 @@ class For(StructureType):
     def __call__(self: Self,
                  lgp: LinearProgram,
                  instructions: Sequence[Instruction]) -> None:
-        loop_count: int = get_number(self.count)
+        loop_count: int = get_number(self.count, lgp, int)
 
         for _ in range(loop_count):
             lgp.run(instructions)
@@ -560,7 +600,9 @@ class LinearProgram[R]:
         current_pos: int = pos + 1
 
         num_of_steps: int = min([len(instructions) - current_pos,
-                                 get_number(instruction.line_count)])
+                                 get_number(instruction.line_count,
+                                            self,
+                                            int)])
 
         if self.verbose:
             print("Collect command into structure:")
