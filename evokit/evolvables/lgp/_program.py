@@ -596,7 +596,6 @@ class LinearProgram[R]:
                   f" over next {instruction.line_count} lines.")
 
         collected_lines: list[Instruction] = []
-        # Somehow changing `pos + 1` to `pos` works. Investigate later.
         current_pos: int = pos + 1
 
         num_of_steps: int = min([len(instructions) - current_pos,
