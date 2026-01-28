@@ -104,16 +104,7 @@ class StructUntilLabel(StructureScope):
         self.label: str = label
 
 
-class StructNextLine(StructOverLines):
-    """Control structure that spans one line.
-    """
-    def __init__(self: Self, stype: StructureType):
-        """
-        Args:
-            stype: Type of the control structure.
-        """
-        super().__init__(stype=stype,
-                         line_count=1)
+
 
 
 class Label[T](Instruction[T]):
