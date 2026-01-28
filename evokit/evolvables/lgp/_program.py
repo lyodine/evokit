@@ -91,6 +91,18 @@ class StructOverLines(StructureScope):
         self.line_count: int | CellSpecifier = line_count
 
 
+class StructNextLine(StructOverLines):
+    """Control structure that spans one line.
+    """
+    def __init__(self: Self, stype: StructureType):
+        """
+        Args:
+            stype: Type of the control structure.
+        """
+        super().__init__(stype=stype,
+                         line_count=1)
+
+
 class StructUntilLabel(StructureScope):
     """Control structure that extends to the given label.
     """
