@@ -73,6 +73,19 @@ class StructureScope(ABC, Instruction):
         Args:
             stype: Type of the control structure.
         """
+        self.stype = stype
+
+    @abstractmethod
+    def scope(self: Self,
+              instructions: Sequence[Instruction[Any]],
+              pos: int,
+              lgp: LinearProgram) -> int:
+        """Return the actual size of this structure's scope.
+
+        For example, if only 3 instructions exist after
+        the instruction that is supposed to span 5 lines,
+        this method should return 3.
+        """
 
 
 class StructOverLines(StructureScope):
@@ -90,6 +103,17 @@ class StructOverLines(StructureScope):
         self.stype: StructureType = stype
         self.line_count: int | CellSpecifier = line_count
 
+    @override
+    def scope(self: Self,
+              instructions: Sequence[Instruction[Any]],
+              pos: int,
+              lgp: LinearProgram) -> int:
+
+        return min([len(instructions) - (pos + 1),
+                    get_number(self.line_count,
+                               lgp,
+                               int)])
+
 
 class StructNextLine(StructOverLines):
     """Control structure that spans one line.
@@ -104,7 +128,8 @@ class StructNextLine(StructOverLines):
 
 
 class StructUntilLabel(StructureScope):
-    """Control structure that extends to the given label.
+    """Control structure that extends to
+    and includes the given label.
     """
     def __init__(self: Self, stype: StructureType, label: str):
         """
@@ -115,8 +140,29 @@ class StructUntilLabel(StructureScope):
         self.stype: StructureType = stype
         self.label: str = label
 
+    @override
+    def scope(self: Self,
+              instructions: Sequence[Instruction[Any]],
+              pos: int,
+              lgp: LinearProgram) -> int:
 
+        # This gives the number of instructions remaining.
+        #   + 1 is necessary because pos starts at 0.
+        num_of_instructions_remaining: int =\
+            len(instructions) - (pos + 1)
 
+        if num_of_instructions_remaining < 1:
+            return 0
+        else:
+            i = 0
+            for i in range(num_of_instructions_remaining):
+                current_instruction: Instruction =\
+                    instructions[pos + i + 1]
+
+                if (isinstance(current_instruction, Label)
+                        and current_instruction.text == self.label):
+                    break
+            return i + 1
 
 
 class Label[T](Instruction[T]):
@@ -537,14 +583,10 @@ class LinearProgram[R]:
         match instruction:
             case Operation():
                 return self._run_operation(instruction)
-            case StructOverLines():
-                return self._run_struct_over_lines(instruction,
-                                                   instructions,
-                                                   pos)
-            case StructUntilLabel():
-                return self._run_struct_until_label(instruction,
-                                                    instructions,
-                                                    pos)
+            case StructureScope():
+                return self._run_structure_scope(instruction,
+                                                 instructions,
+                                                 pos)
             case Label():
                 return self._run_label(instruction)
             case _:
@@ -581,80 +623,37 @@ class LinearProgram[R]:
                                          instruction.target,))
         return 1
 
-    def _run_struct_over_lines(self: Self,
-                               instruction: StructOverLines,
-                               instructions: Sequence[Instruction],
-                               pos: int) -> int:
-        """Execute a structure over several lines.
+    def _run_structure_scope(self: Self,
+                             instruction: StructureScope,
+                             instructions: Sequence[Instruction],
+                             pos: int) -> int:
+        """Execute a control structure.
 
-        Return the number of lines actually executed.
-        This is the smaller of two values:
-
-        * The number of lines left in the program.
-
-        * The size of the body plus one.
+        Use `.StructureScope.scope` to find the scope
+        of the structure, then run all instructions within
+        the scope.
         """
+        scope: int = instruction.scope(
+            instructions,
+            pos,
+            self
+        )
+
+        instructions_to_run: list[Instruction] =\
+            [instructions[pos + i + 1] for i in range(scope)]
+
         if self.verbose:
             print(f"Running {type(instruction.stype).__name__}"
-                  f" over next {instruction.line_count} lines.")
+                  f" over next {instruction.scope} lines.")
 
-        collected_lines: list[Instruction] = []
-        current_pos: int = pos + 1
+        instruction.stype(self,
+                          instructions_to_run)
+        return scope + 1  # +1 to include the structure instruction itself
 
-        num_of_steps: int = min([len(instructions) - current_pos,
-                                 get_number(instruction.line_count,
-                                            self,
-                                            int)])
-
-        if self.verbose:
-            print("Collect command into structure:")
-
-        for _ in range(num_of_steps):
-            if self.verbose:
-                print(f"> {instructions[current_pos]}")
-
-            collected_lines.append(instructions[current_pos])
-            current_pos += 1
-        instruction.stype(self, collected_lines)
-
-        return num_of_steps + 1
-
-    def _run_struct_until_label(self: Self,
-                                instruction: StructUntilLabel,
-                                instructions: Sequence[Instruction],
-                                pos: int) -> int:
-        """Continue executing until a label is found.
-
-        Return 1 if `instructions` is exhausted; otherwise return 2.
-        """
-        if self.verbose:
-            print(f"Running {type(instruction.stype).__name__}"
-                  f" with until label {instruction.label}.")
-
-        collected_lines: list[Instruction] = []
-        current_pos: int = pos + 1
-
-        num_of_steps: int = len(instructions) - current_pos
-
-        if self.verbose:
-            print("Collect command into structure:")
-
-        for _ in range(num_of_steps):
-            current_instruction: Instruction = instructions[current_pos]
-            if self.verbose:
-                print(f"> {current_instruction}")
-
-            if (isinstance(current_instruction, Label)
-                    and current_instruction.text == instruction.label):
-                current_pos += 1
-                break
-            else:
-                collected_lines.append(instructions[current_pos])
-                current_pos += 1
-
-        instruction.stype(self, collected_lines)
-
-        return len(instructions)
+    def _print_instructions(self: Self,
+                            instructions: Sequence[Instruction]) -> None:
+        for instruction in instructions:
+            print(f"> {instruction}")
 
     def __str__(self: Self) -> str:
         return (f"LGP execution context here. Register states:\n"
