@@ -175,7 +175,7 @@ TEST_SUITE: list[Callable[[bool], bool]] = [
 ]
 
 
-def check_all(verbose: bool = True) -> bool:
+def check_all(verbose: bool = False) -> bool:
     return all(
         (test(verbose) for test in TEST_SUITE)
     )
