@@ -163,8 +163,13 @@ def run_and_check[T](instructions: Sequence[Instruction[T]],
 
     context.run(instructions)
 
-    return all(a == b for a, b in zip(context.registers,
-                                      end_state))
+    if all(a == b for a, b in zip(context.registers,
+                                  end_state)):
+        return True
+    else:
+        print(f"Expected: {end_state}\n"
+              f"Computed: {context.registers}")
+        return False
 
 
 TEST_SUITE: list[Callable[[bool], bool]] = [
