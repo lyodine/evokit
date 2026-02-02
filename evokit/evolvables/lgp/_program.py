@@ -78,8 +78,7 @@ class StructureScope(ABC, Instruction):
     @abstractmethod
     def scope(self: Self,
               instructions: Sequence[Instruction[Any]],
-              pos: int,
-              lgp: LinearProgram) -> int:
+              pos: int) -> int:
         """Return the actual size of this structure's scope.
 
         For example, if only 3 instructions exist after
@@ -93,26 +92,22 @@ class StructOverLines(StructureScope):
     """
     def __init__(self: Self,
                  stype: StructureType,
-                 line_count: int
-                 | CellSpecifier) -> None:
+                 line_count: int) -> None:
         """
         Args:
             stype: Type of the control structure.
             line_count: Number of lines that the control structure spans.
         """
         self.stype: StructureType = stype
-        self.line_count: int | CellSpecifier = line_count
+        self.line_count: int = line_count
 
     @override
     def scope(self: Self,
               instructions: Sequence[Instruction[Any]],
-              pos: int,
-              lgp: LinearProgram) -> int:
+              pos: int) -> int:
 
         return min([len(instructions) - (pos + 1),
-                    get_number(self.line_count,
-                               lgp,
-                               int)])
+                    self.line_count])
 
 
 class StructNextLine(StructOverLines):
@@ -143,8 +138,7 @@ class StructUntilLabel(StructureScope):
     @override
     def scope(self: Self,
               instructions: Sequence[Instruction[Any]],
-              pos: int,
-              lgp: LinearProgram) -> int:
+              pos: int) -> int:
 
         # This gives the number of instructions remaining.
         #   + 1 is necessary because pos starts at 0.
@@ -635,9 +629,7 @@ class LinearProgram[R]:
         """
         scope: int = instruction.scope(
             instructions,
-            pos,
-            self
-        )
+            pos)
 
         instructions_to_run: list[Instruction] =\
             [instructions[pos + i + 1] for i in range(scope)]
