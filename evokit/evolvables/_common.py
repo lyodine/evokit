@@ -3,7 +3,7 @@ types. These functions should only be used by modules and
 packages in :mod:`.evolvables` and are always subject to
 change.
 """
-from typing import Iterable
+from typing import Iterable, Sequence
 import random
 
 
@@ -154,3 +154,13 @@ def unpack_nested[T](nested: Iterable[Iterable[T]]) -> list[T]:
     #   ``sum``. Can change to ``sum`` or another implementation,
     #   if that implementation is faster.
     return [x for y in nested for x in y]
+
+
+def replace_at_indices[T, R](data: Sequence[T],
+                             indices: set[int],
+                             replace: R) -> list[T | R]:
+    """Return a list that co;ies `data`, except that items
+    at :arg:`indices` are replaced with :arg:`replace`.
+    """
+    return [(replace if i in indices else data[i])
+            for i in range(len(data))]
