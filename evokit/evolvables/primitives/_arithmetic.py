@@ -1,5 +1,3 @@
-"""This module contains a small set of protected functions.
-"""
 import math
 
 
