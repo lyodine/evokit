@@ -381,7 +381,11 @@ def _operation_to_text(function: Callable,
 
 
 #: Type for an endofunction.
-type Endofunction[R] = Callable[Concatenate[R, ...], R]
+type Endofunction[R] = Callable[..., R]
+# Note that this is a very weak specification. It does not
+#   say what the `Callable` should take, only that
+#   it needs to return an `R`.
+# The next best is `Concatenate[R, ...]`.
 # Technically this type means functions that take
 #   one R as argument as minimum -- it doesn't care what
 #   arguments come next.
