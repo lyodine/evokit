@@ -69,6 +69,24 @@ class StructureScope(Instruction):
     which decides how many times this body is executed.
 
     Derive this class to create custom scopes.
+
+    .. note::
+
+       If two scopes are nested, the parent scope limits
+       the size of the child scope. Consider the following example:
+       the parent scope captures and runs the next 5 lines in
+       a "mini context", so that the next instruction, which would
+       otherwise span 7 lines, ends up spanning only 3 lines.
+
+       .. code::
+
+            for ... over 5 lines: >-------+
+                <operation>               |
+                for ... over 7 lines >--+ |
+                <operation>             | |
+                <operation> <-----------+ |
+                <operation> <-------------+
+            <operation>
     """
     @abstractmethod
     def __init__(self: Self,
