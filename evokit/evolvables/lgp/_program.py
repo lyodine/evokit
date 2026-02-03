@@ -24,12 +24,14 @@ from ..._utils.dependency import ensure_installed
 ensure_installed("numpy")
 
 
-class Instruction[R]():
+class Instruction[R](ABC):
     """Base class for all instructions.
 
     An instruction is a "line" in the program.
     """
-    ...
+    @abstractmethod
+    def copy(self: Self) -> Self:
+        ...
 
 
 class StructureType(ABC):
@@ -53,8 +55,12 @@ class StructureType(ABC):
             instructions: Instructions to execute.
         """
 
+    @abstractmethod
+    def copy(self: Self) -> Self:
+        ...
 
-class StructureScope(ABC, Instruction):
+
+class StructureScope(Instruction):
     """Base class for all control structure scopes.
 
     The scope of a control structure decides how many
@@ -109,6 +115,11 @@ class StructOverLines(StructureScope):
         return min([len(instructions) - (pos + 1),
                     self.line_count])
 
+    @override
+    def copy(self: Self) -> Self:
+        return type(self)(self.stype.copy(),
+                          self.line_count)
+
 
 class StructNextLine(StructOverLines):
     """Control structure that spans one line.
@@ -120,6 +131,10 @@ class StructNextLine(StructOverLines):
         """
         super().__init__(stype=stype,
                          line_count=1)
+
+    @override
+    def copy(self: Self) -> Self:
+        return type(self)(self.stype.copy())
 
 
 class StructUntilLabel(StructureScope):
@@ -158,6 +173,10 @@ class StructUntilLabel(StructureScope):
                     break
             return i + 1
 
+    @override
+    def copy(self: Self) -> Self:
+        return type(self)(self.stype.copy(), self.label)
+
 
 class Label[T](Instruction[T]):
     """Text label.
@@ -170,6 +189,10 @@ class Label[T](Instruction[T]):
             label: Text of the label.
         """
         self.text = text
+
+    @override
+    def copy(self: Self) -> Self:
+        return type(self)(self.text)
 
 
 @overload
@@ -246,6 +269,10 @@ class For(StructureType):
         for _ in range(loop_count):
             lgp.run(instructions)
 
+    @override
+    def copy(self: Self) -> Self:
+        return type(self)(self.count)
+
 
 class While(StructureType):
     """While loop.
@@ -283,6 +310,10 @@ class While(StructureType):
                 if (lgp.check_condition(self.condition)):
                     lgp.run(instructions)
 
+    @override
+    def copy(self: Self) -> Self:
+        return type(self)(self.condition)
+
 
 class If(StructureType):
     """Structure with condition execution.
@@ -304,6 +335,10 @@ class If(StructureType):
         else:
             if (lgp.check_condition(self.condition)):
                 lgp.run(instructions)
+
+    @override
+    def copy(self: Self) -> Self:
+        return type(self)(self.condition)
 
 
 @dataclass
@@ -440,6 +475,12 @@ class Operation[R](Instruction[R]):
         return f"r[{self.target}] <- {function_name}({args})"
 
     __repr__ = __str__
+
+    @override
+    def copy(self: Self) -> Self:
+        return type(self)(self.function,
+                          self.target,
+                          self.operands)
 
 
 class Condition[R]():
@@ -659,3 +700,8 @@ class LinearProgram[R]:
         return f"r{str(self.registers)}, c{str(self.constants)}"
 
     __repr__ = __str__
+
+    def copy(self: Self) -> Self:
+        return type(self)(self.registers.copy(),
+                          self.constants,
+                          self.verbose)
