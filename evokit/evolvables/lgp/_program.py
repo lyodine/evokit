@@ -9,7 +9,7 @@ from typing import Any
 from typing import Sequence
 from typing import Literal
 from typing import Optional
-from typing import Concatenate
+from ..types import Predicate
 from typing import Self, override
 from typing import Iterable
 from typing import Callable
@@ -494,7 +494,7 @@ class Condition[R]():
     :class:`If` and :class:`While`.
     """
     def __init__(self: Self,
-                 function: Callable[Concatenate[R, ...], bool],
+                 function: Predicate[R],
                  args: tuple[CellSpecifier, ...]):
         """
         Args:
