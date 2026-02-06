@@ -164,3 +164,10 @@ def replace_at_indices[T, R](data: Sequence[T],
     """
     return [(replace if i in indices else data[i])
             for i in range(len(data))]
+
+
+def choose_k_from[T](population: Sequence[T],
+                     k: int,
+                     with_replacement: bool) -> list[T]:
+    chooser = random.choices if with_replacement else random.sample
+    return chooser(population, k=k)
