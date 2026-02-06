@@ -14,3 +14,8 @@ type Endofunction[R] = Callable[..., R]
 #   for example, functions such ``add(a, b)`` that
 #   are not variadic. Some features are "left to future PEPs";
 #   I suspect what I want is among those.
+
+#: Type of a boolean-valued function.
+type Predicate[R] = Callable[..., bool]
+# For the same reason as :class:`.Endofunction`, there does
+#   not appear to be a way to correctly type this thing.
