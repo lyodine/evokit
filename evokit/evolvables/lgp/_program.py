@@ -495,7 +495,7 @@ class Condition[R]():
     """
     def __init__(self: Self,
                  function: Predicate[R],
-                 args: tuple[CellSpecifier, ...]):
+                 args: Sequence[CellSpecifier]):
         """
         Args:
             function: TODO
