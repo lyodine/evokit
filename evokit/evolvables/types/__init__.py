@@ -1,3 +1,3 @@
-from ._types import Endofunction
+from ._types import Endofunction, Predicate, ValueRange
 
-__all__ = ["Endofunction"]
+__all__ = ["Endofunction", "Predicate", "ValueRange"]

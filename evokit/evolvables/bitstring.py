@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 
-from dataclasses import dataclass
 from typing import TypeVar
 from typing import Literal
 from typing import Type
@@ -23,18 +22,6 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from typing import Optional
     from concurrent.futures import ProcessPoolExecutor
-
-
-@dataclass
-class ValueRange:
-    """Typing machinery.
-
-    :meta private:
-
-    Represents a range of numbers.
-    """
-    lo: int
-    hi: int
 
 
 T = TypeVar('T', bound=Individual[Any])

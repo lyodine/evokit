@@ -19,3 +19,15 @@ type Endofunction[R] = Callable[..., R]
 type Predicate[R] = Callable[..., bool]
 # For the same reason as :class:`.Endofunction`, there does
 #   not appear to be a way to correctly type this thing.
+
+
+#: Used for hinting the range of a type.
+#: Example: ``Annotated[float, ValueRang(0, 1)]``.
+@dataclass
+class ValueRange:
+    """Represents a range of numbers.
+    """
+    lo: int
+    hi: int
+# This practice seems common at the time of this commit.
+# If a better approach comes up, replace this.
