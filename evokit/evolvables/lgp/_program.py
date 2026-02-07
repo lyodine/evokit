@@ -442,7 +442,8 @@ class Operation[R](Instruction[R]):
     def __init__(self: Self,
                  function: Endofunction[R],
                  target: int,
-                 operands: tuple[CellSpecifier, ...]):
+                 operands: tuple[CellSpecifier, ...]
+                 | list[CellSpecifier]):
         """
         Args:
             function: A function.
@@ -451,7 +452,8 @@ class Operation[R](Instruction[R]):
         """
         self.function: Endofunction[R] = function
         self.target: int = target
-        self.operands: tuple[CellSpecifier, ...] = operands
+        self.operands: tuple[CellSpecifier, ...]\
+            | list[CellSpecifier] = operands
 
         # Check if all operands are constants. A bad thing
         #   according to the B&B LGP book.
