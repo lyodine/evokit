@@ -27,7 +27,7 @@ type Predicate[R] = Callable[..., bool]
 class ValueRange:
     """Represents a range of numbers.
     """
-    lo: int
-    hi: int
+    min: float
+    max: float
 # This practice seems common at the time of this commit.
 # If a better approach comes up, replace this.
