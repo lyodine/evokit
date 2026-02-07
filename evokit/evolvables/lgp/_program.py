@@ -10,6 +10,7 @@ from typing import Sequence
 from typing import Literal
 from typing import Optional
 from ..types import Predicate
+from ..types import ValueRange
 from typing import Self, override
 from typing import Iterable
 from typing import Callable
@@ -359,12 +360,6 @@ class If(StructureType):
     @override
     def copy(self: Self) -> Self:
         return type(self)(self.condition)
-
-
-@dataclass
-class ValueRange:
-    min: float
-    max: float
 
 
 class StateVectorType(Enum):
