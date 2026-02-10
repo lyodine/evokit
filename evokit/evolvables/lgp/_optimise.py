@@ -132,7 +132,7 @@ def index_introns(instructions:
                             # ... mark the instruction to be effective.
                             if verbose:
                                 print("$> Found effective control"
-                                    f" instruction at [{i}].")
+                                      f" instruction at [{i}].")
                             effective_indices.add(i)
 
                             # Also, if the condition of the structure
@@ -204,7 +204,8 @@ def optimise_and_mask[T](instructions: Sequence[Instruction[T]],
 
 
 def optimise_and_reduce[T](instructions: Sequence[Instruction[T]],
-                           output_indices: set[int]) -> Sequence[Instruction[T]]:
+                           output_indices: set[int])\
+        -> Sequence[Instruction[T]]:
     """Optimise a sequence of instructions.
     Return a sequence where introns are removed and
     fixed-size structures (:class:`.StructOverLines`)
@@ -222,7 +223,7 @@ def optimise_and_reduce[T](instructions: Sequence[Instruction[T]],
     scope_matrix: list[list[bool]] =\
         create_matrix((len(instructions),
                        len(instructions)), False)
-    
+
     rescope_scheme: list[int] = [0] * len(instructions)
 
     # First, build a `scope_matrix` as is done in

@@ -1,6 +1,6 @@
 from ...core import Individual
 from ._program import Instruction
-from typing import Sequence, Self, override
+from typing import Self, override
 
 
 class LinearGeneticProgram(Individual[list[Instruction]]):

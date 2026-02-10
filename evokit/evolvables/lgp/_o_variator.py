@@ -40,7 +40,8 @@ class Crossover(Variator[LinearGeneticProgram]):
 
         Produce new individuals from existing ones.
 
-        Because `.arity=1` in the initialiser, `parents` will be a 1-tuple at runtime.
+        Because `.arity=1` in the initialiser, `parents`
+        will be a 1-tuple at runtime.
         """
         res_1, res_2 = crossover(
             seq_1=[x.copy() for x in parents[0].genome],
