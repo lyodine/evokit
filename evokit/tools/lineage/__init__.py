@@ -6,9 +6,13 @@ from typing import Sequence
 from typing import Protocol
 from typing import Generic
 from typing import Self
+from typing import Optional
 from functools import wraps
 from types import MethodType
 import graphviz  # type: ignore[import-untyped]
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from pathlib import Path
 
 D = TypeVar("D", bound=Individual[Any])
 
@@ -99,7 +103,10 @@ def uid(x: Individual) -> str:
 
 
 def graph_lineage(individuals: Sequence[Individual],
-                  identifier: Callable[[Individual], str] = uid)\
+                  identifier: Callable[[Individual], str] = uid,
+                  use_tooltip: bool = False,
+                  vertical_spacing: int = 1,
+                  save_as: "Optional[Path | str]" = None)\
         -> graphviz.Digraph:
     """Graph the lineage of an individual. This information
     can be accessed as :attr:`.Individual.parents`.
@@ -115,20 +122,49 @@ def graph_lineage(individuals: Sequence[Individual],
             efficient but might not work with individual
             that have moved out of memory (for example, ones
             that have been :meth:`.Individual.load`\\ ed)
+
+        use_tooltip: If ``True``, then the name (string
+            representation) of each node is rendered
+            as a tooltip instead of text. Tooltips
+            are only rendered in SVG files
+
+        vertical_spacing: Multiplier for vertical spacing
+            between nodes.
+
+        save_as: Path to save the output as. If `name` is
+            given, file will be saved as `name.svg`.
+
+            .. warning::
+                `save_as` can traverse to parent directories
+                and overwrite files.
     """
     dot = graphviz.Digraph()
+    # 0.5 is the default ranksep (vertical spacing between nodes)
+    dot.attr(ranksep=str(vertical_spacing * 0.5))
 
     edge_dict: dict[str, tuple[str, set[str]]] = {}
 
     for ind in individuals:
-        dot.node(identifier(ind), str(ind))
+        if use_tooltip:
+            dot.node(identifier(ind), " ", tooltip=str(ind), shape="point")
+        else:
+            dot.node(identifier(ind), str(ind), shape="rectangle")
+
         register_parents(edge_dict,
                          ind,
                          identifier)
 
     for source, (source_repr, targets) in edge_dict.items():
-        dot.node(source, source_repr)
+        if use_tooltip:
+            dot.node(source, " ", tooltip=source_repr, shape="point")
+        else:
+            dot.node(source, source_repr, shape="rectangle")
+
+            dot.node(source, source_repr)
         for target in targets:
-            dot.edge(source, target)
+            dot.edge(source, target, arrowhead="none")
+
+    if save_as is not None:
+        dot.render(filename=save_as, format="svg")
 
     return dot
