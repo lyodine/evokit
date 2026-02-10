@@ -22,7 +22,7 @@ from enum import Enum, auto
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from ._runner import LinearProgram
+    from ._runner import RegisterStates
 
 
 from ..._utils.dependency import ensure_installed
@@ -52,7 +52,7 @@ class StructureType(ABC):
     """
     @abstractmethod
     def __call__(self: Self,
-                 lgp: "LinearProgram",
+                 lgp: "RegisterStates",
                  instructions: Sequence[Optional[Instruction]]) -> None:
         """Invoke instructions in a stateful context.
 
@@ -256,7 +256,7 @@ class Label[T](Instruction[T]):
 
 @overload
 def get_number(n: int | float | CellSpecifier,
-               lgp: LinearProgram,
+               lgp: RegisterStates,
                number_constructor: Type[int])\
         -> Annotated[int, ValueRange(0, float("inf"))]:
     pass
@@ -264,14 +264,14 @@ def get_number(n: int | float | CellSpecifier,
 
 @overload
 def get_number(n: int | float | CellSpecifier,
-               lgp: LinearProgram,
+               lgp: RegisterStates,
                number_constructor: Type[float])\
         -> Annotated[float, ValueRange(0, float("inf"))]:
     pass
 
 
 def get_number(n: int | float | CellSpecifier,
-               lgp: LinearProgram,
+               lgp: RegisterStates,
                number_constructor: Type[int] | Type[float])\
         -> Annotated[int, ValueRange(0, float("inf"))] |\
         Annotated[float, ValueRange(0, float("inf"))]:
@@ -325,7 +325,7 @@ class For(StructureType):
 
     @override
     def __call__(self: Self,
-                 lgp: LinearProgram,
+                 lgp: RegisterStates,
                  instructions: Sequence[Optional[Instruction]]) -> None:
         loop_count: int = get_number(self.count, lgp, int)
 
@@ -369,7 +369,7 @@ class While(StructureType):
 
     @override
     def __call__(self: Self,
-                 lgp: LinearProgram,
+                 lgp: RegisterStates,
                  instructions: Sequence[Optional[Instruction]]) -> None:
         for _ in range(While.LOOP_CAP):
             if isinstance(self.condition, bool):
@@ -402,7 +402,7 @@ class If(StructureType):
 
     @override
     def __call__(self: Self,
-                 lgp: LinearProgram,
+                 lgp: RegisterStates,
                  instructions: Sequence[Optional[Instruction]]) -> None:
         if isinstance(self.condition, bool):
             if self.condition:
@@ -426,8 +426,8 @@ class StateVectorType(Enum):
     """Type of a state vector.
 
     A linear program stores two state vectors.
-    Here, :attr:`.LinearProgram.registers` are mutable;
-    :attr:`.LinearProgram.constants` are immutable.
+    Here, :attr:`.RegisterStates.registers` are mutable;
+    :attr:`.RegisterStates.constants` are immutable.
     """
     register = auto()
     constant = auto()

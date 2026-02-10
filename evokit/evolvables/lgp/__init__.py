@@ -15,7 +15,7 @@ from ._program import cells
 from ._program import Endofunction
 from ._program import Operation
 from ._program import Condition
-from ._runner import LinearProgram
+from ._runner import RegisterStates
 
 from ._check import check_all
 
@@ -38,6 +38,6 @@ __all__ = [
     "Endofunction",
     "Operation",
     "Condition",
-    "LinearProgram",
+    "RegisterStates",
     "check_all"
 ]

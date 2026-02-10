@@ -7,7 +7,7 @@ from ...evolvables.lgp import While
 from ...evolvables.lgp import Condition
 from ...evolvables.lgp import StructOverLines
 from ...evolvables.lgp import StructUntilLabel
-from ..lgp._runner import LinearProgram
+from ..lgp._runner import RegisterStates
 from ...evolvables.lgp import StructNextLine
 from ...evolvables.lgp import For
 from ...evolvables.lgp import cells
@@ -143,7 +143,7 @@ def run_and_check[T](instructions: Sequence[Instruction[T]],
                      end_state: Sequence[T],
                      verbose: bool) -> bool:
 
-    context = LinearProgram(
+    context = RegisterStates(
         constants=tuple(constants),
         registers=list(registers),
         verbose=verbose)

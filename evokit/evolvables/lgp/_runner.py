@@ -12,7 +12,7 @@ from typing import Optional
 from typing import Iterable, Literal, Self, Sequence
 
 
-class LinearProgram[R]:
+class RegisterStates[R]:
     """Context for executing linear programs.
 
     A context stores states of a program. These states
