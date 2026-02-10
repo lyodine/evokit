@@ -277,6 +277,10 @@ class For(StructureType):
     :attr:`.count` times. Not really a for loop, since it does
     not use a condition.
     """
+
+    #: Maximum number of iterations a :class:`.For` loop can run for.
+    LOOP_CAP = 20
+
     def __init__(self: Self,
                  count: int
                  | CellSpecifier):
@@ -289,7 +293,7 @@ class For(StructureType):
                  instructions: Sequence[Optional[Instruction]]) -> None:
         loop_count: int = get_number(self.count, lgp, int)
 
-        for _ in range(loop_count):
+        for _ in range(min(loop_count, self.LOOP_CAP)):
             lgp.run(instructions)
 
     @override
