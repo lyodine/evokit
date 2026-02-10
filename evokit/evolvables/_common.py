@@ -34,9 +34,6 @@ def crossover[R](seq_1: list[R],
             first segment from). Otherwise, offspring can have
             different lengths.
     """
-    seq_1 = seq_1.copy()
-    seq_2 = seq_2.copy()
-
     seq_1_crossover_points: list[int]
     seq_2_crossover_points: list[int]
 
