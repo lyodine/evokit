@@ -106,44 +106,47 @@ def index_introns(instructions:
         #   * Add its operands effective to the set of effective
         #       registers.
         #   * Mark the operation as effective.
-        if isinstance(current_instruction, Operation)\
-                and current_instruction.target in effective_registers:
-            if verbose:
-                print(f"$> Found effective operation at [{i}].")
-            effective_registers.update([
-                x[1] for x in current_instruction.operands
-                if x[0] == StateVectorType.register
-            ])
-            effective_indices.add(i)
+        match current_instruction:
+            case Operation():
+                if current_instruction.target in effective_registers:
+                    if verbose:
+                        print(f"$> Found effective operation at [{i}].")
+                    effective_registers.update([
+                        x[1] for x in current_instruction.operands
+                        if x[0] == StateVectorType.register
+                    ])
+                    effective_indices.add(i)
+            case StructureScope():
+                match current_instruction.stype:
+                    # If the structure can take arguments ...
+                    case If() | While() as stype:
+                        # ... check if it contains at least one effective
+                        #   instruction ...
+                        scope: int = current_instruction.scope(instructions,
+                                                               i)
+                        # ... check if it contains at least one effective
+                        #   instruction. If true, then ...
+                        if not set(range(i, i + scope + 1)).isdisjoint(
+                            effective_indices
+                        ):
+                            # ... mark the instruction to be effective.
+                            if verbose:
+                                print("$> Found effective control"
+                                    f" instruction at [{i}].")
+                            effective_indices.add(i)
 
-        # Check structures. More on this later.
-        if isinstance(current_instruction, StructureScope):
-            match current_instruction.stype:
-                # If the structure can take arguments ...
-                case If() | While() as stype:
-                    # ... check if it contains at least one effective
-                    #   instruction ...
-                    scope: int = current_instruction.scope(instructions,
-                                                           i)
-                    # ... check if it contains at least one effective
-                    #   instruction. If true, then ...
-                    if not set(range(i, i + scope + 1)).isdisjoint(
-                        effective_indices
-                    ):
-                        # ... mark the instruction to be effective.
-                        if verbose:
-                            print("$> Found effective control"
-                                  f" instruction at [{i}].")
-                        effective_indices.add(i)
+                            # Also, if the condition of the structure
+                            #   can take arguments (i.e. not a `bool`),
+                            #   then mark these register effective as well.
+                            if isinstance(stype.condition, Condition):
+                                effective_registers.update([
+                                    x[1] for x in stype.condition.args
+                                    if x[0] == StateVectorType.register
+                                ])
+            # If I don't know what it is, it's probably important.
+            case _:
+                effective_indices.add(i)
 
-                        # Also, if the condition of the structure
-                        #   can take arguments (i.e. not a `bool`),
-                        #   then mark these register effective as well.
-                        if isinstance(stype.condition, Condition):
-                            effective_registers.update([
-                                x[1] for x in stype.condition.args
-                                if x[0] == StateVectorType.register
-                            ])
     if verbose:
         print("$ ++ Backward pass complete. ++")
         print(f"$ All effective (variable) registers: {effective_registers}")
