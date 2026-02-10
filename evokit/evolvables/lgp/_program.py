@@ -22,6 +22,8 @@ from ..types import Endofunction
 from typing import TypeAlias
 from enum import Enum, auto
 
+from ._optimise import optimise_and_mask, optimise_and_reduce
+
 from ..._utils.dependency import ensure_installed
 
 ensure_installed("numpy")
@@ -50,7 +52,7 @@ class StructureType(ABC):
     @abstractmethod
     def __call__(self: Self,
                  lgp: LinearProgram,
-                 instructions: Sequence[Instruction]) -> None:
+                 instructions: Sequence[Optional[Instruction]]) -> None:
         """Invoke instructions in a stateful context.
 
         Args:
@@ -104,7 +106,7 @@ class StructureScope(Instruction):
 
     @abstractmethod
     def scope(self: Self,
-              instructions: Sequence[Instruction[Any]],
+              instructions: Sequence[Optional[Instruction[Any]]],
               pos: int) -> int:
         """Return the actual size of this structure's scope.
 
@@ -130,7 +132,7 @@ class StructOverLines(StructureScope):
 
     @override
     def scope(self: Self,
-              instructions: Sequence[Instruction[Any]],
+              instructions: Sequence[Optional[Instruction[Any]]],
               pos: int) -> int:
 
         return min([len(instructions) - (pos + 1),
@@ -173,7 +175,7 @@ class StructUntilLabel(StructureScope):
 
     @override
     def scope(self: Self,
-              instructions: Sequence[Instruction[Any]],
+              instructions: Sequence[Optional[Instruction[Any]]],
               pos: int) -> int:
 
         # This gives the number of instructions remaining.
@@ -186,9 +188,8 @@ class StructUntilLabel(StructureScope):
         else:
             i = 0
             for i in range(num_of_instructions_remaining):
-                current_instruction: Instruction =\
+                current_instruction: Optional[Instruction] =\
                     instructions[pos + i + 1]
-
                 if (isinstance(current_instruction, Label)
                         and current_instruction.text == self.label):
                     break
@@ -284,7 +285,7 @@ class For(StructureType):
     @override
     def __call__(self: Self,
                  lgp: LinearProgram,
-                 instructions: Sequence[Instruction]) -> None:
+                 instructions: Sequence[Optional[Instruction]]) -> None:
         loop_count: int = get_number(self.count, lgp, int)
 
         for _ in range(loop_count):
@@ -322,7 +323,7 @@ class While(StructureType):
     @override
     def __call__(self: Self,
                  lgp: LinearProgram,
-                 instructions: Sequence[Instruction]) -> None:
+                 instructions: Sequence[Optional[Instruction]]) -> None:
         for _ in range(While.loop_cap):
             if isinstance(self.condition, bool):
                 if self.condition:
@@ -349,7 +350,7 @@ class If(StructureType):
     @override
     def __call__(self: Self,
                  lgp: LinearProgram,
-                 instructions: Sequence[Instruction]) -> None:
+                 instructions: Sequence[Optional[Instruction]]) -> None:
         if isinstance(self.condition, bool):
             if self.condition:
                 lgp.run(instructions)
@@ -573,13 +574,53 @@ class LinearProgram[R]:
             case StateVectorType.constant:
                 return self.constants
 
-    def run(self: Self, instructions: Sequence[Instruction]) -> None:
+    def run_optimised(self: Self,
+                      instructions: Sequence[Instruction],
+                      output_indices: set[int],
+                      remove_introns: bool) -> None:
+        """Attempt to optimise, then execute :arg:`instructions`
+        in this context.
+
+        See :meth:`.index_introns` for the optimisation algorithm.
+
+        Args:
+            instructions: See :meth:`.run`
+            output_indices: Indices of variable registers that
+                will be used as output. Instructions that
+                do not affect these registers will be marked
+                as introns.
+            remove_introns: If ``True``, then remove (instead
+                of replacing with None) introns. This costs
+                significantly more, but will shorten the
+                instruction sequence.
+        """
+
+        optimiser = optimise_and_reduce if remove_introns\
+            else optimise_and_mask
+
+        self.run(optimiser(instructions,
+                           output_indices,
+                           self.verbose))
+
+    def run(self: Self,
+            instructions: Sequence[Optional[Instruction]]) -> None:
         """Execute :arg:`instructions` in this context.
+
+        Args:
+            instructions: A sequence of instructions to run.
+                Items that are ``None`` are skipped.
 
         Effect:
             Executing an :class:`Operation` updates
             :attr:`.registers`.
         """
+        # Replace introns with None. The interpreter will not
+        #   execute instructions that are None.
+        # `None` should take up less space than the replaced
+        #   instruction. Will this improve performance?
+        # This approach is preferable than passing a set of indices to
+        #   skip because structures run code in their mini contexts,
+        #   where the same instructions may have a different index.
         current_line: int = 0
 
         while current_line < len(instructions):
@@ -600,7 +641,7 @@ class LinearProgram[R]:
         return result
 
     def _run_instruction(self: Self,
-                         instructions: Sequence[Instruction],
+                         instructions: Sequence[Optional[Instruction]],
                          pos: int) -> int:
         """Execute an instruction.
 
@@ -619,7 +660,7 @@ class LinearProgram[R]:
             pos: Position of current execution pointer.
 
         """
-        instruction: Instruction = instructions[pos]
+        instruction: Optional[Instruction] = instructions[pos]
         match instruction:
             case Operation():
                 return self._run_operation(instruction)
@@ -629,6 +670,8 @@ class LinearProgram[R]:
                                                  pos)
             case Label():
                 return self._run_label(instruction)
+            case None:
+                return 1
             case _:
                 raise ValueError("Instruction type"
                                  f" {type(instruction).__name__}"
@@ -665,7 +708,7 @@ class LinearProgram[R]:
 
     def _run_structure_scope(self: Self,
                              instruction: StructureScope,
-                             instructions: Sequence[Instruction],
+                             instructions: Sequence[Optional[Instruction]],
                              pos: int) -> int:
         """Execute a control structure.
 
@@ -677,19 +720,20 @@ class LinearProgram[R]:
             instructions,
             pos)
 
-        instructions_to_run: list[Instruction] =\
-            [instructions[pos + i + 1] for i in range(scope)]
+        instructions_to_run: Sequence[Optional[Instruction]] =\
+            instructions[pos:pos + scope + 1]
 
         if self.verbose:
             print(f"Running {type(instruction.stype).__name__}"
-                  f" over next {instruction.scope} lines.")
+                  f" over next {scope} lines.")
 
         instruction.stype(self,
                           instructions_to_run)
         return scope + 1  # +1 to include the structure instruction itself
 
     def _print_instructions(self: Self,
-                            instructions: Sequence[Instruction]) -> None:
+                            instructions:
+                            Sequence[Optional[Instruction]]) -> None:
         for instruction in instructions:
             print(f"> {instruction}")
 
