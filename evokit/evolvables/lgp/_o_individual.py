@@ -3,7 +3,7 @@ from ._program import Instruction
 from typing import Sequence, Self, override
 
 
-class LinearGeneticProgram(Individual[Sequence[Instruction]]):
+class LinearGeneticProgram(Individual[list[Instruction]]):
     """A Linear genetic program. This program consists of
     a sequence of instructions, which in turn act on registers.
 
@@ -11,7 +11,7 @@ class LinearGeneticProgram(Individual[Sequence[Instruction]]):
     which means linear genetic programming.
     """
     def __init__(self: Self,
-                 program: Sequence[Instruction]):
+                 program: list[Instruction]):
         self.genome = program
 
     @override
