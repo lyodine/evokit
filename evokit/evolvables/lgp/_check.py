@@ -1,30 +1,17 @@
 from typing import Sequence
 from typing import Callable
-from evokit.evolvables.lgp import Instruction
-from evokit.evolvables.lgp import Operation
-from evokit.evolvables.lgp import If
-from evokit.evolvables.lgp import While
-from evokit.evolvables.lgp import Condition
-from evokit.evolvables.lgp import StructOverLines
-from evokit.evolvables.lgp import StructUntilLabel
-from evokit.evolvables.lgp import LinearProgram
-from evokit.evolvables.lgp import StructNextLine
-from evokit.evolvables.lgp import For
-from evokit.evolvables.lgp import cells
-from evokit.evolvables.lgp import Label
-
-
-def add(a: float, b: float) -> float:
-    return a + b
-
-
-def sub(a: float, b: float) -> float:
-    return a + b
-
-
-def lt(a: float, b: float) -> bool:
-    return a < b
-
+from ...evolvables.lgp import Instruction
+from ...evolvables.lgp import Operation
+from ...evolvables.lgp import If
+from ...evolvables.lgp import While
+from ...evolvables.lgp import Condition
+from ...evolvables.lgp import StructOverLines
+from ...evolvables.lgp import StructUntilLabel
+from ..lgp._runner import LinearProgram
+from ...evolvables.lgp import StructNextLine
+from ...evolvables.lgp import For
+from ...evolvables.lgp import cells
+from ...evolvables.lgp import Label
 
 def gt(a: float, b: float) -> bool:
     return a > b

@@ -1,4 +1,4 @@
-from evokit.core import Variator, Individual
+from ...core import Variator, Individual
 from typing import TypeVar
 from typing import Any
 from typing import Callable

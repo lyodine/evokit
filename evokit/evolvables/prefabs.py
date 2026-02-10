@@ -1,9 +1,9 @@
-from evokit.core import Population
-from evokit.evolvables.algorithms import SimpleLinearAlgorithm
-from evokit.evolvables.selectors import TruncationSelector, Elitist
-from evokit.evolvables.bitstring import BitString, CountBits, MutateBits
-from evokit.tools.lineage import TrackParents
-from evokit._utils.inspect import get_default_value
+from ..core import Population
+from ..evolvables.algorithms import SimpleLinearAlgorithm
+from ..evolvables.selectors import TruncationSelector, Elitist
+from ..evolvables.bitstring import BitString, CountBits, MutateBits
+from ..tools.lineage import TrackParents
+from .._utils.inspect import get_default_value
 from typing import TYPE_CHECKING
 from typing import Optional
 
