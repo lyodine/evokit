@@ -108,8 +108,7 @@ class RegisterStates[R]:
             else optimise_and_mask
 
         self.run(optimiser(instructions,
-                           output_indices,
-                           self.verbose))
+                           output_indices))
 
     def run(self: Self,
             instructions: Sequence[Optional[Instruction]]) -> None:
