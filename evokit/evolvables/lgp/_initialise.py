@@ -20,7 +20,7 @@ R = TypeVar("R")
 type Primitive[R] = Endofunction[R] | Type[StructureScope] | str
 
 
-class LGPBuilder(Generic[R]):
+class LGPFactory(Generic[R]):
     """Convenience factory class that creates linear programs.
 
     Supports a plethora of settings that fine-tune the initialisation
