@@ -171,8 +171,8 @@ def may_run(struct: StructureScope) -> bool:
             return True
 
 
-def create_matrix(shape: tuple[int, int],
-                  value: bool) -> list[list[bool]]:
+def create_matrix[T](shape: tuple[int, int],
+                     value: T) -> list[list[T]]:
     """Return a matrix of :arg:`value`\\ s with
     given :arg:`shape`.
     """
