@@ -1,5 +1,5 @@
 from typing import Callable
-
+from dataclasses import dataclass
 #: Type for an endofunction.
 type Endofunction[R] = Callable[..., R]
 # Note that this is a very weak specification. It does not
