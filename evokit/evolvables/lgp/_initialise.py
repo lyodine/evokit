@@ -8,6 +8,7 @@ from ._optimise import optimise_and_reduce
 from ..primitives import gt, lt, geq, leq, eq, neq
 from .._common import choose_k_from
 from ..types import Predicate, ValueRange, Endofunction
+from ._o_individual import LinearGeneticProgram
 from typing import Any
 from typing import Annotated
 import random
@@ -155,19 +156,19 @@ class LGPFactory(Generic[R]):
             self.logical_operators = override_logical_operators
 
     def build(self: Self,
-              length: int) -> list[Instruction[R]]:
+              length: int) -> LinearGeneticProgram:
         """Build and return a sequence of instructions
         to the given :arg:`length`.
         """
-        return [
+        return LinearGeneticProgram([
             self._build_instruction() for i in range(length)
-        ]
+        ])
 
     def build_fully_effective(
             self: Self,
             segment_length: int,
             output_indices: set[int],
-            target_length: Optional[int] = None) -> Sequence[Instruction[R]]:
+            target_length: Optional[int] = None) -> LinearGeneticProgram:
         """Build and return a sequence of effective instructions.
         Do so by building sequences of :arg:`segment_length`
         instructions, then removing introns from the result.
@@ -179,11 +180,13 @@ class LGPFactory(Generic[R]):
         """
 
         if target_length is None:
-            return optimise_and_reduce(
-                self.build(
-                    length=segment_length
-                ),
-                output_indices=output_indices
+            return LinearGeneticProgram(
+                optimise_and_reduce(
+                    self.build(
+                        length=segment_length
+                    ).genome,
+                    output_indices=output_indices
+                )
             )
         else:
             accumulated_instructions = []
@@ -191,12 +194,13 @@ class LGPFactory(Generic[R]):
                 this_time_for_sure = optimise_and_reduce(
                     self.build(
                         length=segment_length
-                    ),
+                    ).genome,
                     output_indices=output_indices
                 )
                 accumulated_instructions.append(this_time_for_sure)
 
-        return sum(accumulated_instructions, start=[])
+        return LinearGeneticProgram(sum(accumulated_instructions,
+                                        start=[]))
 
     def _build_instruction(self: Self) -> Instruction:
         chosen_one: Primitive
