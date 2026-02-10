@@ -231,7 +231,7 @@ class LinearProgram[R]:
             pos)
 
         instructions_to_run: Sequence[Optional[Instruction]] =\
-            instructions[pos:pos + scope + 2]
+            instructions[pos + 1:pos + scope + 1]
 
         if self.verbose:
             print(f"Running {type(instruction.stype).__name__}"
