@@ -132,6 +132,7 @@ def check_while_until_label(verbose: bool) -> bool:
             r[0] = r[0] + c[2] # Executes 20 times due to the cap
             while r[0] < c[1] until l2:
                 r[0] = r[0] + c[0] # Happens 3 times so r[0]=39
+            l2:
         l1:
 
     Expected result: ``(173,)``
@@ -140,7 +141,7 @@ def check_while_until_label(verbose: bool) -> bool:
         [StructUntilLabel(While(True), "l1"),
          Operation(add, 0, cells(0, -3)),
          StructUntilLabel(While(Condition(lt, cells(0, -2))), "l2"),
-         Operation(sub, 0, cells(0, -1)),
+         Operation(add, 0, cells(0, -1)),
          Label("l2"),
          Label("l1"),],
         registers=[0],
