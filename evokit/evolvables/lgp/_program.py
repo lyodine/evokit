@@ -315,7 +315,7 @@ class While(StructureType):
     """
 
     #: Maximum number of iterations a :class:`While` loop can run for.
-    loop_cap = 20
+    LOOP_CAP = 20
 
     def __init__(self: Self, condition: Condition | bool):
         """
@@ -329,7 +329,7 @@ class While(StructureType):
     def __call__(self: Self,
                  lgp: LinearProgram,
                  instructions: Sequence[Optional[Instruction]]) -> None:
-        for _ in range(While.loop_cap):
+        for _ in range(While.LOOP_CAP):
             if isinstance(self.condition, bool):
                 if self.condition:
                     lgp.run(instructions)
