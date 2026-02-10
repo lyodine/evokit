@@ -21,7 +21,7 @@ type Optimiser = Callable[[Sequence[Instruction]], set[int]]
 def index_introns(instructions:
                   Sequence[Instruction],
                   output_indices: set[int],
-                  verbose: bool) -> set[int]:
+                  verbose: bool = False) -> set[int]:
 
     """Remove noneffective instructions. Return
     a set of indices, where each index locates
@@ -184,8 +184,8 @@ def create_matrix[T](shape: tuple[int, int],
 
 
 def optimise_and_mask[T](instructions: Sequence[Instruction[T]],
-                         output_indices: set[int],
-                         verbose: bool) -> Sequence[Optional[Instruction[T]]]:
+                         output_indices: set[int])\
+        -> Sequence[Optional[Instruction[T]]]:
     """Optimise a sequence of instructions.
     Return a sequence where noneffective instructions
     are replaced with ``None`` and all other instructions
@@ -193,8 +193,7 @@ def optimise_and_mask[T](instructions: Sequence[Instruction[T]],
     """
     indices_of_introns: set[int] = index_introns(
         instructions,
-        output_indices,
-        verbose
+        output_indices
     )
 
     masked_instructions: Sequence[Optional[Instruction]] =\
@@ -205,8 +204,7 @@ def optimise_and_mask[T](instructions: Sequence[Instruction[T]],
 
 
 def optimise_and_reduce[T](instructions: Sequence[Instruction[T]],
-                           output_indices: set[int],
-                           verbose: bool) -> Sequence[Instruction[T]]:
+                           output_indices: set[int]) -> Sequence[Instruction[T]]:
     """Optimise a sequence of instructions.
     Return a sequence where introns are removed and
     fixed-size structures (:class:`.StructOverLines`)
@@ -218,8 +216,7 @@ def optimise_and_reduce[T](instructions: Sequence[Instruction[T]],
 
     indices_of_introns: set[int] = index_introns(
         instructions,
-        output_indices,
-        verbose
+        output_indices
     )
 
     scope_matrix: list[list[bool]] =\

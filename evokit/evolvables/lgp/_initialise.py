@@ -155,8 +155,7 @@ class LGPBuilder(Generic[R]):
             self.logical_operators = override_logical_operators
 
     def build(self: Self,
-              length: int,
-              verbose: bool) -> list[Instruction[R]]:
+              length: int) -> list[Instruction[R]]:
         """Build and return a sequence of instructions
         to the given :arg:`length`.
         """
@@ -309,8 +308,7 @@ class LGPBuilder(Generic[R]):
             self: Self,
             segment_length: int,
             output_indices: set[int],
-            target_length: Optional[int] = None,
-            verbose: bool = False) -> Sequence[Instruction[R]]:
+            target_length: Optional[int] = None) -> Sequence[Instruction[R]]:
         """Build and return a sequence of effective instructions.
         Do so by building sequences of :arg:`segment_length`
         instructions, then removing introns from the result.
@@ -324,22 +322,18 @@ class LGPBuilder(Generic[R]):
         if target_length is None:
             return optimise_and_reduce(
                 self.build(
-                    length=segment_length,
-                    verbose=verbose
+                    length=segment_length
                 ),
-                output_indices=output_indices,
-                verbose=verbose
+                output_indices=output_indices
             )
         else:
             accumulated_instructions = []
             while len(accumulated_instructions) < target_length:
                 this_time_for_sure = optimise_and_reduce(
                     self.build(
-                        length=segment_length,
-                        verbose=verbose
+                        length=segment_length
                     ),
-                    output_indices=output_indices,
-                    verbose=verbose
+                    output_indices=output_indices
                 )
                 accumulated_instructions.append(this_time_for_sure)
 
