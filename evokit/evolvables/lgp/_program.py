@@ -65,6 +65,12 @@ class StructureType(ABC):
     def copy(self: Self) -> Self:
         ...
 
+    @abstractmethod
+    def __str__(self: Self) -> str:
+        ...
+
+    __repr__ = __str__
+
 
 class StructureScope(Instruction):
     """Base class for all control structure scopes.
@@ -116,6 +122,12 @@ class StructureScope(Instruction):
         this method should return 3.
         """
 
+    @abstractmethod
+    def __str__(self: Self) -> str:
+        ...
+
+    __repr__ = __str__
+
 
 class StructOverLines(StructureScope):
     """Control structure that spans a number of lines.
@@ -144,6 +156,12 @@ class StructOverLines(StructureScope):
         return type(self)(self.stype.copy(),
                           self.line_count)
 
+    @override
+    def __str__(self: Self) -> str:
+        return f"{self.stype} over {self.line_count} lines:"
+
+    __repr__ = __str__
+
 
 class StructNextLine(StructOverLines):
     """Control structure that spans one line.
@@ -159,6 +177,12 @@ class StructNextLine(StructOverLines):
     @override
     def copy(self: Self) -> Self:
         return type(self)(self.stype.copy())
+
+    @override
+    def __str__(self: Self) -> str:
+        return f"{self.stype} over next line:"
+
+    __repr__ = __str__
 
 
 class StructUntilLabel(StructureScope):
@@ -200,6 +224,12 @@ class StructUntilLabel(StructureScope):
     def copy(self: Self) -> Self:
         return type(self)(self.stype.copy(), self.label)
 
+    @override
+    def __str__(self: Self) -> str:
+        return f"{self.stype} until label {self.label}:"
+
+    __repr__ = __str__
+
 
 class Label[T](Instruction[T]):
     """Text label.
@@ -216,6 +246,12 @@ class Label[T](Instruction[T]):
     @override
     def copy(self: Self) -> Self:
         return type(self)(self.text)
+
+    @override
+    def __str__(self: Self) -> str:
+        return f"{self.text}:"
+
+    __repr__ = __str__
 
 
 @overload
@@ -300,6 +336,12 @@ class For(StructureType):
     def copy(self: Self) -> Self:
         return type(self)(self.count)
 
+    @override
+    def __str__(self: Self) -> str:
+        return f"for {self.count}"
+
+    __repr__ = __str__
+
 
 class While(StructureType):
     """While loop.
@@ -341,6 +383,12 @@ class While(StructureType):
     def copy(self: Self) -> Self:
         return type(self)(self.condition)
 
+    @override
+    def __str__(self: Self) -> str:
+        return f"while {self.condition}"
+
+    __repr__ = __str__
+
 
 class If(StructureType):
     """Structure with condition execution.
@@ -366,6 +414,12 @@ class If(StructureType):
     @override
     def copy(self: Self) -> Self:
         return type(self)(self.condition)
+
+    @override
+    def __str__(self: Self) -> str:
+        return f"if {self.condition}"
+
+    __repr__ = __str__
 
 
 class StateVectorType(Enum):
@@ -506,3 +560,7 @@ class Condition[R]():
         """
         self.function = function
         self.args = args
+
+    def __str__(self: Self) -> str:
+        return f"{self.function.__name__}"\
+               f"({",".join(name_cell_specifier(x) for x in self.args)})"
