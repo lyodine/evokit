@@ -44,11 +44,14 @@ Representations
 Advanced Tutorials
 ------------------
 
+* Profile algorithm performance:
+  :doc:`examples/profile`.
+
 * Modify the behaviour of existing operators:
   :doc:`examples/interceptor`
 
-* Profile algorithm performance:
-  :doc:`examples/profile`.
+* Tracking and plotting lineage:
+  :doc:`examples/lineage`.
 
 .. toctree::
    :maxdepth: 2
@@ -58,6 +61,7 @@ Advanced Tutorials
    examples/profile.ipynb
    examples/lgp.ipynb
    examples/interceptor.ipynb
+   examples/lineage.ipynb
 
 Learning from Documentation
 ---------------------------
