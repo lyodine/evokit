@@ -9,7 +9,7 @@ from ..lgp._program import StructureScope
 from ..lgp._program import _operation_to_text
 from typing import Optional
 
-from typing import Iterable, Literal, Self, Sequence
+from typing import Literal, Self, Sequence
 
 
 class RegisterStates[R]:
@@ -29,8 +29,8 @@ class RegisterStates[R]:
         the above. EvoKit got you back.
     """
     def __init__(self: Self,
-                 registers: Iterable[R],
-                 constants: Iterable[R],
+                 registers: list[R],
+                 constants: tuple[R, ...],
                  verbose: bool = False):
         """
         Args:
@@ -54,15 +54,15 @@ class RegisterStates[R]:
         #: prints what it does.
         self.verbose = verbose
 
-    def set_registers(self: Self, registers: Iterable[R]) -> None:
+    def set_registers(self: Self, registers: list[R]) -> None:
         """Set the register vector to :arg:`registers`.
         """
-        self.registers = list(registers)
+        self.registers = registers
 
-    def set_constants(self: Self, constants: Iterable[R]) -> None:
+    def set_constants(self: Self, constants: tuple[R, ...]) -> None:
         """Set the constant vector to :arg:`constants`.
         """
-        self.constants = tuple(constants)
+        self.constants = constants
 
     def get_cell_value(self: Self,
                        spec: CellSpecifier) -> R:
