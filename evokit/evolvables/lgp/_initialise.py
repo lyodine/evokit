@@ -163,6 +163,41 @@ class LGPFactory(Generic[R]):
             self._build_instruction() for i in range(length)
         ]
 
+    def build_fully_effective(
+            self: Self,
+            segment_length: int,
+            output_indices: set[int],
+            target_length: Optional[int] = None) -> Sequence[Instruction[R]]:
+        """Build and return a sequence of effective instructions.
+        Do so by building sequences of :arg:`segment_length`
+        instructions, then removing introns from the result.
+
+        If a :arg:`target_length` is given, then build a new sequence
+        and append it to the previous one until the accumulated
+        sequence meets or exceeds :arg:`target_length`.
+        May produce longer sequences as a result.
+        """
+
+        if target_length is None:
+            return optimise_and_reduce(
+                self.build(
+                    length=segment_length
+                ),
+                output_indices=output_indices
+            )
+        else:
+            accumulated_instructions = []
+            while len(accumulated_instructions) < target_length:
+                this_time_for_sure = optimise_and_reduce(
+                    self.build(
+                        length=segment_length
+                    ),
+                    output_indices=output_indices
+                )
+                accumulated_instructions.append(this_time_for_sure)
+
+        return sum(accumulated_instructions, start=[])
+
     def _build_instruction(self: Self) -> Instruction:
         chosen_one: Primitive
         if self.primitive_weights is None:
@@ -303,41 +338,6 @@ class LGPFactory(Generic[R]):
                                     ensure_variable_register=False)[0]
         else:
             return self._meth_draw_for_count()
-
-    def build_fully_effective(
-            self: Self,
-            segment_length: int,
-            output_indices: set[int],
-            target_length: Optional[int] = None) -> Sequence[Instruction[R]]:
-        """Build and return a sequence of effective instructions.
-        Do so by building sequences of :arg:`segment_length`
-        instructions, then removing introns from the result.
-
-        If a :arg:`target_length` is given, then build a new sequence
-        and append it to the previous one until the accumulated
-        sequence meets or exceeds :arg:`target_length`.
-        May produce longer sequences as a result.
-        """
-
-        if target_length is None:
-            return optimise_and_reduce(
-                self.build(
-                    length=segment_length
-                ),
-                output_indices=output_indices
-            )
-        else:
-            accumulated_instructions = []
-            while len(accumulated_instructions) < target_length:
-                this_time_for_sure = optimise_and_reduce(
-                    self.build(
-                        length=segment_length
-                    ),
-                    output_indices=output_indices
-                )
-                accumulated_instructions.append(this_time_for_sure)
-
-        return sum(accumulated_instructions, start=[])
 
 
 def _get_arity(fun: Callable[..., Any]) -> int:
