@@ -13,8 +13,7 @@ from ...evolvables.lgp import For
 from ...evolvables.lgp import cells
 from ...evolvables.lgp import Label
 
-def gt(a: float, b: float) -> bool:
-    return a > b
+from ..primitives import add, lt
 
 
 def check_operation(verbose: bool) -> bool:
