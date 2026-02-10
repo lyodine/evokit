@@ -83,33 +83,6 @@ class RegisterStates[R]:
             case StateVectorType.constant:
                 return self.constants
 
-    def run_optimised(self: Self,
-                      instructions: Sequence[Instruction],
-                      output_indices: set[int],
-                      remove_introns: bool) -> None:
-        """Attempt to optimise, then execute :arg:`instructions`
-        in this context.
-
-        See :meth:`.index_introns` for the optimisation algorithm.
-
-        Args:
-            instructions: See :meth:`.run`
-            output_indices: Indices of variable registers that
-                will be used as output. Instructions that
-                do not affect these registers will be marked
-                as introns.
-            remove_introns: If ``True``, then remove (instead
-                of replacing with None) introns. This costs
-                significantly more, but will shorten the
-                instruction sequence.
-        """
-
-        optimiser = optimise_and_reduce if remove_introns\
-            else optimise_and_mask
-
-        self.run(optimiser(instructions,
-                           output_indices))
-
     def run(self: Self,
             instructions: Sequence[Optional[Instruction]]) -> None:
         """Execute :arg:`instructions` in this context.
