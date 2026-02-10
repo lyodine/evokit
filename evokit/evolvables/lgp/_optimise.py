@@ -225,15 +225,21 @@ def optimise_and_reduce[T](instructions: Sequence[Instruction[T]],
     scope_matrix: list[list[bool]] =\
         create_matrix((len(instructions),
                        len(instructions)), False)
+    
+    rescope_scheme: list[int] = [0] * len(instructions)
 
-    # First, build a `scope_matrix` (as is done in
-    # :meth:`index_introns`).
+    # First, build a `scope_matrix` as is done in
+    # :meth:`index_introns`.
     for i in range(len(instructions)):
         current_instruction: Instruction = instructions[i]
         if isinstance(current_instruction, StructureScope):
             scope: int = current_instruction.scope(instructions,
                                                    i)
             scope_matrix[i][i:i + scope] = [True] * scope
+
+    # This list contains all `StructOverLines`\\ s that
+    #   need to be rescoped. Makes things a bit easier.
+    indices_of_controls_to_rescope: set[int] = set()
 
     # Then, iterate through instructions backwards.
     for i in range(len(instructions))[::-1]:
@@ -248,7 +254,15 @@ def optimise_and_reduce[T](instructions: Sequence[Instruction[T]],
                     #   that happen to include the intron, shorten
                     #   the structure by 1 (to accommodate)
                     #   the removal of the intron
-                    possible_control.line_count -= 1
+                    rescope_scheme[j] += 1
+                    indices_of_controls_to_rescope.add(j)
         # In the end, remove the intron.
+
+    for i in indices_of_controls_to_rescope:
+        control = instructions[i]
+        assert isinstance(control, StructOverLines)
+        control.line_count -= rescope_scheme[i]
+
+    for i in sorted(indices_of_introns)[::-1]:
         del instructions[i]
     return instructions
