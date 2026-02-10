@@ -322,7 +322,6 @@ class LGPBuilder(Generic[R]):
         """
 
         if target_length is None:
-            print("building")
             return optimise_and_reduce(
                 self.build(
                     length=segment_length,
@@ -332,7 +331,6 @@ class LGPBuilder(Generic[R]):
                 verbose=verbose
             )
         else:
-            print("mubloing")
             accumulated_instructions = []
             while len(accumulated_instructions) < target_length:
                 this_time_for_sure = optimise_and_reduce(
