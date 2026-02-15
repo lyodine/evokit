@@ -122,9 +122,9 @@ The following diagram demonstrates the complete issue resolution process. Note t
 
 Complete the following tasks to publish a new version:
 
-* Update and commit the version in [project file](./pyproject.toml).
+* Update and stage the version in [project file](./pyproject.toml).
 
-    * Also edit and commit a new version in [CHANGELOG](./CHANGELOG.md).
+    * Edit, then commit a new version in [CHANGELOG](./CHANGELOG.md).
 
 * Update the tag with `git tag -a 'v..' -m '..'`. Show past tag messages with `git tag -n5`.
 
