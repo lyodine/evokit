@@ -1,3 +1,9 @@
+## Version 1.2.0
+
+* `(+)` Pretty-printing (7e2f646) and tutorial for `lineage` (83faedb)
+
+* `(+)` Linear genetic programming (17bb9cf)
+
 ## Version 1.1.0
 
 * `(+)` Add optional dependency ``full`` (6ad3e21)
