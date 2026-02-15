@@ -17,6 +17,12 @@ from ._program import Operation
 from ._program import Condition
 from ._program import RegisterStates
 
+from ._initialise import LGPFactory
+
+from ._o_evaluator import LGPEvaluator
+from ._o_individual import LinearGeneticProgram
+from ._o_variator import Crossover
+
 from ._check import check_all
 
 
@@ -39,5 +45,9 @@ __all__ = [
     "Operation",
     "Condition",
     "RegisterStates",
-    "check_all"
+    "check_all",
+    "LGPFactory",
+    "LGPEvaluator",
+    "LinearGeneticProgram",
+    "Crossover",
 ]
