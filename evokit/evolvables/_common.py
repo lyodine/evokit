@@ -75,12 +75,15 @@ def generate_indices(seq_len: int,
         allow_repeat: If ``True``, then returned indices can
             have repeats. Otherwise, otherwise.
     """
+    # Nothing to slice, so no slice.
+    if seq_len < 1:
+        return []
+
     if allow_repeat:
         return sorted([random.randint(0, seq_len - 1)
                        for _ in range(k)])
     else:
-        assert k <= seq_len, f"More crossover points ({k})"
-        f" than loci ({seq_len})"
+        k = min(k, seq_len)
 
         return list(random.sample(range(seq_len), k))
 
