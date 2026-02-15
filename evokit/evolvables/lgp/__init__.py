@@ -15,7 +15,7 @@ from ._program import cells
 from ._program import Endofunction
 from ._program import Operation
 from ._program import Condition
-from ._runner import RegisterStates
+from ._program import RegisterStates
 
 from ._check import check_all
 

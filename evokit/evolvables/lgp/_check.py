@@ -7,7 +7,7 @@ from ...evolvables.lgp import While
 from ...evolvables.lgp import Condition
 from ...evolvables.lgp import StructOverLines
 from ...evolvables.lgp import StructUntilLabel
-from ..lgp._runner import RegisterStates
+from ..lgp._program import RegisterStates
 from ...evolvables.lgp import StructNextLine
 from ...evolvables.lgp import For
 from ...evolvables.lgp import cells
