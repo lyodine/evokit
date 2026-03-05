@@ -68,11 +68,27 @@ class LGPFactory(Generic[R]):
                 :arg:`primitives`, then one of :arg:`structure_types`
                 is selected to populate it.
 
-            structure_size: TODO
+            structure_size: The allowed size of the structure.
+                Can be an :class:`int` or a callable that returns an
+                :class:`int`.
 
-            for_count: TODO
+                * If :arg:`structure_size` is an int: uniformly draw
+                an integer from [0, 1, ..., structure_size].
 
-            for_count_constant_ratio: TODO
+                * If :arg:`structure_size` is callable, then call it and
+                use the returned value.
+
+            for_count: The loop count for for loop.
+                Can be an :class:`int` or a callable that returns an
+                :class:`int`. See :arg:`structure_size` for details.
+
+            for_count_constant_ratio: Experimental feature that doesn't
+                exist in the original paper.
+                Possibility that a for loop runs for a fixed number
+                of times (i.e. for :arg:`for_count` to be used).
+                If not a constant, the count will be taken from
+                a register when the for instruction is encountered.
+                Set to 1 to disable.
 
             register_count: Number of variable registers used by the
                 program.

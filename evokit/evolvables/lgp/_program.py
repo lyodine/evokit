@@ -346,7 +346,7 @@ class While(StructureType):
     until :attr:`.condition` evaluates to ``True`` or
     :attr:`.loop_cap` loops have elapsed.
 
-    .. info::
+    .. note::
 
         To prevent infinite execution, this structure
         is a glorified *for* loop.
@@ -551,8 +551,8 @@ class Condition[R]():
                  args: Sequence[CellSpecifier]):
         """
         Args:
-            function: TODO
-            args: TODO
+            function: A predicate
+            args: Arguments to :arg:`function`
         """
         self.function = function
         self.args = args
