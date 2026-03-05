@@ -1,5 +1,7 @@
 all: build doc
 
+install-editable:
+	pip install -e . --config-settings editable_mode=strict
 
 build-sdist:
 	python3 -m build --sdist
@@ -11,16 +13,20 @@ build-wheel:
 build:
 	python -m build .
 
+install:
+	pip install --no-build-isolation -e . --config-settings editable_mode=strict
+
 # Submit version
-submit: build
+submit: build-sdist build-wheel
 	twine upload dist/*
 
 # Build documentation
-doc: doc-clear
-	./docs/update.bat
-# Actually how to do this thing 
+doc:
+	make doc-clear -i
+	sphinx-apidoc -f -E -o ./docs/source ./evokit
+	make -C ./docs/ html
 
 # Clear documentation
 doc-clear:
-	rm ./docs/build/* -r
+	rm ./docs/build/* -r -f
 
