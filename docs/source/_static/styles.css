@@ -1,5 +1,10 @@
+@font-face {
+    font-family: "Best Sans";
+    src: url("./OpenSans-Regular.ttf");
+}
+
 body {
-    font-family: "Open Sans", Helvetica, sans-serif;
+    font-family: "Best Sans";
 }
 
 code.literal {

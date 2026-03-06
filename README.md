@@ -38,5 +38,9 @@ The library have the following modules:
 | [core.lineage](./evokit/tools/lineage/)                      | Lineage tracing                                          |
 | `save`, `load` in [core.population](./evokit/core/population.py) | Saving and loading individuals and populations           |
 
+## Other Licences
+
+The documentation includes a local copy of the Open Sans font by [Steve Matteson](https://mattesontypographics.com/). The font is distributed under the [Open Font Licence](https://openfontlicense.org/open-font-license-official-text/). The font only exists in the documentation [i.e. here](./docs/source/_static/OpenSans-Regular.ttf) and is not included in the software.
+
 
 
