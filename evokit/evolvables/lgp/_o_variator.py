@@ -7,6 +7,10 @@ from ._o_individual import LinearGeneticProgram
 
 
 class Crossover(Variator[LinearGeneticProgram]):
+    """Cross over two sequences. Can cross over at
+    any number (``k``) of points. Can produce offspring
+    that have different lengths.
+    """
     @override
     def __init__(self: Self,
                  k: int,
