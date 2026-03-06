@@ -1,6 +1,16 @@
 evokit.evolvables package
 =========================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   evokit.evolvables.lgp
+   evokit.evolvables.otypes
+   evokit.evolvables.primitives
+
 Submodules
 ----------
 
@@ -17,12 +27,6 @@ Submodules
    :show-inheritance:
 
 
-.. automodule:: evokit.evolvables.funcs
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
 .. automodule:: evokit.evolvables.gp
    :members:
    :undoc-members:
@@ -30,12 +34,6 @@ Submodules
 
 
 .. automodule:: evokit.evolvables.gp_visualiser
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
-.. automodule:: evokit.evolvables.lgp
    :members:
    :undoc-members:
    :show-inheritance:

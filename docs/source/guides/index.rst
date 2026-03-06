@@ -32,6 +32,8 @@ Representations
 
 * Genetic programming: :doc:`examples/gp`
 
+* Linear genetic programming: :doc:`examples/lgp`
+
 .. * :strike:`Linear genetic programming (RIP)`: :doc:`examples/lgp`
 
 .. toctree::
