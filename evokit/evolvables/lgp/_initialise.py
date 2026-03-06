@@ -13,7 +13,6 @@ from typing import Any
 from typing import Annotated
 import random
 from inspect import signature
-from typing import overload, Literal
 
 R = TypeVar("R")
 
@@ -283,16 +282,6 @@ class LGPFactory(Generic[R]):
                                            k=count - 1,
                                            with_replacement=with_replacement)]
 
-    @overload
-    def _build_condition(self: Self,
-                         allow_constant: Literal[True]) -> Condition | bool:
-        ...
-
-    @overload
-    def _build_condition(self: Self,
-                         allow_constant: Literal[False]) -> Condition:
-        ...
-
     def _build_condition(self: Self,
                          allow_constant: bool) -> Condition | bool:
         """Return a :class:`.Condition`.
@@ -300,6 +289,10 @@ class LGPFactory(Generic[R]):
         Args:
             allow_constant: If ``True``, then ``True`` and ``False``
                 are permitted as conditions.
+
+        Returns:
+            A ``Condition | bool`` if :arg:`allow_constant` is ``True``;
+            otherwise, a ``Condition``
         """
         if allow_constant:
             the_chosen_one = random.choice(tuple(
