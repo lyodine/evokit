@@ -12,7 +12,6 @@ from ._program import StateVectorType
 from ._program import CellSpecifier
 from ._program import cell
 from ._program import cells
-from ._program import Endofunction
 from ._program import Operation
 from ._program import Condition
 from ._program import RegisterStates
@@ -41,7 +40,6 @@ __all__ = [
     "CellSpecifier",
     "cell",
     "cells",
-    "Endofunction",
     "Operation",
     "Condition",
     "RegisterStates",

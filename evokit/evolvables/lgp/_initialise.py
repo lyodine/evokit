@@ -7,7 +7,7 @@ from ._program import Operation
 from ._optimise import optimise_and_reduce
 from ..primitives import gt, lt, geq, leq, eq, neq
 from .._common import choose_k_from
-from .._types import Predicate, ValueRange, Endofunction
+from ..otypes import Predicate, ValueRange, Endofunction
 from ._o_individual import LinearGeneticProgram
 from typing import Any
 from typing import Annotated
@@ -72,10 +72,10 @@ class LGPFactory(Generic[R]):
                 :class:`int`.
 
                 * If :arg:`structure_size` is an int: uniformly draw
-                an integer from [0, 1, ..., structure_size].
+                  an integer from [0, 1, ..., structure_size].
 
                 * If :arg:`structure_size` is callable, then call it and
-                use the returned value.
+                  use the returned value.
 
             for_count: The loop count for for loop.
                 Can be an :class:`int` or a callable that returns an

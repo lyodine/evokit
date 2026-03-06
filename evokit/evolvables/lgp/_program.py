@@ -8,14 +8,14 @@ from typing import Annotated
 from typing import Any
 from typing import Sequence
 from typing import Optional
-from .._types import Predicate
-from .._types import ValueRange
+from ..otypes import Predicate
+from ..otypes import ValueRange
 from typing import Self, override
 from typing import Callable
 from typing import Type
 from typing import overload
 
-from .._types import Endofunction
+from ..otypes import Endofunction
 
 from typing import TypeAlias
 from typing import Literal
