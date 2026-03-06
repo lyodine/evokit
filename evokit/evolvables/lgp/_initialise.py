@@ -7,7 +7,7 @@ from ._program import Operation
 from ._optimise import optimise_and_reduce
 from ..primitives import gt, lt, geq, leq, eq, neq
 from .._common import choose_k_from
-from ..types import Predicate, ValueRange, Endofunction
+from .._types import Predicate, ValueRange, Endofunction
 from ._o_individual import LinearGeneticProgram
 from typing import Any
 from typing import Annotated
@@ -204,18 +204,15 @@ class LGPFactory(Generic[R]):
                 )
             )
         else:
-            accumulated_instructions = []
+            accumulated_instructions: list[Instruction] = []
             while len(accumulated_instructions) < target_length:
-                this_time_for_sure = optimise_and_reduce(
-                    self.build(
-                        length=segment_length
-                    ).genome,
-                    output_indices=output_indices
-                )
-                accumulated_instructions.append(this_time_for_sure)
+                this_time_for_sure: Sequence[Instruction] =\
+                    optimise_and_reduce(
+                        self.build(length=segment_length).genome,
+                        output_indices=output_indices)
+                accumulated_instructions.extend(this_time_for_sure)
 
-        return LinearGeneticProgram(sum(accumulated_instructions,
-                                        start=[]))
+            return LinearGeneticProgram(accumulated_instructions)
 
     def _build_instruction(self: Self) -> Instruction:
         chosen_one: Primitive
@@ -334,8 +331,14 @@ class LGPFactory(Generic[R]):
         # Constructors for `If` and `While` behave the same.
         if the_chosen_one is If\
                 or the_chosen_one is While:
-            return the_chosen_one(condition=self._build_condition(
-                self.allow_constant_conditions))
+            # MyPy still thinks the_chosen_one can be any StructureType
+            #   and reports that it cannot accept a `condition`.
+            # The above check should ensure that it is one of `If`
+            #   and `While`; both can have constructors that accept
+            #   `condition`.
+            return the_chosen_one(
+                condition=self._build_condition(  # type: ignore[call-arg]
+                    self.allow_constant_conditions))
         elif the_chosen_one is For:
             return For(count=self._draw_for_exec_count())
         else:

@@ -69,8 +69,7 @@ def index_introns(instructions:
     for i in range(len(instructions)):
         current_instruction: Instruction = instructions[i]
         if isinstance(current_instruction, StructureScope):
-            scope: int = current_instruction.scope(instructions,
-                                                   i)
+            scope: int = current_instruction.scope(instructions, i)
             scope_matrix[i][i:i + scope] = [True] * scope
             control_indices.add(i)
             if not may_run(current_instruction):
@@ -98,7 +97,7 @@ def index_introns(instructions:
     #   `effective_indices`.
     # Note that we are iterating backwards.
     for i in range(len(instructions))[::-1]:
-        current_instruction: Instruction = instructions[i]
+        current_instruction = instructions[i]
         # If this instruction is not executed, skip it.
         if i in noexec_indices:
             continue
@@ -122,8 +121,7 @@ def index_introns(instructions:
                     case If() | While() as stype:
                         # ... check if it contains at least one effective
                         #   instruction ...
-                        scope: int = current_instruction.scope(instructions,
-                                                               i)
+                        scope = current_instruction.scope(instructions, i)
                         # ... check if it contains at least one effective
                         #   instruction. If true, then ...
                         if not set(range(i, i + scope + 1)).isdisjoint(

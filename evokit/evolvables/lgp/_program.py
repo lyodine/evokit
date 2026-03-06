@@ -8,14 +8,14 @@ from typing import Annotated
 from typing import Any
 from typing import Sequence
 from typing import Optional
-from ..types import Predicate
-from ..types import ValueRange
+from .._types import Predicate
+from .._types import ValueRange
 from typing import Self, override
 from typing import Callable
 from typing import Type
 from typing import overload
 
-from ..types import Endofunction
+from .._types import Endofunction
 
 from typing import TypeAlias
 from typing import Literal
@@ -473,7 +473,6 @@ def cells(*poses: int) -> tuple[CellSpecifier, ...]:
     return tuple(cell(p) for p in poses)
 
 
-@staticmethod
 def _operation_to_text(function: Callable,
                        operands: Sequence[CellSpecifier],
                        target: Optional[int] = None) -> str:
