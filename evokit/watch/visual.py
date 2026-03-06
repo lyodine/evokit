@@ -71,8 +71,7 @@ def plot(records: Sequence[WatcherRecord[tuple[float, ...]]]
     """
     axes = plt.gca() if axes is None else axes
 
-    printable_records = _printabify(records)
-    printable_records = sorted(printable_records, key=lambda x: x.time)
+    printable_records = sorted(_printabify(records), key=lambda x: x.time)
     start_time: float = records[0].time
 
     # Line plots make nans obvious; no need to filter them out in this case
@@ -143,11 +142,12 @@ def plot_dict(records: Sequence[WatcherRecord[dict[Any, float]]],
 
     start_time: float = records[0].time
 
+    valid_records: tuple[WatcherRecord[dict[Any, float]], ...]
     # Line plots make nans obvious; no need to filter them out in this case
     if use_line:
         valid_records = tuple(records)
     else:
-        valid_records: tuple[WatcherRecord[dict[Any, float]], ...] =\
+        valid_records =\
             tuple(r for r in records
                   if (not any(x != x for x in r.value.values())))
 

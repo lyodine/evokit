@@ -96,12 +96,15 @@ def crossover_at_points[R](seq_1: list[R],
     seq_1 = seq_1.copy()
     seq_2 = seq_2.copy()
 
+    # Type checker reports error when joining `[None]` to a
+    #   `list[int]`. This is correct, but slicing with [1::2] should
+    #   remove these `None`s. I think. It's been a while.
     seq_1_crossover_point_pairs =\
-        list(zip([None] + seq_1_crossover_points,
+        list(zip([None] + seq_1_crossover_points,  # type: ignore[operator]
                  seq_1_crossover_points + [None]))[1::2]
 
     seq_2_crossover_point_pairs =\
-        list(zip([None] + seq_2_crossover_points,
+        list(zip([None] + seq_2_crossover_points,  # type: ignore[operator]
                  seq_2_crossover_points + [None]))[1::2]
 
     for (a_1, b_1), (a_2, b_2) in zip(seq_1_crossover_point_pairs,
@@ -129,11 +132,17 @@ def crossover_secundum[R](seq_1: list[R],
     seq_2_points: list[int] = sorted([random.randint(0, len(seq_2) - 1)
                                       for _ in range(k)])
 
-    seq_1_blocks = [seq_1[i:j] for i, j in zip([None] + seq_1_points,
-                                               seq_1_points + [None])]
+    # When either i or j is one of 0 and len(seq_1_points),
+    #   things break.
+    # Still suppressing the error because crossover_secundum is
+    #   a backup.
+    seq_1_blocks = [seq_1[i:j] for i, j
+                    in zip([None] + seq_1_points,  # type: ignore[operator]
+                           seq_1_points + [None])]
 
-    seq_2_blocks = [seq_2[i:j] for i, j in zip([None] + seq_2_points,
-                                               seq_2_points + [None])]
+    seq_2_blocks = [seq_2[i:j] for i, j
+                    in zip([None] + seq_2_points,  # type: ignore[operator]
+                           seq_2_points + [None])]
 
     return (
         unpack_nested(unpack_nested(zip(seq_1_blocks[::2],

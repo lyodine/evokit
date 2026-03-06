@@ -134,7 +134,7 @@ class Watcher(Generic[C, T], Sequence[WatcherRecord[T]]):
                 :attr:`Algorithm.watchers`
         """
 
-        self.subject: Optional[C] = None
+        self.subject = None
         self._passed_since_last_update = 0
         self._records = []
 

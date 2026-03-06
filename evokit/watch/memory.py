@@ -15,8 +15,8 @@ from typing import Callable, Self
 from typing import override
 
 ensure_installed("guppy")
-from guppy.heapy.UniSet import IdentitySet
-from guppy import hpy
+from guppy.heapy.UniSet import IdentitySet  # type: ignore[import-untyped]
+from guppy import hpy  # type: ignore[import-untyped]
 
 ensure_installed("pympler")
 import pympler.asizeof
@@ -72,7 +72,6 @@ class MemoryWatcher(Watcher[C,
                             Callable[[Algorithm,
                                       'MemoryWatcher'],
                                      int
-                                     | tuple[int, int]
                                      | tracemalloc.Snapshot]] = {
 
         MemoryWatcherMetric.psutil_rss: lambda _, __:

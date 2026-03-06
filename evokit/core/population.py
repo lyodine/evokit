@@ -23,7 +23,7 @@ from .._utils.dependency import ensure_installed, is_installed
 from pathlib import Path
 # Let's ifndef! Or something.
 if is_installed("dill"):
-    import dill
+    import dill  # type: ignore[import-untyped]
 
 
 R = TypeVar('R')
