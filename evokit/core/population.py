@@ -366,14 +366,21 @@ class Population(UserList[D], Generic[D]):
     def __str__(self: Self) -> str:
         return "[" + ", ".join(str(item) for item in self) + "]"
 
-    def draw(self: Self, count: int = 1) -> list[D]:
+    def draw(self: Self, count: int = 1) -> tuple[D, ...]:
         """Select, then pop, a random item from this list.
+
+        If the population does not have enough items,
+        draw as many as possible. If the population is
+        empty, return an empty tuple.
         """
         if count < 1:
-            return []
+            return tuple()
         else:
-            return [self.pop(random.randint(0, len(self) - 1)),
-                    *self.draw(count - 1)]
+            try:
+                return (self.pop(random.randint(0, len(self) - 1)),
+                        *self.draw(count - 1))
+            except IndexError:
+                return tuple()
 
     add = UserList.append
 
