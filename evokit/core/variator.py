@@ -114,9 +114,21 @@ class Variator(ABC, Generic[D]):
             population: Population to vary.
 
         .. note::
-            The default implementation calls :meth:`.Individual.reset_fitness`
-            on each offspring to clear its fitness. Any implementation that
-            overrides this method should do the same.
+            The default implementation calls
+            :meth:`.Individual.reset_fitness`
+            on each offspring to clear its fitness.
+            Any implementation that overrides this method
+            should do the same.
+
+        .. warning::
+            Do not assume that the return value is or is not
+            :arg:`population`. For example, an generational
+            algorithm may construct and return a new population,
+            whereas a steady-state algorithm may modify
+            :arg:`population` and return it.
+
+            To preserve the parent generation, call
+            :meth:`.Population.copy` or :meth:`.Population.save`.
         """
         parent_groups: Sequence[Sequence[D]] =\
             self._group_to_parents(population)
