@@ -41,7 +41,7 @@ class Variator(ABC, Generic[D]):
         """
         instance: Self = super().__new__(cls)
 
-        instance.arity
+        instance.arity = None
         instance.processes = None
         instance.share_self = False
 
@@ -58,7 +58,7 @@ class Variator(ABC, Generic[D]):
         """
 
         #: Size of input to :meth:`vary`.
-        self.arity: int
+        self.arity: Optional[int]
 
         #: Multiprocessing capabilities. See :meth:`__init__`.
         self.processes = processes
