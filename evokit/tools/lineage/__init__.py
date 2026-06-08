@@ -10,10 +10,8 @@ from typing import Optional
 from functools import wraps
 from types import MethodType
 import graphviz  # type: ignore[import-untyped]
-from typing import TYPE_CHECKING
 import matplotlib as mpl
-if TYPE_CHECKING:
-    from pathlib import Path
+from pathlib import Path
 
 D = TypeVar("D", bound=Individual[Any])
 
