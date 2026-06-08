@@ -16,6 +16,7 @@ from typing import Generic, TypeVar
 from typing import Any
 
 from collections import UserList as UserList
+import random
 from typing import Sequence, Iterable
 
 from logging import warning
@@ -364,6 +365,17 @@ class Population(UserList[D], Generic[D]):
 
     def __str__(self: Self) -> str:
         return "[" + ", ".join(str(item) for item in self) + "]"
+
+    def draw(self: Self, count: int = 1) -> list[D]:
+        """Select, then pop, a random item from this list.
+        """
+        if count < 1:
+            return []
+        else:
+            return [self.pop(random.randint(0, len(self) - 1)),
+                    *self.draw(count - 1)]
+
+    add = UserList.append
 
     __repr__ = __str__
 
