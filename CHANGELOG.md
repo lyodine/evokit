@@ -1,3 +1,7 @@
+## Version 1.3.0
+
+* `(+)` Add artificial chemistry module (eb3f638)
++ `(+)` Add Add `add` and `draw` to `Population` (06e2865)
 
 
 ## Version 1.2.0
