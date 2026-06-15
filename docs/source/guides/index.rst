@@ -1,3 +1,12 @@
+|
+
+.. image:: ../media/gear.svg
+  :width: 100
+  :align: center
+  :alt: Image of two gears
+
+|
+
 Guides
 ======
 
