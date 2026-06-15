@@ -1,3 +1,6 @@
+## Version 1.3.1
+* `(#)` Update README
+
 ## Version 1.3.0
 
 * `(+)` Add artificial chemistry module (eb3f638)
