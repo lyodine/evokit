@@ -37,6 +37,7 @@ The library have the following modules:
 | [tools.diversity](./evokit/tools/diversity/)                 | Diversity maintenance                                    |
 | [core.lineage](./evokit/tools/lineage/)                      | Lineage tracing                                          |
 | `save`, `load` in [core.population](./evokit/core/population.py) | Saving and loading individuals and populations           |
+| [evolvables.ac](./evokit/evolvables/ac/)                      | Artificial Chemistry                                          |
 
 ## Other Licences
 
